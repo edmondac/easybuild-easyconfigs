@@ -9,6 +9,11 @@ description = """Java Platform, Standard Edition (Java SE) lets you develop and 
 
 toolchain = {'name': 'dummy', 'version': 'dummy'}
 
-dependencies = [('Java', '%(version)s.0_181')]
+import subprocess
+arch = subprocess.check_output(['uname', '-m']).strip()
+if arch == 'ppc64le':
+    dependencies = [('Java', '%%(version)s.0-5.22-%s' % arch)]
+else:
+    dependencies = [('Java', '%(version)s.0_181')]
 
 moduleclass = 'lang'
