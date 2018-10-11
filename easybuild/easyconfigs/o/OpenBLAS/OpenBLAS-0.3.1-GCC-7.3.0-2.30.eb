@@ -32,6 +32,12 @@ skipsteps = ['configure']
 buildopts = 'BINARY=64 USE_THREAD=1 USE_OPENMP=1 CC="$CC" FC="$F77"'
 installopts = "USE_THREAD=1 USE_OPENMP=1 PREFIX=%(installdir)s"
 
+import subprocess
+arch = subprocess.check_output(['uname', '-m']).strip()
+if arch == 'ppc64le':
+    # There doesn't seem to be a POWER9 option yet, but POWER 8 is compatible
+    buildopts += ' TARGET=POWER8 '
+
 # extensive testing can be enabled by uncommenting the line below
 # runtest = 'PATH=.:$PATH lapack-timing'
 
