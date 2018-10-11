@@ -13,4 +13,6 @@ toolchain = {'name': 'dummy', 'version': 'dummy'}
 sources = ['ibm-%%(namelower)s-sdk-%s-archive.bin' % realversion]
 checksums = ['51d53f86d79f5d1fd16a7ed11b305f140aa1b0946221f307334f310312e9f2b6']
 
+modextravars = {'JAVA_OPTS': '-Xms1024m -Xmx4096m'}
+
 moduleclass = 'lang'
