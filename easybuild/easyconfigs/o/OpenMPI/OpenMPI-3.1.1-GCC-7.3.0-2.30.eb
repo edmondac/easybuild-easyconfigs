@@ -12,17 +12,23 @@ source_urls = ['http://www.open-mpi.org/software/ompi/v%(version_major_minor)s/d
 sources = [SOURCELOWER_TAR_GZ]
 checksums = ['846bb7ed2aa0c96fc0594423e7b21904ee4f160dcfd62b8a0d1274256fbf25ce']
 
-# needed for --with-verbs
-osdependencies = [('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel')]
+import subprocess
+arch = subprocess.check_output(['uname', '-m']).strip()
+if arch == 'ppc64le':
+    dependencies = [('zlib', '1.2.11')]
+    configopts = '--enable-mpirun-prefix-by-default '  # suppress failure modes in relation to mpirun path
+else:
+    # needed for --with-verbs
+    osdependencies = [('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel')]
 
-dependencies = [
-    ('zlib', '1.2.11'),
-    ('hwloc', '1.11.10')
-]
+    dependencies = [
+        ('zlib', '1.2.11'),
+        ('hwloc', '1.11.10')
+    ]
 
-configopts = '--enable-shared --with-verbs '
-configopts += '--enable-mpirun-prefix-by-default '  # suppress failure modes in relation to mpirun path
-configopts += '--with-hwloc=$EBROOTHWLOC '  # hwloc support
+    configopts = '--enable-shared --with-verbs '
+    configopts += '--enable-mpirun-prefix-by-default '  # suppress failure modes in relation to mpirun path
+    configopts += '--with-hwloc=$EBROOTHWLOC '  # hwloc support
 
 # to enable SLURM integration (site-specific)
 # configopts += '--with-slurm --with-pmi=/usr/include/slurm --with-pmi-libdir=/usr'
