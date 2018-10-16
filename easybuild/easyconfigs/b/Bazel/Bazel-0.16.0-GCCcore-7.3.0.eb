@@ -16,6 +16,7 @@ checksums = [
 ]
 
 builddependencies = [('binutils', '2.30')]
-dependencies = [('Java', '1.8', '', True)]
+#dependencies = [('Java', '1.8', '', True)]
+osdependencies = ['java-1.8.0-openjdk-devel']
 
 moduleclass = 'devel'
