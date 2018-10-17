@@ -28,4 +28,9 @@ builddependencies = [
 
 dependencies = [('Python', '3.6.6')]
 
+import subprocess
+arch = subprocess.check_output(['uname', '-m']).strip()
+if arch == 'ppc64le':
+    with_mkl_dnn = False
+
 moduleclass = 'lib'
