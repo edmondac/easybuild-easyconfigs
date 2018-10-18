@@ -23,9 +23,9 @@ sources = ['cuda-%(version)s.ppc64le.tar.gz']
 #install_cmd += "mv usr/lib64/pkgconfig %(installdir)s"
 
 postinstallcmds = [
-    'cd %(installdir)s && mv usr/local/cuda-9.2 .',
-    'mv usr/lib64/pkgconfig .'
-    'rmdir usr/local && rmdir usr/lib64 && rmdir usr',
+    'cd %(installdir)s && mv usr/local/cuda-9.2/* . ',
+    'cd %(installdir)s && mv usr/lib64/pkgconfig . ',
+    'cd %(installdir)s && rmdir usr/local/cuda-9.2 && rmdir usr/local && rmdir usr/lib64 && rmdir usr',
 ]
 
 modextrapaths = {
