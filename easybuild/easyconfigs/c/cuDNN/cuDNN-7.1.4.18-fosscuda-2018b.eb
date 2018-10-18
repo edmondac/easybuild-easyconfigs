@@ -27,7 +27,11 @@ toolchain = {'name': 'fosscuda', 'version': '2018b'}
 import subprocess
 arch = subprocess.check_output(['uname', '-m']).strip()
 sources = ['%%(namelower)s-9.2-linux-%s-v%%(version)s.tgz' % arch]
-checksums = ['f875340f812b942408098e4c9807cb4f8bdaea0db7c48613acece10c7c827101']
+
+if arch == 'ppc64le':
+    checksums = ['d1bfe51e20fbaff6fbfabe3f2153158755564c7f6c890f5e5dc73a845cad236f']
+else:
+    checksums = ['f875340f812b942408098e4c9807cb4f8bdaea0db7c48613acece10c7c827101']
 
 sanity_check_paths = {
     'files': ['include/cudnn.h', 'lib64/libcudnn_static.a'],
