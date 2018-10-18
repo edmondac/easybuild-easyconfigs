@@ -36,4 +36,9 @@ dependencies = [
 
 cuda_compute_capabilities = ['3.0', '3.2', '3.5', '3.7', '5.0', '6.0', '7.0']
 
+import subprocess
+arch = subprocess.check_output(['uname', '-m']).strip()
+if arch == 'ppc64le':
+    with_mkl_dnn = False
+
 moduleclass = 'lib'

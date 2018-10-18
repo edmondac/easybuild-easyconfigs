@@ -30,12 +30,16 @@ sources = ['%%(namelower)s-9.2-linux-%s-v%%(version)s.tgz' % arch]
 
 if arch == 'ppc64le':
     checksums = ['d1bfe51e20fbaff6fbfabe3f2153158755564c7f6c890f5e5dc73a845cad236f']
+    lib = 'lib'
+    # Other things will look for a lib64 folder...
+    postinstallcmds = ['cd %(installdir)s && ln -s lib lib64']
 else:
     checksums = ['f875340f812b942408098e4c9807cb4f8bdaea0db7c48613acece10c7c827101']
+    lib = 'lib64'
 
 sanity_check_paths = {
-    'files': ['include/cudnn.h', 'lib64/libcudnn_static.a'],
-    'dirs': ['include', 'lib64'],
+    'files': ['include/cudnn.h', '%s/libcudnn_static.a' % lib],
+    'dirs': ['include', lib],
 }
 
 moduleclass = 'numlib'
