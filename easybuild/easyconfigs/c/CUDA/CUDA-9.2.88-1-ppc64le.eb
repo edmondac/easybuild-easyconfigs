@@ -29,7 +29,7 @@ postinstallcmds = [
 ]
 
 modextrapaths = {
-    'LD_LIBRARY_PATH': 'targets/ppc64le-linux/lib:extras/CUPTI/lib64',
+    'LD_LIBRARY_PATH': ('targets/ppc64le-linux/lib', 'extras/CUPTI/lib64'),
     'LIBRARY_PATH': 'lib64'
 }
 
