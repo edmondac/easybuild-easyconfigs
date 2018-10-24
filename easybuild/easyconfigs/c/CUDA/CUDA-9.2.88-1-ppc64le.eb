@@ -18,9 +18,7 @@ toolchain = {'name': 'dummy', 'version': 'dummy'}
 # rpm -ql $(cuda_rpms) > cuda_files
 # tar cvzf cuda-9.2.88-1.ppc64le.tar.gz $(cuda_files)
 sources = ['cuda-%(version)s.ppc64le.tar.gz']
-
-#install_cmd = "mv usr/local/cuda-9.2/* %(installdir)s && "
-#install_cmd += "mv usr/lib64/pkgconfig %(installdir)s"
+checksums = ['4a220b07919162c891c0e1b6327057d9775d74b9ba89c995a05600ab9d326d78']
 
 postinstallcmds = [
     'cd %(installdir)s && mv usr/local/cuda-9.2/* . ',
