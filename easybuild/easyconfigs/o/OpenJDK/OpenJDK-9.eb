@@ -20,8 +20,8 @@ configure_cmd_prefix = 'bash '
 files_to_copy = ['build/linux-ppc64le-normal-server-release/jdk/*']
 
 sanity_check_paths = {
-    'files': ['jdk/bin/java'],
-    'dirs': [],
+    'files': ['bin/java'],
+    'dirs': ['modules', 'bin', 'lib', 'include', 'conf'],
 }
 
 moduleclass = 'lang'
