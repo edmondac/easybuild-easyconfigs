@@ -1,15 +1,14 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
 name = 'Java'
 easyblock = 'CmdCp'
-version = '9'
-versionsuffix = '-OpenJDK'
+version = '1.8_9-OpenJDK'  # It's really version 9, but the wrapper Java-1.8.eb needs this
 
 homepage = "https://openjdk.java.net/"
 description = """An open-source implementation of the Java Platform, Standard Edition"""
 
 toolchain = {'name': 'dummy', 'version': 'dummy'}
 
-sources = ['openjdk-%(version)s_src.zip']
+sources = ['openjdk-9_src.zip']
 source_urls = ['https://download.java.net/openjdk/jdk9/ri/']
 checksums = ['8a8ac150b6e867e5558347fa7cbb230baf21c76a4f961b2e581cb4c055cf22c8']
 osdependencies = ['java-1.8.0-openjdk-devel', 'cups-devel', 'alsa-lib-devel']

@@ -16,11 +16,6 @@ checksums = [
 ]
 
 builddependencies = [('binutils', '2.30')]
-import subprocess
-arch = subprocess.check_output(['uname', '-m']).strip()
-if arch == 'ppc64le':
-    osdependencies = ['java-1.8.0-openjdk-devel']
-else:
-    dependencies = [('Java', '1.8', '', True)]
+dependencies = [('Java', '1.8', '', True)]
 
 moduleclass = 'devel'

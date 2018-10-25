@@ -14,7 +14,7 @@ arch = subprocess.check_output(['uname', '-m']).strip()
 if arch == 'ppc64le':
     # Yes, I know this is version 9, but that's the earliest one they ship
     # in a convenient way to build.
-    dependencies = [('Java', '9', '-OpenJDK')]
+    dependencies = [('Java', '%(version)s_9-OpenJDK')]
 else:
     dependencies = [('Java', '%(version)s.0_181')]
 
