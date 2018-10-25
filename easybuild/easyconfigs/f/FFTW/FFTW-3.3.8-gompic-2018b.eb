@@ -9,10 +9,10 @@ toolchain = {'name': 'gompic', 'version': '2018b'}
 import subprocess
 arch = subprocess.check_output(['uname', '-m']).strip()
 if arch == 'ppc64le':
-    # FFTW segfaults in 'make check' if optimised
-    toolchainopts = {'pic': True, 'opt': False}
-else:
-    toolchainopts = {'pic': True}
+    # FFTW segfaults if altivec is used
+    use_altivec = False
+
+toolchainopts = {'pic': True}
 
 source_urls = [homepage]
 sources = [SOURCELOWER_TAR_GZ]
