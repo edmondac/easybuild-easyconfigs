@@ -1,0 +1,27 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+name = 'OpenJDK'
+easyblock = 'CmdCp'
+version = '9'
+
+homepage = "https://openjdk.java.net/"
+description = """An open-source implementation of the Java Platform, Standard Edition"""
+
+toolchain = {'name': 'dummy', 'version': 'dummy'}
+
+sources = ['%(namelower)s-%(version)s_src.zip']
+source_urls = ['https://download.java.net/openjdk/jdk9/ri/']
+checksums = ['8a8ac150b6e867e5558347fa7cbb230baf21c76a4f961b2e581cb4c055cf22c8']
+osdependencies = ['java-1.8.0-openjdk-devel', 'cups-devel', 'alsa-lib-devel']
+
+cmds_map = [('.*', "make images")]
+with_configure = True
+configure_cmd_prefix = 'bash '
+
+files_to_copy = ['build/linux-ppc64le-normal-server-release/jdk/*']
+
+sanity_check_paths = {
+    'files': ['jdk/bin/java'],
+    'dirs': [],
+}
+
+moduleclass = 'lang'
