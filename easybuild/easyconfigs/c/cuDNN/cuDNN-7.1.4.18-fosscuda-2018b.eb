@@ -28,13 +28,13 @@ import subprocess
 arch = subprocess.check_output(['uname', '-m']).strip()
 
 if arch == 'ppc64le':
-    sources = ['%%(namelower)s-9.2-linux-ppc64le-v%%(version)s.tgz']
+    sources = ['%(namelower)s-9.2-linux-ppc64le-v%(version)s.tgz']
     checksums = ['d1bfe51e20fbaff6fbfabe3f2153158755564c7f6c890f5e5dc73a845cad236f']
     lib = 'lib'
     # Other things will look for a lib64 folder...
     postinstallcmds = ['cd %(installdir)s && ln -s lib lib64']
 else:
-    sources = ['%%(namelower)s-9.2-linux-x64-v%%(version)s.tgz']
+    sources = ['%(namelower)s-9.2-linux-x64-v%(version)s.tgz']
     checksums = ['f875340f812b942408098e4c9807cb4f8bdaea0db7c48613acece10c7c827101']
     lib = 'lib64'
 
