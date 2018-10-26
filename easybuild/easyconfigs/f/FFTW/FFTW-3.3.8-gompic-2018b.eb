@@ -9,8 +9,7 @@ toolchain = {'name': 'gompic', 'version': '2018b'}
 import subprocess
 arch = subprocess.check_output(['uname', '-m']).strip()
 if arch == 'ppc64le':
-    # FFTW segfaults if altivec is used
-    use_altivec = False
+    with_mpi = False
 
 toolchainopts = {'pic': True}
 
