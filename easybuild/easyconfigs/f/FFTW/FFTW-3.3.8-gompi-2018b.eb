@@ -9,6 +9,9 @@ toolchain = {'name': 'gompi', 'version': '2018b'}
 import subprocess
 arch = subprocess.check_output(['uname', '-m']).strip()
 if arch == 'ppc64le':
+    # The FFTW tests fail (nearly) every time if MPI is enabled.
+    # See https://github.com/easybuilders/easybuild-easyblocks/issues/1269
+    # See https://github.com/FFTW/fftw3/issues/59
     with_mpi = False
 
 toolchainopts = {'pic': True}
