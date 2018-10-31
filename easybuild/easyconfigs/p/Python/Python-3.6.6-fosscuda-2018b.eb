@@ -24,7 +24,6 @@ dependencies = [
     ('libffi', '3.2.1'),  # required for cryptography
     # OS dependency should be preferred if the OS version is more recent then this version,
     # it's nice to have an up to date OpenSSL for security reasons;
-    # Python 3.7.0 requires OpenSSL >= 1.0.2, uncomment line below if OS version is too old (e.g. CentOS 6)
     # ('OpenSSL', '1.1.0h'),
 ]
 
