@@ -12,11 +12,21 @@ toolchain = {'name': 'dummy', 'version': 'dummy'}
 comp_name = 'GCC'
 comp_ver = '7.3.0-2.30'
 comp = (comp_name, comp_ver)
+cudasuffix = ''
+cudaver = '9.2.88'
+cuda_tc = comp
+
+import subprocess
+arch = subprocess.check_output(['uname', '-m']).strip()
+if arch == 'ppc64le':
+    cudaver = '9.2.88-1'
+    cudasuffix = '-ppc64le'
+    cuda_tc = ('dummy', 'dummy')
 
 # compiler toolchain dependencies
 dependencies = [
     comp,  # part of gcccuda
-    ('CUDA', '9.2.88', '', comp),  # part of gcccuda
+    ('CUDA', cudaver, cudasuffix, cuda_tc),
     ('OpenMPI', '3.1.1', '', ('gcccuda', version)),
 ]
 
