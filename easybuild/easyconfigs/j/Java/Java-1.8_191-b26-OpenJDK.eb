@@ -40,8 +40,6 @@ checksums = [
 ]
 
 osdependencies = ['java-1.8.0-openjdk-devel', 'cups-devel', 'alsa-lib-devel']
-#patches = ['OpenJDK_1.8_b120.ppc64le.patch']
-#cmds_map = [('.*', "bash configure --build=ppc64le-unknown-linux-gnu && make images")]
 
 preconfigopts = ''
 for repo in ['corba', 'jaxp', 'jaxws', 'langtools', 'jdk', 'hotspot', 'nashorn']:
