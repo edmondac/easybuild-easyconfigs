@@ -28,10 +28,7 @@ postinstallcmds = [
 
 modextrapaths = {
     'LD_LIBRARY_PATH': ('targets/ppc64le-linux/lib', 'extras/CUPTI/lib64'),
-    'LIBRARY_PATH': 'lib64'
-}
-
-modextravars = {
+    'LIBRARY_PATH': 'lib64',
     'CUDA_HOME': '',
     'CUDA_ROOT': '',
 }
