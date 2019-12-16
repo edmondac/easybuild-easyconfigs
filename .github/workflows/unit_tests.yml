@@ -2,8 +2,7 @@ name: easyconfigs unit tests
 on: [push, pull_request]
 jobs:
   build:
-    #runs-on: ubuntu-18.04
-    runs-on: x64
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v1
     - name: install OS & Python packages
@@ -11,7 +10,7 @@ jobs:
       #env:
       #  REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+        # docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
         docker run docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs:latest
     - name: install EasyBuild framework
       run: |
