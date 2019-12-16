@@ -3,42 +3,33 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-18.04
-    strategy:
-      matrix:
-        python: [2.7, 3.6]
-        modules_tool: [Lmod-7.8.22]
-        module_syntax: [Tcl]
-        # exclude some configurations: only test Tcl module syntax with Lmod 7.x and Python 2.7 & 3.5
-        exclude:
-          - modules_tool: Lmod-6.6.3
-            module_syntax: Tcl
-          - modules_tool: Lmod-8.1.14
-            module_syntax: Tcl
-          - python: 3.6
-            module_syntax: Tcl
-          - python: 3.7
-            module_syntax: Tcl
-      fail-fast: false
+    #strategy:
+    #  matrix:
+    #    python: [2.7, 3.6]
+    #    modules_tool: [Lmod-7.8.22]
+    #    module_syntax: [Tcl]
+    #    # exclude some configurations: only test Tcl module syntax with Lmod 7.x and Python 2.7 & 3.5
+    #    exclude:
+    #      - modules_tool: Lmod-6.6.3
+    #        module_syntax: Tcl
+    #      - modules_tool: Lmod-8.1.14
+    #        module_syntax: Tcl
+    #      - python: 3.6
+    #        module_syntax: Tcl
+    #      - python: 3.7
+    #        module_syntax: Tcl
+    #  fail-fast: false
     steps:
     - uses: actions/checkout@v1
 
-    - name: set up Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: ${{matrix.python}}
-        architecture: x64
+    #- name: set up Python
+    #  uses: actions/setup-python@v1
+    #  with:
+    #    python-version: ${{matrix.python}}
+    #    architecture: x64
 
     - name: install OS & Python packages
-      run: |
-        sudo apt-get update
-        # for modules tool
-        sudo apt-get install lua5.2 liblua5.2-dev lua-filesystem lua-posix tcl tcl-dev
-        # fix for lua-posix packaging issue, see https://bugs.launchpad.net/ubuntu/+source/lua-posix/+bug/1752082
-        sudo ln -s /usr/lib/x86_64-linux-gnu/lua/5.2/posix_c.so /usr/lib/x86_64-linux-gnu/lua/5.2/posix.so
-        # for testing OpenMPI-system*eb we need to have Open MPI installed
-        sudo apt-get install libopenmpi-dev openmpi-bin
-        # required for test_dep_graph
-        pip install pep8 python-graph-core python-graph-dot
+      uses: docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs
 
     - name: install EasyBuild framework
       run: |
