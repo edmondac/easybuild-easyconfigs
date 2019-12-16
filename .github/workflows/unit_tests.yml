@@ -29,7 +29,7 @@ jobs:
     #    architecture: x64
 
     - name: install OS & Python packages
-      uses: bear-rsg/docker/easybuild-easyconfigs@latest
+      uses: bear-rsg/docker/easybuild-easyconfigs@3e8a5a4
 
     - name: install EasyBuild framework
       run: |
