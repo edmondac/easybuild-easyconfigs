@@ -30,8 +30,8 @@ jobs:
 
     - name: install OS & Python packages
       uses: docker://docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: install EasyBuild framework
       run: |
