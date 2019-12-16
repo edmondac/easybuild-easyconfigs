@@ -7,8 +7,8 @@ jobs:
     - uses: actions/checkout@v1
     - name: install OS & Python packages
       uses: docker://docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs:latest
-      #env:
-      #  REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      env:
+        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: install EasyBuild framework
       run: |
