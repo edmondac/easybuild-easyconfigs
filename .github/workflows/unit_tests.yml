@@ -34,7 +34,7 @@ jobs:
           echo "Found install_eb_dep.sh script: $INSTALL_DEP"
 
           # install modules tool
-          source $INSTALL_DEP ${{matrix.modules_tool}} $HOME
+          source $INSTALL_DEP Lmod-7.8.22 $HOME
 
           # changes in environment are not passed to other steps, so need to create files...
           echo $MOD_INIT > mod_init
@@ -60,15 +60,7 @@ jobs:
           export PYTHONPATH=$WORKDIR
 
           # tell EasyBuild which modules tool is available
-          if [[ ${{matrix.modules_tool}} =~ ^modules-tcl- ]]; then
-            export EASYBUILD_MODULES_TOOL=EnvironmentModulesTcl
-          elif [[ ${{matrix.modules_tool}} =~ ^modules-3 ]]; then
-            export EASYBUILD_MODULES_TOOL=EnvironmentModulesC
-          elif [[ ${{matrix.modules_tool}} =~ ^modules-4 ]]; then
-            export EASYBUILD_MODULES_TOOL=EnvironmentModules
-          else
-            export EASYBUILD_MODULES_TOOL=Lmod
-          fi
+          export EASYBUILD_MODULES_TOOL=Lmod
 
           eb --version
           eb --show-config
