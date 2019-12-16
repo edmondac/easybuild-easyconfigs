@@ -6,9 +6,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: install OS & Python packages
-      uses: docker://docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs:latest
-      env:
-        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #uses: docker://docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs:latest
+      #env:
+      #  REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+        docker run docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs:latest
 
     - name: install EasyBuild framework
       run: |
