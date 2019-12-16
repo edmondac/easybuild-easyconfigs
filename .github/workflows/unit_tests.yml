@@ -3,35 +3,12 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-18.04
-    #strategy:
-    #  matrix:
-    #    python: [2.7, 3.6]
-    #    modules_tool: [Lmod-7.8.22]
-    #    module_syntax: [Tcl]
-    #    # exclude some configurations: only test Tcl module syntax with Lmod 7.x and Python 2.7 & 3.5
-    #    exclude:
-    #      - modules_tool: Lmod-6.6.3
-    #        module_syntax: Tcl
-    #      - modules_tool: Lmod-8.1.14
-    #        module_syntax: Tcl
-    #      - python: 3.6
-    #        module_syntax: Tcl
-    #      - python: 3.7
-    #        module_syntax: Tcl
-    #  fail-fast: false
     steps:
     - uses: actions/checkout@v1
-
-    #- name: set up Python
-    #  uses: actions/setup-python@v1
-    #  with:
-    #    python-version: ${{matrix.python}}
-    #    architecture: x64
-
     - name: install OS & Python packages
-      uses: docker://docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs
-      env:
-        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: docker://docker.pkg.github.com/bear-rsg/docker/easybuild-easyconfigs:latest
+      #env:
+      #  REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: install EasyBuild framework
       run: |
