@@ -17,7 +17,8 @@ builddependencies = [
     ('SCons', '3.1.1'),
 ]
 
-installopts = "DESTDIR=%(installdir)s prefix='' && "
+buildopts = "CXX=${EBROOTGCCCORE}/bin/g++ CC=${EBROOTGCCCORE}/bin/gcc"
+installopts = buildopts + " DESTDIR=%(installdir)s prefix='' && "
 installopts += "mkdir %(installdir)s/include && cp double-conversion/*.h %(installdir)s/include"
 
 sanity_check_paths = {
