@@ -1,0 +1,31 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+name = 'ANSYSEM'
+version = '2020R1'
+
+homepage = "https://www.ansys.com"
+description = """ANSYS simulation software enables organizations to confidently predict
+how their products will operate in the real world. We believe that every product is
+a promise of something greater."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+builddependencies = [('binutils', '2.32')]
+
+dependencies = [
+    ('giflib', '5.2.1'),
+    #('Mesa', '19.2.1', '-libpng-1.2.58-dri',), # NEED TO MAKE THIS!
+    ('Mesa', '19.2.1'),
+]
+
+sources = [SOURCE_ZIP]
+
+# Licensing information can be provided using the following configuration variables, else the following
+# environment variables will be interrogated: EB_ANSYS_EM_LICENSE_SERVER & EB_ANSYS_EM_LICENSE_SERVER_PORT
+
+# license_server = "server.local"
+# license_server_port = "1234"
+
+# Select a default location for all simulations (including local) to use as a temporary work space.
+ansysem_temp_dir = '/tmp'
+
+moduleclass = 'tools'
