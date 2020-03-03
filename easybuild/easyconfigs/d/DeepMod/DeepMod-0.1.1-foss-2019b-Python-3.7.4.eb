@@ -1,0 +1,49 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'DeepMod'
+version = '0.1.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/WGLab/DeepMod"
+
+description = """DeepMod is a computational tool which takes long-read signals as input
+ and outputs modification summary for each genomic position in a reference genome together 
+ with modification prediction for each base in a long read."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/WGLab/%(name)s/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['4928b880eb0c905314fc76032e4c7ea36b9a802d047e49bd7d97ff92068e6bae']
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('R', '3.6.2'),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('SAMtools','1.10'),
+    ('minimap2', '2.17'), 
+    ('TensorFlow', '1.15.0', versionsuffix),
+]
+
+postinstallcmds = [
+    'chmod +x %(installdir)s/bin/DeepMod.py',
+    "sed -i -e '1 s|^.*$|#!/usr/bin/env python|' %(installdir)s/bin/DeepMod.py",
+
+]
+
+modextrapaths = {'PYTHONPATH': ['bin', 'bin/scripts', 'tools']}
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s.py',
+              'bin/scripts/EventTable.py', 'bin/scripts/__init__.py', 
+              'bin/scripts/MoveTable.py', 'bin/scripts/myCom.py', 'bin/scripts/myDetect.py',
+              'bin/scripts/myGetFeatureBasedPos.py', 'bin/scripts/myMultiBiRNN.py',
+              'tools/cal_EcoliDetPerf_batch.py', 'tools/cal_EcoliDetPerf.py', 
+              'tools/generate_motif_pos.py','tools/hm_cluster_predict.py',
+              'tools/sum_chr_mod.py',
+              'LICENSE', 'README.md'],
+    'dirs': ['bin', 'tools', 'train_mod',]
+}
+
+moduleclass = 'bio'
