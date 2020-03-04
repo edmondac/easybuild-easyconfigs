@@ -21,8 +21,8 @@ dependencies = [
     ('Python', '3.7.4'),
     ('R', '3.6.2'),
     ('scikit-learn', '0.21.3', versionsuffix),
-    ('SAMtools','1.10'),
-    ('minimap2', '2.17'), 
+    ('SAMtools', '1.10'),
+    ('minimap2', '2.17'),
     ('TensorFlow', '1.15.0', versionsuffix),
 ]
 
@@ -36,14 +36,14 @@ modextrapaths = {'PYTHONPATH': ['bin', 'bin/scripts', 'tools']}
 
 sanity_check_paths = {
     'files': ['bin/%(name)s.py',
-              'bin/scripts/EventTable.py', 'bin/scripts/__init__.py', 
+              'bin/scripts/EventTable.py', 'bin/scripts/__init__.py',
               'bin/scripts/MoveTable.py', 'bin/scripts/myCom.py', 'bin/scripts/myDetect.py',
               'bin/scripts/myGetFeatureBasedPos.py', 'bin/scripts/myMultiBiRNN.py',
-              'tools/cal_EcoliDetPerf_batch.py', 'tools/cal_EcoliDetPerf.py', 
-              'tools/generate_motif_pos.py','tools/hm_cluster_predict.py',
+              'tools/cal_EcoliDetPerf_batch.py', 'tools/cal_EcoliDetPerf.py',
+              'tools/generate_motif_pos.py', 'tools/hm_cluster_predict.py',
               'tools/sum_chr_mod.py',
               'LICENSE', 'README.md'],
-    'dirs': ['bin', 'tools', 'train_mod',]
+    'dirs': ['bin', 'tools', 'train_mod']
 }
 
 moduleclass = 'bio'
