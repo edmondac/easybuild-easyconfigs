@@ -1,0 +1,27 @@
+easyblock = 'ConfigureMake'
+
+name = 'giflib'
+version = '5.2.1'
+
+homepage = 'https://sourceforge.net/projects/giflib/'
+description = """giflib is a library for reading and writing gif images.
+It is API and ABI compatible with libungif which was in wide use while
+the LZW compression algorithm was patented."""
+
+source_urls = [('http://sourceforge.net/projects/giflib/files', 'download')]
+sources = [SOURCE_TAR_GZ]
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+builddependencies = [('binutils', '2.32')]
+
+skipsteps = ['configure']
+
+install_cmd = "make install DESTDIR=%(installdir)s PREFIX=''"
+
+sanity_check_paths = {
+    'files': ['bin/giftool'],
+    'dirs': []
+}
+
+moduleclass = 'lib'
