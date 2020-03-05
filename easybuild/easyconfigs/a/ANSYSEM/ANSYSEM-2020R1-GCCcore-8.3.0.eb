@@ -28,4 +28,6 @@ sources = [SOURCE_ZIP]
 # Select a default location for all simulations (including local) to use as a temporary work space.
 ansysem_temp_dir = '/tmp'
 
+internal_version = '20.1'
+
 moduleclass = 'tools'
