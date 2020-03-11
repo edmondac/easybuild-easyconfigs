@@ -30,4 +30,7 @@ ansysem_temp_dir = '/tmp'
 
 internal_version = '20.1'
 
+# The ANS_NODEPCHECK=1 ensure that the dependency check isn't run once for each node
+modextravars = {'ANS_NODEPCHECK': '1'}
+
 moduleclass = 'tools'
