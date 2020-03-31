@@ -32,7 +32,7 @@ cmds_map = [('.*', "rm -rf %(installdir)s && "
                    """Pkg.add(PackageSpec(name="GR", version="0.48.0")); using GR; """
                    """Pkg.add(PackageSpec(name="Plots", version="0.29.9")); using Plots; """
                    """Pkg.add(PackageSpec(name="%(name)s", version="%(version)s")); using %(name)s' && """
-                   "rm -rf %(installdir)s/registries" )]
+                   "rm -rf %(installdir)s/registries")]
 
 # Set up the JULIA_DEPOT_PATH and JULIA_LOAD_PATH
 # We need a user writeable directory to be the first item (and $HOME/.julia is the standard path)
