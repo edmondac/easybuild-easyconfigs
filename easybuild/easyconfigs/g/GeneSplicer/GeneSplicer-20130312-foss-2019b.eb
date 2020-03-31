@@ -24,7 +24,6 @@ sanity_check_paths = {
     'dirs': [],
 }
 
-modextrapaths = {'PATH': 'GeneSplicer/sources/', 'PATH': 'GeneSplicer'}
 modextrapaths = {
     'PATH': 'GeneSplicer/sources/',
     'GENESPLICER': 'GeneSplicer/'
