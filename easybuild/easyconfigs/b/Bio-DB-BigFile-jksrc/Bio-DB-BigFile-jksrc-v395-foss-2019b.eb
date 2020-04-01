@@ -10,7 +10,7 @@ description = """A full copy of the 'kent' source tree - used here for only one 
 toolchain = {'name': 'foss', 'version': '2019b'}
 toolchainopts = {'pic': True}
 
-source_urls = ['http://hgdownload.cse.ucsc.edu/admin/']
+source_urls = ['https://hgdownload.cse.ucsc.edu/admin/']
 sources = ['jksrc.%(version)s.zip']
 patches = ['%(name)s-%(version)s.patch']
 checksums = [
@@ -40,4 +40,3 @@ modextravars = {
 }
 
 moduleclass = 'bio'
-
