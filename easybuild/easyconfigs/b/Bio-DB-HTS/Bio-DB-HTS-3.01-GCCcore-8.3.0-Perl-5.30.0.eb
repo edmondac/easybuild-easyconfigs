@@ -20,7 +20,7 @@ builddependencies = [
 
 dependencies = [
     ('Perl', '5.30.0'),
-    ('BioPerl', '1.7.2', versionsuffix),
+    ('BioPerl', '1.7.2'),
     ('HTSlib', '1.10.2'),
 ]
 
