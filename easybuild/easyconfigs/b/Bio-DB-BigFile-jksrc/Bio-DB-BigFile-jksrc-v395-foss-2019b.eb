@@ -4,7 +4,7 @@ easyblock = 'CmdCp'
 name = 'Bio-DB-BigFile-jksrc'
 version = 'v395'
 
-homepage = "http://hgdownload.cse.ucsc.edu/admin/"
+homepage = "https://hgdownload.cse.ucsc.edu/admin/"
 description = """A full copy of the 'kent' source tree - used here for only one dependency."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
