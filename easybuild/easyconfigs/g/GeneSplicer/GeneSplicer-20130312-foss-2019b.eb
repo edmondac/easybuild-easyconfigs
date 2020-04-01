@@ -21,7 +21,12 @@ start_dir = 'sources'
 
 sanity_check_paths = {
     'files': ['GeneSplicer/sources/genesplicer'],
-    'dirs': [],
+    'dirs': ['GeneSplicer/malaria', 
+             'GeneSplicer/rice', 
+             'GeneSplicer/pyoelii', 
+             'GeneSplicer/human',
+             'GeneSplicer/drosophila', 
+             'GeneSplicer/arabidopsis'],
 }
 
 modextrapaths = {
