@@ -19,7 +19,7 @@ checksums = [
 ]
 
 dependencies = [
-    ('BioPerl', '1.7.2', '-Perl-5.30.0'),
+    ('BioPerl', '1.7.2'),
     ('LibUUID', '1.0.3'),
 ]
 

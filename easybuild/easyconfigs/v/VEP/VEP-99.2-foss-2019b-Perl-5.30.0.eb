@@ -18,7 +18,7 @@ checksums = ['4488a5efe1047d489f1d1391d9e164cc159d0e9912e593b88140da279d0875cb']
 dependencies = [
     ('Perl', '5.30.0'),
     ('DBD-mysql', '4.050', versionsuffix),
-    ('BioPerl', '1.7.2', versionsuffix),
+    ('BioPerl', '1.7.2'),
     ('Bio-DB-HTS', '3.01', versionsuffix),
     ('Bio-DB-BigFile', '1.07', versionsuffix),
 ]

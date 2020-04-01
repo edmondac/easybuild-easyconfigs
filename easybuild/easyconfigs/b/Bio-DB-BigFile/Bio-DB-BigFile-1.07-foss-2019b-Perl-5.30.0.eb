@@ -19,7 +19,7 @@ checksums = [
 
 dependencies = [
     ('Perl', '5.30.0'),
-    ('BioPerl', '1.7.2', versionsuffix),
+    ('BioPerl', '1.7.2'),
     ('Bio-DB-BigFile-jksrc', 'v395'),
 ]
 
