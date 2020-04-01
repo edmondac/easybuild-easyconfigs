@@ -20,6 +20,7 @@ dependencies = [
     ('DBD-mysql', '4.050', versionsuffix),
     ('BioPerl', '1.7.2', versionsuffix),
     ('Bio-DB-HTS', '3.01', versionsuffix),
+    ('Bio-DB-BigFile', '1.07', versionsuffix),
 ]
 
 exts_defaultclass = 'PerlModule'
@@ -30,6 +31,37 @@ exts_list = [
         'source_tmpl': '%(version)s.tar.gz',
         'source_urls': ['https://github.com/Ensembl/ensembl-xs/archive'],
         'checksums': ['aafc59568cd1042259196575e99cdfeef9c0fb7966e5f915cfaf38c70885ffa5'],
+    }),
+    ('ExtUtils::MakeMaker', '7.44', {
+        'source_tmpl': 'ExtUtils-MakeMaker-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/B/BI/BINGOS'],
+        'checksums': ['52a18f8271250faf5f3527499dd2b78d3b4fd3b064408d0cfdda9a3538887188'],
+    }),
+    ('ExtUtils::CppGuess', '0.21', {
+        'source_tmpl': 'ExtUtils-CppGuess-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/E/ET/ETJ'],
+        'checksums': ['ff629178321a1e591b83f809712593eae4408a413aa448654bce59b156f24153'],
+    }),
+    ('Set::IntervalTree', '0.12', {
+        'preconfigopts': "export PERL5LIB=../../lib/perl5/site_perl/5.28.1:$PERL5LIB && ",
+        'source_tmpl': 'Set-IntervalTree-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/S/SL/SLOYD'],
+        'checksums': ['6fd4000e4022968e2ce5b83c07b189219ef1925ecb72977b52a6f7d76adbc349'],
+    }),
+    ('SUPER', '1.20190531', {
+        'source_tmpl': '%(name)s-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/C/CH/CHROMATIC'],
+        'checksums': ['685d1ee76e7f0e9006942923bf7df8b11c107132992917593dcf7397d417d39a'],
+    }),
+    ('Test::MockModule', '0.172.0', {
+        'source_tmpl': 'Test-MockModule-v%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/G/GF/GFRANKS'],
+        'checksums': ['595b61eee8b70623c312ce33140ef2c2ba9285f9a35128367331bedbe33543b9'],
+    }),
+    ('Archive::Zip', '1.68', {
+        'source_tmpl': 'Archive-Zip-%(version)s.tar.gz',
+        'source_urls': ['https://cpan.metacpan.org/authors/id/P/PH/PHRED'],
+        'checksums': ['984e185d785baf6129c6e75f8eb44411745ac00bf6122fb1c8e822a3861ec650'],
     }),
 ]
 
