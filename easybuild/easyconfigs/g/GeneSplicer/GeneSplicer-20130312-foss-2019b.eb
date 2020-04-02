@@ -1,0 +1,36 @@
+easyblock = 'ConfigureMake'
+
+name = 'GeneSplicer'
+version = '20130312'
+
+homepage = 'https://ccb.jhu.edu/software/genesplicer/'
+description = """A fast, flexible system for detecting splice sites in the genomic DNA of various eukaryotes. The
+ system has been trained and tested successfully on Plasmodium falciparum (malaria), Arabidopsis thaliana, human,
+ Drosophila, and rice . Training data sets for human and Arabidopsis thaliana are included."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['ftp://ftp.ccb.jhu.edu/pub/software/genesplicer']
+sources = ['%(name)s.tar.gz']
+checksums = ['818e3d447c7c10bd3ebfa9bcce38719d073059c7a6df94e088d7351a1bc4b477']
+
+skipsteps = ['configure', 'install']
+
+buildininstalldir = True
+start_dir = 'sources'
+
+sanity_check_paths = {
+    'files': ['GeneSplicer/sources/genesplicer'],
+    'dirs': ['GeneSplicer/malaria',
+             'GeneSplicer/rice',
+             'GeneSplicer/pyoelii',
+             'GeneSplicer/human',
+             'GeneSplicer/drosophila',
+             'GeneSplicer/arabidopsis'],
+}
+
+modextrapaths = {
+    'PATH': 'GeneSplicer/sources/',
+    'GENESPLICER': 'GeneSplicer/'
+}
+moduleclass = 'bio'
