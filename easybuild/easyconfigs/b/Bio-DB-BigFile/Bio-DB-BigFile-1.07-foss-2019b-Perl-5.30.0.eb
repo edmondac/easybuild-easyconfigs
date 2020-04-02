@@ -1,0 +1,33 @@
+easyblock = 'PerlModule'
+
+name = 'Bio-DB-BigFile'
+version = '1.07'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'https://metacpan.org/release/Bio::DB::BigFile'
+description = "Bio::DB::BigFile -- Low-level interface to BigWig & BigBed files"
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://cpan.metacpan.org/authors/id/L/LD/LDS']
+sources = ['Bio-BigFile-%(version)s.tar.gz']
+patches = ['%(name)s-%(version)s.patch']
+checksums = [
+    '277b66ce8acbdd52399e2c5a0cf4e3bd5c74c12b94877cd383d0c4c97740d16d',  # Bio-BigFile-1.07.tar.gz
+    '43187145915138360006324ab084fd5eff005e9c4441362a13446339aba527f5',  # Bio-DB-BigFile-1.07.patch
+]
+
+dependencies = [
+    ('Perl', '5.30.0'),
+    ('BioPerl', '1.7.2'),
+    ('Bio-DB-BigFile-jksrc', 'v395'),
+]
+
+options = {'modulename': 'Bio::DB::BigFile'}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['lib/perl5/site_perl/%(perlver)s', 'man/man3'],
+}
+
+moduleclass = 'bio'
