@@ -1,0 +1,99 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMake'
+
+name = 'VOTCA'
+version = '1.5.1'
+
+homepage = "http://www.votca.org/"
+description = """VOTCA is a software package which focuses on the analysis of molecular dynamics data, the development
+ of systematic coarse-graining techniques as well as methods used for simulating microscopic charge (and exciton)
+ transport in disordered semiconductors. Its C++ core is interfaced to bash and perl flow-control scripts."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'openmp': True}
+
+local_extract_cmd_pattern = 'tar -C votca-1.5.1/%s --strip-components=1 -xf %%s'
+
+github_account = 'votca'
+source_urls = [GITHUB_LOWER_SOURCE]
+sources = [
+    'v%(version)s.tar.gz',  # VOTCA main repository
+    {
+        'source_urls': ['https://github.com/votca/csg/archive'],
+        'download_filename': '29060ba18656e6d5ef75f7fd39edc34c31d0e970.tar.gz',
+        'filename': 'csg-20191121.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % ('csg'),
+    },
+    {
+        'source_urls': ['https://github.com/votca/csg-tutorials/archive'],
+        'download_filename': '5213b41dcb27a1b6d6498cb9b85d9e22524e3f55.tar.gz',
+        'filename': 'csg-tutorials-20191121.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % ('csg-tutorials'),
+    },
+    {
+        'source_urls': ['https://github.com/votca/csgapps/archive'],
+        'download_filename': '8cb46ab5bc6a316814d6bcfa5db8fdb5710c3406.tar.gz',
+        'filename': 'csgapps-20191121.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % ('csgapps'),
+    },
+    {
+        'source_urls': ['https://github.com/votca/ctp/archive'],
+        'download_filename': 'f95e6d5f7410f8605169f03fa2b2668340a0be4c.tar.gz',
+        'filename': 'ctp-20191121.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % ('ctp'),
+    },
+    {
+        'source_urls': ['https://github.com/votca/tools/archive'],
+        'download_filename': '7fe7a58e53813b199ca40c9db1f1fc118fc6cd98.tar.gz',
+        'filename': 'tools-20191121.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % ('tools'),
+    },
+    {
+        'source_urls': ['https://github.com/votca/xtp/archive'],
+        'download_filename': '21b7cb7060a694c4f19b60846de639e55f7bb7d0.tar.gz',
+        'filename': 'xtp-20191121.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % ('xtp'),
+    },
+]
+checksums = [
+    '70abb9e7504d54454290522f136b01d189e5174a996a7cf90f80e0a21c079a07',  # v1.5.1.tar.gz
+    'f18a76a75bf03b7ae8c7488aa7b6233172faf969dd6b38f4e9c2def48f4d1c73',  # csg-20191121.tar.gz
+    '33ebd70f95e03646b0394b1213682fcf4d9619675ce9960f053eec10be419306',  # csg-tutorials-20191121.tar.gz
+    'c358a62f0cfc309d71f4fdbdc034825754fe4c58c25c7373c5d282d48e158cf9',  # csgapps-20191121.tar.gz
+    '2ac56cee8f26f67b4de0c1820874e174360455d2ae0a5b76a9a0c1273b50e00d',  # ctp-20191121.tar.gz
+    'caf22b64e928a7da31d97c6d387145c1e43287b0dffa1bd6d32e9a0e9608a022',  # tools-20191121.tar.gz
+    'c93416caee8f6ea667ad30d0cde3cc62e5b45ee8a20cfeed7d96902659dece03',  # xtp-20191121.tar.gz
+]
+
+builddependencies = [
+    ('CMake', '3.15.3'),
+]
+
+dependencies = [
+    ('Boost', '1.71.0'),
+    ('Eigen', '3.3.7', '', True),
+    ('expat', '2.2.7'),
+    ('SQLite', '3.29.0'),
+    ('GROMACS', '2019.6'),
+    ('libxc', '4.3.4'),
+    ('HDF5', '1.10.5'),
+    ('ceres-solver', '1.14.0')
+]
+
+preconfigopts = 'export LDFLAGS="$LDFLAGS -lfftw3f" && '
+configopts = "-DCMAKE_BUILD_TYPE=Release -DENABLE_TESTING=ON -DBUILD_SHARED_LIBS=OFF "
+configopts += "-DBUILD_CSGAPPS=ON -DBUILD_CTP=ON -DBUILD_XTP=ON "
+
+sanity_check_paths = {
+    'files': [
+        'bin/csg_boltzmann', 'bin/csg_fmatch', 'bin/csg_part_dist', 'bin/csg_sphericalorder', 'bin/ctp_run',
+        'bin/kmc_run', 'bin/moo_overlap', 'bin/votca_compare', 'bin/xtp_map', 'bin/xtp_parallel',
+        'lib/libvotca_csg.a', 'lib/libvotca_ctp.a', 'lib/libvotca_kmc.a', 'lib/libvotca_moo.a',
+        'lib/libvotca_tools.a', 'lib/libvotca_xtp.a',
+    ],
+    'dirs': ['include/votca/%s' % x for x in ['csg', 'ctp', 'kmc', 'moo', 'tools', 'xtp']],
+}
+
+sanity_check_commands = ['xtp_map --help']
+
+moduleclass = 'chem'

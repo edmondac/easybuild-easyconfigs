@@ -1,0 +1,36 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMake'
+
+name = 'ceres-solver'
+version = '1.14.0'
+
+homepage = "https://ceres-solver.org"
+description = """Ceres Solver is an open source C++ library for modeling and solving large, complicated optimization
+ problems. It can be used to solve Non-linear Least Squares problems with bounds constraints and general
+ unconstrained optimization problems. It is a mature, feature rich, and performant library that has been used in
+ production at Google since 2010"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['http://ceres-solver.org']
+sources = ['%(name)s-%(version)s.tar.gz']
+checksums = ['4744005fc3b902fed886ea418df70690caa8e2ff6b5a90f3dd88a3d291ef8e8e']
+
+builddependencies = [
+    ('CMake', '3.15.3'),
+]
+
+dependencies = [
+    ('Eigen', '3.3.7', '', True),
+    ('glog', '0.4.0'),
+    ('gflags', '2.2.2'),
+    ('SuiteSparse', '5.6.0', '-METIS-5.1.0'),
+
+]
+
+sanity_check_paths = {
+    'files': ['lib64/libceres.a', 'include/ceres/ceres.h'],
+    'dirs': [],
+}
+
+moduleclass = 'tools'
