@@ -43,7 +43,7 @@ exts_list = [
         'checksums': ['ff629178321a1e591b83f809712593eae4408a413aa448654bce59b156f24153'],
     }),
     ('Set::IntervalTree', '0.12', {
-        'preconfigopts': "export PERL5LIB=../../lib/perl5/site_perl/5.28.1:$PERL5LIB && ",
+        'preconfigopts': "export PERL5LIB=../../lib/perl5/site_perl/%(perlver)s:$PERL5LIB && ",
         'source_tmpl': 'Set-IntervalTree-%(version)s.tar.gz',
         'source_urls': ['https://cpan.metacpan.org/authors/id/S/SL/SLOYD'],
         'checksums': ['6fd4000e4022968e2ce5b83c07b189219ef1925ecb72977b52a6f7d76adbc349'],
