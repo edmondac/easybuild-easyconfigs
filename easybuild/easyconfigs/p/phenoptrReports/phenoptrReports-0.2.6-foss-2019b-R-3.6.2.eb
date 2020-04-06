@@ -6,8 +6,8 @@ version = '0.2.6'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://akoyabio.github.io/phenoptrReports"
-description = """phenoptrReports generates reports and visualizations based on data created by Akoya Biosciences’
- inForm software."""
+description = """phenoptrReports generates reports and visualizations based on data created by Akoya Biosciences'
+ inForm(R) software."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
