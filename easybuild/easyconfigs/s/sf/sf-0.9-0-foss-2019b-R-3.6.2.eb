@@ -1,0 +1,54 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'sf'
+version = '0.9-0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=sf"
+description = """Support for simple features, a standardized way to encode spatial vector data. Binds to 'GDAL' for
+ reading and writing data, to 'GEOS' for geometrical operations, and to 'PROJ' for projection conversions and datum
+ transformations."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('rgdal', '1.4-8', versionsuffix),
+    ('rgeos', '0.5-2', versionsuffix),
+    ('PROJ', '6.2.1'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('classInt', '0.4-2', {
+        'checksums': ['bb0da1e7db779831cf5cea80722ade90bf83a9aa51b7d2bc6bee69c433042871'],
+    }),
+    ('Rcpp', '1.0.4', {
+        'checksums': ['d992fe8f7480606a0790be94948a6b667f37aa607ccd5e5613e88af861bb00d5'],
+    }),
+    (name, version, {
+        'checksums': ['c65d172090b88ffdc4dc894dcb2fd8abb407be07191bef56926ddab3074df984'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['sf/R/sf'],
+    'dirs': [],
+}
+
+moduleclass = 'geo'
