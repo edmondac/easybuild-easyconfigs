@@ -1,5 +1,6 @@
 name = 'Rosetta'
 version = '3.11'
+versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'https://www.rosettacommons.org'
 description = """Rosetta is the premier software suite for modeling macromolecular structures. As a flexible,
