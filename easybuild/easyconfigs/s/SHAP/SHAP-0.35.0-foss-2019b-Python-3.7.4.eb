@@ -5,7 +5,7 @@ name = 'SHAP'
 version = '0.35.0'
 versionsuffix = '-Python-%(pyver)s'
 
-homepage = "http://github.com/slundberg/shap"
+homepage = "https://github.com/slundberg/shap"
 description = """SHAP (SHapley Additive exPlanations) is a game theoretic approach to explain the output of any
  machine learning model. It connects optimal credit allocation with local explanations using the classic Shapley
  values from game theory and their related extensions."""
