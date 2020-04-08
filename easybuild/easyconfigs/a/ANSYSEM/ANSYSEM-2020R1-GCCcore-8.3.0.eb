@@ -14,6 +14,7 @@ builddependencies = [('binutils', '2.32')]
 dependencies = [
     ('giflib', '5.2.1'),
     #('Mesa', '19.2.1', '-libpng-1.2.58-dri',), # NEED TO MAKE THIS!
+    ('Mono', '6.8.0.105'),
     ('Mesa', '19.2.1'),
 ]
 
