@@ -1,0 +1,67 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'phenoptrReports'
+version = '0.2.6'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://akoyabio.github.io/phenoptrReports"
+description = """phenoptrReports generates reports and visualizations based on data created by Akoya Biosciences'
+ inForm(R) software."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('R-bundle-Bioconductor', '3.10', versionsuffix),
+    ('rstudio', '1.2.5033', versionsuffix),
+]
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        # 'https://cran.r-project.org/src/contrib/Archive/%(name)s', # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz'
+}
+
+
+# Order is important!
+exts_list = [
+    ('phenoptr', '0.2.4', {
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/akoyabio/phenoptr/archive'],
+        'checksums': ['aecc03925bb98bcb0627d57a167ade46914ac5f818691568122956752b58cb4f'],
+    }),
+    ('shinyjs', '1.1', {
+        'checksums': ['8986181baa68fb2863eea65b9df1b04b9b4e1293685298531d42de3bc2f06892'],
+    }),
+    ('colourpicker', '1.0', {
+        'checksums': ['f1dacbafb05c09f61b9bdd0fdcee5344409759b042a71ec46d7c9e3710107b7c'],
+    }),
+    ('formattable', '0.2.0.1', {
+        'checksums': ['2e935699fb8c68f55cad824ee2ff76acdb6ee0f363a4342a6f9b0809ea93f2e8'],
+    }),
+    ('UpSetR', '1.4.0', {
+        'checksums': ['351e5fee64204cf77fd378cf2a2c0456cc19d4d98a2fd5f3dac74b69a505f100'],
+    }),
+    ('vroom', '1.2.0', {
+        'checksums': ['da990ab27806c4772e780e252694a8284ed50d252aeb0076ada5ef0a358ff6c2'],
+    }),
+    (name, version, {
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/akoyabio/phenoptrReports/archive'],
+        'checksums': ['d56f4ce9a93bf8fc02f786ee134137360c7cc7e6269c6f326c1c12838e69fb1d'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['phenoptrReports/R/phenoptrReports'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
