@@ -34,7 +34,7 @@ modextravars = {
 }
 
 # Configure Slurm options
-#configopts += '--with-pmi '  # srun support for mpi
+# configopts += '--with-pmi '  # srun support for mpi
 configopts += '--with-slurm '  # we want slurm suppport
 
 # Configure InfiniBand options
