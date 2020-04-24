@@ -1,0 +1,52 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'SingleR'
+version = '1.0.6'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://bioconductor.org/packages/release/bioc/html/SingleR.html"
+description = """Reference-Based Single-Cell RNA-Seq Annotation. Performs unbiased cell type recognition from
+single-cell RNA sequencing data, by leveraging reference transcriptomic datasets of pure cell types to infer the cell of
+origin of each single cell independently."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('R-bundle-Bioconductor', '3.10', '-R-%(rver)s'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://bioconductor.org/packages/3.10/bioc/src/contrib/',
+        'https://bioconductor.org/packages/3.10/bioc/src/contrib/Archive/%(name)s',
+        'https://bioconductor.org/packages/3.10/data/annotation/src/contrib/',
+        'https://bioconductor.org/packages/3.10/data/experiment/src/contrib/',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+# Order is important!
+exts_list = [
+    ('ExperimentHub', '1.12.0', {
+        'checksums': ['447c621e48372bfa1373e675693ebc7ff0ffd3b4e466a0e28375e5e827159c14'],
+    }),
+    (name, version, {
+        'checksums': ['5710959dfc364b006916cb910a78bd9449b65186663f56aadd41778b5160c84d'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['SingleR/R/SingleR'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
