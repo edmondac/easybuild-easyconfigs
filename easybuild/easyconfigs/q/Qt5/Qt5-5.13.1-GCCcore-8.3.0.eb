@@ -57,9 +57,9 @@ dependencies = [
 configopts = '-skip qtgamepad'
 
 # make sure QtWebEngine component is being built & installed
-import subprocess  # NOQA
-arch = subprocess.check_output(['uname', '-m']).strip()
-if arch != 'ppc64le':
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m']).strip()
+if _arch != 'ppc64le':
     # make sure QtWebEngine component is being built & installed
     # Currently 'QtWebEngine can only be built for x86, x86-64, ARM, Aarch64, and MIPSel architectures.'
     check_qtwebengine = True
