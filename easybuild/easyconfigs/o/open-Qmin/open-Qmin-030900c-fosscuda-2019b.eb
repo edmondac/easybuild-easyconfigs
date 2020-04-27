@@ -1,0 +1,34 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+
+easyblock = 'CMakeMakeCp'
+
+name = 'open-Qmin'
+version = '030900c'
+
+homepage = "https://github.com/sussmanLab/open-Qmin"
+description = """Liquid crystal simulations in the Landau de Gennes framework."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+source_urls = ['https://github.com/sussmanLab/open-Qmin/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['aff92cfdabc791dbffe5209eb1dbdbcc9087d6174969400c156f3a8e7f6dd73a']
+
+builddependencies = [('CMake', '3.15.3')]
+
+dependencies = [('Qt5', '5.13.1')]
+
+start_dir = "build"
+configure_cmd = "cmake .."
+files_to_copy = [
+    (['openQmin.out', 'openQminGUI.out'], 'bin'),
+    (['ui_mainwindow.h'], 'include'),
+    (['src/forces/*.a', 'src/model/*.a', 'src/simulation/*.a', 'src/updaters/*.a', 'src/utilities/*.a'], 'lib')
+]
+
+sanity_check_paths = {
+    'files': ['bin/openQmin.out', 'bin/openQminGUI.out', 'include/ui_mainwindow.h'],
+    'dirs': ['lib']
+}
+
+moduleclass = 'chem'
