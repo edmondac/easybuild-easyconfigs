@@ -1,0 +1,76 @@
+easyblock = 'PythonBundle'
+
+name = 'Nipype'
+version = '1.4.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://nipy.org/nipype'
+description = """Nipype is a Python project that provides a uniform interface to existing neuroimaging software and
+ facilitates interaction between these packages within a single workflow."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('lxml', '4.4.2'),
+    ('NiBabel', '3.1.0', versionsuffix),
+]
+
+use_pip = True
+download_dep_fail = True
+sanity_pip_check = True
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+exts_list = [
+    ('rdflib', '5.0.0', {
+        'checksums': ['78149dd49d385efec3b3adfbd61c87afaf1281c30d3fcaf1b323b34f603fb155'],
+    }),
+    ('isodate', '0.6.0', {
+        'checksums': ['2e364a3d5759479cdb2d37cce6b9376ea504db2ff90252a2e5b7cc89cc9ff2d8'],
+    }),
+    ('ci-info', '0.2.0', {
+        'checksums': ['dd70632c977feb8797b1e633507166b64ad5f57183cebb2b0ea56934abba4616'],
+    }),
+    ('etelemetry', '0.2.1', {
+        'checksums': ['bfb58f58e98f63eae20caffb8514fb68c572332aa6e773cf3fcbde9b408d88e7'],
+    }),
+    ('filelock', '3.0.12', {
+        'checksums': ['18d82244ee114f543149c66a6e0c14e9c4f8a1044b5cdaadd0f82159d6a6ff59'],
+    }),
+    ('networkx', '2.4', {
+        'checksums': ['f8f4ff0b6f96e4f9b16af6b84622597b5334bf9cae8cf9b2e42e7985d5c95c64'],
+    }),
+    ('neurdflib', '5.0.1', {
+        'modulename': 'rdflib',
+        'checksums': ['d34493cee15029ff5db16157429585ff863ba5542675a4d8a94a0da1bc6e3a50'],
+    }),
+    ('prov', '1.5.3', {
+        'checksums': ['a0c951107eafd508d5a26caa54863dc11fee3da86778db2a559d32450d2030a9'],
+    }),
+    ('pydot', '1.4.1', {
+        'checksums': ['d49c9d4dd1913beec2a997f831543c8cbd53e535b1a739e921642fe416235f01'],
+    }),
+    ('pydotplus', '2.0.2', {
+        'checksums': ['91e85e9ee9b85d2391ead7d635e3d9c7f5f44fd60a60e59b13e2403fa66505c4'],
+    }),
+    ('simplejson', '3.17.0', {
+        'checksums': ['2b4b2b738b3b99819a17feaf118265d0753d5536049ea570b3c43b51c4701e81'],
+    }),
+    ('traits', '6.0.0', {
+        'checksums': ['dbcd70166feca434130a1193284d5819ca72ffbc8dbce8deeecc0cebb41a3bfb'],
+    }),
+    (name, version, {
+        'source_tmpl': '%(namelower)s-%(version)s.tar.gz',
+        'checksums': ['069dcbb0217f13af6ee5a7f1e58424b9061290a3e10d7027d73bf44e26f820db'],
+    }),
+]
+
+sanity_check_paths = {
+    'files': ['bin/nipypecli'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_commands = ["python -c 'import nipype.interfaces'"]
+
+moduleclass = 'vis'

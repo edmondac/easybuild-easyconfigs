@@ -1,0 +1,41 @@
+easyblock = 'PythonBundle'
+
+name = 'FMRIprep'
+version = '20.0.6'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://fmriprep.readthedocs.io'
+description = """FMRIprep is a functional magnetic resonance imaging (fMRI) data preprocessing pipeline that is
+ designed to provide an easily accessible, state-of-the-art interface that is robust to variations in scan
+ acquisition protocols and that requires minimal user input, while providing easily interpretable and comprehensive
+ error and output reporting."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('FSL', '5.0.11', versionsuffix),
+    ('ANTs', '2.3.2', versionsuffix),
+    ('AFNI', '18.3.00', versionsuffix),
+    ('C3D', '1.0.0', '', True),
+    ('FreeSurfer', '6.0.1', '-centos6_x86_64', True),
+    ('ICA-AROMA', '0.4.4-beta', versionsuffix),
+    ('Seaborn', '0.10.0', versionsuffix),
+    ('PyYAML', '5.1.2'),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('scikit-image', '0.16.2', versionsuffix),
+    ('Nipype', '1.4.2', versionsuffix),
+    ('ConnectomeWorkbench', '1.3.2'),
+]
+
+use_pip = True
+
+exts_list = [
+]
+
+sanity_check_paths = {
+    'files': ['bin/fmriprep'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'bio'
