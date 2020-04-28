@@ -1,0 +1,43 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'LongQC'
+version = '1.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/yfukasawa/LongQC"
+description = """LongQC is a tool for the data quality control of the PacBio and ONT long reads."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/yfukasawa/LongQC/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['abe1a9ecd587814e404e2d45e4ad3cdfec0999ba75a0d8df71a232107dbbec6e']
+
+skipsteps = ['configure', 'install']
+
+build_cmd = "cd minimap2_mod && make extra"
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('h5py', '2.10.0', versionsuffix),
+    ('Pysam', '0.15.3'),
+    ('edlib', '1.3.8.post1', versionsuffix)
+]
+
+buildininstalldir = True
+
+sanity_check_paths = {
+    'files': ['%(name)s-%(version)s/longQC.py', '%(name)s-%(version)s/minimap2_mod/minimap2-coverage',
+              '%(name)s-%(version)s/minimap2_mod/sdust'],
+    'dirs': []
+}
+
+modextrapaths = {
+    'LONGQC': '%(name)s-%(version)s'
+}
+
+moduleclass = 'bio'
