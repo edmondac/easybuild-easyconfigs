@@ -270,6 +270,7 @@ class EasyConfigTest(TestCase):
             'LLVM': (r'[78]\.', ['numba-0.47.0-', 'scVelo-0.1.24-']),
             # Deepbinner requires TensorFlow 1.15.0
             'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-']),
+            'Keras': ('2.3.1', ['Deepbinner-c261ae9-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
