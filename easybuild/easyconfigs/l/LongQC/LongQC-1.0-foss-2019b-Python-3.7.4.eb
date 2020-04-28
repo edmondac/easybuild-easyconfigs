@@ -32,7 +32,7 @@ buildininstalldir = True
 
 sanity_check_paths = {
     'files': ['%(name)s-%(version)s/longQC.py', '%(name)s-%(version)s/minimap2_mod/minimap2-coverage',
- '%(name)s-%(version)s/minimap2_mod/sdust'],
+                '%(name)s-%(version)s/minimap2_mod/sdust'],
     'dirs': []
 }
 
