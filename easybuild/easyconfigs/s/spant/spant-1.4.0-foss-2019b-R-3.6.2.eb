@@ -1,0 +1,67 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'spant'
+version = '1.4.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/web/packages/spant/index.html"
+description = """Tools for reading, visualising and processing Magnetic Resonance Spectroscopy data."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('complexplus', '2.1', {
+        'checksums': ['1d3f5ab47d4f75b4b43e61591c816d7bde33727664508372c55b4d16dad9899b'],
+    }),
+    ('ptw', '1.9-15', {
+        'checksums': ['22fa003f280bc000f46bca88d69bf332b29bc68435115ba8044533b70bfb7b46'],
+    }),
+    ('mmand', '1.6.1', {
+        'checksums': ['5818cdfbf28f4a4c873ce836b3a86a8d497d82918c0906a72ac9e73810d846a7'],
+    }),
+    ('RNifti', '1.1.0', {
+        'checksums': ['f6e2cb3e45d7bf6db3aeca820928fa8d21729dc8c83a4635e0286035ae8d16fd'],
+    }),
+    ('ore', '1.6.3', {
+        'checksums': ['7b4e7d807d2d21c8f0fca5f1ca467697935f7b48911d2ea574f3c19cd5e006ee'],
+    }),
+    ('RNiftyReg', '2.6.8', {
+        'checksums': ['c409d5f8a73dec59ddc1961315b58903bb8b634154cee98be1f2707a7f9191a6'],
+    }),
+    ('oro.nifti', '0.10.1', {
+        'checksums': ['fbb38fad270480abc3a6bd461912887088c220699dac6fe8d2b47d9596601e0a'],
+    }),
+    ('oro.dicom', '0.5.3', {
+        'checksums': ['68302a68bf2c3d0d3ab281bcf6aaf5aab7712db96f4737d99367e225660727ab'],
+    }),
+    (name, version, {
+        'checksums': ['1a29f1f8073340b81d18eb52e5a32b893456c3073ccfa915234f5079b1f5e60c'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['spant/R/spant'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
