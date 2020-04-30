@@ -13,11 +13,12 @@ builddependencies = [('binutils', '2.32')]
 
 dependencies = [
     ('giflib', '5.2.1'),
-    ('Mesa', '19.2.1', '-libpng-1.2.58-dri',), # NEED TO MAKE THIS!
+    ('Mesa', '19.2.1', '-libpng-1.2.58-dri',),
     ('Mono', '6.8.0.105'),
 ]
 
 sources = [SOURCE_ZIP]
+checksums = ['1a58882516ad59d2ad7c37c0d8e161f85eac55355221b835f048bc573c43a659']
 
 # Licensing information can be provided using the following configuration variables, else the following
 # environment variables will be interrogated: EB_ANSYS_EM_LICENSE_SERVER & EB_ANSYS_EM_LICENSE_SERVER_PORT
