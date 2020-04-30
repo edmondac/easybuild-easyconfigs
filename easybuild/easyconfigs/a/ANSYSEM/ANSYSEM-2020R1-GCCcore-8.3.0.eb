@@ -13,9 +13,8 @@ builddependencies = [('binutils', '2.32')]
 
 dependencies = [
     ('giflib', '5.2.1'),
-    #('Mesa', '19.2.1', '-libpng-1.2.58-dri',), # NEED TO MAKE THIS!
+    ('Mesa', '19.2.1', '-libpng-1.2.58-dri',), # NEED TO MAKE THIS!
     ('Mono', '6.8.0.105'),
-    ('Mesa', '19.2.1'),
 ]
 
 sources = [SOURCE_ZIP]
@@ -23,8 +22,8 @@ sources = [SOURCE_ZIP]
 # Licensing information can be provided using the following configuration variables, else the following
 # environment variables will be interrogated: EB_ANSYS_EM_LICENSE_SERVER & EB_ANSYS_EM_LICENSE_SERVER_PORT
 
-# license_server = "server.local"
-# license_server_port = "1234"
+license_server = "server.local"
+license_server_port = "1234"
 
 # Select a default location for all simulations (including local) to use as a temporary work space.
 ansysem_temp_dir = '/tmp'
