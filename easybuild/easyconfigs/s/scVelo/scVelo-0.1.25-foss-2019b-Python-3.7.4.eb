@@ -21,6 +21,7 @@ dependencies = [
     ('networkx', '2.4', versionsuffix),
     ('numba', '0.47.0', versionsuffix),
     ('PyTables', '3.6.1', versionsuffix),
+    ('Seaborn', '0.10.0', versionsuffix),
     ('statsmodels', '0.11.0', versionsuffix),
     ('libpng', '1.6.37'),
     ('freetype', '2.10.1'),
@@ -52,9 +53,6 @@ exts_list = [
         'modulename': 'numpy_groupies',
         'source_tmpl': 'numpy_groupies-%(version)s.tar.gz',
         'checksums': ['a6835c252b7bd489e0f701f8bf5bc880c647ef251e3b434998b95a8aecc9b68a'],
-    }),
-    ('seaborn', '0.10.0', {
-        'checksums': ['59fe414e138d7d5ea08b0feb01b86caf4682e36fa748e3987730523a89aecbb9'],
     }),
     ('natsort', '7.0.1', {
         'checksums': ['a633464dc3a22b305df0f27abcb3e83515898aa1fd0ed2f9726c3571a27258cf'],
