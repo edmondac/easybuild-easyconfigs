@@ -20,6 +20,8 @@ source_urls = ['https://users.soe.ucsc.edu/~kent/src']
 sources = ['%%(namelower)sSrc%s.zip' % ''.join(version.split('.'))]
 checksums = ['06d9bcf114ec4a4b21fef0540a0532556b6602322a5a2b33f159dc939ae53620']
 
+builddependencies = [('binutils', '2.32')]
+
 dependencies = [('libpng', '1.6.37')]
 
 buildopts = 'CC="$CC" COPT= L="$LIBS"'

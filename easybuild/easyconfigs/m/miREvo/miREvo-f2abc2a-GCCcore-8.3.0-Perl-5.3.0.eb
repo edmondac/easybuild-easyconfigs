@@ -15,6 +15,8 @@ source_urls = ['https://github.com/akahanaton/miREvo/archive']
 sources = ['%(version)s.tar.gz']
 checksums = ['22531ac72e9e6274e5e7ddb5d78769ec622d5dcf1513390f3f043d278eb31ec5']
 
+builddependencies = [('binutils', '2.32')]
+
 dependencies = [
     ('Perl', local_perlver),
     ('BioPerl', '1.7.2'),
