@@ -18,7 +18,7 @@ checksums = ['22531ac72e9e6274e5e7ddb5d78769ec622d5dcf1513390f3f043d278eb31ec5']
 builddependencies = [('binutils', '2.32')]
 
 dependencies = [
-    ('Perl', perlver),
+    ('Perl', '5.30.0'),
     ('BioPerl', '1.7.2'),
     ('BLAT', '3.5'),
     ('ImageMagick', '7.0.9-5')
@@ -32,7 +32,7 @@ sanity_check_paths = {
 
 modextrapaths = {
     'PATH': ['%(name)s'],
-    'PERL5LIB': ['lib/perl5/site_perl/%(perlver)s/', '%(name)s']
+    'PERL5LIB': ['lib/perl5/site_perl/5.30.0/', '%(name)s']
 }
 
 moduleclass = 'bio'
