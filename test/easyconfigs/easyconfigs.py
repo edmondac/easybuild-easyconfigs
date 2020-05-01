@@ -277,6 +277,8 @@ class EasyConfigTest(TestCase):
             # Deepbinner requires TensorFlow 1.15.0
             'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-']),
             'Keras': ('2.3.1', ['Deepbinner-c261ae9-']),
+            # ANSYSEM requires libpng 1.2.58
+            'libpng': ('1.2.58', ['ANSYSEM-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
