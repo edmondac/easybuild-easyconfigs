@@ -160,6 +160,12 @@ class EasyConfigTest(TestCase):
         # 'guilty' until proven 'innocent'
         res = False
 
+        # filter out libdrm, freetype, fontconfig, X11, Mesa if they have libpng in the versionsuffix (re ANSYSEM)
+        if dep in ['libdrm', 'freetype', 'fontconfig', 'X11', 'Mesa'] and len(dep_vars) > 1:
+            libpng1_2_58_vars = [v for v in dep_vars.keys() if v.endswith('versionsuffix: -libpng-1.2.58')]
+            if len(libpng1_2_58_vars) == 1:
+                dep_vars = dict((k, v) for (k, v) in dep_vars.items() if k != libpng1_2_58_vars[0])
+
         # filter out wrapped Java versions
         # i.e. if the version of one is a prefix of the version of the other one (e.g. 1.8 & 1.8.0_181)
         if dep == 'Java':
