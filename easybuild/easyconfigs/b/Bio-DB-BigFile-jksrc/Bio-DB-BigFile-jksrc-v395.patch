@@ -1,0 +1,23 @@
+--- src/inc/common.mk.orig	2019-01-16 14:14:53.876152000 +0000
++++ src/inc/common.mk	2019-01-16 14:15:20.394172647 +0000
+@@ -5,7 +5,7 @@
+     COPT=-O -g
+ endif
+ ifeq (${CFLAGS},)
+-    CFLAGS=
++    CFLAGS=-fPIC
+ endif
+ ifeq (${MACHTYPE},)
+     MACHTYPE:=$(shell uname -m)
+--- src/htslib/Makefile.orig	2019-01-16 14:15:08.263706000 +0000
++++ src/htslib/Makefile	2019-01-16 14:15:30.817033556 +0000
+@@ -30,7 +30,7 @@
+ 
+ CPPFLAGS =
+ # TODO: probably update cram code to make it compile cleanly with -Wc++-compat
+-CFLAGS   += -DKNETFILE_HOOKS -DUCSC_CRAM
++CFLAGS   += -DKNETFILE_HOOKS -DUCSC_CRAM -fPIC -Wno-unused -Wno-unused-result
+ EXTRA_CFLAGS_PIC = -fpic
+ LDFLAGS  =
+ LIBS     =
+

@@ -1,0 +1,42 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CmdCp'
+
+name = 'Bio-DB-BigFile-jksrc'
+version = 'v395'
+
+homepage = "https://hgdownload.cse.ucsc.edu/admin/"
+description = """A full copy of the 'kent' source tree - used here for only one dependency."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'pic': True}
+
+source_urls = ['https://hgdownload.cse.ucsc.edu/admin/']
+sources = ['jksrc.%(version)s.zip']
+patches = ['%(name)s-%(version)s.patch']
+checksums = [
+    '9fdde7937e47e96ac1580022bf83ac6c1e38cf89ee2df3bd7237ffcfd673ae19',  # jksrc.v395.zip
+    '8d02f082b16e1e4b17374819d2670f2d8602c7cce6630bedc81f18a101242889',  # Bio-DB-BigFile-jksrc-v395.patch
+]
+
+dependencies = [
+    ('BioPerl', '1.7.2'),
+    ('LibUUID', '1.0.3'),
+]
+
+cmds_map = [
+    ('.*', "cd src/htslib && make && cd ../lib && export MACHTYPE=i686 && make"),
+]
+
+files_to_copy = ['src']
+
+sanity_check_paths = {
+    'files': ['src/lib/i686/jkweb.a', 'src/htslib/libhts.a'],
+    'dirs': [],
+}
+
+modextravars = {
+    'MACHTYPE': 'i686',
+    'KENT_SRC': '%(installdir)s/src'
+}
+
+moduleclass = 'bio'

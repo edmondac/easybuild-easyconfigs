@@ -1,0 +1,65 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CmdCp'
+
+name = 'IJulia'
+version = '1.21.1'
+versionsuffix = '-Julia-1.4.0-Python-%(pyver)s'
+
+homepage = "https://github.com/JuliaLang/IJulia.jl"
+description = """Julia kernel for Jupyter"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+# The install happens in the cmds_map - this is just here to give eb something
+source_urls = ['https://github.com/JuliaLang/IJulia.jl/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['d9fc50b9e341d45ba2f4b852896753159f9a772c80710c602cfefcd66cf802b2']
+skipsteps = ['install']
+files_to_copy = []
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Julia', '1.4.0', '-linux-x86_64', True),
+    ('IPython', '7.9.0', '-Python-%(pyver)s'),
+]
+
+# Based off https://discourse.julialang.org/t/how-does-one-set-up-a-centralized-julia-installation/13922/10
+# Install IJulia, and also GR and Plots
+cmds_map = [('.*', "rm -rf %(installdir)s && "
+                   "export JUPYTER=$EBROOTJUPYTER/bin/jupyter && "
+                   "export JULIA_DEPOT_PATH=%(installdir)s:$JULIA_DEPOT_PATH && "
+                   """julia -e 'using Pkg; Pkg.activate("%(namelower)s", shared=true); """
+                   """Pkg.add(PackageSpec(name="GR", version="0.48.0")); using GR; """
+                   """Pkg.add(PackageSpec(name="Plots", version="0.29.9")); using Plots; """
+                   """Pkg.add(PackageSpec(name="%(name)s", version="%(version)s")); using %(name)s' && """
+                   "rm -rf %(installdir)s/registries")]
+
+# Set up the JULIA_DEPOT_PATH and JULIA_LOAD_PATH
+# We need a user writeable directory to be the first item (and $HOME/.julia is the standard path)
+# We also want to keep any items already set - in case we centrally install more Julia packages
+import os as _os  # NOQA
+
+_julia_depot_path = '$env(HOME)/.julia:%(installdir)s'
+_julia_depot_path_env = _os.environ.get('JULIA_DEPOT_PATH')
+_julia_load_path_env = _os.environ.get('JULIA_LOAD_PATH')
+
+if _julia_depot_path_env:
+    _julia_depot_path = '%s:%s' % (_julia_depot_path, _julia_depot_path_env)
+
+if _julia_load_path_env:
+    _julia_load_path = '%s:%%(installdir)s/environments/%%(namelower)s' % _julia_load_path_env
+else:
+    _julia_load_path = '@:@v#.#:@stdlib:%(installdir)s/environments/%(namelower)s'
+
+modextravars = {
+    'JULIA_DEPOT_PATH': _julia_depot_path,
+    'JULIA_LOAD_PATH': _julia_load_path,
+    'JUPYTER': '$env(EBROOTIPYTHON)/bin/jupyter',
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['packages/%(name)s'],
+}
+
+moduleclass = 'tools'
