@@ -3,8 +3,6 @@ easyblock = 'Tarball'
 
 name = 'miREvo'
 version = 'f2abc2a'
-perlver = '5.30.0'
-versionsuffix = '-Perl-%(perlver)s'
 
 homepage = "https://github.com/akahanaton/miREvo"
 description = """An integrative microRNA evolutionary analysis platform for next-generation sequencing experiments."""
