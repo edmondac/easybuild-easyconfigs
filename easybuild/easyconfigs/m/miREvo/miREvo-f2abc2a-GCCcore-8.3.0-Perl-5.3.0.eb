@@ -3,20 +3,20 @@ easyblock = 'Tarball'
 
 name = 'miREvo'
 version = 'f2abc2a'
-versionsuffix = '-Perl-%(perlver)s'
+local_perlver = '5.30.0'
+versionsuffix = '-Perl-%(local_perlver)s'
 
 homepage = "https://github.com/akahanaton/miREvo"
 description = """An integrative microRNA evolutionary analysis platform for next-generation sequencing experiments."""
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
-perlver = '5.30.0'
 
 source_urls = ['https://github.com/akahanaton/miREvo/archive']
 sources = ['%(version)s.tar.gz']
 checksums = ['22531ac72e9e6274e5e7ddb5d78769ec622d5dcf1513390f3f043d278eb31ec5']
 
 dependencies = [
-    ('Perl', perlver),
+    ('Perl', local_perlver),
     ('BioPerl', '1.7.2'),
     ('BLAT', '3.5'),
     ('ImageMagick', '7.0.9-5')
@@ -30,7 +30,7 @@ sanity_check_paths = {
 
 modextrapaths = {
     'PATH': ['%(name)s'],
-    'PERL5LIB': ['lib/perl5/site_perl/%(perlver)s/', '%(name)s']
+    'PERL5LIB': ['lib/perl5/site_perl/%(local_perlver)s/', '%(name)s']
 }
 
 moduleclass = 'bio'
