@@ -23,6 +23,11 @@ dependencies = [
     ('ImageMagick', '7.0.9-5')
 ]
 
+fix_perl_shebang_for = ['%(name)s/script/*.pl']
+
+# remove executable of GUI version (Perl/Tk)
+postinstallcmds = ["rm %(installdir)s/%(name)s/%(name)s_tk"]
+
 sanity_check_paths = {
     'files': ['%(name)s/bowtie', '%(name)s/convert', '%(name)s/liftOver', '%(name)s/mafsInRegion', '%(name)s/miREvo',
               '%(name)s/randfold', '%(name)s/RNAfold'],
@@ -31,7 +36,8 @@ sanity_check_paths = {
 
 modextrapaths = {
     'PATH': ['%(name)s'],
-    'PERL5LIB': ['lib/perl5/site_perl/5.30.0/', '%(name)s']
+    'PERL5LIB': ['lib/perl5/site_perl/%(perlver)s/', '%(name)s'],
+    'MIREVO': ['%(name)s']
 }
 
 moduleclass = 'bio'
