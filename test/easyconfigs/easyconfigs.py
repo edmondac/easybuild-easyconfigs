@@ -279,6 +279,8 @@ class EasyConfigTest(TestCase):
             'Keras': ('2.3.1', ['Deepbinner-c261ae9-']),
             # ANSYSEM requires libpng 1.2.58
             'libpng': ('1.2.58', ['ANSYSEM-']),
+            # ANSYSEM requires dri version of Mesa
+            'Mesa': (r'19\.2\.1.+-dri', ['ANSYSEM-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
