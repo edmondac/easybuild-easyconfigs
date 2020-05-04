@@ -6,7 +6,9 @@ version = 'f2abc2a'
 versionsuffix = '-Perl-%(perlver)s'
 
 homepage = "https://github.com/akahanaton/miREvo"
-description = """An integrative microRNA evolutionary analysis platform for next-generation sequencing experiments."""
+description = """An integrative microRNA evolutionary analysis platform for next-generation sequencing experiments.
+
+miREvo bundles several binaries within its installation. These are older versions of these Bioinformatics software."""
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
