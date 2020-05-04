@@ -39,7 +39,9 @@ default_component_specs = {
     'start_dir': '%(namelower)s-%(version)s',
 }
 
-prebuildopts = 'export XDG_DATA_DIRS=${EBROOTGDKMINPIXBUF}/share:${EBROOTPANGO}/share:${EBROOTATK}/share:${XDG_DATA_DIRS} && '
+prebuildopts = ('export XDG_DATA_DIRS=${EBROOTGDKMINPIXBUF}/share:'
+                '${EBROOTPANGO}/share:${EBROOTATK}/share:'
+                '${XDG_DATA_DIRS} && ')
 
 components = [
     ('hicolor-icon-theme', '0.17', {
