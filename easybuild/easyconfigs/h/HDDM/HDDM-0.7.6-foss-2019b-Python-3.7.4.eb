@@ -1,0 +1,43 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'HDDM'
+version = '0.7.6'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://ski.clps.brown.edu/hddm_docs'
+description = """HDDM is a Puthon toolbox for hierarchical Bayesian parameter estimation
+ of the Drift Diffusion Model (via PyMC)."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('pymc', '2.3.8', {
+        'preinstallopts': 'FFLAGS="-fPIC" LDFLAGS="-shared" ',
+        'checksums': ['1dfef8e06d9773f2b0fd44b38d5187d6f4b3393726bb2a5723ca2d3bce1934ab'],
+    }),
+    ('kabuki', '0.6.2', {
+        'checksums': ['3d5e727529b323b3f12ec583c05702e863e7d4b1f31a7ba6077058115eb066b1'],
+    }),
+    ('patsy', '0.5.1', {
+        'checksums': ['f115cec4201e1465cd58b9866b0b0e7b941caafec129869057405bfe5b5e3991'],
+    }),
+    (name, version, {
+        'checksums': ['2deef299a0a8ebf34cee1c77ca91a7a4e1f04661162ad661302da159834f3324'],
+    }),
+]
+
+moduleclass = 'bio'
