@@ -278,7 +278,7 @@ class EasyConfigTest(TestCase):
             'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-']),
             'Keras': ('2.3.1', ['Deepbinner-c261ae9-']),
             # ANSYSEM requires libpng 1.2.58
-            'libpng': ('1.2.58', ['ANSYSEM-']),
+            'libpng': ('1.2.58', ['ANSYSEM-2020R1-', 'X11-20190717-', 'libdrm-2.4.99-', 'fontconfig-2.13.1-', 'Mesa-19.2.1-', 'freetype-2.10.1-']),
             # ANSYSEM requires dri version of Mesa
             'Mesa': (r'19\.2\.1.+-dri', ['ANSYSEM-']),
         }
