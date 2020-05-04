@@ -14,7 +14,7 @@ description = """
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 toolchainopts = {'pic': True}
 
-source_urls = ['http://www.freedesktop.org/software/fontconfig/release/']
+source_urls = ['https://www.freedesktop.org/software/fontconfig/release/']
 sources = [SOURCE_TAR_GZ]
 checksums = ['9f0d852b39d75fc655f9f53850eb32555394f36104a044bb2b2fc9e66dbbfa7f']
 

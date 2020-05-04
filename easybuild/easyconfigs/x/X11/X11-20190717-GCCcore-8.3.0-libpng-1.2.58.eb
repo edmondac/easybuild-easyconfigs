@@ -12,9 +12,9 @@ toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 source_urls = [
     XORG_LIB_SOURCE,
     XORG_PROTO_SOURCE,
-    'http://xcb.freedesktop.org/dist/',
-    'http://xkbcommon.org/download/',
-    'http://cgit.freedesktop.org/xorg/util/macros/snapshot',
+    'https://xcb.freedesktop.org/dist/',
+    'https://xkbcommon.org/download/',
+    'https://cgit.freedesktop.org/xorg/util/macros/snapshot',
     XORG_DATA_SOURCE + '/xkeyboard-config',
     XORG_DATA_SOURCE,
 ]
