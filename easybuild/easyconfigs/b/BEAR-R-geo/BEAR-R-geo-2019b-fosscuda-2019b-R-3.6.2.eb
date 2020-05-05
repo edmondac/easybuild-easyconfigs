@@ -1,0 +1,18 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'BEAR-R-geo'
+version = '2019b'
+versionsuffix = '-R-%(rver)s'
+
+homepage = ""
+description = """This module provides access to several R geo libraries."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('ncdf4', '1.16.1', versionsuffix),
+]
+
+moduleclass = 'geo'
