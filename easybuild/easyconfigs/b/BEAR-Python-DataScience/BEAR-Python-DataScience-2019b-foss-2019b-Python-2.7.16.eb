@@ -5,23 +5,15 @@ name = 'BEAR-Python-DataScience'
 version = '2019b'
 versionsuffix = '-Python-%(pyver)s'
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+homepage = ""
+description = """This module provides access to several Python Data Science libraries."""
 
-homepage = "https://bear-apps.bham.ac.uk/applications/%s/%s-%s-%s" % (name, version, toolchain['name'],
-                                                                      toolchain['version'])
-description = """This is a meta module. Please see %s for more information.""" % homepage
+toolchain = {'name': 'foss', 'version': '2019b'}
 
 dependencies = [
     ('Python', '2.7.16'),
     ('SciPy-bundle', '2019.10', versionsuffix),
     ('scikit-learn', '0.20.4', versionsuffix),
 ]
-
-postinstallcmds = ['echo "%s" > %%(installdir)s/README' % description]
-
-sanity_check_paths = {
-    'files': ['README'],
-    'dirs': [],
-}
 
 moduleclass = 'tools'

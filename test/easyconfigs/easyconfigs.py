@@ -630,7 +630,8 @@ class EasyConfigTest(TestCase):
         # BuildEnv, ModuleRC and Toolchain easyblocks doesn't install anything so there is nothing to check.
         whitelist = ['CrayToolchain', 'ModuleRC', 'PythonBundle', 'PythonPackage', 'Toolchain', 'BuildEnv']
         # GCC is just a bundle of GCCcore+binutils
-        bundles_whitelist = ['GCC']
+        # The BEAR-* modules are just meta modules to simplify module loading in the BlueBEAR Portal
+        bundles_whitelist = ['GCC', 'BEAR-R-bio', 'BEAR-R-geo', 'BEAR-Python-DataScience']
 
         failing_checks = []
 
