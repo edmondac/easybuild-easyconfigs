@@ -19,7 +19,7 @@ dependencies = [
     ('Pillow', '6.2.1'),
     ('PyYAML', '5.1.2'),
     ('tqdm', '4.41.1'),
-    ('tifffile', '2019.7.26.2', versionsuffix),   
+    ('tifffile', '2019.7.26.2', versionsuffix),
 ]
 
 sanity_pip_check = True
