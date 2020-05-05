@@ -18,7 +18,8 @@ dependencies = [
     ('matplotlib', '3.1.1', versionsuffix),
     ('Pillow', '6.2.1'),
     ('PyYAML', '5.1.2'),
-    ('tqdm', '4.41.1')
+    ('tqdm', '4.41.1'),
+    ('tifffile', '2019.7.26.2', versionsuffix)
 ]
 
 sanity_pip_check = True
@@ -31,12 +32,6 @@ exts_default_options = {
 exts_list = [
     ('Keras', '2.2.5', {
         'checksums': ['0fb448b95643a708d25d2394183a2f3a84eefb55fb64917152a46826990113ea'],
-    }),
-    ('imagecodecs-lite', '2019.12.3', {
-        'checksums': ['95d18aa13ceb1b18a6109433b42d054e13b9a295cba96c08ab719f864f589d68'],
-    }),
-    ('tifffile', '2019.7.26.2', {
-        'checksums': ['2abb91c3a23a61593c5635ac1a19f67e732b46291c305fcee0eeaad41181a13f'],
     }),
     ('csbdeep', '0.4.1', {
         'checksums': ['ad2cf81389b8c15eb2f38a524dc011a5331dfb91e7d3053fed0c6c808a7bdf89'],
