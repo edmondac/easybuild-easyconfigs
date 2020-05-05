@@ -1,15 +1,14 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
 easyblock = 'Bundle'
 
-name = 'BEAR-R-Biology-2019b'
+name = 'BEAR-R-bio'
 version = '2019b'
 versionsuffix = '-R-%(rver)s'
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+homepage = ""
+description = """This module provides access to several R bio libraries."""
 
-homepage = "https://bear-apps.bham.ac.uk/applications/%s/%s-%s-%s" % (name, version, toolchain['name'],
-                                                                      toolchain['version'])
-description = """This is a meta module. Please see %s for more information.""" % homepage
+toolchain = {'name': 'foss', 'version': '2019b'}
 
 dependencies = [
     ('R', '3.6.2'),
@@ -24,11 +23,4 @@ dependencies = [
     ('AUCell', '1.8.0', versionsuffix),
 ]
 
-postinstallcmds = ['echo "%s" > %%(installdir)s/README' % description]
-
-sanity_check_paths = {
-    'files': ['README'],
-    'dirs': [],
-}
-
-moduleclass = 'tools'
+moduleclass = 'bio'
