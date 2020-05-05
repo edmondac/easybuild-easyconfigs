@@ -17,7 +17,8 @@ dependencies = [
     ('TensorFlow', '2.0.0', versionsuffix),
     ('matplotlib', '3.1.1', versionsuffix),
     ('Pillow', '6.2.1'),
-    ('PyYAML', '5.1.2')
+    ('PyYAML', '5.1.2'),
+    ('tqdm', '4.41.1')
 ]
 
 sanity_pip_check = True
@@ -28,9 +29,6 @@ exts_default_options = {
 }
 
 exts_list = [
-    ('pyaml', '20.4.0', {
-        'checksums': ['29a5c2a68660a799103d6949167bd6c7953d031449d08802386372de1db6ad71'],
-    }),
     ('Keras', '2.2.5', {
         'checksums': ['0fb448b95643a708d25d2394183a2f3a84eefb55fb64917152a46826990113ea'],
     }),
@@ -42,9 +40,6 @@ exts_list = [
     }),
     ('csbdeep', '0.4.1', {
         'checksums': ['ad2cf81389b8c15eb2f38a524dc011a5331dfb91e7d3053fed0c6c808a7bdf89'],
-    }),
-    ('tqdm', '4.46.0', {
-        'checksums': ['4733c4a10d0f2a4d098d801464bdaf5240c7dadd2a7fde4ee93b0a0efd9fb25e'],
     }),
     (name, version, {
         'source_tmpl': '%(name)s-%(version)s-py2.py3-none-any.whl',
