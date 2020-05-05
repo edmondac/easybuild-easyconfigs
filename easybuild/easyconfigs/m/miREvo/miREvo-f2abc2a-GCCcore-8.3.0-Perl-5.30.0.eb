@@ -1,0 +1,45 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'miREvo'
+version = 'f2abc2a'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = "https://github.com/akahanaton/miREvo"
+description = """An integrative microRNA evolutionary analysis platform for next-generation sequencing experiments.
+
+miREvo bundles several binaries within its installation. These are older versions of these Bioinformatics software."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://github.com/akahanaton/miREvo/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['22531ac72e9e6274e5e7ddb5d78769ec622d5dcf1513390f3f043d278eb31ec5']
+
+builddependencies = [('binutils', '2.32')]
+
+dependencies = [
+    ('Perl', '5.30.0'),
+    ('BioPerl', '1.7.2'),
+    ('BLAT', '3.5'),
+    ('ImageMagick', '7.0.9-5')
+]
+
+fix_perl_shebang_for = ['%(name)s/script/*.pl']
+
+# remove executable of GUI version (Perl/Tk)
+postinstallcmds = ["rm %(installdir)s/%(name)s/%(name)s_tk"]
+
+sanity_check_paths = {
+    'files': ['%(name)s/bowtie', '%(name)s/convert', '%(name)s/liftOver', '%(name)s/mafsInRegion', '%(name)s/miREvo',
+              '%(name)s/randfold', '%(name)s/RNAfold'],
+    'dirs': []
+}
+
+modextrapaths = {
+    'PATH': ['%(name)s'],
+    'PERL5LIB': ['lib/perl5/site_perl/%(perlver)s/', '%(name)s'],
+    'MIREVO': ['%(name)s']
+}
+
+moduleclass = 'bio'

@@ -1,0 +1,168 @@
+easyblock = 'PythonBundle'
+
+name = 'IPython'
+version = '5.10.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://ipython.org/index.html'
+description = """IPython provides a rich architecture for interactive computing with:
+ Powerful interactive shells (terminal and Qt-based).
+ A browser-based notebook with support for code, text, mathematical expressions, inline plots and other rich media.
+ Support for interactive data visualization and use of GUI toolkits.
+ Flexible, embeddable interpreters to load into your own projects.
+ Easy to use, high performance tools for parallel computing."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('ZeroMQ', '4.3.2'),
+    ('matplotlib', '2.2.5', versionsuffix),
+    ('PyYAML', '5.1.2'),  # required for jupyter_nbextensions_configurator
+]
+
+use_pip = True
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+exts_list = [
+    ('ipython_genutils', '0.2.0', {
+        'checksums': ['eb2e116e75ecef9d4d228fdc66af54269afa26ab4463042e33785b887c628ba8'],
+    }),
+    ('ipython', version, {
+        'modulename': 'IPython',
+        'checksums': ['d1f9e2d02bb0900ddef7b6af114aca3a5cf3dc43b9de1f19d37c4aedbc724fee'],
+    }),
+    ('pexpect', '4.8.0', {
+        'checksums': ['fc65a43959d153d0114afe13997d439c22823a27cefceb5ff35c2178c6784c0c'],
+    }),
+    ('pickleshare', '0.7.5', {
+        'checksums': ['87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca'],
+    }),
+    ('prompt_toolkit', '1.0.18', {
+        'checksums': ['dd4fca02c8069497ad931a2d09914c6b0d1b50151ce876bc15bde4c747090126'],
+    }),
+    ('ptyprocess', '0.6.0', {
+        'use_pip': False,
+        'checksums': ['923f299cc5ad920c68f2bc0bc98b75b9f838b93b599941a6b63ddbc2476394c0'],
+    }),
+    ('simplegeneric', '0.8.1', {
+        'source_tmpl': 'simplegeneric-%(version)s.zip',
+        'checksums': ['dc972e06094b9af5b855b3df4a646395e43d1c9d0d39ed345b7393560d0b9173'],
+    }),
+    ('traitlets', '4.3.3', {
+        'checksums': ['d023ee369ddd2763310e4c3eae1ff649689440d4ae59d7485eb4cfbbe3e359f7'],
+    }),
+    ('parso', '0.7.0', {
+        'checksums': ['908e9fae2144a076d72ae4e25539143d40b8e3eafbaeae03c1bfe226f4cdf12c'],
+    }),
+    ('jedi', '0.17.0', {
+        'checksums': ['df40c97641cb943661d2db4c33c2e1ff75d491189423249e989bcea4464f3030'],
+    }),
+    ('testpath', '0.4.4', {
+        'use_pip': False,
+        'checksums': ['60e0a3261c149755f4399a1fff7d37523179a70fdc3abdf78de9fc2604aeec7e'],
+    }),
+    ('defusedxml', '0.6.0', {
+        'checksums': ['f684034d135af4c6cbb949b8a4d2ed61634515257a67299e5f940fbaa34377f5'],
+    }),
+    ('nbconvert', '5.6.1', {
+        'checksums': ['21fb48e700b43e82ba0e3142421a659d7739b65568cc832a13976a77be16b523'],
+    }),
+    ('nbformat', '4.4.0', {
+        'checksums': ['f7494ef0df60766b7cabe0a3651556345a963b74dbc16bc7c18479041170d402'],
+    }),
+    ('ipywidgets', '7.5.1', {
+        'checksums': ['e945f6e02854a74994c596d9db83444a1850c01648f1574adf144fbbabe05c97'],
+    }),
+    ('Send2Trash', '1.5.0', {
+        'checksums': ['60001cc07d707fe247c94f74ca6ac0d3255aabcb930529690897ca2a39db28b2'],
+    }),
+    ('webencodings', '0.5.1', {
+        'checksums': ['b36a1c245f2d304965eb4e0a82848379241dc04b865afcc4aab16748587e1923'],
+    }),
+    ('html5lib', '1.0.1', {
+        'checksums': ['66cb0dcfdbbc4f9c3ba1a63fdb511ffdbd4f513b2b6d81b80cd26ce6b3fb3736'],
+    }),
+    ('bleach', '3.1.5', {
+        'checksums': ['3c4c520fdb9db59ef139915a5db79f8b51bc2a7257ea0389f30c846883430a4b'],
+    }),
+    ('pyrsistent', '0.16.0', {
+        'checksums': ['28669905fe725965daa16184933676547c5bb40a5153055a8dee2a4bd7933ad3'],
+    }),
+    ('functools32', '3.2.3-2', {
+        'checksums': ['f6253dfbe0538ad2e387bd8fdfd9293c925d63553f5813c4e587745416501e6d'],
+    }),
+    ('vcversioner', '2.16.0.0', {
+        'checksums': ['dae60c17a479781f44a4010701833f1829140b1eeccd258762a74974aa06e19b'],
+    }),
+    ('jsonschema', '3.2.0', {
+        'checksums': ['c8a85b28d377cc7737e46e2d9f2b4f44ee3c0e1deac6bf46ddefc7187d30797a'],
+    }),
+    ('pandocfilters', '1.4.2', {
+        'checksums': ['b3dd70e169bb5449e6bc6ff96aea89c5eea8c5f6ab5e207fc2f521a2cf4a0da9'],
+    }),
+    ('pyzmq', '19.0.0', {
+        'modulename': 'zmq',
+        'checksums': ['5e1f65e576ab07aed83f444e201d86deb01cd27dcf3f37c727bc8729246a60a8'],
+    }),
+    ('entrypoints', '0.3', {
+        'use_pip': False,
+        'checksums': ['c70dd71abe5a8c85e55e12c19bd91ccfeec11a6e99044204511f9ed547d48451'],
+    }),
+    ('jupyter_core', '4.6.3', {
+        'checksums': ['394fd5dd787e7c8861741880bdf8a00ce39f95de5d18e579c74b882522219e7e'],
+    }),
+    ('mistune', '0.8.4', {
+        'checksums': ['59a3429db53c50b5c6bcc8a07f8848cb00d7dc8bdb431a4ab41920d201d4756e'],
+    }),
+    ('terminado', '0.8.3', {
+        'use_pip': False,
+        'checksums': ['4804a774f802306a7d9af7322193c5390f1da0abb429e082a10ef1d46e6fb2c2'],
+    }),
+    ('futures', '3.3.0', {
+        'modulename': 'concurrent.futures',
+        'checksums': ['7e033af76a5e35f58e56da7a91e687706faf4e7bdfb2cbc3f2cca6b9bcda9794'],
+    }),
+    ('backports_abc', '0.5', {
+        'checksums': ['033be54514a03e255df75c5aee8f9e672f663f93abb723444caec8fe43437bde'],
+    }),
+    ('backports.shutil_get_terminal_size', '1.0.0', {
+        'checksums': ['713e7a8228ae80341c70586d1cc0a8caa5207346927e23d09dcbcaf18eadec80'],
+    }),
+    ('tornado', '5.1.1', {
+        'checksums': ['4e5158d97583502a7e2739951553cbd88a72076f152b4b11b64b9a10c4c49409'],
+    }),
+    ('jupyter_client', '5.3.4', {
+        'checksums': ['60e6faec1031d63df57f1cc671ed673dced0ed420f4377ea33db37b1c188b910'],
+    }),
+    ('backcall', '0.1.0', {
+        'checksums': ['38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4'],
+    }),
+    ('ipykernel', '4.10.1', {
+        'checksums': ['eeb74b2bcfe0ced5a7900361f98fa1171288aa47ed4b522efe5acb167c6cf5fb'],
+    }),
+    ('prometheus_client', '0.7.1', {
+        'checksums': ['71cd24a2b3eb335cb800c7159f423df1bd4dcd5171b234be15e3f31ec9f622da'],
+    }),
+    ('notebook', '5.7.8', {
+        'checksums': ['573e0ae650c5d76b18b6e564ba6d21bf321d00847de1d215b418acb64f056eb8'],
+    }),
+    ('widgetsnbextension', '3.5.1', {
+        'checksums': ['079f87d87270bce047512400efd70238820751a11d2d8cb137a5a5bdbaf255c7'],
+    }),
+]
+
+sanity_pip_check = True
+
+sanity_check_paths = {
+    'files': ['bin/ipython'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/IPython'],
+}
+
+sanity_check_commands = [
+    "ipython -h",
+    "jupyter notebook --help",
+    "iptest",
+]
+
+moduleclass = 'tools'
