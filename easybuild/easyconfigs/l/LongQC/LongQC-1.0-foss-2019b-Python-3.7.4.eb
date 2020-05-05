@@ -12,7 +12,11 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 
 source_urls = ['https://github.com/yfukasawa/LongQC/archive']
 sources = ['v%(version)s.tar.gz']
-checksums = ['abe1a9ecd587814e404e2d45e4ad3cdfec0999ba75a0d8df71a232107dbbec6e']
+patches = ['%(name)s-%(version)s_updated_code.patch']
+checksums = [
+    'abe1a9ecd587814e404e2d45e4ad3cdfec0999ba75a0d8df71a232107dbbec6e',  # v1.0.tar.gz
+    'cf56abfd0dcba2373896f8ec84c2d7897c12d16e0b422f8b72486866e91b5c16',  # LongQC-1.0_updated_code.patch
+]
 
 skipsteps = ['configure', 'install']
 

@@ -160,6 +160,12 @@ class EasyConfigTest(TestCase):
         # 'guilty' until proven 'innocent'
         res = False
 
+        # filter out libdrm, freetype, fontconfig, X11, Mesa if they have libpng in the versionsuffix (re ANSYSEM)
+        if dep in ['libdrm', 'freetype', 'fontconfig', 'X11', 'Mesa'] and len(dep_vars) > 1:
+            libpng1_2_58_vars = [v for v in dep_vars.keys() if v.endswith('versionsuffix: -libpng-1.2.58')]
+            if len(libpng1_2_58_vars) == 1:
+                dep_vars = dict((k, v) for (k, v) in dep_vars.items() if k != libpng1_2_58_vars[0])
+
         # filter out wrapped Java versions
         # i.e. if the version of one is a prefix of the version of the other one (e.g. 1.8 & 1.8.0_181)
         if dep == 'Java':
@@ -267,10 +273,14 @@ class EasyConfigTest(TestCase):
             'Boost': ('1.64.0;', ['Boost.Python-1.64.0-', 'EMAN2-2.3-']),
             'Boost.Python': ('1.64.0;', ['EMAN2-2.3-']),
             # scVelo's dependency numba requires LLVM 7x or 8x (see https://github.com/numba/llvmlite#compatibility)
-            'LLVM': (r'[78]\.', ['numba-0.47.0-', 'scVelo-0.1.24-']),
+            'LLVM': (r'[78]\.', ['numba-0.47.0-', 'scVelo-']),
             # Deepbinner requires TensorFlow 1.15.0
             'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-']),
             'Keras': ('2.3.1', ['Deepbinner-c261ae9-']),
+            # ANSYSEM requires libpng 1.2.58
+            'libpng': ('1.2.58', ['ANSYSEM-2020R1-', 'X11-20190717-', 'libdrm-2.4.99-', 'fontconfig-2.13.1-', 'Mesa-19.2.1-', 'freetype-2.10.1-']),
+            # ANSYSEM requires dri version of Mesa
+            'Mesa': (r'19\.2\.1.+-dri', ['ANSYSEM-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
