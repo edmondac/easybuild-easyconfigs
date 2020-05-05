@@ -14,7 +14,7 @@ unpack_sources = False
 
 dependencies = [
     ('Python', '3.7.4'),
-    ('TensorFlow', '2.0.0', versionsuffix), # may need to change to '1.15.0'
+    ('TensorFlow', '2.0.0', versionsuffix),
     ('matplotlib', '3.1.1', versionsuffix),
 ]
 
