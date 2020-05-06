@@ -53,7 +53,7 @@ configopts += '-DITK_USE_SYSTEM_SWIG=ON -DITK_USE_SYSTEM_EIGEN=ON -DITK_USE_SYST
 configopts += '-DITK_USE_SYSTEM_JPEG=ON -DJPEG_INCLUDE_DIR=$EBROOTLIBJPEGMINTURBO/include '
 
 import os as local_os  # NOQA
-local_osbase = local_os.environ.get('BB_OSBASE')
+local_osbase = local_os.environ.get('BB_OSBASE', 'Dummy')
 if local_osbase.startswith('Ubuntu'):
     configopts += '-DJPEG_LIBRARY=$EBROOTLIBJPEGMINTURBO/lib/libjpeg.%s ' % SHLIB_EXT
 else:
