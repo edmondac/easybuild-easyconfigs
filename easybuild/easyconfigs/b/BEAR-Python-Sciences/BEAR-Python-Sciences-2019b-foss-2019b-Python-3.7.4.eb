@@ -1,0 +1,33 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'BEAR-Python-Sciences'
+version = '2019b'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = ""
+description = """This module provides access to several Python Science libraries."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('yaff', '1.6.0', versionsuffix),
+    ('PLUMED', '2.5.3', versionsuffix),
+    ('pept', '0.1.6', versionsuffix),
+    ('OpenMC', '0.11.0', versionsuffix),
+    ('molmod', '1.4.5', versionsuffix),
+    ('mosfit', '1.1.6', versionsuffix),
+    ('LAMMPS', '3Mar2020', '%s-kokkos' % versionsuffix),
+    ('GDAL', '3.0.2', versionsuffix),
+    ('GEOS', '3.8.0', versionsuffix),
+    ('astropy', '4.0', versionsuffix),
+    ('CGAL', '4.14.1', versionsuffix),
+    ('CNVnator', '0.4.1', versionsuffix),
+    ('Deepbinner', 'c261ae9', versionsuffix),
+    ('HDDM', '0.7.6', versionsuffix),
+    ('MedPy', '0.4.0', versionsuffix),
+    ('NiBabel', '3.1.0', versionsuffix),
+]
+
+moduleclass = 'tools'
