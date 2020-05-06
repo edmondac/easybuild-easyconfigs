@@ -1,0 +1,48 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'xgboost'
+version = '1.0.0.2'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=xgboost"
+description = """Extreme Gradient Boosting, which is an efficient implementation of the gradient boosting framework
+ from Chen & Guestrin (2016) <doi:10.1145/2939672.2939785>. This package is its R interface. The package includes
+ efficient linear model solver and tree learning algorithms. The package can automatically do parallel computation on
+ a single machine which could be more than 10 times faster than existing gradient boosting packages. It supports
+ various objective functions, including regression, classification and ranking. The package is made to be extensible,
+ so that users are also allowed to define their own objectives easily."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['ed4f234d23a4ea7e7a2fff279d6cac9430e7e88dc1ca3d015dc3bbc242e1a2d1'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['xgboost/R/xgboost'],
+    'dirs': [],
+}
+
+moduleclass = 'data'
