@@ -276,7 +276,7 @@ class EasyConfigTest(TestCase):
             'LLVM': (r'[78]\.', ['numba-0.47.0-', 'scVelo-']),
             # Deepbinner requires TensorFlow 1.15.0
             'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-']),
-            'Keras': ('2.3.1', ['Deepbinner-c261ae9-']),
+            'Keras': ('2.3.1', ['Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-']),
             # ANSYSEM requires libpng 1.2.58
             'libpng': ('1.2.58', ['ANSYSEM-2020R1-', 'X11-20190717-', 'libdrm-2.4.99-', 'fontconfig-2.13.1-', 'Mesa-19.2.1-', 'freetype-2.10.1-']),
             # ANSYSEM requires dri version of Mesa
