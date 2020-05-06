@@ -1,0 +1,35 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'PPN2V'
+version = '4e822aa'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://juglab.github.io/PPN2V/"
+description = """Fully Unsupervised Probabilistic Noise2Void"""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+source_urls = ['https://github.com/juglab/PPN2V/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['c2bd8df750c01781eac50fb1dc5f334329f0ce2d0c1e97559b8ffa8073014795']
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('PyTorch', '1.4.0', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('tifffile', '2019.7.26.2', versionsuffix),
+]
+
+sanity_check_paths = {
+    'files': ['pn2v/%s' % x for x in ['gaussianMixtureNoiseModel.py', 'histNoiseModel.py', 'prediction.py',
+                                      'training.py', 'utils.py']],
+    'dirs': ['unet', 'examples'],
+}
+
+modextrapaths = {
+    'PPN2V': [''],
+}
+
+moduleclass = 'data'
