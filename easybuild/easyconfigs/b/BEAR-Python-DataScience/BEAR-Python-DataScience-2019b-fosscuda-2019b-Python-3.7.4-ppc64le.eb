@@ -4,6 +4,8 @@ easyblock = 'Bundle'
 name = 'BEAR-Python-DataScience'
 version = '2019b'
 _pyversuf = '-Python-%(pyver)s'
+# We do not match installs on POWER9 and x86_64 systems, so we'll have a separate module here
+# which allows the available items to differ between the systems.
 versionsuffix = '%s-ppc64le' % _pyversuf
 
 homepage = ""
