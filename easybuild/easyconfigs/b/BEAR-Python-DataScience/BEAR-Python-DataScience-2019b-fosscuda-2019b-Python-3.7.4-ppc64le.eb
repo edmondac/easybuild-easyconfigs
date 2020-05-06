@@ -1,0 +1,43 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'BEAR-Python-DataScience'
+version = '2019b'
+_pyversuf = '-Python-%(pyver)s'
+# We do not match installs on POWER9 and x86_64 systems, so we'll have a separate module here
+# which allows the available items to differ between the systems.
+versionsuffix = '%s-ppc64le' % _pyversuf
+
+homepage = ""
+description = """This module provides access to several Python Data Science libraries."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('TensorFlow', '2.0.0', _pyversuf),
+    ('PyTorch', '1.4.0', _pyversuf),
+    ('bokeh', '1.4.0', _pyversuf),
+    ('dask', '2.8.0', _pyversuf),
+    ('matplotlib', '3.1.1', _pyversuf),
+    ('TinyDB', '3.15.2'),
+    ('lxml', '4.4.2'),
+    ('torchvision', '0.5.0', '%s-PyTorch-1.4.0' % _pyversuf),
+    ('Theano', '1.0.4', _pyversuf),
+    ('tensorflow_probability', '0.8.0', _pyversuf),
+    ('SoftRas', 'f644279', '%s-PyTorch-1.4.0' % _pyversuf),
+    ('PyTorch3D', '0.1.1', '%s-PyTorch-1.4.0' % _pyversuf),
+    ('neural_renderer_pytorch', '1.1.3', '%s-PyTorch-1.4.0' % _pyversuf),
+    ('Keras', '2.3.1', _pyversuf),
+    ('scikit-image', '0.16.2', _pyversuf),
+    ('hdf5storage', '0.1.15', _pyversuf),
+    ('detectron2', '0.1.1', _pyversuf),
+    ('libgpuarray', '0.7.6', _pyversuf),
+    ('imageio-ffmpeg', '0.3.0', _pyversuf),
+    ('imageio', '2.6.1', _pyversuf),
+    ('hypothesis', '4.44.2', _pyversuf),
+    ('Mako', '1.1.0'),
+    ('Globus-CLI', '1.11.0', _pyversuf),
+]
+
+moduleclass = 'tools'
