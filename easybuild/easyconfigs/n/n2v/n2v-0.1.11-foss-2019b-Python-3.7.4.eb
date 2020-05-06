@@ -1,0 +1,45 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'n2v'
+version = '0.1.11'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/juglab/n2v"
+description = """Noise2Void - Learning Denoising from Single Noisy Images."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+unpack_sources = False
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('TensorFlow', '2.0.0', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('Pillow', '6.2.1'),
+    ('PyYAML', '5.1.2'),
+    ('tqdm', '4.41.1'),
+    ('tifffile', '2019.7.26.2', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('Keras', '2.2.5', {
+        'checksums': ['0fb448b95643a708d25d2394183a2f3a84eefb55fb64917152a46826990113ea'],
+    }),
+    ('csbdeep', '0.4.1', {
+        'checksums': ['ad2cf81389b8c15eb2f38a524dc011a5331dfb91e7d3053fed0c6c808a7bdf89'],
+    }),
+    (name, version, {
+        'source_tmpl': '%(name)s-%(version)s-py2.py3-none-any.whl',
+        'checksums': ['70b2462c4e665333bc5dfef5d89771e883fd534b570bc4282934a90a490b6642'],
+    }),
+]
+
+moduleclass = 'data'
