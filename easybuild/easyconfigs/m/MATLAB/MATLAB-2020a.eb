@@ -25,5 +25,9 @@ license_server_port = '1234'
 
 # For installation on BlueBEAR set the EB_MATLAB_KEY env var with a comma-separated list of installation keys,
 # e.g. MATLAB key, Parallel Server key etc.
+# To get the activation key, log in to MathWorks account, click on My Account then (under My Software) select the
+# product (e.g. "Concurrent") then click on "Install and Activate" tab then click the "Advanced Options" button
+# and finally copy the "File Installation Key" for the appropriate version.
+# (N.B. must be a MathWorks licence administrator to see the "Concurrent" option above.)
 
 moduleclass = 'math'
