@@ -274,9 +274,9 @@ class EasyConfigTest(TestCase):
             'Boost.Python': ('1.64.0;', ['EMAN2-2.3-']),
             # scVelo's dependency numba requires LLVM 7x or 8x (see https://github.com/numba/llvmlite#compatibility)
             'LLVM': (r'[78]\.', ['numba-0.47.0-', 'scVelo-']),
-            # Deepbinner requires TensorFlow 1.15.0
-            'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-']),
-            'Keras': ('2.3.1', ['Deepbinner-c261ae9-']),
+            # Deepbinner and n2v require TensorFlow 1.15.0
+            'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-', 'n2v-0.1.11-']),
+            'Keras': ('2.3.1', ['Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-']),
             # ANSYSEM requires libpng 1.2.58
             'libpng': ('1.2.58', ['ANSYSEM-2020R1-', 'X11-20190717-', 'libdrm-2.4.99-', 'fontconfig-2.13.1-', 'Mesa-19.2.1-', 'freetype-2.10.1-']),
             # ANSYSEM requires dri version of Mesa
@@ -630,7 +630,8 @@ class EasyConfigTest(TestCase):
         # BuildEnv, ModuleRC and Toolchain easyblocks doesn't install anything so there is nothing to check.
         whitelist = ['CrayToolchain', 'ModuleRC', 'PythonBundle', 'PythonPackage', 'Toolchain', 'BuildEnv']
         # GCC is just a bundle of GCCcore+binutils
-        bundles_whitelist = ['GCC']
+        # The BEAR-* modules are just meta modules to simplify module loading in the BlueBEAR Portal
+        bundles_whitelist = ['GCC', 'BEAR-R-bio', 'BEAR-R-geo', 'BEAR-Python-DataScience', 'BEAR-Python-Sciences']
 
         failing_checks = []
 
