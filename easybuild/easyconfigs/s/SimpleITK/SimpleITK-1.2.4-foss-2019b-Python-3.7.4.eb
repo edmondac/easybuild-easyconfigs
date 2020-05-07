@@ -17,6 +17,7 @@ checksums = ['1d67ed4324fee0d7341a027de865bf915a34dfa82e2863d89037e2f2865f7559']
 builddependencies = [
     ('CMake', '3.15.3'),
     ('SWIG', '4.0.1'),
+    ('Lua', '5.1.5'),
 ]
 
 dependencies = [
