@@ -42,6 +42,7 @@ dependencies = [
     ('X11', '20190717'),
     ('libjpeg-turbo', '2.0.3'),
     ('LibTIFF', '4.0.10'),
+    ('Lua', '5.3.5'),
 ]
 
 separate_build_dir = True
