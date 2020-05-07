@@ -14,7 +14,7 @@ unpack_sources = False
 
 dependencies = [
     ('Python', '3.7.4'),
-    ('TensorFlow', '2.0.0', versionsuffix),
+    ('TensorFlow', '1.15.0', versionsuffix),
     ('matplotlib', '3.1.1', versionsuffix),
     ('Pillow', '6.2.1'),
     ('PyYAML', '5.1.2'),
@@ -30,6 +30,8 @@ exts_default_options = {
 }
 
 exts_list = [
+    ('TensorFlow', '1.15.0', {
+    }),
     ('Keras', '2.2.5', {
         'checksums': ['0fb448b95643a708d25d2394183a2f3a84eefb55fb64917152a46826990113ea'],
     }),
