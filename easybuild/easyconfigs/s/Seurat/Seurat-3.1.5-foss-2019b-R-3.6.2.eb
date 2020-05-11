@@ -1,0 +1,74 @@
+easyblock = 'Bundle'
+
+name = 'Seurat'
+version = '3.1.5'
+versionsuffix = '-R-%(rver)s'
+
+homepage = 'http://satijalab.org/seurat'
+description = "Seurat is an R package designed for QC, analysis, and exploration of single cell RNA-seq data."
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [('R', '3.6.2')]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+exts_list = [
+    ('future', '1.17.0', {
+        'checksums': ['2fa3b88439eaa33901669295186d04eb54f033257015683cf8a2e3c7f83b9e34'],
+    }),
+    ('future.apply', '1.5.0', {
+        'checksums': ['9476521aef6d0f47a70f79e4472d7f0e657594e74dd151f6b98baf670332aa24'],
+    }),
+    ('leiden', '0.3.3', {
+        'checksums': ['c2b5e1c061c8bbea494639a0d7f0fa22f5b41ff5fd911409e5f832f3575d06c2'],
+    }),
+    ('patchwork', '1.0.0', {
+        'checksums': ['8bfb59b91775781848f39eedcaaaf92c147e2637f384085fcdd41fc8355b3c63'],
+    }),
+    ('RcppAnnoy', '0.0.16', {
+        'checksums': ['d98d5f239039a0f82c19b44abf37c26388bc40e96d573f2058846d736919ca2d'],
+    }),
+    ('rsvd', '1.0.3', {
+        'checksums': ['13560e0fc3ae6927c4cc4d5ad816b1f640a2a445b712a5a612ab17ea0ce179bb'],
+    }),
+    ('sctransform', '0.2.1', {
+        'checksums': ['d6430a81a66c93da770b1a7c55344df42187321038b4eee80b7066cdd8a7631f'],
+    }),
+    ('RSpectra', '0.16-0', {
+        'checksums': ['aaf1cfc9ffe3a4c6684247899924e1c18306971dfef4bae1dc596a2fb42a64a9'],
+    }),
+    ('RcppParallel', '5.0.1', {
+        'checksums': ['6d3a4ef1ae93ac057d8f4f9378f9ed078616310fb0f3af5aabf8bd1eadf43e09'],
+    }),
+    ('sitmo', '2.0.1', {
+        'checksums': ['0c90d357af334d5c99c8956739dc12623ddd87dda5efa59f4a43f7393c87ed2a'],
+    }),
+    ('dqrng', '0.2.1', {
+        'checksums': ['e149c105b1db31e7f46b1aebf31d911a109e380923f3696fc56a53197fc1e866'],
+    }),
+    ('uwot', '0.1.8', {
+        'checksums': ['ede6e061b43f9e1337c0132a5334082f4565ec1623bbb0eee1f738034346f0cb'],
+    }),
+    (name, version, {
+        'checksums': ['757ef0e7697734aac5769705bef80dc7b95f006cdf52ae7034309a05f11578d1'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': [name],
+}
+
+moduleclass = 'bio'
