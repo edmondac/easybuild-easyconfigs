@@ -1,0 +1,35 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'cdsapi'
+version = '0.2.7'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://pypi.org/project/cdsapi/"
+description = """Climate Data Store API"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('tqdm', '4.41.1')
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['3697d1a473c9d78540d25b4b905a4103a109d54595a0cdb0c35308166cc12d20']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+modextrapaths = {
+    'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/%(namelower)s'],
+}
+
+moduleclass = 'tools'
