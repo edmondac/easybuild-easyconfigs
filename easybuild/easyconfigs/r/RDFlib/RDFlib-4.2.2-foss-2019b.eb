@@ -1,7 +1,7 @@
 easyblock = 'PythonBundle'
 
 name = 'RDFlib'
-version = '5.0.0'
+version = '4.2.2'
 
 homepage = 'https://github.com/RDFLib/rdflib'
 description = """RDFLib is a Python library for working with RDF, a simple yet powerful language
