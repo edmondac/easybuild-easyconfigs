@@ -18,7 +18,7 @@ dependencies = [
     ('scikit-image', '0.16.2', local_pysuff),
     ('numba', '0.47.0', local_pysuff),
     ('h5py', '2.10.0', local_pysuff),
-    ('RDFlib', '5.0.0'),
+    ('RDFlib', '4.2.2'),
 ]
 
 exts_default_options = {'source_urls': [PYPI_SOURCE]}
