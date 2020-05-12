@@ -17,7 +17,7 @@ toolchainopts = {'pic': True}
 dependencies = [
     ('Python', '3.7.4'),
     ('SciPy-bundle', '2019.10', versionsuffix),
-    ('LLVM', '9.0.0'),
+    ('LLVM', '8.0.1'),
 ]
 
 use_pip = True
