@@ -18,7 +18,7 @@ checksums = ['f5f7ce37baee40b851ea867c2b835e6eae324ef90bdeb23fb931fde3272769a0']
 dependencies = [
     ('Python', '3.7.4'),
     ('h5py', '2.10.0', versionsuffix),
-    ('rpy2', '3.3.2', versionsuffix),
+    ('rpy2', '3.2.6', versionsuffix),
     ('mappy', '2.17', versionsuffix),
     ('tqdm', '4.41.1'),
 ]
@@ -29,7 +29,7 @@ use_pip = True
 
 sanity_check_paths = {
     'files': ['bin/tombo'],
-    'dirs': ['lib/python%(pyshortver)s/site-packages/ont_%(name)s-%(version)s-py%(pyshortver)s-linux-x86_64.egg'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/ont_%(name)s-%(version)s.dist-info'],
 }
 
 moduleclass = 'bio'
