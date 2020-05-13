@@ -1,0 +1,46 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'singlecellmethods'
+version = '6f3a00d'
+versionsuffix = '-R-%(rver)s'
+
+homepage = 'https://github.com/immunogenomics/singlecellmethods/'
+description = """Collection of useful methods for single cell analysis."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('leidenalg', '0.8.0', '-Python-3.7.4')
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/immunogenomics/%(name)s/archive'],
+        'checksums': ['2298d2a4c5abbebbb970ba732500310e4474d27b6d33634af8afa902f582d3ae'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['singlecellmethods/R/singlecellmethods'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'

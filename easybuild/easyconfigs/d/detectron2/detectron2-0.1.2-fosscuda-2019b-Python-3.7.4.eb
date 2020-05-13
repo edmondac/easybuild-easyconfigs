@@ -1,0 +1,64 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'detectron2'
+version = '0.1.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://detectron2.readthedocs.io"
+description = """Detectron2 is Facebook AI Research's next generation software system that implements state-of-the-art
+ object detection algorithms."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('PyTorch', '1.4.0', versionsuffix),
+    ('TensorFlow', '2.0.0', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('torchvision', '0.5.0', '%s-PyTorch-1.4.0' % versionsuffix),
+    ('tqdm', '4.41.1'),
+    ('OpenCV', '4.2.0', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('portalocker', '1.7.0', {
+        'checksums': ['091364838ed6fbb68ea291c28982d1e56125c0d9e3fad5a4ac001db54dd862dc'],
+    }),
+    ('termcolor', '1.1.0', {
+        'checksums': ['1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b'],
+    }),
+    ('yacs', '0.1.7', {
+        'checksums': ['4e47a59c9852b5d9cdc3777587864e9771060340d8f1b92b2c68f45244550c02'],
+    }),
+    ('cloudpickle', '1.4.1', {
+        'checksums': ['0b6258a20a143603d53b037a20983016d4e978f554ec4f36b3d0895b947099ae'],
+    }),
+    ('pydot', '1.4.1', {
+        'checksums': ['d49c9d4dd1913beec2a997f831543c8cbd53e535b1a739e921642fe416235f01'],
+    }),
+    ('fvcore', '0.1.dev200506', {
+        'checksums': ['00992f86908662d82f7a297f834fcf411d708b20ce44247d8d9533d77dfa9848'],
+    }),
+    ('pycocotools', '8c9bcc3', {
+        'source_tmpl': '8c9bcc3cf640524c4c20a9c40e89cb6a2f2fa0e9.zip',
+        'source_urls': ['https://github.com/cocodataset/cocoapi/archive'],
+        'start_dir': 'PythonAPI',
+        'use_pip': False,
+        'checksums': ['db8b8e4d81d7a17566b0d64c7804469eeb6869b92e7c9006401ac85d8041346a'],
+    }),
+    (name, version, {
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/facebookresearch/%(name)s/archive'],
+        'checksums': ['1b3f4b621cb9615f928de0a5ce79a92cb5e920c3bd076689889ddf48d990503c'],
+    }),
+]
+
+moduleclass = 'data'

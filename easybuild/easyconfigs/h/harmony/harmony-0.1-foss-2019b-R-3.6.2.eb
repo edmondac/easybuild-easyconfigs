@@ -1,0 +1,46 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'harmony'
+version = '0.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://portals.broadinstitute.org/harmony/"
+description = """Harmony is a general-purpose R package with an efficient algorithm for integrating multiple data sets.
+ It is especially useful for large single-cell datasets such as single-cell RNA-seq."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/immunogenomics/harmony/archive'],
+        'checksums': ['1243bec2c9cd96d32ee48cafc74795bf18c3b50789e388ef8d80e4440940ae2b'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['harmony/R/harmony'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
