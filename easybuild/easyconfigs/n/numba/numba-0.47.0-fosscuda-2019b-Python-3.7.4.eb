@@ -42,6 +42,14 @@ exts_list = [
 
 fix_python_shebang_for = ['bin/*']
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m']).strip()
+if _arch == 'ppc64le':
+    # ppc64le has a wrapper libpthread.so that means you can accidentally lose parts of the library
+    # see http://ryanarn.blogspot.com/2011/07/curious-case-of-pthreadatfork-on.html
+    # This line forces the linker to keep pthread_atfork and pthread_create in the binary
+    prebuildopts += ' CFLAGS="$CFLAGS -lpthread -Wl,-u,pthread_atfork -Wl,-u,pthread_create"'
+
 sanity_check_paths = {
     'files': ['bin/numba', 'bin/pycc'],
     'dirs': ['lib/python%(pyshortver)s/site-packages'],
