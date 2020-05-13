@@ -18,6 +18,10 @@ source_urls = [PYPI_SOURCE]
 sources = [SOURCE_TAR_GZ]
 checksums = ['ed1460efc9c6785df28065b7e93e93c92227f623a181f1a852dca6e6acb1a15f']
 
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
 import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m']).strip()
 if _arch == 'ppc64le':

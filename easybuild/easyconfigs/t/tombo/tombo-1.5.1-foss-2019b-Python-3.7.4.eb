@@ -23,6 +23,10 @@ dependencies = [
     ('tqdm', '4.41.1'),
 ]
 
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
 sanity_check_paths = {
     'files': ['bin/tombo'],
     'dirs': ['lib/python%(pyshortver)s/site-packages/ont_%(name)s-%(version)s-py%(pyshortver)s-linux-x86_64.egg'],

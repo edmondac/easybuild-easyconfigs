@@ -21,6 +21,10 @@ dependencies = [
     ('R', '3.6.2'),
 ]
 
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
 sanity_check_paths = {
     'files': [],
     'dirs': ['lib/python%(pyshortver)s/site-packages'],
