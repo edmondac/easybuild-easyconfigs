@@ -1,0 +1,39 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'mappy'
+version = '2.17'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/lh3/minimap2"
+description = """A versatile pairwise aligner for genomic and spliced nucleotide sequences"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['ed1460efc9c6785df28065b7e93e93c92227f623a181f1a852dca6e6acb1a15f']
+
+import subprocess  # NOQA
+arch = subprocess.check_output(['uname', '-m']).strip()
+if arch == 'ppc64le':
+    patches = ['%(name)s-%(version)s-ppc64le.patch']
+    dependencies.append(('veclib', '77ad285'))
+    checksums.append('5c180debb430ab4542afa604f33f9dcb7145aaa9ccfdcdb88e33987fe2ca08ca')  # mappy-2.17-ppc64le.patch
+
+modextrapaths = {
+    'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': [
+        'lib/python%%(pyshortver)s/site-packages/%%(namelower)s-%%(version)s-py%%(pyshortver)s-linux-%s.egg' % arch
+    ],
+}
+
+moduleclass = 'bio'
