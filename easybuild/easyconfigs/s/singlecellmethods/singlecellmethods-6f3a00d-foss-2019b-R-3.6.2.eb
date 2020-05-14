@@ -10,11 +10,14 @@ description = """Collection of useful methods for single cell analysis."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
+builddependencies = [
+    ('Autoconf', '2.69'),
+    ('Automake', '1.16.1')
+]
+
 dependencies = [
     ('R', '3.6.2'),
     ('leidenalg', '0.8.0', '-Python-3.7.4'),
-    ('Autoconf', '2.69'),  # needed for Ubuntu VMs
-    ('Automake', '1.16.1')  # needed for Ubuntu VMs
 ]
 
 exts_defaultclass = 'RPackage'
