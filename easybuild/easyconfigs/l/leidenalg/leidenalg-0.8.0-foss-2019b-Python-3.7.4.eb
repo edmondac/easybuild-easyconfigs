@@ -11,14 +11,9 @@ description = """Implementation of the Leiden algorithm for various quality func
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
-builddependencies = [
-    ('Autoconf', '2.69'),
-    ('Automake', '1.16.1')
-]
-
 dependencies = [
     ('Python', '3.7.4'),
-    ('cairo', '1.16.0')
+    ('python-igraph', '0.8.0'),
 ]
 
 sanity_pip_check = True
@@ -29,19 +24,9 @@ exts_default_options = {
 }
 
 exts_list = [
-    ('pycairo', '1.19.1', {
-        'modulename': 'cairo',
-        'checksums': ['2c143183280feb67f5beb4e543fd49990c28e7df427301ede04fc550d3562e84'],
-    }),
-    ('texttable', '1.6.2', {
-        'checksums': ['eff3703781fbc7750125f50e10f001195174f13825a92a45e9403037d539b4f4'],
-    }),
-    ('python-igraph', '0.8.2', {
-        'modulename': 'igraph',
-        'checksums': ['4601638d7d22eae7608cdf793efac75e6c039770ec4bd2cecf76378c84ce7d72'],
-    }),
     (name, version, {
         'checksums': ['ebab74ce92615b614bef9ec36a7318c45db928bd795ed262c4a10f4d009196ef'],
+        'installopts': '--install-option="--use-pkg-config"',  # use pkg-config to detect existing igraph
     }),
 ]
 
