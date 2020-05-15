@@ -24,11 +24,9 @@ exts_default_options = {
 }
 
 exts_list = [
-    #('texttable', '1.6.2', {
-    #    'checksums': ['eff3703781fbc7750125f50e10f001195174f13825a92a45e9403037d539b4f4'],
-    #}),
     (name, version, {
         'checksums': ['ebab74ce92615b614bef9ec36a7318c45db928bd795ed262c4a10f4d009196ef'],
+        'installopts': '--install-option="--use-pkg-config"',  # use pkg-config to detect existing igraph
     }),
 ]
 
