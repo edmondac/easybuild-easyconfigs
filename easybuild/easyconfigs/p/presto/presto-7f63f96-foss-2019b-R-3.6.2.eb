@@ -1,0 +1,47 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'presto'
+version = '7f63f96'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://github.com/immunogenomics/presto"
+description = """Presto performs a fast Wilcoxon rank sum test and auROC analysis. Latest benchmark ran 1 million
+ observations, 1K features, and 10 groups in 16 seconds (sparse input) and 85 seconds (dense input)."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('R-bundle-Bioconductor', '3.10', versionsuffix)
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/immunogenomics/presto/archive'],
+        'checksums': ['6f8f951dd704712e2bb281ab03a7af53f899879be75a7053ea31f69644aa32c2'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['presto/R/presto'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
