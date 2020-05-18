@@ -65,6 +65,7 @@ components = [
     ('SIP', local_sipver, {
         'source_urls': ['https://www.riverbankcomputing.com/static/Downloads/sip/%s' % local_sipver],
         'sources': [SOURCELOWER_TAR_GZ],
+        'checksums': ['e1b768824ec1a2ee38dd536b6b6b3d06de27b00a2f5f55470d1b512306e3be45'],
         'start_dir': 'sip-%s' % local_sipver,
         'configopts': local_sip_configopts,
         'options': {'modulename': 'PyQt5.sip'},
@@ -72,6 +73,7 @@ components = [
     (name, version, {
         'source_urls': ['https://www.riverbankcomputing.com/static/Downloads/%(name)s/%(version)s/'],
         'sources': ['%(name)s_gpl-%(version)s.tar.gz'],
+        'checksums': ['54b7f456341b89eeb3930e786837762ea67f235e886512496c4152ebe106d4af'],
         'start_dir': '%(name)s_gpl-%(version)s',
         'preconfigopts': local_setup_env,
         'configopts': local_pyqt5_configopts,
@@ -81,6 +83,7 @@ components = [
     ('PyQtWebEngine', version, {
         'source_urls': ['https://www.riverbankcomputing.com/static/Downloads/%(name)s/%(version)s/'],
         'sources': ['%(name)s_gpl-%(version)s.tar.gz'],
+        'checksums': ['8d8c1262005d8465653a848bf67327fb338e0d3c2d26090a6f7eb071dbb42092'],
         'start_dir': '%(name)s_gpl-%(version)s',
         'preconfigopts': local_setup_env,
         'configopts': local_pyqtweb_configopts,
