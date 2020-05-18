@@ -1,0 +1,51 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'MNE-Python'
+version = '0.20.4'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://martinos.org/mne/stable/index.html"
+description = """Open-source Python software for exploring, visualizing, and analyzing human neurophysiological
+ data: MEG, EEG, sEEG, ECoG, and more."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('h5py', '2.10.0', versionsuffix),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('NiBabel', '3.1.0', versionsuffix),
+    ('statsmodels', '0.11.0', versionsuffix),
+    ('imageio', '2.6.1', versionsuffix),
+    ('imageio-ffmpeg', '0.3.0', versionsuffix),
+]
+
+use_pip = True
+sanity_pip_check = True
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+exts_list = [
+    #('dipy', '1.0.0', {
+    #}),
+    #('appdirs', '1.4.3', {
+    #}),
+    #('scooby', '0.4.3', {
+    #}),
+    #('pyvista', '0.22.4', {
+    #}),
+    (name, version, {
+        'modulename': 'mne',
+        'source_tmpl': 'mne-%(version)s.tar.gz',
+    }),
+]
+
+sanity_check_commands = [
+    'mne compute_proj_eog -h',
+    #'mayavi2 --help',
+    'python -c "import mne; mne.sys_info();"'
+]
+
+moduleclass = 'bio'
