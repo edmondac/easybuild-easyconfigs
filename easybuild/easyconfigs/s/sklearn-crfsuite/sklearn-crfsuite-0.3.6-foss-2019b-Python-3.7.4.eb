@@ -1,0 +1,34 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'sklearn-crfsuite'
+version = '0.3.6'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/TeamHG-Memex/sklearn-crfsuite"
+description = """scikit-learn inspired API for CRFsuite """
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('tqdm', '4.41.1'),
+]
+
+use_pip = True
+sanity_pip_check = True
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+exts_list = [
+    ('python-crfsuite', '0.9.6', {
+        'modulename': 'pycrfsuite',
+        'checksums': ['a56d2b38e257614b1006c04fb9b0e22c63a177add487e5a64e8eb61f038342cd'],
+    }),
+    (name, version, {
+        'checksums': ['2f59aad3055e01a778a79a6352891cac04788e8b52688aa5bc8b11be7717861e'],
+    }),
+]
+
+moduleclass = 'data'
