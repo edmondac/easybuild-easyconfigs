@@ -36,6 +36,8 @@ exts_list = [
         ],
     }),
     (name, version, {
+        # This line forces the linker to keep pthread_atfork and pthread_create in the binary
+        'preinstallopts': 'CFLAGS="$CFLAGS -lpthread -Wl,-u,pthread_atfork -Wl,-u,pthread_create"',
         'checksums': ['c0703df0a0ea2e29fbef7937d9849cc4734253066cb5820c5d6e0851876e3b0a'],
     }),
 ]

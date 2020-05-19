@@ -1,0 +1,50 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'PyTorch3D'
+version = '0.2.0'
+_pyversuffix = '-Python-%(pyver)s'
+versionsuffix = '%s-PyTorch-1.4.0' % _pyversuffix
+
+homepage = "https://pytorch3d.org/"
+description = """PyTorch3D is FAIR's library of reusable components for deep learning with 3D data."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('tqdm', '4.41.1'),
+    ('PyTorch', '1.4.0', _pyversuffix),
+    ('imageio', '2.6.1', _pyversuffix),
+    ('IPython', '7.9.0', _pyversuffix),
+    ('torchvision', '0.5.0', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('portalocker', '1.7.0', {
+        'checksums': ['091364838ed6fbb68ea291c28982d1e56125c0d9e3fad5a4ac001db54dd862dc'],
+    }),
+    ('termcolor', '1.1.0', {
+        'checksums': ['1d6d69ce66211143803fbc56652b41d73b4a400a2891d7bf7a1cdf4c02de613b'],
+    }),
+    ('yacs', '0.1.7', {
+        'checksums': ['4e47a59c9852b5d9cdc3777587864e9771060340d8f1b92b2c68f45244550c02'],
+    }),
+    ('fvcore', '0.1.1.post200513', {
+        'checksums': ['fa9cb6daa6912d05bc03ccb1e15adf5c1bde5c308c34379102515e36f6379b30'],
+    }),
+    (name, version, {
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/facebookresearch/%(namelower)s/archive'],
+        'checksums': ['960b3c311895a7bd4c4c73390ad5f5a2d6957206f44588947c12fcfefb76e0fb'],
+    }),
+]
+
+moduleclass = 'tools'

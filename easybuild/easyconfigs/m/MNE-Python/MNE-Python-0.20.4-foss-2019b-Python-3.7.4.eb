@@ -1,0 +1,60 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'MNE-Python'
+version = '0.20.4'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://martinos.org/mne/stable/index.html"
+description = """Open-source Python software for exploring, visualizing, and analyzing human neurophysiological
+ data: MEG, EEG, sEEG, ECoG, and more."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('h5py', '2.10.0', versionsuffix),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('NiBabel', '3.1.0', versionsuffix),
+    ('statsmodels', '0.11.0', versionsuffix),
+    ('imageio', '2.6.1', versionsuffix),
+    ('imageio-ffmpeg', '0.3.0', versionsuffix),
+    ('mayavi', '4.7.1', versionsuffix),
+]
+
+use_pip = True
+sanity_pip_check = True
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+exts_list = [
+    ('appdirs', '1.4.4', {
+        'checksums': ['7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41'],
+    }),
+    ('scooby', '0.5.4', {
+        'checksums': ['9578339ed41a0c8346173cb9e55eb280e7d31325caf8fc9e22c3cfaa15342572'],
+    }),
+    ('meshio', '4.0.11', {
+        'checksums': ['e11de55a62c1ae572ef088596a10f0428e8e78f169db48ffcd5b0bf4a15c37e0'],
+    }),
+    ('pyvista', '0.24.2', {
+        'checksums': ['2981d3d5a7d49ecee111ae2c5daf7575f3e0d840c66547b9f6db04631b3bda6a'],
+    }),
+    ('dipy', '1.1.0', {
+        'checksums': ['06db0bc1b44b8d38097945597edcfabca4316c64adee5c29d28ffad12d96135b'],
+    }),
+    (name, version, {
+        'modulename': 'mne',
+        'source_tmpl': 'mne-%(version)s.tar.gz',
+        'checksums': ['817b75b645a52753769e9369a3a00ea8c7e0d27ff198e01cfb49303f1531ac25'],
+    }),
+]
+
+sanity_check_commands = [
+    'export QT_QPA_PLATFORM=offscreen && mne compute_proj_eog -h',
+    'export QT_QPA_PLATFORM=offscreen && mayavi2 --help',
+    'export QT_QPA_PLATFORM=offscreen && python -c "import mne; mne.sys_info();"'
+]
+
+moduleclass = 'bio'

@@ -28,6 +28,8 @@ dependencies = [
     ('HDDM', '0.7.6', versionsuffix),
     ('MedPy', '0.4.0', versionsuffix),
     ('NiBabel', '3.1.0', versionsuffix),
+    ('MNE-Python', '0.20.4', versionsuffix),
+    ('sklearn-crfsuite', '0.3.6', versionsuffix),
 ]
 
 moduleclass = 'tools'

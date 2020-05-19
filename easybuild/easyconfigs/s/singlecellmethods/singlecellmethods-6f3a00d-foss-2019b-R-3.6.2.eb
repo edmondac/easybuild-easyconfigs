@@ -12,7 +12,7 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 
 dependencies = [
     ('R', '3.6.2'),
-    ('leidenalg', '0.8.0', '-Python-3.7.4')
+    ('leidenalg', '0.8.0', '-Python-3.7.4'),
 ]
 
 exts_defaultclass = 'RPackage'
