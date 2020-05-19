@@ -10,6 +10,8 @@ description = """Fast Leica LIF file reader written in python """
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
+builddependencies = [('binutils', '2.32')]
+
 dependencies = [
     ('Python', '3.7.4'),
     ('Pillow', '6.2.1'),
