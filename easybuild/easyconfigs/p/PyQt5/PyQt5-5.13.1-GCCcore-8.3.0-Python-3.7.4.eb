@@ -80,16 +80,22 @@ components = [
         'preinstallopts': local_setup_env,
         'options': {'modulename': 'PyQt5.QtCore'},
     }),
-    ('PyQtWebEngine', version, {
-        'source_urls': ['https://www.riverbankcomputing.com/static/Downloads/%(name)s/%(version)s/'],
-        'sources': ['%(name)s_gpl-%(version)s.tar.gz'],
-        'checksums': ['8d8c1262005d8465653a848bf67327fb338e0d3c2d26090a6f7eb071dbb42092'],
-        'start_dir': '%(name)s_gpl-%(version)s',
-        'preconfigopts': local_setup_env,
-        'configopts': local_pyqtweb_configopts,
-        'options': {'modulename': 'PyQt5.QtWebEngine'},
-    }),
 ]
+
+# QtWebEngine is not available on ppc64le, so only build PyQtWebEngine if we are on x86_64
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m']).strip()
+if _arch == 'x86_64':
+    components.append(
+        ('PyQtWebEngine', version, {
+            'source_urls': ['https://www.riverbankcomputing.com/static/Downloads/%(name)s/%(version)s/'],
+            'sources': ['%(name)s_gpl-%(version)s.tar.gz'],
+            'checksums': ['8d8c1262005d8465653a848bf67327fb338e0d3c2d26090a6f7eb071dbb42092'],
+            'start_dir': '%(name)s_gpl-%(version)s',
+            'preconfigopts': local_setup_env,
+            'configopts': local_pyqtweb_configopts,
+            'options': {'modulename': 'PyQt5.QtWebEngine'},
+        }))
 
 sanity_check_paths = {
     'files': ['bin/sip', 'include/sip.h'] + ['lib/python%%(pyshortver)s/site-packages/%s' % x for x in (
@@ -97,7 +103,7 @@ sanity_check_paths = {
         'sipdistutils.py',
         '%%(name)s/sip.%s' % SHLIB_EXT,
         '%%(name)s/QtCore.%s' % SHLIB_EXT,
-        '%%(name)s/QtWebEngine.%s' % SHLIB_EXT,
+        '%%(name)s/QtWebEngine.%s' % SHLIB_EXT if _arch == 'x86_64' else '%%(name)s/Qt.%s' % SHLIB_EXT,
     )],
     'dirs': ['include', 'plugins', 'share/sip/PyQt5']
 }
