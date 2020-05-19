@@ -1,7 +1,7 @@
 easyblock = 'PythonBundle'
 
 name = 'plotly.py'
-version = '4.4.1'
+version = '4.5.3'
 
 homepage = 'https://plot.ly/python'
 description = "An open-source, interactive graphing library for Python"
