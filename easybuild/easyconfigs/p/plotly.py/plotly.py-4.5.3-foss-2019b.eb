@@ -19,7 +19,7 @@ exts_list = [
         'checksums': ['08c039560a6da2fe4f2c426d0766e284d3b736e355f8dd24b37367b0bb41973b'],
     }),
     ('plotly', version, {
-        'checksums': ['acc94f17452471ca3446c2ce491c4d1affb99b9ddd9eac4e05614ac4318f8780'],
+        'checksums': ['622acbdfbde222ad798eeaa91bf72584fe10833dfbea1afcc18e866b98000ae1'],
     }),
 ]
 
