@@ -22,6 +22,7 @@ builddependencies = [('binutils', '2.32')]
 
 dependencies = [
     ('nodejs', '12.16.1'),
+    ('GTK+', '3.24.13'),
 ]
 
 install_cmd = 'npm install --no-package-lock -g --prefix %(installdir)s electron@6.1.4 v%(version)s.tar.gz'
