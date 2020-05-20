@@ -1,5 +1,5 @@
 name: easyconfigs unit tests
-on: [push, pull_request]
+on: [push]
 jobs:
   test-suite:
     runs-on: ubuntu-18.04
