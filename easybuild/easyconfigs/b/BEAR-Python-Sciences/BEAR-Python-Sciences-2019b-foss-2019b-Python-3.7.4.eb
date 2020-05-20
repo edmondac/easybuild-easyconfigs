@@ -24,7 +24,6 @@ dependencies = [
     ('astropy', '4.0', versionsuffix),
     ('CGAL', '4.14.1', versionsuffix),
     ('CNVnator', '0.4.1', versionsuffix),
-    ('Deepbinner', 'c261ae9', versionsuffix),
     ('HDDM', '0.7.6', versionsuffix),
     ('MedPy', '0.4.0', versionsuffix),
     ('NiBabel', '3.1.0', versionsuffix),
