@@ -65,6 +65,12 @@ from easybuild.tools.utilities import nub
 # other than optimizing for time, this also helps to get around problems like http://bugs.python.org/issue10949
 single_tests_ok = True
 
+# Exclude these tool chains from tests
+EXCLUDE_TOOLCHAINS = ['{}-{}'.format(x, y) for x in ['foss', 'intel', 'fosscuda', 'intelcuda', 'iomkl']
+                                                   for y in ['2014', '2015', '2016', '2017', '2018', '2019']]
+EXCLUDE_TOOLCHAINS.extend(['{}-{}'.format(x, y) for x in ['GCC', 'GCCcore'] for y in ['4.', '5.', '6.', '7.']])
+EXCLUDE_TOOLCHAINS.extend(['ictce', 'gimkl', 'giolf', 'golf', 'goolf'])
+
 
 class EasyConfigTest(TestCase):
     """Baseclass for easyconfig testcases."""
@@ -446,9 +452,9 @@ class EasyConfigTest(TestCase):
         # which throws off the pattern matching done below for toolchain versions
         false_positives_regex = re.compile('^MATLAB-Engine-20[0-9][0-9][ab]')
 
-        # restrict to checking dependencies of easyconfigs using common toolchains (start with 2018a)
-        # and GCCcore subtoolchain for common toolchains, starting with GCCcore 7.x
-        for pattern in ['201[89][ab]', '20[2-9][0-9][ab]', 'GCCcore-[7-9]\.[0-9]']:
+        # restrict to checking dependencies of easyconfigs of 2020a
+        # and GCCcore subtoolchain for common toolchains, starting with GCCcore 9.x
+        for pattern in ['2020a', 'GCCcore-[9]\.[0-9]']:
             all_deps = {}
             regex = re.compile('^.*-(?P<tc_gen>%s).*\.eb$' % pattern)
 
@@ -629,6 +635,8 @@ class EasyConfigTest(TestCase):
                      'Toolchain']
         # Autotools & (recent) GCC are just bundles (Autotools: Autoconf+Automake+libtool, GCC: GCCcore+binutils)
         bundles_whitelist = ['Autotools', 'GCC']
+        # The BEAR-* modules are just meta modules to simplify module loading in the BlueBEAR Portal
+        bundles_whitelist.extend(['BEAR-R-bio', 'BEAR-R-geo', 'BEAR-Python-DataScience', 'BEAR-Python-Sciences']
 
         failing_checks = []
 
@@ -1004,7 +1012,13 @@ def suite():
             continue
 
         for spec in specs:
-            if spec.endswith('.eb') and spec != 'TEMPLATE.eb':
+            # bypass easyconfigs from lots of toolchains which we do not use in this repository
+            exlcude_easyconfig_due_to_toolchain = False
+            for toolchain in EXCLUDE_TOOLCHAINS:
+                if toolchain in spec:
+                    exlcude_easyconfig_due_to_toolchain = True
+                    break
+            if spec.endswith('.eb') and spec != 'TEMPLATE.eb' and not exlcude_easyconfig_due_to_toolchain:
                 cnt += 1
                 code = "def innertest(self): template_easyconfig_test(self, '%s')" % os.path.join(subpath, spec)
                 exec(code, globals())
