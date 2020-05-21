@@ -21,6 +21,7 @@ dependencies = [
     ('FD', '1.0-12', versionsuffix),
     ('dropEst', '0.8.6', versionsuffix),
     ('AUCell', '1.8.0', versionsuffix),
+    ('Taxonstand', '2.2', versionsuffix),
 ]
 
 moduleclass = 'bio'
