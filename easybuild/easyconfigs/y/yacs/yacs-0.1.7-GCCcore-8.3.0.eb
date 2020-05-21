@@ -1,0 +1,24 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'yacs'
+version = '0.1.7'
+
+homepage = "https://github.com/rbgirshick/yacs"
+description = """YACS -- Yet Another Configuration System"""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+builddependencies = [('binutils', '2.32')]
+
+multi_deps = {'Python': ['3.7.4', '2.7.16']}
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['4e47a59c9852b5d9cdc3777587864e9771060340d8f1b92b2c68f45244550c02']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'tools'
