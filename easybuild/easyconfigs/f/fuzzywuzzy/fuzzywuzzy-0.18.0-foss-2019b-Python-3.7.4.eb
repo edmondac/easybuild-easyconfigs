@@ -1,0 +1,35 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'fuzzywuzzy'
+version = '0.18.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/seatgeek/fuzzywuzzy"
+description = """Fuzzy string matching like a boss. It uses Levenshtein Distance to calculate the differences between
+sequences in a simple-to-use package."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('python-Levenshtein', '0.12.0', {
+        'modulename': 'Levenshtein',
+        'checksums': ['033a11de5e3d19ea25c9302d11224e1a1898fe5abd23c61c7c360c25195e3eb1'],
+    }),
+    (name, version, {
+        'checksums': ['45016e92264780e58972dca1b3d939ac864b78437422beecebb3095f8efd00e8'],
+    }),
+]
+
+moduleclass = 'data'
