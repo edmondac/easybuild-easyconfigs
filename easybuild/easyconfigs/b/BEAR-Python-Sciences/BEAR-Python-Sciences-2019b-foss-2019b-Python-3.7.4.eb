@@ -34,7 +34,6 @@ dependencies = [
     ('dask', '2.8.0', versionsuffix),
     ('netcdf4-python', '1.5.3', versionsuffix),
     ('xESMF', '0.3.0', versionsuffix),
-
 ]
 
 moduleclass = 'tools'
