@@ -30,6 +30,11 @@ dependencies = [
     ('MNE-Python', '0.20.4', versionsuffix),
     ('sklearn-crfsuite', '0.3.6', versionsuffix),
     ('SunPy', '1.1.3', versionsuffix),
+    ('xarray', '0.15.1', versionsuffix),
+    ('dask', '2.8.0', versionsuffix),
+    ('netcdf4-python', '1.5.3', versionsuffix),
+    ('xESMF', '0.3.0', versionsuffix),
+
 ]
 
 moduleclass = 'tools'
