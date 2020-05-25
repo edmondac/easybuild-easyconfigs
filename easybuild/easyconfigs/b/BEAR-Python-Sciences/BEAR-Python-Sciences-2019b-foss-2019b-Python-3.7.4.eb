@@ -33,7 +33,10 @@ dependencies = [
     ('xarray', '0.15.1', versionsuffix),
     ('dask', '2.8.0', versionsuffix),
     ('netcdf4-python', '1.5.3', versionsuffix),
+    ('ESMPy', '8.0.1', versionsuffix),
     ('xESMF', '0.3.0', versionsuffix),
+    ('Cartopy', '0.18.0', versionsuffix),
+    ('basemap', '1.2.1', versionsuffix),
 ]
 
 moduleclass = 'tools'
