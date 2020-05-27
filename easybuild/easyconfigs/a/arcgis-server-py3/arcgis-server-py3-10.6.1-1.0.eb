@@ -1,0 +1,36 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+
+easyblock = 'Conda'
+
+name = 'arcgis-server-py3'
+version = '10.6.1'
+versionsuffix = '-1.0'
+
+homepage = 'https://enterprise.arcgis.com/en/server/latest/administer/linux/linux-python.htm'
+description = """Native Linux ArcPy for ArcGIS Server 10.6.1"""
+
+toolchain = SYSTEM
+
+requirements = 'arcgis-server-%(version)s-py3'
+channels = [
+    'esri',
+]
+
+dependencies = [
+    ('ArcGIS-Server', '%(version)s'),
+    ('Miniconda3', '4.4.10')
+]
+
+modextravars = {
+    'ARCGISHOME': '$env(EBROOTARCGISMINSERVER)/arcgis/server',
+    'ARCPY_ENV': '%(installdir)s/etc/conda/activate.d/arcgis-server-%(version)s-py3-env_vars.sh'
+}
+
+sanity_check_paths = {
+    'files': ['bin/python3.6', 'conda-meta/arcgis-server-%(version)s-py3%(versionsuffix)s-py36_2.json'],
+    'dirs': ['lib', 'include', 'etc'],
+}
+
+sanity_check_commands = ["source $ARCPY_ENV && python -c 'import arcpy'"]
+
+moduleclass = 'geo'
