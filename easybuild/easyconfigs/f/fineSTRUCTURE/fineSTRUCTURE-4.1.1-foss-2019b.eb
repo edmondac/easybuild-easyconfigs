@@ -1,0 +1,25 @@
+easyblock = 'Tarball'
+
+name = 'fineSTRUCTURE'
+version = '4.1.1'
+
+homepage = 'https://people.maths.bris.ac.uk/~madjl/finestructure/finestructure_info.html'
+description = """fineSTRUCTURE is a fast and powerful algorithm for identifying population structure using
+ dense sequencing data."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://people.maths.bris.ac.uk/~madjl/finestructure/']
+sources = ['fs_%(version)s.zip']
+checksums = ['7af2dd51b02bf117e364f70e76d03920b0cd9ec17111b5be94dd2a5ab906b75e']
+
+postinstallcmds = ["cd %(installdir)s && mkdir bin && cp fs_linux* bin/fs"]
+
+modextrapaths = {'PATH': 'bin'}
+
+sanity_check_paths = {
+    'files': ['bin/fs'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
