@@ -18,14 +18,14 @@ extract_sources = True
 install_cmd = 'ulimit -Hn 65535 -Sn 65535 -Hu 25059 -Su 25059 && ./Setup -m silent -l yes -d %(installdir)s'
 
 postinstallcmds = [
-    'cd %(installdir)s/arcgis/server/tools && ./authorizeSoftware ' \
-    '-f /rds/bear-sysadmin/configmgmt/easybuild/sources/a/%(name)s/ArcGISServer_License.prvc ' \
+    'cd %(installdir)s/arcgis/server/tools && ./authorizeSoftware '
+    '-f /rds/bear-sysadmin/configmgmt/easybuild/sources/a/%(name)s/ArcGISServer_License.prvc '
     '-e m.a.ahmed@bham.ac.uk'
 ]
 
 sanity_check_paths = {
-    'files': ['arcgis/server/%s' %x for x in ['bin/arcsoc', 'startserver.sh', 'stopserver.sh']],
-    'dirs': ['arcgis/server/%s' %x for x in ['arcpy', 'ArcToolbox', 'Geocode', 'lib', 'tools', 'usr',
+    'files': ['arcgis/server/%s' % x for x in ['bin/arcsoc', 'startserver.sh', 'stopserver.sh']],
+    'dirs': ['arcgis/server/%s' % x for x in ['arcpy', 'ArcToolbox', 'Geocode', 'lib', 'tools', 'usr',
                                              'framework/runtime/ArcGIS/bin']],
 }
 
