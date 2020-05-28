@@ -25,7 +25,7 @@ modextravars = {
 }
 
 postinstallcmds = [
-    'cd %%(installdir)s/arcgis/server/tools && ./authorizeSoftware -f %s -e %s' % (license_file, _license_email) 
+    'cd %%(installdir)s/arcgis/server/tools && ./authorizeSoftware -f %s -e %s' % (license_file, _license_email)
 ]
 
 sanity_check_paths = {
