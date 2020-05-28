@@ -26,7 +26,7 @@ postinstallcmds = [
 sanity_check_paths = {
     'files': ['arcgis/server/%s' % x for x in ['bin/arcsoc', 'startserver.sh', 'stopserver.sh']],
     'dirs': ['arcgis/server/%s' % x for x in ['arcpy', 'ArcToolbox', 'Geocode', 'lib', 'tools', 'usr',
-                                             'framework/runtime/ArcGIS/bin']],
+                                              'framework/runtime/ArcGIS/bin']],
 }
 
 moduleclass = 'geo'
