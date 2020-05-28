@@ -2,32 +2,32 @@
 
 easyblock = 'Conda'
 
-name = 'arcgis-server-py3'
-version = '10.6.1'
-versionsuffix = '-1.0'
+name = 'ArcPy'
+version = '1.0'
+_arcgis_server_ver = '10.6.1'
+versionsuffix = '-ArcGIS-Server-%s' % _arcgis_server_ver
 
 homepage = 'https://enterprise.arcgis.com/en/server/latest/administer/linux/linux-python.htm'
 description = """Native Linux ArcPy for ArcGIS Server 10.6.1"""
 
 toolchain = SYSTEM
 
-requirements = 'arcgis-server-%(version)s-py3'
+requirements = 'arcgis-server-%s-py3' % _arcgis_server_ver
 channels = [
     'esri',
 ]
 
 dependencies = [
-    ('ArcGIS-Server', '%(version)s'),
+    ('ArcGIS-Server', _arcgis_server_ver),
     ('Miniconda3', '4.4.10')
 ]
 
 modextravars = {
-    'ARCGISHOME': '$env(EBROOTARCGISMINSERVER)/arcgis/server',
-    'ARCPY_ENV': '%(installdir)s/etc/conda/activate.d/arcgis-server-%(version)s-py3-env_vars.sh'
+    'ARCPY_ENV': '%%(installdir)s/etc/conda/activate.d/arcgis-server-%s-py3-env_vars.sh' % _arcgis_server_ver
 }
 
 sanity_check_paths = {
-    'files': ['bin/python3.6', 'conda-meta/arcgis-server-%(version)s-py3%(versionsuffix)s-py36_2.json'],
+    'files': ['bin/python3.6', 'etc/conda/activate.d/arcgis-server-%s-py3-env_vars.sh' % _arcgis_server_ver],
     'dirs': ['lib', 'include', 'etc'],
 }
 
