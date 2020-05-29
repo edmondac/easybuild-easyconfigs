@@ -8,7 +8,7 @@ versionsuffix = '-Python-%(pyver)s'
 homepage = ""
 description = """This module provides access to several Python Data Science libraries."""
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+toolchain = {'name': 'foss', 'version': '2020a'}
 
 dependencies = [
     ('Python', '3.8.2'),
