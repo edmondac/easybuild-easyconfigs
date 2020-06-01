@@ -17,16 +17,15 @@ extract_sources = True
 
 install_cmd = 'ulimit -Hn 65535 -Sn 65535 -Hu 25059 -Su 25059 && ./Setup -m silent -l yes -d %(installdir)s'
 
-license_file = '/rds/bear-sysadmin/configmgmt/easybuild/sources/a/%(name)s/ArcGISServer_License.prvc'
-_license_email = 'm.a.ahmed@bham.ac.uk'
-
 modextravars = {
     'ARCGISHOME': '%(installdir)s/arcgis/server',
 }
 
 postinstallcmds = [
-    'cd %%(installdir)s/arcgis/server/tools && ./authorizeSoftware -f %s -e %s' % (license_file, _license_email)
+    'cd %(installdir)s/arcgis/server/tools && '
+    './authorizeSoftware -f ${ARCGIS_LICENSE_FILE} -e ${ARCGIS_LICENSE_EMAIL}'
 ]
+
 
 sanity_check_paths = {
     'files': ['arcgis/server/%s' % x for x in ['bin/arcsoc', 'startserver.sh', 'stopserver.sh']],
