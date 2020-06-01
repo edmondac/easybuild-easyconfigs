@@ -1,0 +1,28 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PackedBinary'
+
+name = 'code-server'
+version = '3.4.0'
+
+homepage = "https://coder.com"
+description = """VS Code in the browser"""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+source_urls = ['https://github.com/cdr/code-server/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['655571aeb185e0a2b2f0bfc3bd5afb655839813848cd04deade446486efedc17']
+
+dependencies = [
+    ('nodejs', '12.16.1'),
+]
+
+preinstallopts = 'cd %(name)s-%(version)s &&'
+install_cmd = 'npm install --prefix %(installdir)s --global %(name)s'
+
+sanity_check_paths = {
+    'files': ['bin/code-server'],
+    'dirs': ['lib'],
+}
+
+moduleclass = 'tools'
