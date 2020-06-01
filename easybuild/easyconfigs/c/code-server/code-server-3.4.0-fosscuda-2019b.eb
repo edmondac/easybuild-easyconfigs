@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 preinstallopts = 'cd %(name)s-%(version)s &&'
-install_cmd = 'npm install --prefix %(installdir)s -g %(name)s'
+install_cmd = 'npm install --prefix %(installdir)s --global %(name)s'
 
 sanity_check_paths = {
     'files': ['bin/code-server'],
