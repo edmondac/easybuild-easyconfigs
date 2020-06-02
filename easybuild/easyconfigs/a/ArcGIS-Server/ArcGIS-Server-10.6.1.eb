@@ -1,0 +1,39 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+
+easyblock = 'Binary'
+
+name = 'ArcGIS-Server'
+version = '10.6.1'
+
+homepage = "https://enterprise.arcgis.com/en/server/"
+description = """Manage your geodata and provide advanced analytics to your organization."""
+
+toolchain = SYSTEM
+
+sources = ['ArcGIS_Server_Linux_1061_164044.tar']
+checksums = ['5353229d230ddb70aa97b0734b08cfd5f3556d5f0056d51347f3e1151b20e4c3']
+
+license_file = '${EASYBUILD_SOURCEPATH}/a/%(name)s/%(name)s_license.prvc'
+_license_email = 'm.a.ahmed@bham.ac.uk'
+
+extract_sources = True
+
+install_cmd = 'ulimit -Hn 65535 -Sn 65535 -Hu 25059 -Su 25059 && ./Setup -m silent -l yes -d %(installdir)s'
+
+modextravars = {
+    'ARCGISHOME': '%(installdir)s/arcgis/server',
+}
+
+postinstallcmds = [
+    'cd %%(installdir)s/arcgis/server/tools && '
+    './authorizeSoftware -f %s -e %s' % (license_file, _license_email)
+]
+
+
+sanity_check_paths = {
+    'files': ['arcgis/server/%s' % x for x in ['bin/arcsoc', 'startserver.sh', 'stopserver.sh']],
+    'dirs': ['arcgis/server/%s' % x for x in ['arcpy', 'ArcToolbox', 'Geocode', 'lib', 'tools', 'usr',
+                                              'framework/runtime/ArcGIS/bin']],
+}
+
+moduleclass = 'geo'
