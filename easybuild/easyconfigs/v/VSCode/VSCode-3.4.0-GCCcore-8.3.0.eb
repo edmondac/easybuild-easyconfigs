@@ -1,0 +1,32 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PackedBinary'
+
+name = 'VSCode'
+version = '3.4.0'
+
+homepage = "https://coder.com"
+description = """VS Code running on a remote server, accessible through the browser."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://github.com/cdr/code-server/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['655571aeb185e0a2b2f0bfc3bd5afb655839813848cd04deade446486efedc17']
+
+dependencies = [
+    ('nodejs', '12.16.1'),
+]
+
+preinstallopts = 'cd code-server-%(version)s &&'
+install_cmd = 'npm install --prefix %(installdir)s -global code-server'
+
+sanity_check_paths = {
+    'files': ['bin/code-server'],
+    'dirs': ['lib'],
+}
+
+modextravars = {'NODE_EXTRA_CA_CERTS': '/etc/ssl/certs/ca-bundle.crt'}
+
+sanity_check_commands = ['code-server --help']
+
+moduleclass = 'tools'
