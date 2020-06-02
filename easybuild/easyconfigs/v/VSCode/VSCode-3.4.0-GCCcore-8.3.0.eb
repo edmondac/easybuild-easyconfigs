@@ -13,6 +13,10 @@ source_urls = ['https://github.com/cdr/code-server/archive']
 sources = ['v%(version)s.tar.gz']
 checksums = ['655571aeb185e0a2b2f0bfc3bd5afb655839813848cd04deade446486efedc17']
 
+builddependencies = [
+    ('binutils', '2.32'),
+]
+
 dependencies = [
     ('nodejs', '12.16.1'),
 ]
