@@ -1,0 +1,35 @@
+name = 'MATLAB'
+version = '2020a'
+
+homepage = 'https://www.mathworks.com/products/matlab'
+description = """MATLAB is a high-level language and interactive environment
+ that enables you to perform computationally intensive tasks faster than with
+ traditional programming languages such as C, C++, and Fortran."""
+
+toolchain = SYSTEM
+
+# be sure to copy both DVD content to the SAME directory,
+# including the hidden files, especially .dvd1 and .dvd2
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['29a336f47ae1a1ff723f7a841cae1b767f460115599f1c106f7940bc62df8d90']
+
+dependencies = [('Java', '1.8')]
+
+# MATLAB 2020a requires more Java memory at build time:
+java_options = '-Xmx2048m'
+
+# We encode a dummy licence server host/port here and then set the MLM_LICENSE_FILE environment
+# variable with the correct details in the BlueBEAR licences module
+license_server = 'dummy.local'
+license_server_port = '1234'
+
+# We are not setting the installation keys in this easyconf due to its public availability. Instead,
+# for BlueBEAR, set the EB_MATLAB_KEY env var at install-time with a comma-separated list of installation keys,
+# e.g. MATLAB key, Parallel Server key etc.
+
+# To retrieve the activation key(s), log in to a MathWorks account, click on My Account then (under My Software)
+# select the product (e.g. "Concurrent") then click on "Install and Activate" tab then click the "Advanced Options"
+# button and finally copy the "File Installation Key" for the appropriate version.
+# (N.B. must be a MathWorks licence administrator to see the "Concurrent" option above.)
+
+moduleclass = 'math'

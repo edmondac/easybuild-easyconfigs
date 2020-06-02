@@ -11,7 +11,7 @@ description = """Numba is an Open Source NumPy-aware optimizing compiler for
 Python sponsored by Continuum Analytics, Inc. It uses the remarkable LLVM
 compiler infrastructure to compile Python syntax to machine code."""
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
 toolchainopts = {'pic': True}
 
 dependencies = [

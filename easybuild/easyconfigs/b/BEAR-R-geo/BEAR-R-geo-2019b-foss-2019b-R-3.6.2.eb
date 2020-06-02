@@ -17,6 +17,7 @@ dependencies = [
     ('rgeos', '0.5-2', versionsuffix),
     ('rgdal', '1.4-8', versionsuffix),
     ('ncdf4', '1.16.1', versionsuffix),
+    ('fgeo', '1.1.4', versionsuffix),
 ]
 
 moduleclass = 'geo'

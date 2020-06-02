@@ -1,0 +1,39 @@
+easyblock = 'PythonBundle'
+
+name = 'basemap'
+version = '1.2.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://matplotlib.org/basemap/'
+description = """The matplotlib basemap toolkit is a library for plotting 2D data on maps in Python"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('GEOS', '3.8.0', versionsuffix),
+    ('Pillow', '6.2.1'),
+    ('pyproj', '2.4.2', versionsuffix),
+]
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+use_pip = True
+sanity_pip_check = True
+
+exts_list = [
+    ('pyshp', '2.1.0', {
+        'modulename': 'shapefile',
+        'checksums': ['e65c7f24d372b97d0920b864bbeb78322bb37b83f2606e2a2212631d5d51e5c0'],
+    }),
+    (name, version, {
+        'modulename': 'mpl_toolkits.basemap',
+        'preinstallopts': "GEOS_DIR=$EBROOTGEOS ",
+        'source_tmpl': 'v%(version)srel.tar.gz',
+        'source_urls': ['https://github.com/matplotlib/basemap/archive/'],
+        'checksums': ['3fb30424f18cd4ffd505e30fd9c810ae81b999bb92f950c76553e1abc081faa7'],
+    }),
+]
+
+moduleclass = 'vis'

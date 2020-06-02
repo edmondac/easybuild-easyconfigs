@@ -1,18 +1,18 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
 easyblock = 'Bundle'
 
-name = 'singlecellmethods'
-version = '6f3a00d'
+name = 'Taxonstand'
+version = '2.2'
 versionsuffix = '-R-%(rver)s'
 
-homepage = 'https://github.com/immunogenomics/singlecellmethods/'
-description = """Collection of useful methods for single cell analysis."""
+homepage = "https://cran.r-project.org/package=Taxonstand"
+description = """Automated standardization of taxonomic names and removal of orthographic errors in plant species
+ names using 'The Plant List' website (www.theplantlist.org)."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
 dependencies = [
     ('R', '3.6.2'),
-    ('leidenalg', '0.8.0', '-Python-3.7.4'),
 ]
 
 exts_defaultclass = 'RPackage'
@@ -30,17 +30,15 @@ exts_default_options = {
 # Order is important!
 exts_list = [
     (name, version, {
-        'source_tmpl': '%(version)s.tar.gz',
-        'source_urls': ['https://github.com/immunogenomics/%(name)s/archive'],
-        'checksums': ['2298d2a4c5abbebbb970ba732500310e4474d27b6d33634af8afa902f582d3ae'],
+        'checksums': ['d2308815e23b1b8f9892c75c208a73c92c9451bd1e3860d6962fd1136e2dfdb2'],
     }),
 ]
 
 modextrapaths = {'R_LIBS': ''}
 
 sanity_check_paths = {
-    'files': ['singlecellmethods/R/singlecellmethods'],
+    'files': ['Taxonstand/R/Taxonstand'],
     'dirs': [],
 }
 
-moduleclass = 'bio'
+moduleclass = 'data'

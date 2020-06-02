@@ -1,0 +1,28 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'readlif'
+version = '0.2.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/nimne/readlif"
+description = """Fast Leica LIF file reader written in python """
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+builddependencies = [('binutils', '2.32')]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Pillow', '6.2.1'),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['1f296a4428bdc4fd030cdca99f214d2aac144dbbd755d76eb5d45df64015aafc']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'data'
