@@ -1,0 +1,49 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMakeCp'
+
+name = 'OVITO'
+version = '3.0.0'
+local_commit = '15e026714874736cb27106010580cdb490d6aa31'
+
+homepage = "https://www.ovito.org"
+description = """OVITO is a scientific visualization and analysis software for atomistic and
+ particle simulation data."""
+
+toolchain = {'name': 'gompi', 'version': '2019b'}
+
+source_urls = ['https://gitlab.com/stuko/%(namelower)s/-/archive']
+sources = ['%s.tar.gz' % local_commit]
+checksums = ['f60d81163426255ee8fa4189c035466561a536668d38afbd1c22c37439ff4d8b']
+
+builddependencies = [
+    ('CMake', '3.15.3')
+]
+
+dependencies = [
+    ('Qt5', '5.13.1'),
+    ('zlib', '1.2.11'),
+    ('Boost', '1.71.0'),
+    ('FFmpeg', '4.2.1'),
+    ('netCDF', '4.7.1')
+]
+
+preconfigopts = "mkdir build && cd build &&"
+configopts = '-DCMAKE_BUILD_TYPE=Release'
+configure_cmd = "cmake .."
+
+build_cmd = "cd build && make"
+
+files_to_copy = [
+    'build/%s' % x for x in ['bin', 'lib']
+]
+
+sanity_check_paths = {
+    'files': ['bin/ovito'],
+    'dirs': ['lib/ovito/plugins']
+}
+
+modextrapaths = {
+    'LD_LIBRARY_PATH': ['lib/ovito', 'lib/ovito/plugins']
+}
+
+moduleclass = 'chem'
