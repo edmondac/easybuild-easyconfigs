@@ -29,7 +29,7 @@ exts_default_options = {
 }
 
 exts_list = [
-    ('kneaddata', version, {
+    (name.lower(), version, {
         'checksums': ['cb2c0ad51739ae1146d44bb03f1a77c36d1a58656bfb9e5fcd8ab81dc8f81a27'],
     }),
 ]
