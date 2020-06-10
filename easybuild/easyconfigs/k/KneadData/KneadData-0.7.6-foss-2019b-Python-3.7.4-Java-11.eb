@@ -1,0 +1,37 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'KneadData'
+version = '0.7.6'
+_javasuffix = '-Java-%(javaver)s'
+versionsuffix = '-Python-%%(pyver)s%s' % _javasuffix
+
+homepage = "https://github.com/biobakery/kneaddata"
+description = """KneadData is a tool designed to perform quality control on metagenomic and
+ metatranscriptomic sequencing data, especially data from microbiome experiments."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Java', '11', '', True),
+    ('Trimmomatic', '0.39', _javasuffix, True),
+    ('Bowtie2', '2.3.5.1'),
+    ('FastQC', '0.11.9', _javasuffix, True),
+    ('SAMtools', '1.10'),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    (name.lower(), version, {
+        'checksums': ['cb2c0ad51739ae1146d44bb03f1a77c36d1a58656bfb9e5fcd8ab81dc8f81a27'],
+    }),
+]
+
+moduleclass = 'bio'
