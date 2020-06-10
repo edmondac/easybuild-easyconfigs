@@ -15,9 +15,9 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 dependencies = [
     ('Python', '3.7.4'),
     ('Java', '11', '', True),
-    ('Trimmomatic', '0.39%s' % _javasuffix, '', True),
+    ('Trimmomatic', '0.39', _javasuffix, True),
     ('Bowtie2', '2.3.5.1'),
-    ('FastQC', '0.11.9%s' % _javasuffix, '', True),
+    ('FastQC', '0.11.9', _javasuffix, True),
     ('SAMtools', '1.10'),
 ]
 
