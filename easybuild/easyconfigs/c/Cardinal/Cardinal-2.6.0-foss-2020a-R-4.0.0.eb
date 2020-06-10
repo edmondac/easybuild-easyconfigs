@@ -1,0 +1,56 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'Cardinal'
+version = '2.6.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cardinalmsi.org/"
+description = """Cardinal is an R package that implements statistical & computational tools for analyzing mass
+ spectrometry imaging datasets, including methods for efficient pre-processing, spatial segmentation, and
+ classification."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://bioconductor.org/packages/3.11/bioc/src/contrib/',
+        'https://bioconductor.org/packages/3.11/bioc/src/contrib/Archive/%(name)s',
+        'https://bioconductor.org/packages/3.11/data/annotation/src/contrib/',
+        'https://bioconductor.org/packages/3.11/data/experiment/src/contrib/',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('biglm', '0.9-2', {
+        'checksums': ['9b431c81463385730d65c91170a2b36122aaeb9757748695f85aab6c21e7900d'],
+    }),
+    ('matter', '1.14.0', {
+        'checksums': ['d73a133ab38c50a5beff1cd201e5f5aa3c5a1ac3026ca49cabf4fcee5dfd417b'],
+    }),
+    (name, version, {
+        'checksums': ['9f9898f26ee7048c60cb5bc7ad9db6f68ba4659af95fe51391f716928dca8396'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['Cardinal/R/Cardinal'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
