@@ -34,7 +34,7 @@ modextrapaths = {
     'GENOTYPE': 'genotype',
     'PHASER': 'phASER',
     'QTL': 'qtl',
-    'RNASEQ': 'rnaseq',   
+    'RNASEQ': 'rnaseq',  
 }
 
 moduleclass = 'bio'
