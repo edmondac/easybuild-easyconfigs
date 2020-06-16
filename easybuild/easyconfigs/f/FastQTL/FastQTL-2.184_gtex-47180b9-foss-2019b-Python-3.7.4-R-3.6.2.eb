@@ -55,8 +55,4 @@ sanity_check_paths = {
     'dirs': []
 }
 
-# delete the binary provided with the tarball
-# it's not static and it doesn't work ;)
-# postinstallcmds = ['rm %(installdir)s/bin/fastQTL.static']
-
 moduleclass = 'bio'
