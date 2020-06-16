@@ -3,7 +3,7 @@ easyblock = 'ConfigureMake'
 name = 'RSEM'
 version = '1.3.2'
 
-homepage = 'http://deweylab.github.io/RSEM/'
+homepage = 'https://deweylab.github.io/RSEM/'
 description = "RNA-Seq by Expectation-Maximization"
 
 toolchain = {'name': 'foss', 'version': '2019b'}
