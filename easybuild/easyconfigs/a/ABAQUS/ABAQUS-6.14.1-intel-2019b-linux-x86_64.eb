@@ -1,0 +1,18 @@
+name = 'ABAQUS'
+version = '6.14.1'
+versionsuffix = '-linux-x86_64'
+
+homepage = 'http://www.simulia.com/products/abaqus_fea.html'
+description = """Finite Element Analysis software for modeling, visualization and best-in-class implicit and explicit
+ dynamics FEA."""
+
+toolchain = {'name': 'intel', 'version': '2019b'}
+
+sources = [SOURCE_TGZ]
+checksums = ['960a6bba395acee847ab6871614e888cd8e483d95dfdcb082878b261688e2408']
+
+builddependencies = [('Java', '1.7.0_80', '', True)]
+
+preinstallopts = "export CHECK_DISK_SPACE=OFF && "
+
+moduleclass = 'cae'
