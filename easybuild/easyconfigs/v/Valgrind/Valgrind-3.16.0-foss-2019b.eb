@@ -23,8 +23,8 @@ _binaries = [
     'cg_merge', 'ms_print', 'valgrind', 'valgrind-listener', 'vgdb'
 ]
 
-import subprocess  # NOQA
-_arch = subprocess.check_output(['uname', '-m']).strip()
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m']).strip()
 if _arch == 'ppc64le':
     _lib = 'lib/valgrind/libmpiwrap-ppc64le-linux.%s' % SHLIB_EXT
 else:
