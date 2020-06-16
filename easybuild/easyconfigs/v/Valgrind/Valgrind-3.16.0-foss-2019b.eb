@@ -3,7 +3,7 @@ easyblock = 'ConfigureMake'
 name = 'Valgrind'
 version = '3.16.0'
 
-homepage = 'http://valgrind.org'
+homepage = 'https://www.valgrind.org'
 description = "Valgrind: Debugging and profiling tools"
 
 toolchain = {'name': 'foss', 'version': '2019b'}
@@ -11,7 +11,7 @@ toolchainopts = {'optarch': False}
 
 source_urls = [
     'ftp://sourceware.org/pub/valgrind/',
-    'http://www.mirrorservice.org/sites/sourceware.org/pub/valgrind/',
+    'https://www.mirrorservice.org/sites/sourceware.org/pub/valgrind/',
 ]
 sources = [SOURCELOWER_TAR_BZ2]
 checksums = ['582d5127ba56dfeaab4c6ced92a742b2921148e28a5d55055aedd8f75f1cf633']
