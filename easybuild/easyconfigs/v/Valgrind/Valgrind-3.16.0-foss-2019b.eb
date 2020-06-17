@@ -1,0 +1,38 @@
+easyblock = 'ConfigureMake'
+
+name = 'Valgrind'
+version = '3.16.0'
+
+homepage = 'https://www.valgrind.org'
+description = "Valgrind: Debugging and profiling tools"
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'optarch': False}
+
+source_urls = [
+    'ftp://sourceware.org/pub/valgrind/',
+    'https://www.mirrorservice.org/sites/sourceware.org/pub/valgrind/',
+]
+sources = [SOURCELOWER_TAR_BZ2]
+checksums = ['582d5127ba56dfeaab4c6ced92a742b2921148e28a5d55055aedd8f75f1cf633']
+
+configopts = ' --with-mpicc="$MPICC"'
+
+_binaries = [
+    'callgrind_annotate', 'callgrind_control', 'cg_annotate', 'cg_diff',
+    'cg_merge', 'ms_print', 'valgrind', 'valgrind-listener', 'vgdb'
+]
+
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m']).strip()
+if _arch == 'ppc64le':
+    _lib = 'lib/valgrind/libmpiwrap-ppc64le-linux.%s' % SHLIB_EXT
+else:
+    _lib = 'lib/valgrind/libmpiwrap-amd64-linux.%s' % SHLIB_EXT
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in _binaries] + [_lib],
+    'dirs': []
+}
+
+moduleclass = 'debugger'
