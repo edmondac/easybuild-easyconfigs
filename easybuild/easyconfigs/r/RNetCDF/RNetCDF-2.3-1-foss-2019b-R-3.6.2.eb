@@ -1,0 +1,46 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'RNetCDF'
+version = '2.3-1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=RNetCDF"
+description = """An interface to the 'NetCDF' file formats designed by Unidata for efficient storage of array-oriented
+ scientific data and descriptions. Most capabilities of 'NetCDF' version 4 are supported. Optional conversions of time
+ units are enabled by 'UDUNITS' version 2, also from Unidata."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('netCDF', '4.7.1'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['7537196ee4a2ae71dd4c0e3bb4d35d2220349d82afb019a1477ed2eba06344c6'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['RNetCDF/R/RNetCDF'],
+    'dirs': [],
+}
+
+moduleclass = 'data'
