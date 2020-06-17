@@ -1,0 +1,58 @@
+# This file is an EasyBuild reciPY as per https://easybuilders.github.io/easybuild
+# Author: Pablo Escobar Lopez
+# sciCORE - University of Basel
+# SIB Swiss Institute of Bioinformatics 
+# Modified slightly for gtex version
+
+easyblock = 'MakeCp'
+
+name = 'FastQTL'
+_commit = '47180b9'
+version = '2.184_gtex-%s' % _commit
+versionsuffix = '-Python-%(pyver)s-R-%(rver)s'
+
+homepage = 'https://github.com/francois-a/fastqtl'
+description = 'Enhanced version of the FastQTL QTL mapper.'
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/francois-a/fastqtl/archive']
+sources = ['%s.tar.gz' % _commit]
+checksums = ['3a40eb6bd5b74dca862bae8339dd482ac1a17f9d025d9dbfb355b78b463770cf']
+
+builddependencies = [
+    ('libRmath', '3.6.2'),
+]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('R', '3.6.2'),
+    ('zlib', '1.2.11'),
+    ('bzip2', '1.0.8'),
+    ('XZ', '5.2.4'),
+    ('GSL', '2.6'),
+    ('Boost', '1.71.0'),
+]
+
+buildopts = 'INC_MATH= LIB_MATH=-l:libRmath.a '
+# we override LIB_BASE to change -lblas to $LIBBLAS (-lopenblas for foss toolchain)
+buildopts += 'LIB_BASE="-L$EBROOTBOOST/lib -lm -lz -lboost_iostreams -lboost_program_options -lgsl $LIBBLAS"'
+
+parallel = 1
+
+files_to_copy = [
+    'bin',
+    'doc',
+    'example',
+    'LICENCE',
+    'python',
+    'R',
+    'README.md',
+]
+
+sanity_check_paths = {
+    'files': ['bin/fastQTL'],
+    'dirs': []
+}
+
+moduleclass = 'bio'
