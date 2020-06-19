@@ -19,6 +19,7 @@ dependencies = [
     ('ncdf4', '1.16.1', versionsuffix),
     ('fgeo', '1.1.4', versionsuffix),
     ('RNetCDF', '2.3-1', versionsuffix),
+    ('fasterize', '1.0.2', versionsuffix),
 ]
 
 moduleclass = 'geo'
