@@ -32,6 +32,7 @@ exts_default_options = {
 # Order is important!
 exts_list = [
     ('raster', '3.1-5', {
+        'checksums': ['db6622d55bb9e5c4a8d8e59887a802b35fc07dcee946800453bc5e1901c01a04'],
     }),
     (name, version, {
         'checksums': ['14e619b2672e5a5b8cf409f135e19abeb43f0ec64fe5ef7049c4324faebccee9'],
