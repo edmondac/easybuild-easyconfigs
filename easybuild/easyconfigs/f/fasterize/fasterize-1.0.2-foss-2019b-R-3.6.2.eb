@@ -13,7 +13,7 @@ description = """Provides a drop-in replacement for rasterize() from the 'raster
 toolchain = {'name': 'foss', 'version': '2019b'}
 
 dependencies = [
-    ('sf', '0.9-4', versionsuffix),
+    ('sf', '0.8-1', versionsuffix),
     ('R', '3.6.2'),
 ]
 
