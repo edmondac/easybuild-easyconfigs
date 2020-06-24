@@ -1,0 +1,69 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'pavian'
+version = '81d784d'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://github.com/fbreitwieser/pavian"
+description = """Pavian is a interactive browser application for analyzing and visualization
+ metagenomics classification results from classifiers such as Kraken, Centrifuge and MetaPhlAn.
+ Pavian also provides an alignment viewer for validation of matches to a particular genome."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s', # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('shinyjs', '1.1', {
+        'checksums': ['8986181baa68fb2863eea65b9df1b04b9b4e1293685298531d42de3bc2f06892'],
+    }),
+    ('shinyWidgets', '0.5.3', {
+        'checksums': ['fbb385649b1e04c8ef28e83df57fc4e5d1d8ebadca947f36bddafc1bb2afcb9a'],
+    }),
+    ('d3r', '0.9.0', {
+        'checksums': ['9eb04fad4df5db80103b0af3204ebc8cd50adcc670f9b2a76b1d85ecd1c4a16d'],
+    }),
+    ('sankeyD3', 'fd50a74', {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/fbreitwieser/sankeyD3/archive'],
+        'checksums': ['ca17e524e6c404ba55b65a3ee46111cc73dbc9ded1f8f6141d3a400368ac898b'],
+    }),
+    ('shinyFileTree', '76c44e7', {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/fbreitwieser/shinyFileTree/archive'],
+        'checksums': ['413617675e2eb75dee5608eace49487c817bf7dd613b43071f12ed5c48c15966'],
+    }),
+    ('rhandsontable', '0.3.7', {
+        'checksums': ['088eb17c0727bc4b8e500c59d517b81cd281dfa97ec2fb4097579516ffa5cdf8'],
+    }),
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/fbreitwieser/pavian/archive'],
+        'checksums': ['4153cb98e6681e737acadb0bbc44ef8687a84997d0c3ee1e46ec189a8c2b53f9'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['pavian/R/pavian'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
