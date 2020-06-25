@@ -33,12 +33,6 @@ exts_default_options = {
 
 # Order is important!
 exts_list = [
-    ('classInt', '0.4-2', {
-        'checksums': ['bb0da1e7db779831cf5cea80722ade90bf83a9aa51b7d2bc6bee69c433042871'],
-    }),
-    ('Rcpp', '1.0.4', {
-        'checksums': ['d992fe8f7480606a0790be94948a6b667f37aa607ccd5e5613e88af861bb00d5'],
-    }),
     (name, version, {
         'checksums': ['a9eb53f7b5d051e6a0dc86d07f7b8b760829c9c9c0ec268b1eecde50c9d99e9f'],
     }),
