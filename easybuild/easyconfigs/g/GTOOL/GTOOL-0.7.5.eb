@@ -15,6 +15,7 @@ toolchain = SYSTEM
 
 source_urls = ['http://www.well.ox.ac.uk/~cfreeman/software/gwas/']
 sources = ['gtool_v%(version)s_x86_64.tgz']
+checksums = ['e02c1b989fe73d54533f539c5d8787f56656ad568eb56fd0bf2ce6cc95834acd']
 
 modextrapaths = {'PATH': ''}
 
