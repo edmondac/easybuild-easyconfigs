@@ -281,6 +281,8 @@ class EasyConfigTest(TestCase):
             'libpng': ('1.2.58', ['ANSYSEM-2020R1-', 'X11-20190717-', 'libdrm-2.4.99-', 'fontconfig-2.13.1-', 'Mesa-19.2.1-', 'freetype-2.10.1-']),
             # ANSYSEM requires dri version of Mesa
             'Mesa': (r'19\.2\.1.+-dri', ['ANSYSEM-']),
+            # Fasterize requires sf < 0.9
+            'sf': (r'0\.[0-8]-', ['fasterize-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
