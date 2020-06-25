@@ -1,0 +1,25 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PackedBinary'
+
+name = 'SNPTEST'
+version = '2.5.2'
+
+homepage = "https://mathgen.stats.ox.ac.uk/genetics_software/snptest/snptest.html#introduction"
+description = """SNPTEST is a program for the analysis of single SNP association in genome-wide studies."""
+
+toolchain = SYSTEM
+
+source_urls = ['https://www.well.ox.ac.uk/~gav/resources/']
+sources = ['%s_v%s_linux_x86_64_dynamic.tgz' % (name.lower(), version)]
+checksums = ['1ffa3ebafa2c5db4866a38e01bb09f43df7973d053423ce67221cb3f8acb30f6']
+
+sanity_check_paths = {
+    'files': ['snptest_v2.5.2'],
+    'dirs': [],
+}
+
+modextrapaths = {
+    'PATH': '',
+}
+
+moduleclass = 'bio'
