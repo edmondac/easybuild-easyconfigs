@@ -1,0 +1,33 @@
+easyblock = "MakeCp"
+
+name = "NEdit"
+version = '5.7'
+
+homepage = "http://www.nedit.org"
+description = """NEdit is a multi-purpose text editor for the X Window System,
+ which combines a standard, easy to use, graphical user interface with the thorough
+ functionality and stability required by users who edit text eight hours a day."""
+
+toolchain = SYSTEM
+
+source_urls = ['https://downloads.sourceforge.net/project/%(name)s/%(name)s-source/']
+sources = ['%(namelower)s-%(version)s-src.tar.gz']
+checksums = ['add9ac79ff973528ad36c86858238bac4f59896c27dbf285cbe6a4d425fca17a']
+
+modextrapaths = {
+    'PATH': '',
+    'MANPATH': '',
+}
+
+buildopts = 'linux'
+
+files_to_copy = [
+    (['source/nc', 'source/nedit'], 'bin'),
+]
+
+sanity_check_paths = {
+    'files': ["bin/nc", "bin/nedit"],
+    'dirs': [],
+}
+
+moduleclass = 'tools'
