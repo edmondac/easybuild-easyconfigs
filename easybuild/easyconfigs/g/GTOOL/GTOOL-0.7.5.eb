@@ -7,14 +7,15 @@ easyblock = "Tarball"
 name = 'GTOOL'
 version = '0.7.5'
 
-homepage = 'http://www.well.ox.ac.uk/~cfreeman/software/gwas/gtool.html'
+homepage = 'https://www.well.ox.ac.uk/~cfreeman/software/gwas/gtool.html'
 description = """ GTOOL is a program for transforming sets of genotype data for use with 
 the programs SNPTEST and IMPUTE.  """
 
 toolchain = SYSTEM
 
-source_urls = ['http://www.well.ox.ac.uk/~cfreeman/software/gwas/']
+source_urls = ['https://www.well.ox.ac.uk/~cfreeman/software/gwas/']
 sources = ['gtool_v%(version)s_x86_64.tgz']
+checksums = ['e02c1b989fe73d54533f539c5d8787f56656ad568eb56fd0bf2ce6cc95834acd']
 
 modextrapaths = {'PATH': ''}
 
