@@ -23,7 +23,6 @@ sanity_check_paths = {
     'dirs': ["Example"]
 }
 
-# add the top dir to PATH
 modextrapaths = {
     'PATH': ''
 }
