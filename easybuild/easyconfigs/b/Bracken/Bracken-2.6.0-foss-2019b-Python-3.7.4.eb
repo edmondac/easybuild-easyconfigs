@@ -1,5 +1,5 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
-easyblock = 'MakeCp'
+easyblock = 'Tarball'
 
 name = 'Bracken'
 version = '2.6.0'
@@ -20,18 +20,15 @@ dependencies = [
     ('Python', '3.7.4'),
 ]
 
-skipsteps = ['configure']
 build_cmd = 'cd src && make'
 
 sanity_check_paths = {
-    'files': ['bin/bracken', 'bin/bracken-build'],
-    'dirs': ['analysis_scripts', 'sample_data', 'src'],
+    'files': ['bracken', 'bracken-build'],
+    'dirs': ['analysis_scripts', 'sample_data', 'src']
 }
 
-files_to_copy = [(['bracken', 'bracken-build'], 'bin'), 'analysis_scripts', 'sample_data', 'src']
-
 modextrapaths = {
-    'PATH': 'src'
+    'PATH': ['', 'src']
 }
 
 moduleclass = 'bio'
