@@ -1,7 +1,7 @@
 name: easyconfigs unit tests
-on: [push, pull_request]
+on: [pull_request]
 jobs:
-  build:
+  test-suite:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -10,13 +10,7 @@ jobs:
         module_syntax: [Tcl]
         # exclude some configurations: only test Tcl module syntax with Lmod 7.x and Python 2.7 & 3.5
         exclude:
-          - modules_tool: Lmod-6.6.3
-            module_syntax: Tcl
-          - modules_tool: Lmod-8.1.14
-            module_syntax: Tcl
           - python: 3.6
-            module_syntax: Tcl
-          - python: 3.7
             module_syntax: Tcl
       fail-fast: false
     steps:
@@ -29,8 +23,10 @@ jobs:
         architecture: x64
 
     - name: install OS & Python packages
-      run: |
-        sudo apt-get update
+    run: |
+        # disable apt-get update, we don't really need it,
+        # and it does more harm than good (it's fairly expensive, and it results in flaky test runs)
+        # sudo apt-get update
         # for modules tool
         sudo apt-get install lua5.2 liblua5.2-dev lua-filesystem lua-posix tcl tcl-dev
         # fix for lua-posix packaging issue, see https://bugs.launchpad.net/ubuntu/+source/lua-posix/+bug/1752082
