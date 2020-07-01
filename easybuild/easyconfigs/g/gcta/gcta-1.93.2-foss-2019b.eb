@@ -4,6 +4,7 @@ easyblock = 'CMakeMakeCp'
 
 name = 'gcta'
 version = '1.93.2'
+_plink_ng_commit = 'ec1b2d1'
 
 homepage = 'https://cnsgenomics.com/software/gcta'
 description = """GCTA (Genome-wide Complex Trait Analysis) was originally designed to estimate
@@ -37,6 +38,7 @@ preconfigopts = 'export EIGEN3_INCLUDE_DIR=$EBROOTEIGEN/include && '
 preconfigopts += 'export SPECTRA_LIB=$EBROOTSPECTRA/include && '
 preconfigopts += 'export BOOST_LIB=$EBROOTBOOST && '
 preconfigopts += 'git clone https://github.com/zhilizheng/plink-ng submods/plink-ng && '
+preconfigopts += 'cd submods/plink-ng && git checkout %s && cd ../.. && ' % _plink_ng_commit
 
 configure_cmd = 'mkdir build && cd build && cmake ..'
 build_cmd = 'cd build && make'
