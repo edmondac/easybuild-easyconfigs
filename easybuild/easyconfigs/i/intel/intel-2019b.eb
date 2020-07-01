@@ -10,6 +10,7 @@ toolchain = SYSTEM
 
 local_compver = '2019.5.281'
 local_gccver = '8.3.0'
+
 dependencies = [
     ('GCCcore', local_gccver),
     ('binutils', '2.32', '-GCCcore-%s' % local_gccver),
