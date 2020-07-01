@@ -1,5 +1,5 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
-easyblock = 'Tarball'
+easyblock = 'ConfigureMake'
 
 name = 'Bracken'
 version = '2.6.0'
@@ -20,6 +20,7 @@ dependencies = [
     ('Python', '3.7.4'),
 ]
 
+skipsteps = ['configure', 'install']
 build_cmd = 'cd src && make'
 
 sanity_check_paths = {
