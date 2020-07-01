@@ -43,7 +43,7 @@ build_cmd = 'cd build && make'
 
 files_to_copy = [
     (['build/gcta64'], 'bin'),
-    (['build/%s' % x for x in ['*.a', 'main', 'submods']], 'lib')
+    (["build/%s" % x for x in ['*.a', 'main', 'submods']], 'lib')
 ]
 
 sanity_check_paths = {
