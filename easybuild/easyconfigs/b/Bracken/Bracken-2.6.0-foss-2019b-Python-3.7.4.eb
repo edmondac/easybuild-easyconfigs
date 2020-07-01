@@ -1,5 +1,5 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
-easyblock = 'ConfigureMake'
+easyblock = 'MakeCp'
 
 name = 'Bracken'
 version = '2.6.0'
@@ -20,8 +20,10 @@ dependencies = [
     ('Python', '3.7.4'),
 ]
 
-skipsteps = ['configure', 'install']
+skipsteps = ['configure']
 build_cmd = 'cd src && make'
+
+files_to_copy = ['bracken', 'bracken-build', 'analysis_scripts', 'sample_data', 'src']
 
 sanity_check_paths = {
     'files': ['bracken', 'bracken-build'],
