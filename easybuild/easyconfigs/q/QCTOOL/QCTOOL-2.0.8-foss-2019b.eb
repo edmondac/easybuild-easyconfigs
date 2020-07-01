@@ -1,0 +1,35 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Waf'
+name = 'QCTOOL'
+version = '2.0.8'
+
+homepage = "https://www.well.ox.ac.uk/~gav/qctool/index.html"
+description = """QCTOOL is a command-line utility program for manipulation and quality control of gwas
+ datasets and other genome-wide data."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+# N.B. the tgz file is generated on the fly so the eb command option `--download-timeout`
+# should be invoked to mitigate download failures. Also note that despite the extension the
+# downloaded file is actually a zip.
+source_urls = ['https://code.enkre.net/qctool/zip/v%(version)s']
+sources = [{
+    'download_filename': 'qctool.tgz',
+    'filename': '%(name)s-%(version)s.zip',
+}]
+checksums = ['5d6ee9ead329619696aa93729508c9a85f39b9457fce4dce83b65e568e4abb35']
+
+dependencies = [
+    ('zlib', '1.2.11'),
+]
+
+preconfigopts = 'ln -s waf-1.5.18 waf && '
+
+postinstallcmds = ['cd %(installdir)s/bin && ln -s qctool_v%(version)s qctool']
+
+sanity_check_paths = {
+    'files': ['bin/qctool'],
+    'dirs': ['bin'],
+}
+
+moduleclass = 'bio'
