@@ -24,7 +24,7 @@ builddependencies = [
 ]
 
 dependencies = [
-    ('imkl', '2019.5.281', '-gompi-2019b', True),
+    ('imkl', '2019.5.281'),
     ('zlib', '1.2.11'),
     ('SQLite', '3.29.0'),
     ('Eigen', '3.3.7', '', True),
@@ -33,26 +33,22 @@ dependencies = [
     ('zstd', '1.4.4'),
 ]
 
-preconfigopts = "export EIGEN3_INCLUDE_DIR=$EBROOTEIGEN/include && "
-preconfigopts += "export SPECTRA_LIB=$EBROOTSPECTRA/include && "
-preconfigopts += "export BOOST_LIB=$EBROOTBOOST && "
-preconfigopts += "git clone https://github.com/zhilizheng/plink-ng submods/plink-ng && "
+preconfigopts = 'export EIGEN3_INCLUDE_DIR=$EBROOTEIGEN/include && '
+preconfigopts += 'export SPECTRA_LIB=$EBROOTSPECTRA/include && '
+preconfigopts += 'export BOOST_LIB=$EBROOTBOOST && '
+preconfigopts += 'git clone https://github.com/zhilizheng/plink-ng submods/plink-ng && '
 
 configure_cmd = 'mkdir build && cd build && cmake ..'
 build_cmd = 'cd build && make'
 
 files_to_copy = [
     (['build/gcta64'], 'bin'),
-    (['build/%s' %x for x in ['*.a', 'main', 'submods']], 'lib')
+    (['build/%s' % x for x in ['*.a', 'main', 'submods']], 'lib')
 ]
 
 sanity_check_paths = {
     'files': ['bin/gcta64'],
     'dirs': ['lib/main', 'lib/submods']
-}
-
-modextrapaths = {
-    'PATH': ''
 }
 
 moduleclass = 'bio'
