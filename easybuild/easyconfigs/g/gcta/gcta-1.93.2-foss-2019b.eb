@@ -34,11 +34,14 @@ dependencies = [
     ('zstd', '1.4.4'),
 ]
 
+start_dir = '%(builddir)s/%(name)s-master'
+
 preconfigopts = 'export EIGEN3_INCLUDE_DIR=$EBROOTEIGEN/include && '
 preconfigopts += 'export SPECTRA_LIB=$EBROOTSPECTRA/include && '
 preconfigopts += 'export BOOST_LIB=$EBROOTBOOST && '
 preconfigopts += 'git clone https://github.com/zhilizheng/plink-ng submods/plink-ng && '
-preconfigopts += 'cd submods/plink-ng && git checkout %s && cd ../.. && ' % _plink_ng_commit
+preconfigopts += 'cd submods/plink-ng && git checkout %s && ' % _plink_ng_commit
+preconfigopts += 'cd ../.. && '
 
 configure_cmd = 'mkdir build && cd build && cmake ..'
 build_cmd = 'cd build && make'
