@@ -1,0 +1,14 @@
+name = 'VTune'
+version = '2020_update1'
+
+homepage = 'https://software.intel.com/en-us/vtune'
+description = """Locate performance bottlenecks fast. Advanced sampling and profiling techniques quickly analyze your
+ code, isolate issues, and deliver insights for optimizing performance on modern processors."""
+
+toolchain = SYSTEM
+
+source_urls = ['https://registrationcenter-download.intel.com/akdlm/irc_nas/tec/16561/']
+sources = ['vtune_profiler_%(version)s.tar.gz']
+checksums = ['be6e1eb6b82487616ba8910312a311e70c701500a27115e5fb2c6124b298ec1b']
+
+moduleclass = 'tools'
