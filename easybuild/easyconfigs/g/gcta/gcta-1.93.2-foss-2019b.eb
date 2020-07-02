@@ -14,10 +14,18 @@ description = """GCTA (Genome-wide Complex Trait Analysis) was originally design
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
-source_urls = ['https://cnsgenomics.com/software/gcta/pre_gcta']
-sources = ['%(name)s_%(version)s_src.zip']
-checksums = ['fc2845c0b782443c6b5999d1c8cfe332adb9ddbd379dfff11d3b4e80cd8e9f29']
-
+source_urls = [
+    'https://cnsgenomics.com/software/gcta/pre_gcta',
+    'https://github.com/zhilizheng/plink-ng/archive',
+]
+sources = [
+    '%(name)s_%(version)s_src.zip',  # gcta
+    'ec1b2d151cb77050b5ba09dc28157a03fc3cc968.zip',  # plink-ng
+]
+checksums = [
+    'fc2845c0b782443c6b5999d1c8cfe332adb9ddbd379dfff11d3b4e80cd8e9f29',  # gcta_1.93.2_src.zip
+    'e55270b66ae3ce82319457e372f83e03bd11b1e29cce5b550b3cefa31d142eba',  # ec1b2d151cb77050b5ba09dc28157a03fc3cc968.zip
+]
 
 builddependencies = [
     ('CMake', '3.15.3'),
@@ -34,21 +42,15 @@ dependencies = [
     ('zstd', '1.4.4'),
 ]
 
-start_dir = '%(builddir)s/%(name)s-master'
-
 preconfigopts = 'export EIGEN3_INCLUDE_DIR=$EBROOTEIGEN/include && '
 preconfigopts += 'export SPECTRA_LIB=$EBROOTSPECTRA/include && '
 preconfigopts += 'export BOOST_LIB=$EBROOTBOOST && '
-preconfigopts += 'git clone https://github.com/zhilizheng/plink-ng submods/plink-ng && '
-preconfigopts += 'cd submods/plink-ng && git checkout %s && ' % _plink_ng_commit
-preconfigopts += 'cd ../.. && '
-
-configure_cmd = 'mkdir build && cd build && cmake ..'
-build_cmd = 'cd build && make'
+preconfigopts += ('(cd %(builddir)s/%(name)s-master/submods/ && rmdir plink-ng && '
+                  ' mv ../../plink-ng-ec1b2d151cb77050b5ba09dc28157a03fc3cc968 plink-ng) && ')
 
 files_to_copy = [
-    (['build/gcta64'], 'bin'),
-    (["build/%s" % x for x in ['*.a', 'main', 'submods']], 'lib')
+    (['gcta64'], 'bin'),
+    (["%s" % x for x in ['*.a', 'main', 'submods']], 'lib')
 ]
 
 sanity_check_paths = {
