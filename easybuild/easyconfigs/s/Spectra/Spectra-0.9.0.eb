@@ -1,0 +1,25 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'Spectra'
+version = '0.9.0'
+
+homepage = "https://spectralib.org/"
+description = """Spectra stands for Sparse Eigenvalue Computation Toolkit as a Redesigned ARPACK. It is a C++ library
+ for large scale eigenvalue problems, built on top of Eigen, an open source linear algebra library."""
+
+# similar to Eigen - only includes header files, so no need for a non-dummy toolchain
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/yixuan/spectra/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['2966757d432e8fba5958c2a05ad5674ce34eaae3718dd546c1ba8760b80b7a3d']
+
+dependencies = []
+
+sanity_check_paths = {
+    'files': ['README.md', 'include/Spectra/GenEigsSolver.h'],
+    'dirs': ['include', 'test'],
+}
+
+moduleclass = 'math'
