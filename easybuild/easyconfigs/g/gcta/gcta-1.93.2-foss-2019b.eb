@@ -50,7 +50,7 @@ preconfigopts += ('(cd %%(builddir)s/%%(name)s-master/submods/ && rmdir plink-ng
 
 files_to_copy = [
     (['gcta64'], 'bin'),
-    (["%s" % x for x in ['*.a', 'main', 'submods']], 'lib')
+    (['*.a', 'main', 'submods'], 'lib')
 ]
 
 sanity_check_paths = {
