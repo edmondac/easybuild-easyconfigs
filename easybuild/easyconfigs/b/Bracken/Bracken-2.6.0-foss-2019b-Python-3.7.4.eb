@@ -23,15 +23,15 @@ dependencies = [
 skipsteps = ['configure']
 build_cmd = 'cd src && make'
 
+files_to_copy = ['bracken', 'bracken-build', 'analysis_scripts', 'sample_data', 'src']
+
 sanity_check_paths = {
-    'files': ['bin/bracken', 'bin/bracken-build'],
-    'dirs': ['analysis_scripts', 'sample_data', 'src'],
+    'files': ['bracken', 'bracken-build'],
+    'dirs': ['analysis_scripts', 'sample_data', 'src']
 }
 
-files_to_copy = [(['bracken', 'bracken-build'], 'bin'), 'analysis_scripts', 'sample_data', 'src']
-
 modextrapaths = {
-    'PATH': 'src'
+    'PATH': ['', 'src']
 }
 
 moduleclass = 'bio'
