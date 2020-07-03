@@ -4,7 +4,6 @@ easyblock = 'CMakeMakeCp'
 
 name = 'gcta'
 version = '1.93.2'
-_plink_ng_commit = 'ec1b2d1'
 
 homepage = 'https://cnsgenomics.com/software/gcta'
 description = """GCTA (Genome-wide Complex Trait Analysis) was originally designed to estimate
@@ -15,13 +14,22 @@ description = """GCTA (Genome-wide Complex Trait Analysis) was originally design
 toolchain = {'name': 'foss', 'version': '2019b'}
 
 source_urls = ['https://cnsgenomics.com/software/gcta/pre_gcta']
-sources = ['%(name)s_%(version)s_src.zip']
-checksums = ['fc2845c0b782443c6b5999d1c8cfe332adb9ddbd379dfff11d3b4e80cd8e9f29']
-
+sources = [
+    '%(name)s_%(version)s_src.zip',  # gcta
+    {
+        'source_urls': ['https://github.com/zhilizheng/plink-ng/archive'],
+        'download_filename': 'ec1b2d151cb77050b5ba09dc28157a03fc3cc968.tar.gz',
+        'filename': 'plink-ng-20191208.tar.gz',
+        'extract_cmd': 'tar -C %(name)s-master/submods/plink-ng --strip-components=1 -xf %s',
+    }
+]
+checksums = [
+    'fc2845c0b782443c6b5999d1c8cfe332adb9ddbd379dfff11d3b4e80cd8e9f29',  # gcta_1.93.2_src.zip
+    '5734cd20f69195d897fcf5702355d32f53b0095c6a798f3dda1c40768c34b53d',  # plink-ng-20191208.tar.gz
+]
 
 builddependencies = [
     ('CMake', '3.15.3'),
-    ('git', '2.23.0', '-nodocs'),
 ]
 
 dependencies = [
@@ -37,15 +45,10 @@ dependencies = [
 preconfigopts = 'export EIGEN3_INCLUDE_DIR=$EBROOTEIGEN/include && '
 preconfigopts += 'export SPECTRA_LIB=$EBROOTSPECTRA/include && '
 preconfigopts += 'export BOOST_LIB=$EBROOTBOOST && '
-preconfigopts += 'git clone https://github.com/zhilizheng/plink-ng submods/plink-ng && '
-preconfigopts += 'cd submods/plink-ng && git checkout %s && cd ../.. && ' % _plink_ng_commit
-
-configure_cmd = 'mkdir build && cd build && cmake ..'
-build_cmd = 'cd build && make'
 
 files_to_copy = [
-    (['build/gcta64'], 'bin'),
-    (["build/%s" % x for x in ['*.a', 'main', 'submods']], 'lib')
+    (['gcta64'], 'bin'),
+    (['*.a', 'main', 'submods'], 'lib')
 ]
 
 sanity_check_paths = {
