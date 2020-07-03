@@ -45,8 +45,6 @@ dependencies = [
 preconfigopts = 'export EIGEN3_INCLUDE_DIR=$EBROOTEIGEN/include && '
 preconfigopts += 'export SPECTRA_LIB=$EBROOTSPECTRA/include && '
 preconfigopts += 'export BOOST_LIB=$EBROOTBOOST && '
-preconfigopts += ('(cd %%(builddir)s/%%(name)s-master/submods/ && rmdir plink-ng && '
-                  ' mv ../../plink-ng-%s plink-ng) && ' % _plink_ng_commit)
 
 files_to_copy = [
     (['gcta64'], 'bin'),
