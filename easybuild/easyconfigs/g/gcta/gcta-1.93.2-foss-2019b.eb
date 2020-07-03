@@ -14,13 +14,15 @@ description = """GCTA (Genome-wide Complex Trait Analysis) was originally design
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
-source_urls = [
-    'https://cnsgenomics.com/software/gcta/pre_gcta',
-    'https://github.com/zhilizheng/plink-ng/archive',
-]
+source_urls = ['https://cnsgenomics.com/software/gcta/pre_gcta']
 sources = [
     '%(name)s_%(version)s_src.zip',  # gcta
-    '%s.zip' % _plink_ng_commit,  # plink-ng
+    {
+        'source_urls': ['https://github.com/zhilizheng/plink-ng/archive'],
+        'download_filename': 'ec1b2d151cb77050b5ba09dc28157a03fc3cc968.tar.gz',
+        'filename': 'plink-ng-20191208.tar.gz',
+        'extract_cmd': 'tar -C %(name)s-master/submods/plink-ng --strip-components=1 -xf %s',
+    }
 ]
 checksums = [
     'fc2845c0b782443c6b5999d1c8cfe332adb9ddbd379dfff11d3b4e80cd8e9f29',  # gcta_1.93.2_src.zip
