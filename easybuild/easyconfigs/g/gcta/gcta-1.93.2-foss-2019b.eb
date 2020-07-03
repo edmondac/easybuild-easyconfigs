@@ -24,7 +24,7 @@ sources = [
 ]
 checksums = [
     'fc2845c0b782443c6b5999d1c8cfe332adb9ddbd379dfff11d3b4e80cd8e9f29',  # gcta_1.93.2_src.zip
-    'e55270b66ae3ce82319457e372f83e03bd11b1e29cce5b550b3cefa31d142eba',  # ec1b2d151cb77050b5ba09dc28157a03fc3cc968.zip
+    '5734cd20f69195d897fcf5702355d32f53b0095c6a798f3dda1c40768c34b53d',  # plink-ng-20191208.tar.gz
 ]
 
 builddependencies = [
