@@ -4,7 +4,6 @@ easyblock = 'CMakeMakeCp'
 
 name = 'gcta'
 version = '1.93.2'
-_plink_ng_commit = 'ec1b2d151cb77050b5ba09dc28157a03fc3cc968'
 
 homepage = 'https://cnsgenomics.com/software/gcta'
 description = """GCTA (Genome-wide Complex Trait Analysis) was originally designed to estimate
@@ -31,7 +30,6 @@ checksums = [
 
 builddependencies = [
     ('CMake', '3.15.3'),
-    ('git', '2.23.0', '-nodocs'),
 ]
 
 dependencies = [
