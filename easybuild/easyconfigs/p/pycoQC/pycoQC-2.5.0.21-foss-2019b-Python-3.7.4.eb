@@ -30,10 +30,10 @@ exts_default_options = {
 exts_list = [
     (name, version, {
         'modulename': '%(name)s',
-        'patches': ['%(name)s-%(version)s_relax_ver_of_python_deps.eb'],
+        'patches': ['%(name)s-%(version)s_relax_ver_of_python_deps.patch'],
         'checksums': [
             '691ed3231718c14168b8ed9fcb79fc1dc258b28d88c9fed95e68da80c664980a',  # pycoQC-2.5.0.21.tar.gz
-            # pycoQC-2.5.0.21_relax_ver_of_python_deps.eb
+            # pycoQC-2.5.0.21_relax_ver_of_python_deps.patch
             '88951b40c79a3dd2a11987dec0d4b4e11e31e4f9ac7603c68b1b55c73cfce62a',
         ],
     }),
