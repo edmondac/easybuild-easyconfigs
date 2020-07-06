@@ -25,7 +25,7 @@ _binaries = ['bgenix', 'cat-bgen', 'edit-bgen']
 sanity_check_commands = ['%s -help' % _bin for _bin in _binaries]
 
 sanity_check_paths = {
-    'files': ['bin/%s' % _bin for _bin in _binaries ],
+    'files': ['bin/%s' % _bin for _bin in _binaries],
     'dirs': [],
 }
 
