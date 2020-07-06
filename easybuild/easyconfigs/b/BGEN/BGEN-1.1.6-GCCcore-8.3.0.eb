@@ -16,6 +16,8 @@ source_urls = ['https://enkre.net/cgi-bin/code/bgen/tarball/v%(version)s/']
 sources = ['%(name)s-v%(version)s.tar.gz']
 checksums = ['3f09c5056516c292f6fc8bb5ea28ac9819f2d2af9337cca99a50377282aedaf9']
 
+builddependencies = [('binutils', '2.32')]
+
 dependencies = []
 
 _binaries = ['bgenix', 'cat-bgen', 'edit-bgen']
