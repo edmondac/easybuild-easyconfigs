@@ -1,0 +1,30 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Waf'
+
+name = 'BGEN'
+version = '1.1.6'
+
+homepage = "https://enkre.net/cgi-bin/code/bgen/"
+description = """A reference implementation of the BGEN format in C++, originally sourced from the qctool
+ implementation. In addition three utilities - bgenix, which provides indexed access to BGEN files, cat-bgen
+ which efficiently concatenates BGEN files, and edit-bgen which is used to manipulate BGEN metadata - are
+ provided. See the wiki for documentation on these programs. """
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://enkre.net/cgi-bin/code/bgen/tarball/v%(version)s/']
+sources = ['%(name)s-v%(version)s.tar.gz']
+checksums = ['3f09c5056516c292f6fc8bb5ea28ac9819f2d2af9337cca99a50377282aedaf9']
+
+dependencies = []
+
+_binaries = ['bgenix', 'cat-bgen', 'edit-bgen']
+
+sanity_check_commands = ['%s -help' % _bin for _bin in _binaries]
+
+sanity_check_paths = {
+    'files': ['bin/%s' % _bin for _bin in _binaries ],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
