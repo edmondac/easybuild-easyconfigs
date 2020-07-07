@@ -53,6 +53,6 @@ sanity_check_paths = {
     'dirs': ['include/paraview-%(version_major_minor)s', 'lib/python%(pyshortver)s/site-packages'],
 }
 
-modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
+modextrapaths = {'PYTHONPATH': ['lib64/python%(pyshortver)s/site-packages']}
 
 moduleclass = 'vis'
