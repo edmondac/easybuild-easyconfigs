@@ -38,6 +38,7 @@ dependencies = [
     ('hypothesis', '4.44.2', _pyversuf),
     ('Mako', '1.1.0'),
     ('Globus-CLI', '1.11.0', _pyversuf),
+    ('PyTables', '3.6.1', _pyversuf),
 ]
 
 moduleclass = 'tools'
