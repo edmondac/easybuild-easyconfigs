@@ -1,0 +1,61 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'Gaussian'
+version = '09'
+_pgiver = '19.10'
+
+homepage = "https://gaussian.com/"
+description = """Gaussian provides state-of-the-art capabilities for electronic structure modelling."""
+
+toolchain = SYSTEM
+
+source_urls = ['http://che-thor.bham.ac.uk/~webmo/G09/tar/']
+sources = [
+    'wkssrc.tgz',
+    {
+        'filename': 'gau-machine',
+        'extract_cmd': 'cp %s g09'
+    }
+]
+checksums = [
+    'c398c3caa0a6a6b39fca79a956f3f4720f0b5347b5c6c51d0b1321ce9395d6f1',  # wkssrc.tgz
+    '1a90cebea562b9c260f91796daad2e05af9a58dff05a3340ec20e82c8ef7df4a',  # gau-machine
+]
+
+builddependencies = [
+    ('PGI', '%s-GCC-8.3.0-2.32' % _pgiver),
+]
+
+osdependencies = ['tcsh']
+
+buildininstalldir = True
+
+prebuildopts = "export g09root=%(builddir)s && "
+prebuildopts += "cd %(builddir)s/g09 && "
+prebuildopts += "ln -s ${EBROOTPGI}/linux86-64/%s/bin/pgfortran pgf77 && " % _pgiver
+prebuildopts += "bsd/install && "
+skipsteps = ['configure', 'install']
+
+build_cmd = "bsd/bldg09 all"
+
+postinstallcmds = ["rm %(installdir)s/g09/pgf77 && chmod -R 750 %(installdir)s && chgrp -R p-gaussian %(installdir)s"]
+
+modextravars = {
+    'GAUSS_SCRDIR': '/scratch'
+}
+
+modextrapaths = {
+    'PATH': 'g09',
+    'LD_LIBRARY_PATH': ['g09', 'g09/bsd'],
+    'GAUSS_BSDDIR': 'g09/bsd',
+    'GAUSS_EXEDIR': ['g09', 'g09/bsd'],
+    'GAUSS_ROOT': 'g09',
+}
+
+sanity_check_paths = {
+    'files': ['g09/%s' % x for x in ['g09', 'gau-machine']],
+    'dirs': ['g09/%s' % x for x in ['basis', 'bsd', 'doc', 'tests']],
+}
+
+moduleclass = 'chem'
