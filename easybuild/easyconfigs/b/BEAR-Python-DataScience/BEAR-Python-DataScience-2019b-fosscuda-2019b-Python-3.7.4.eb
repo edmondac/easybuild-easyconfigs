@@ -37,6 +37,7 @@ dependencies = [
     ('OpenCV', '4.2.0', versionsuffix),
     ('Mako', '1.1.0'),
     ('Globus-CLI', '1.11.0', versionsuffix),
+    ('PyTables', '3.6.1', versionsuffix),
 ]
 
 moduleclass = 'tools'
