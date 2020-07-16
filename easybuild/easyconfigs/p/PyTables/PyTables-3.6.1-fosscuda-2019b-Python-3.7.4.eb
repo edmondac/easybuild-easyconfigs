@@ -1,4 +1,4 @@
-syblock = 'PythonPackage'
+easyblock = 'PythonPackage'
 
 name = 'PyTables'
 version = '3.6.1'
