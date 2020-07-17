@@ -38,4 +38,6 @@ sanity_check_paths = {
 
 sanity_check_commands = [('%(namelower)s -v')]
 
+fix_perl_shebang_for = ['fastq_screen']
+
 moduleclass = 'bio'
