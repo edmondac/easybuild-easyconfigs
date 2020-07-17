@@ -1,4 +1,8 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
+
+# Gaussian will not work with global access enabled, so this easyconfig should be run with
+# the "-s module" option to stop the installation before permissions are changed by Easybuild.
+
 easyblock = 'ConfigureMake'
 
 name = 'Gaussian'
@@ -39,7 +43,11 @@ skipsteps = ['configure', 'install']
 
 build_cmd = "bsd/bldg09 all"
 
-postinstallcmds = ["rm %(installdir)s/g09/pgf77 && chmod -R 750 %(installdir)s && chgrp -R p-gaussian %(installdir)s"]
+postinstallcmds = [
+    "rm %(installdir)s/g09/pgf77",
+    "chmod -R o-rxw %(installdir)s/g09",
+    "chgrp -R p-gaussian %(installdir)s/g09"
+]
 
 modextravars = {
     'GAUSS_SCRDIR': '/scratch'
@@ -57,5 +65,9 @@ sanity_check_paths = {
     'files': ['g09/%s' % x for x in ['g09', 'gau-machine']],
     'dirs': ['g09/%s' % x for x in ['basis', 'bsd', 'doc', 'tests']],
 }
+
+sanity_check_commands = [
+    "g09 %(installdir)s/g09/tests/com/test0001.com",
+]
 
 moduleclass = 'chem'
