@@ -34,4 +34,6 @@ sanity_check_paths = {
 
 modextrapaths = {'PATH': ''}
 
+fix_perl_shebang_for = ['*.pl', 'filter_non_conversion']
+
 moduleclass = 'bio'

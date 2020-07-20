@@ -33,4 +33,6 @@ dependencies = [
 # to add script folder to path just uncomment this line
 # modextrapaths = {'PATH': 'scripts'}
 
+fix_perl_shebang_for = ['scripts/*.pl']
+
 moduleclass = 'bio'
