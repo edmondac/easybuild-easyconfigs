@@ -71,3 +71,6 @@ sanity_check_commands = [
 ]
 
 moduleclass = 'chem'
+
+# Need to ensure that only members of the p-gaussian group can access the module
+local_bham_group = "p-gaussian"
