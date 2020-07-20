@@ -1,8 +1,4 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
-
-# Gaussian will not work with global permissions enabled, so this easyconfig should be run with
-# the "-s module" option to stop the installation before permissions are changed by Easybuild.
-
 easyblock = 'ConfigureMake'
 
 name = 'Gaussian'
@@ -71,3 +67,5 @@ sanity_check_commands = [
 ]
 
 moduleclass = 'chem'
+
+local_bham_perms = 'p-gaussian'
