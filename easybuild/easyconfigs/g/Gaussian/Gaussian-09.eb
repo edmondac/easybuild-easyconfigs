@@ -41,8 +41,6 @@ build_cmd = "bsd/bldg09 all"
 
 postinstallcmds = [
     "rm %(installdir)s/g09/pgf77",
-    "chmod -R o-rxw %(installdir)s/g09",
-    "chgrp -R p-gaussian %(installdir)s/g09"
 ]
 
 modextravars = {
