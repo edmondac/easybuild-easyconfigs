@@ -71,3 +71,5 @@ sanity_check_commands = [
 ]
 
 moduleclass = 'chem'
+
+local_bham_perms = 'p-gaussian'
