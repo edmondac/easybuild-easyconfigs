@@ -22,6 +22,9 @@ dependencies = [
 unpack_options = '--strip-components=1'
 buildininstalldir = True
 
+download_dep_fail = False
+use_pip = False
+
 options = {'modulename': 'platypusutils'}
 
 postinstallcmds = ["mkdir %(installdir)s/bin && cd %(installdir)s/bin && ln -s ../Platypus.py"]
