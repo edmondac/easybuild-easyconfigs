@@ -9,10 +9,10 @@ _makefilever = 'gfortran_openblas_mpi'
 _file_ext = '-%%(version)s-%s' % _makefilever
 
 homepage = "https://github.com/atomisticnet/aenet"
-description = """The Atomic Energy NETwork (ænet) package is a collection of tools for the
+description = """The Atomic Energy NETwork (aenet) package is a collection of tools for the
  construction and application of atomic interaction potentials based on artificial neural
- networks (ANN). The ænet code allows the accurate interpolation of structural energies, e.g.,
- from electronic structure calculations, using ANNs. ANN potentials generated with ænet can then
+ networks (ANN). The aenet code allows the accurate interpolation of structural energies, e.g.,
+ from electronic structure calculations, using ANNs. ANN potentials generated with aenet can then
  be used in larger scale atomistic simulations and in situations where extensive sampling is
  required, e.g., in molecular dynamics or Monte-Carlo simulations."""
 
@@ -50,7 +50,7 @@ sanity_check_paths = {
         ]
     ],
     'dirs': [
-        '%%(name)s-%%(version)s/%s' % x for x in ['bin', 'doc', 'lib', 'examples', 'src', 'python3', 'tools']
+        '%%(name)s-%%(version)s/%s' % x for x in ['doc', 'lib', 'examples', 'src', 'tools']
     ],
 }
 
