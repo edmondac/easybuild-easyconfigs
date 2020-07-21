@@ -1,0 +1,63 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+
+easyblock = 'ConfigureMake'
+
+name = 'aenet'
+version = '2.0.4'
+versionsuffix = '-Python-%(pyver)s'
+_makefilever = 'gfortran_openblas_mpi'
+_file_ext = '-%%(version)s-%s' % _makefilever
+
+homepage = "https://github.com/atomisticnet/aenet"
+description = """The Atomic Energy NETwork (ænet) package is a collection of tools for the
+ construction and application of atomic interaction potentials based on artificial neural
+ networks (ANN). The ænet code allows the accurate interpolation of structural energies, e.g.,
+ from electronic structure calculations, using ANNs. ANN potentials generated with ænet can then
+ be used in larger scale atomistic simulations and in situations where extensive sampling is
+ required, e.g., in molecular dynamics or Monte-Carlo simulations."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/atomisticnet/aenet/archive']
+sources = ['v%(version)s.tar.gz']
+patches = ['aenet_lapack_blas.patch']
+checksums = [
+    'bf522911366b39d5ccb6c4721f678ede521636f049c9ab3bb1c6e411ec528fa4',  # v2.0.4.tar.gz
+    '27044d271040d9bed99e7547d3936fb2d068da0078034dfe5e7d34f0a756088d',  # aenet_lapack_blas.patch
+]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix)
+]
+
+skipsteps = ['configure']
+
+buildininstalldir = True
+
+prebuildopts = "cd lib && make && "
+
+build_cmd = "cd ../src && make -f makefiles/Makefile.%s" % _makefilever
+
+install_cmd = "cd python3 && python setup.py install"
+
+sanity_check_paths = {
+    'files': [
+        '%%(name)s-%%(version)s/bin/%s' % x for x in [
+            'train.x%s' % _file_ext,
+            'generate.x%s' % _file_ext,
+            'predict.x%s' % _file_ext
+        ]
+    ],
+    'dirs': [
+        '%%(name)s-%%(version)s/%s' % x for x in ['bin', 'doc', 'lib', 'examples', 'src', 'python3', 'tools']
+    ],
+}
+
+sanity_check_commands = ["python -c 'import aenet'"]
+
+modextrapaths = {
+    'PATH': '%(name)s-%(version)s/bin',
+}
+
+moduleclass = 'chem'
