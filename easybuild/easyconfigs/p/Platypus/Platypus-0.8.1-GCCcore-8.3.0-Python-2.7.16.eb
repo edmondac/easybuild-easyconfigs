@@ -14,6 +14,10 @@ source_urls = ['https://github.com/andyrimmer/Platypus/raw/master/release/AllRel
 sources = ['%(name)s_%(version)s.tgz']
 checksums = ['5bcc84f64a451bf539b7f72aac965a213c24dbd376ea6051deb6294fb0dccf0a']
 
+builddependencies = [
+    ('binutils', '2.32')
+]
+
 dependencies = [
     ('Python', '2.7.16'),
     ('HTSlib', '1.10.2'),
