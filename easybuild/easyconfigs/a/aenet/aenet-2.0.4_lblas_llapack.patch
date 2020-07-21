@@ -1,12 +1,12 @@
 diff -Nru aenet.orig/python3/setup.py aenet/python3/setup.py
 --- aenet.orig/python3/setup.py	2020-07-18 01:28:48.231982000 +0100
-+++ aenet/python3/setup.py	2020-07-21 11:50:16.859744000 +0100
++++ aenet/python3/setup.py	2020-07-21 14:31:09.334038000 +0100
 @@ -19,7 +19,7 @@
      extra_objects = \
         glob.glob(os.path.join(os.path.pardir,"lib","Lbfgsb.*","*_pic.o")) \
       + glob.glob(os.path.join(os.path.pardir,"src","*_pic.o")),
 -    libraries = ['lapack', 'blas', 'gfortran']
-+    libraries = ['scalapack', 'openblas', 'gfortran']
++    libraries = ['openblas', 'gfortran']
  )
  
  setup(
