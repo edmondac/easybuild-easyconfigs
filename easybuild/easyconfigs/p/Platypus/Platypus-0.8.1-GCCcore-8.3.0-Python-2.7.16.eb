@@ -1,0 +1,45 @@
+easyblock = 'PythonPackage'
+
+name = 'Platypus'
+version = '0.8.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://github.com/andyrimmer/Platypus'
+description = """Platypus is a tool designed for efficient and accurate variant-detection
+ in high-throughput sequencing data."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://github.com/andyrimmer/Platypus/raw/master/release/AllReleases']
+sources = ['%(name)s_%(version)s.tgz']
+checksums = ['5bcc84f64a451bf539b7f72aac965a213c24dbd376ea6051deb6294fb0dccf0a']
+
+builddependencies = [
+    ('binutils', '2.32')
+]
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('HTSlib', '1.10.2'),
+]
+
+unpack_options = '--strip-components=1'
+buildininstalldir = True
+
+download_dep_fail = False
+use_pip = False
+
+options = {'modulename': 'platypusutils'}
+
+postinstallcmds = ["mkdir %(installdir)s/bin && cd %(installdir)s/bin && ln -s ../Platypus.py"]
+
+sanity_check_paths = {
+    'files': ['Platypus.py'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+modextrapaths = {
+    'PLATYPUS_ROOT': ''
+}
+
+moduleclass = 'bio'
