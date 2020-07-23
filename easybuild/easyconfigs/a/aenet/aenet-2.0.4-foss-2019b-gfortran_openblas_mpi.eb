@@ -4,8 +4,8 @@ easyblock = 'ConfigureMake'
 
 name = 'aenet'
 version = '2.0.4'
-versionsuffix = '-Python-%(pyver)s'
-_makefilever = 'gfortran_openblas_serial'
+_makefilever = 'gfortran_openblas_mpi'
+versionsuffix = '-%s' % _makefilever
 _file_ext = '-%%(version)s-%s' % _makefilever
 
 homepage = "https://github.com/atomisticnet/aenet"
@@ -26,13 +26,7 @@ checksums = [
     'ef23a5ffe5e1a39f1c53ad0881a7e3254a2638f557ace3d93ad9b8ba54734148',  # aenet-2.0.4_lblas_llapack.patch
 ]
 
-dependencies = [
-    ('Python', '3.7.4'),
-    ('SciPy-bundle', '2019.10', versionsuffix),
-    ('ASE', '3.19.1', versionsuffix),
-]
-
-skipsteps = ['configure']
+skipsteps = ['configure', 'install']
 
 buildininstalldir = True
 
@@ -40,8 +34,6 @@ prebuildopts = "cd lib && make && "
 
 build_cmd = "cd ../src && make -f makefiles/Makefile.%s && " % _makefilever
 build_cmd += "make lib -f makefiles/Makefile.%s" % _makefilever
-
-install_cmd = "cd python3 && pip install -e ."
 
 sanity_check_paths = {
     'files': [
@@ -55,8 +47,6 @@ sanity_check_paths = {
         '%%(name)s-%%(version)s/%s' % x for x in ['doc', 'lib', 'examples', 'src', 'tools']
     ],
 }
-
-sanity_check_commands = ["python -c 'import aenet'"]
 
 modextrapaths = {
     'PATH': '%(name)s-%(version)s/bin',

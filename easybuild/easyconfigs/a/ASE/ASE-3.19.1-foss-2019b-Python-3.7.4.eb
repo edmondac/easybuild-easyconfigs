@@ -1,0 +1,61 @@
+easyblock = 'PythonBundle'
+
+name = 'ASE'
+version = '3.19.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://wiki.fysik.dtu.dk/ase'
+description = """ASE is a python package providing an open source Atomic Simulation Environment
+ in the Python scripting language."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Tkinter', '%(pyver)s'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+]
+
+use_pip = True
+
+exts_list = [
+    ('MarkupSafe', '1.1.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/M/MarkupSafe'],
+        'checksums': ['29872e92839765e546828bb7754a68c418d927cd064fd4708fab9fe9c8bb116b'],
+    }),
+    ('Jinja2', '2.11.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/J/Jinja2'],
+        'checksums': ['89aab215427ef59c34ad58735269eb58b1a5808103067f7bb9d5836c651b3bb0'],
+    }),
+    ('Werkzeug', '1.0.1', {
+        'source_urls': ['https://pypi.python.org/packages/source/W/Werkzeug'],
+        'checksums': ['6c80b1e5ad3665290ea39320b91e1be1e0d5f60652b964a3070216de83d2e47c'],
+    }),
+    ('Click', '7.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/C/Click'],
+        'checksums': ['5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7'],
+    }),
+    ('itsdangerous', '1.1.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/i/itsdangerous'],
+        'checksums': ['321b033d07f2a4136d3ec762eac9f16a10ccd60f53c0c91af90217ace7ba1f19'],
+    }),
+    ('Flask', '1.1.2', {
+        'source_urls': ['https://pypi.python.org/packages/source/F/Flask'],
+        'checksums': ['4efa1ae2d7c9865af48986de8aeb8504bf32c7f3d6fdc9353d34b21f4b127060'],
+    }),
+    ('ase', version, {
+        'source_urls': ['https://pypi.python.org/packages/source/a/ase'],
+        'checksums': ['839029ed5ad9590b40c74773b9aef4733bfd9f8300cf998011584cad6ebdbf0f'],
+    }),
+]
+
+sanity_check_paths = {
+    'files': ['bin/ase'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+# make sure Tkinter is available, otherwise 'ase gui' will not work
+sanity_check_commands = ["python -c 'import tkinter' "]
+
+moduleclass = 'chem'
