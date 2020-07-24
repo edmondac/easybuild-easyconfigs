@@ -14,7 +14,7 @@ dependencies = [
     ('Python', '3.7.4'),
     ('yaff', '1.6.0', versionsuffix),
     ('PLUMED', '2.5.3', versionsuffix),
-    ('pept', '0.1.6', versionsuffix),
+    ('pept', '0.2.2', versionsuffix),
     ('OpenMC', '0.11.0', versionsuffix),
     ('molmod', '1.4.5', versionsuffix),
     ('mosfit', '1.1.6', versionsuffix),
