@@ -2,7 +2,7 @@
 easyblock = 'PythonBundle'
 
 name = 'pept'
-version = '0.2.1'
+version = '0.2.2'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = "https://pept.readthedocs.io/en/latest/"
@@ -40,8 +40,8 @@ exts_list = [
     (name, version, {
         'patches': ['%(name)s-%(version)s_requirements.patch'],
         'checksums': [
-            'b044cc5b071d210816f9f7282b8330c17b3a624ff2bbc708b011ac06124663d3',  # pept-0.2.1.tar.gz
-            '87feaf326eece8997ef1c204524d19f6324f383e648569bb1ec47984483b4371',  # pept-0.2.1_requirements.patch
+            '03efcab9245f1917e49db45d5d87e172e8dc219df0b02b4da0fb23f10cdf0cf9',  # pept-0.2.2.tar.gz
+            '5da8b5be669b93941ac8ea3470eb1f44353e088b61c1e843e76180aa7c36263c',  # pept-0.2.2_requirements.patch
         ],
     }),
 ]

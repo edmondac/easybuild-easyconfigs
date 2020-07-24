@@ -1,0 +1,9 @@
+diff -Nru pept-0.2.2.orig/requirements.txt pept-0.2.2/requirements.txt
+--- pept-0.2.2.orig/requirements.txt	2020-07-24 14:16:24.443839000 +0100
++++ pept-0.2.2/requirements.txt	2020-07-24 14:16:45.818911000 +0100
+@@ -7,4 +7,4 @@
+ plotly>=4.4.1
+ tqdm>=4.41.1
+ six>=1.12.0
+-pandas>=1.0.5
++pandas>=0.25.3
