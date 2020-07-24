@@ -37,6 +37,7 @@ dependencies = [
     ('xESMF', '0.3.0', versionsuffix),
     ('Cartopy', '0.18.0', versionsuffix),
     ('basemap', '1.2.1', versionsuffix),
+    ('pept', '0.2.1', versionsuffix),
 ]
 
 moduleclass = 'tools'
