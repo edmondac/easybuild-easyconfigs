@@ -1,0 +1,40 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'NanoMod'
+version = '0.2.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/WGLab/NanoMod"
+description = """NanoMod is a novel computational tool for the detection of DNA modifications using
+ Nanopore long-read sequencing data. The evaluation on simulation data with different types of
+ modifications and on a methylation data of E. coli suggested that NanoMod achieved better
+ performance than other existing tools in detecting modifications without training data."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('R', '3.6.2'),
+    ('BWA', '0.7.17'),
+    ('HDF5', '1.10.5'),
+    ('h5py', '2.10.0', versionsuffix),
+    ('rpy2', '2.8.6', versionsuffix),
+]
+
+source_urls = ['https://github.com/WGLab/NanoMod/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['68e4219b24d74145e2f8b801ab8b6da5ec17b7377b4ce9b3e17bfa66e3cf177b']
+
+modextrapaths = {
+    'PATH': 'bin',
+    'NANOMOD': 'bin'
+}
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s.py'],
+    'dirs': ['bin/scripts', 'bin/scripts/Rscript']
+}
+
+moduleclass = 'bio'

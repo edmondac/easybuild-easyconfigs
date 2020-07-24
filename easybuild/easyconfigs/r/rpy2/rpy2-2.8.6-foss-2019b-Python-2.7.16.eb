@@ -1,0 +1,32 @@
+# Author: Pavel Grochal (INUITS)
+# License: GPLv2
+
+easyblock = 'PythonBundle'
+
+name = 'rpy2'
+version = '2.8.6'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://rpy2.bitbucket.io/'
+description = """rpy2 is an interface to R running embedded in a Python process."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('R', '3.6.2'),
+    ('IPython', '5.8.0', versionsuffix),
+]
+
+use_pip = True
+sanity_pip_check = True
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+exts_list = [
+    (name, version, {
+        'checksums': ['004d13734a7b9a85cbc1e7a93ec87df741e28db1273ab5b0d9efaac04a9c5f98'],
+    }),
+]
+
+moduleclass = 'tools'
