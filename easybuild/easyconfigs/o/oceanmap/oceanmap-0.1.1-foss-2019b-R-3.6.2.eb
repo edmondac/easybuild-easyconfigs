@@ -6,7 +6,8 @@ version = '0.1.1'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://cran.r-project.org/package=oceanmap"
-description = """"""
+description = """Plotting toolbox for 2D oceanographic data (satellite data, sea surface temperature, chlorophyll,
+ ocean fronts & bathymetry). Recognized classes and formats include netcdf, Raster, '.nc' and '.gz' files."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
