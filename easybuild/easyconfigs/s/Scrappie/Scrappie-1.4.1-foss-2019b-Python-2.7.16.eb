@@ -1,0 +1,43 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'Scrappie'
+version = '1.4.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://pypi.org/project/scrappie"
+description = """Scrappy provides a minimal python binding to some of the core functionality of the
+ scrappie raw basecaller. The performance of scrappy should be comparable (if not essentially
+ identical) to scrappie."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('SciPy-bundle', '2019.10', versionsuffix)
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCELOWER_TAR_GZ]
+patches = ['%(name)s-%(version)s_lblas.patch']
+checksums = [
+    '779d3ef14b5a6b5911ba6908e8148508c2ecfb4ff39fad111db48d7b424acdf4',  # scrappie-1.4.1.tar.gz
+    '926941b1e5b76606282379b9f9c3b49aa6aea2283e35de5b07f24212de432317',  # Scrappie-1.4.1_lblas.patch
+]
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+options = {'modulename': 'scrappy'}
+
+modextrapaths = {
+    'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/%(namelower)s-%(version)s.dist-info'],
+}
+
+moduleclass = 'bio'
