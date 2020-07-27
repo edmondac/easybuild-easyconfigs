@@ -32,18 +32,6 @@ exts_default_options = {
 
 # Order is important!
 exts_list = [
-    ('rstatix', '0.6.0', {
-        'checksums': ['ebb28e20c7e28809194a2a027bc83303b17be1e3db32f49325727c9279df9c5b'],
-    }),
-    ('ggsci', '2.9', {
-        'checksums': ['4af14e6f3657134c115d5ac5e65a2ed74596f9a8437c03255447cd959fe9e33c'],
-    }),
-    ('ggsignif', '0.6.0', {
-        'checksums': ['6fe13efda31386483e64d466ba2f5a53a2a235ae04f5c17bba3ccc63d283499e'],
-    }),
-    ('ggpubr', '0.4.0', {
-        'checksums': ['abb21ec0b1ae3fa1c58eedca2d59b9b009621b30e3660f1247b3880c5fa50675'],
-    }),
     (name, version, {
         'checksums': ['624ff01c74933352aca55966f8a052b1ccc878f52c2c307e47f88e0665db94aa'],
     }),
