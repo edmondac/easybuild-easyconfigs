@@ -1,0 +1,38 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'ont-fast5-api'
+version = '2.0.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/nanoporetech/ont_fast5_api"
+description = """ont_fast5_api is a simple interface to HDF5 files of the Oxford Nanopore fast5 file format."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('h5py', '2.10.0', versionsuffix),
+]
+
+use_pip = True
+
+exts_list = [
+    ('progressbar33', '2.4', {
+        'modulename': 'progressbar',
+        'source_urls': ['https://pypi.python.org/packages/source/p/progressbar33'],
+        'checksums': ['51fe0d9b3b4023db2f983eeccdfc8c9846b84db8443b9bee002c7f58f4376eff'],
+    }),
+    (name, version, {
+        'source_urls': ['https://pypi.python.org/packages/source/o/ont-fast5-api'],
+        'checksums': ['256f97cde47f0bb569efdf0239cfe702a4ef40d1d8441bdc15630c506be8e7e5'],
+    }),
+]
+
+sanity_check_paths = {
+    'files': ['bin/multi_to_single_fast5', 'bin/single_to_multi_fast5'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/ont_fast5_api'],
+}
+
+moduleclass = 'tools'

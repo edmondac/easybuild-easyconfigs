@@ -1,0 +1,41 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'SquiggleKit'
+version = '4a8abb5'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/Psy-Fer/SquiggleKit"
+description = """A toolkit for accessing and manipulating nanopore signal data"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+source_urls = ['https://github.com/Psy-Fer/SquiggleKit/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['a6f605f38e7ccb8977d244307a3ccc3377657fdc72141aa98ba3d227c3d0b41b']
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('h5py', '2.10.0', versionsuffix),
+    ('matplotlib', '2.2.5', versionsuffix),
+    ('scikit-learn', '0.20.4', versionsuffix),
+    ('Scrappie', '1.4.1', versionsuffix),
+    ('ont-fast5-api', '2.0.1', versionsuffix),  # ont-fast5-api > 2.0.1 doesn't work with Python 2
+    ('mlpy', '3.5.0', versionsuffix)
+]
+
+_files = ['SquigglePull.py', 'SquigglePlot.py', 'segmenter.py', 'fast5_fetcher.py',
+          'fast5_fetcher_multi.py', 'dRNA_segmenter.py', 'MotifSeq.py', 'batch_tater.py']
+
+postinstallcmds = ["sed -i '1 i\#!/usr/bin/env python' %%(installdir)s/%s; chmod +x %%(installdir)s/%s" %
+                   (f, f) for f in _files]
+
+sanity_check_paths = {
+    'files': _files,
+    'dirs': ['example'],
+}
+
+sanity_check_commands = ["python %s -h" % f for f in _files[:-1]]
+
+modextrapaths = {'PATH': ''}
+
+moduleclass = 'bio'

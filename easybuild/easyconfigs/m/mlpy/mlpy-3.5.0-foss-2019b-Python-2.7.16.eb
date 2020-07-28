@@ -1,0 +1,37 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'mlpy'
+version = '3.5.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://sourceforge.net/projects/mlpy"
+description = """mlpy is a Python module for Machine Learning built on top of NumPy/SciPy and of GSL."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('GSL', '2.6'),
+]
+
+source_urls = [('https://sourceforge.net/projects/mlpy/files/%(name)s%20%(version)s', 'download')]
+sources = [SOURCELOWER_TAR_GZ]
+checksums = ['344fa75fbf9f76af72f6a346d5309613defc4d244bac13c218e509a51d68bf6a']
+
+use_pip = False
+download_dep_fail = False
+
+modextrapaths = {
+    'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/%(namelower)s'],
+}
+
+sanity_check_commands = [('python', "-c 'import %(namelower)s'")]
+
+moduleclass = 'lib'
