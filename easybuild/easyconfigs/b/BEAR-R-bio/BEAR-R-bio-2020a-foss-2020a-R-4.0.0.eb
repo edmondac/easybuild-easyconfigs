@@ -14,6 +14,8 @@ dependencies = [
     ('R', '4.0.0'),
     ('R-bundle-Bioconductor', '3.11', versionsuffix),
     ('Cardinal', '2.6.0', versionsuffix),
+    ('factoextra', '1.0.7', versionsuffix),
+    ('PCAmixdata', '3.1', versionsuffix),
 ]
 
 moduleclass = 'bio'
