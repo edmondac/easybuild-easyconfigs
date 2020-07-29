@@ -1,0 +1,63 @@
+easyblock = 'Bundle'
+
+name = 'RAPID'
+version = 'fcd9e9b'
+versionsuffix = '-R-%(rver)s'
+
+homepage = 'https://github.com/cytolab/RAPID'
+description = """Risk Assessment Population IDentification (RAPID) is an unsupervised, machine
+ learning algorithm that identifies single cell phenotypes and assesses clinical risk stratification
+ as a continuous variable."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', versionsuffix),
+]
+
+github_account = 'cytolab'
+exts_defaultclass = 'RPackage'
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+exts_list = [
+    ('exactRankTests', '0.8-31', {
+        'checksums': ['fca19ef48fb50b9770d24d4b36715b889e6e57d2f8a0dbaa82d28e16d96ca484'],
+    }),
+    ('maxstat', '0.7-25', {
+        'checksums': ['6fc13b8d83797e10fc148183eb440a30584442fdf73628652c606ede790e9f84'],
+    }),
+    ('KMsurv', '0.1-5', {
+        'checksums': ['55627bc301245e0a4d6be04565fbaabd9cc360e2e5e4bc1e38341354e6de2542'],
+    }),
+    ('km.ci', '0.5-2', {
+        'checksums': ['1bb9c60e27ba42ea773407dcc438b4a630f53877eb16e6054041a97b25e2d3d0'],
+    }),
+    ('survMisc', '0.5.5', {
+        'checksums': ['75091b08fb9125561a4d2b0800d1d615553dddeea06522963a8790ff10dddb02'],
+    }),
+    ('survminer', '0.4.8', {
+        'checksums': ['cef1cca1c8a65c0121074e15a396be036ff7bad1a1fecdac5162f59a50d33eda'],
+    }),
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/%(github_account)s/%(name)s/archive'],
+        'checksums': ['802d57a4efec0258b637fd4116b28e9edb9fa103dcd60d989290ce30379810f8'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['%(name)s'],
+}
+
+moduleclass = 'bio'
