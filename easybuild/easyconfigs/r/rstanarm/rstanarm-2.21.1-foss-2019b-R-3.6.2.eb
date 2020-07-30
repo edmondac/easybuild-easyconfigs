@@ -4,7 +4,7 @@ name = 'rstanarm'
 version = '2.21.1'
 versionsuffix = '-R-%(rver)s'
 
-homepage = 'https://r-forge.r-project.org/projects/rstanarm'
+homepage = 'https://cran.r-project.org/package=rstanarm'
 description = """Estimates previously compiled regression models using the 'rstan' package, which provides
  the R interface to the Stan C++ library for Bayesian estimation."""
 
