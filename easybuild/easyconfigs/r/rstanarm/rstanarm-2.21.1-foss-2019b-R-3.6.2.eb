@@ -1,0 +1,82 @@
+easyblock = 'Bundle'
+
+name = 'rstanarm'
+version = '2.21.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = 'https://cran.r-project.org/package=rstanarm'
+description = """Estimates previously compiled regression models using the 'rstan' package, which provides
+ the R interface to the Stan C++ library for Bayesian estimation."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('V8', '3.2.0', versionsuffix),
+]
+
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+
+exts_list = [
+    ('BH', '1.72.0-3', {
+        'checksums': ['888ec1a3316bb69e1ba749b08ba7e0903ebc4742e3a185de8d148c13cddac8ab'],
+    }),
+    ('bayesplot', '1.7.1', {
+        'checksums': ['820ca9ca3258fc68333e75fd60898c0d0f08f513b66c161ca6159a54ad54006b'],
+    }),
+    ('shinyjs', '1.1', {
+        'checksums': ['8986181baa68fb2863eea65b9df1b04b9b4e1293685298531d42de3bc2f06892'],
+    }),
+    ('colourpicker', '1.0', {
+        'checksums': ['f1dacbafb05c09f61b9bdd0fdcee5344409759b042a71ec46d7c9e3710107b7c'],
+    }),
+    ('dygraphs', '1.1.1.6', {
+        'checksums': ['c3d331f30012e721a048e04639f60ea738cd7e54e4f930ac9849b95f0f005208'],
+    }),
+    ('packrat', '0.5.0', {
+        'checksums': ['d6a09290fbe037a6c740921c5dcd70b500e5b36e4713eae4010adf0c456bc5f7'],
+    }),
+    ('rsconnect', '0.8.16', {
+        'checksums': ['3f728c6a5153dca28f69b9355ae9d18c5f7e70d12495c0c047eef673c1053116'],
+    }),
+    ('RcppParallel', '5.0.2', {
+        'checksums': ['8ca200908c6365aafb2063be1789f0894969adc03c0f523c6cc45434b8236f81'],
+    }),
+    ('rstantools', '2.1.1', {
+        'checksums': ['c95b15de8ec577eeb24bb5206e7b685d882f88b5e6902efda924b7217f463d2d'],
+    }),
+    ('StanHeaders', '2.21.0-5', {
+        'checksums': ['20a08317e25be667599e5b2a1d7394ea1df96950e9b422d52a2af543ba80d7ff'],
+    }),
+    ('loo', '2.3.1', {
+        'checksums': ['d98de21b71d9d9386131ae5ba4da051362c3ad39e0305af4f33d830f299ae08b'],
+    }),
+    ('rstan', '2.21.2', {
+        'checksums': ['e30e04d38a612e2cb3ac69b53eaa19f7ede8b3548bf82f7892a2e9991d46054a'],
+    }),
+    ('shinystan', '2.5.0', {
+        'checksums': ['45f9c552a31035c5de8658bb9e5d72da7ec1f88fbddb520d15fe701c677154a1'],
+    }),
+    (name, version, {
+        'checksums': ['68ca733f246f800cd7f442f8abfd631891556eafd9f736d4ef4a1e37a6faef11'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['rstanarm'],
+}
+
+moduleclass = 'lib'
