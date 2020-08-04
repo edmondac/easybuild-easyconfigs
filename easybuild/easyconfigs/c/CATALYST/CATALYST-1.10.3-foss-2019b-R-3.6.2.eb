@@ -1,0 +1,104 @@
+easyblock = 'Bundle'
+
+name = 'CATALYST'
+version = '1.10.3'
+versionsuffix = '-R-%(rver)s'
+
+homepage = 'https://catalyst-project.github.io'
+description = """CATALYST (Cytometry dATa anALYSis Tools) provides a pipeline for preprocessing of
+ cytometry data, including i) normalization using bead standards, ii) single-cell deconvolution,
+ and iii) bead-based compensation."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('R-bundle-Bioconductor', '3.10', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_default_options = {
+    'source_urls': [
+        'https://bioconductor.org/packages/3.10/bioc/src/contrib/',
+        'https://bioconductor.org/packages/3.10/bioc/src/contrib/Archive/%(name)s',
+        'https://bioconductor.org/packages/3.10/data/annotation/src/contrib/',
+        'https://bioconductor.org/packages/3.10/data/experiment/src/contrib/',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+exts_list = [
+    ('ALL', '1.28.0', {
+        'checksums': ['ef841adc8b366afcdb89de64576ff5ce4cd55ce6c11f5558ada6b074df12d899'],
+    }),
+    ('ConsensusClusterPlus', '1.50.0', {
+        'checksums': ['e4668aeb05de5e8d836df37bb3bb864e1537c7fdc536d93b31838d66fc2fd05e'],
+    }),
+    ('cytolib', '1.8.0', {
+        'checksums': ['6996000f2501817b247e0d3dab44e6ba3bf200cc83be9384e154a033138865fe'],
+    }),
+    ('flowCore', '1.52.1', {
+        'checksums': ['e25ea2951b88878d453760cfa510d72bbd7299040685be628f94c78302eb7b22'],
+    }),
+    ('flowViz', '1.50.0', {
+        'checksums': ['6792daee4d8a51d5355eec2ba5886971ea89c229050c958dc0e331c7fa326146'],
+    }),
+    ('ncdfFlow', '2.32.0', {
+        'checksums': ['5100087f9c190c3134a2a3de285de0689d44c43f3283145d04e865024d679a1a'],
+    }),
+    ('RProtoBufLib', '1.8.0', {
+        'checksums': ['355b5e87d5ffcb0c37bd49a1270e31a876fc0bdd03393620eeeb0c15449c8f36'],
+    }),
+    ('flowWorkspace', '3.34.1', {
+        'checksums': ['f6423889b403dfbc1ec12dacfc1f21cf6548efab5a808cd9e0194a9abe614bc6'],
+    }),
+    ('fda', '5.1.5', {
+        'checksums': ['9f4d82722d5336ab64b6e6d5ba1c25f20f41e2c679835f47cf39a600dfe51918'],
+    }),
+    ('flowStats', '3.44.0', {
+        'checksums': ['dca4b6e51d14babfec56d969dfaf789acac71245cd9a6ff851d982e42e05145f'],
+    }),
+    ('flowClust', '3.24.0', {
+        'checksums': ['1a49cb5ecedf2479d052d298039defee517d686ab43cd79cb4221457097b8b4c'],
+    }),
+    ('openCyto', '1.24.0', {
+        'checksums': ['4b0bde02c853359960186b62eb446339c5fc98e4a5aca7391106ff8037b44540'],
+    }),
+    ('ggcyto', '1.12.0', {
+        'source_urls': ['https://bioconductor.org/packages/3.9/bioc/src/contrib/'],
+        'checksums': ['515df8f64d4e2e1631e7ba8006bc0cc48243a4fbdaa13550e8eb88655e08e1cb'],
+    }),
+    ('CytoML', '1.12.1', {
+        'checksums': ['bfcb1c2f0bd2420bab1df294a6acf056a057b2abaae8dd4bfbfd6ab27846f171'],
+    }),
+    ('FlowSOM', '1.18.0', {
+        'checksums': ['a56de6acfbb35dd61e4388fa378bd9e98345eaef4962f80a34cdc8fd09d6c508'],
+    }),
+    ('diffcyt', '1.6.6', {
+        'checksums': ['7bb7203b399c0d96920c80d2e027003ba584e06d02a8261d6e300724e9278ed6'],
+    }),
+    ('drc', '3.0-1', {
+        'checksums': ['3ec01182895e8ec9b13bcdfed6a812800ad02d732634e4213802ff1b33b21d31'],
+    }),
+    ('shinyjs', '1.1', {
+        'checksums': ['8986181baa68fb2863eea65b9df1b04b9b4e1293685298531d42de3bc2f06892'],
+    }),
+    ('shinyBS', '0.61', {
+        'checksums': ['51be29541e066d30c66e243393f20b0da705eba1b7ce7eeadea993bb2aa91166'],
+    }),
+    (name, version, {
+        'checksums': ['b48c85c85cc309af328cc9b5f28f85ef21027b0a5f9160494701664bfb6a1697'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['%(name)s'],
+}
+
+moduleclass = 'bio'
