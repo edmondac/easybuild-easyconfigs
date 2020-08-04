@@ -77,6 +77,9 @@ exts_list = [
     ('FlowSOM', '1.18.0', {
         'checksums': ['a56de6acfbb35dd61e4388fa378bd9e98345eaef4962f80a34cdc8fd09d6c508'],
     }),
+    ('diffcyt', '1.6.6', {
+        'checksums': ['7bb7203b399c0d96920c80d2e027003ba584e06d02a8261d6e300724e9278ed6'],
+    }),
     ('drc', '3.0-1', {
         'checksums': ['3ec01182895e8ec9b13bcdfed6a812800ad02d732634e4213802ff1b33b21d31'],
     }),
