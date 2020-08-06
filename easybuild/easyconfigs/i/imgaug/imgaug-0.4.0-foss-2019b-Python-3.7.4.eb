@@ -16,7 +16,6 @@ dependencies = [
     ('matplotlib', '3.1.1', versionsuffix),
     ('scikit-image', '0.16.2', versionsuffix),
     ('OpenCV', '4.2.0', versionsuffix),
-    ('GEOS', '3.8.0', versionsuffix),
     ('Shapely', '1.7.0', versionsuffix),
 ]
 
