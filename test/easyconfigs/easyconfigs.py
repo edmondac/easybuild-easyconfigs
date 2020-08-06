@@ -689,6 +689,10 @@ class EasyConfigTest(TestCase):
 
     def test_changed_files_pull_request(self):
         """Specific checks only done for the (easyconfig) files that were changed in a pull request."""
+        def get_eb_files_from_diff(diff_filter):
+            cmd = "git diff --name-only --diff-filter=%s %s...HEAD" % (diff_filter, target_branch)
+            out, ec = run_cmd(cmd, simple=False)
+            return [os.path.basename(f) for f in out.strip().split('\n') if f.endswith('.eb')]
 
         # $TRAVIS_PULL_REQUEST should be a PR number, otherwise we're not running tests for a PR
         travis_pr_test = re.match('^[0-9]+$', os.environ.get('TRAVIS_PULL_REQUEST', '(none)'))
@@ -718,16 +722,18 @@ class EasyConfigTest(TestCase):
                 cwd = change_dir(top_dir)
 
                 # get list of changed easyconfigs
-                cmd = "git diff --name-only --diff-filter=AM %s...HEAD" % target_branch
-                out, ec = run_cmd(cmd, simple=False)
-                changed_ecs_filenames = [os.path.basename(f) for f in out.strip().split('\n') if f.endswith('.eb')]
-                print("\nList of changed easyconfig files in this PR: %s" % '\n'.join(changed_ecs_filenames))
+                changed_ecs_filenames = get_eb_files_from_diff(diff_filter='M')
+                added_ecs_filenames = get_eb_files_from_diff(diff_filter='A')
+                if changed_ecs_filenames:
+                    print("\nList of changed easyconfig files in this PR: %s" % '\n'.join(changed_ecs_filenames))
+                if added_ecs_filenames:
+                    print("\nList of added easyconfig files in this PR: %s" % '\n'.join(added_ecs_filenames))
 
                 change_dir(cwd)
 
                 # grab parsed easyconfigs for changed easyconfig files
                 changed_ecs = []
-                for ec_fn in changed_ecs_filenames:
+                for ec_fn in changed_ecs_filenames + added_ecs_filenames:
                     match = None
                     for ec in EasyConfigTest.parsed_easyconfigs:
                         if os.path.basename(ec['spec']) == ec_fn:
