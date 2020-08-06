@@ -25,14 +25,20 @@ use_pip = True
 exts_list = [
     ('Shapely', '1.7.0', {
         'source_urls': ['https://pypi.python.org/packages/source/s/Shapely/'],
+        'checksums': ['e21a9fe1a416463ff11ae037766fe410526c95700b9e545372475d2361cc951e'],
     }),
     ('imageio', '2.9.0', {
         'source_urls': ['https://pypi.python.org/packages/source/i/imageio/'],
+        'checksums': ['52ddbaeca2dccf53ba2d6dec5676ca7bc3b2403ef8b37f7da78b7654bb3e10f0'],
     }),
     (name, version, {
+        'patches': ['imgaug-0.4.0_openvc_requirement.patch'],
         'source_tmpl': '%(version)s.tar.gz',
         'source_urls': ['https://github.com/aleju/imgaug/archive/'],
-        'patches': ['imgaug-0.4.0_openvc_requirement.patch'],
+        'checksums': [
+            'fae8ed6e038b57fd7d8f55d813dee3f3784da36368bdf902879fd40ecf5ed7e2',  # 0.4.0.tar.gz
+            '9737e996c1274a2ec6f8081eda3a3718af8558bedd701a0ced6095408c204e9a',  # imgaug-0.4.0_openvc_requirement.patch
+        ],
     }),
 ]
 
