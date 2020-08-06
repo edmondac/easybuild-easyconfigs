@@ -1,0 +1,39 @@
+easyblock = 'PythonBundle'
+
+name = 'imgaug'
+version = '0.4.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://imgaug.readthedocs.io/en/latest/'
+description = """ This python library helps you with augmenting images for your machine learning projects.
+ It converts a set of input images into a new, much larger set of slightly altered images. """
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Pillow', '6.2.1'),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('scikit-image', '0.16.2', versionsuffix),
+    ('OpenCV', '4.2.0', versionsuffix),
+    ('GEOS', '3.8.0', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_list = [
+    ('Shapely', '1.7.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/s/Shapely/'],
+    }),
+    ('imageio', '2.9.0', {
+        'source_urls': ['https://pypi.python.org/packages/source/i/imageio/'],
+    }),
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/aleju/imgaug/archive/'],
+        'patches': ['imgaug-0.4.0_openvc_requirement.patch'],
+    }),
+]
+
+moduleclass = 'lib'
