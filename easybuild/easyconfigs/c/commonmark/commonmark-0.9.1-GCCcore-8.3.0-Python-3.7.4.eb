@@ -1,0 +1,31 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'commonmark'
+version = '0.9.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://commonmarkpy.readthedocs.io/en/latest/"
+description = """commonmark.py is a pure Python port of jgm's commonmark.js, a Markdown parser and renderer for the
+ CommonMark specification, using only native modules. Once both this project and the CommonMark specification are
+ stable we will release the first 1.0 version and attempt to keep up to date with changes in commonmark.js."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+builddependencies = [
+    ('binutils', '2.32'),
+]
+
+dependencies = [
+    ('Python', '3.7.4'),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['452f9dc859be7f06631ddcb328b6919c67984aca654e5fefb3914d54691aed60']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'tools'

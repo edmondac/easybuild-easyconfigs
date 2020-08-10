@@ -1,0 +1,35 @@
+easyblock = 'ConfigureMake'
+
+name = 'rsync'
+version = '3.2.3'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://rsync.samba.org/'
+
+description = """rsync is an open source utility that provides fast incremental file transfer."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://download.samba.org/pub/rsync/src/']
+sources = ['%(name)s-%(version)s.tar.gz']
+checksums = ['becc3c504ceea499f4167a260040ccf4d9f2ef9499ad5683c179a697146ce50e']
+
+builddependencies = [
+    ('binutils', '2.32'),
+]
+
+dependencies = [
+    ('acl', '2.2.53'),
+    ('lz4', '1.9.2'),
+    ('Python', '3.7.4'),
+    ('commonmark', '0.9.1', versionsuffix),
+    ('xxHash', '0.8.0'),
+    ('zstd', '1.4.4'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s'],
+    'dirs': ['share'],
+}
+
+moduleclass = 'tools'

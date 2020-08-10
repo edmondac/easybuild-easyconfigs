@@ -1,0 +1,27 @@
+easyblock = 'ConfigureMake'
+
+name = 'acl'
+version = '2.2.53'
+
+homepage = 'https://savannah.nongnu.org/projects/acl'
+
+description = """Commands for Manipulating POSIX Access Control Lists"""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = [GNU_SAVANNAH_SOURCE]
+sources = ['%(name)s-%(version)s.tar.gz']
+checksums = ['06be9865c6f418d851ff4494e12406568353b891ffe1f596b34693c387af26c7']
+
+builddependencies = [
+    ('binutils', '2.32'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/chacl', 'bin/getfacl', 'bin/setfacl',
+              'include/%(name)s/libacl.h', 'include/sys/%(name)s.h',
+              'lib/libacl.a', 'lib/libacl.%s' % SHLIB_EXT],
+    'dirs': ['share'],
+}
+
+moduleclass = 'tools'
