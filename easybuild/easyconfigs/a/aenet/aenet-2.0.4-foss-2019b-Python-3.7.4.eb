@@ -43,8 +43,8 @@ build_cmd += "make lib -f makefiles/Makefile.%s" % _makefilever
 
 install_cmd = "cd python3 && "
 install_cmd += "mkdir -p %(installdir)s/%(name)s-%(version)s/lib/python%(pyshortver)s/site-packages && "
-install_cmd += "export PYTHONPATH=%(installdir)s/%(name)s-%(version)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && "
-install_cmd += "python setup.py install --prefix=%(installdir)s/%(name)s-%(version)s "
+install_cmd += "export PYTHONPATH=%(installdir)s/%(name)s-%(version)s/lib/python%(pyshortver)s/site-packages:"
+install_cmd += "$PYTHONPATH && python setup.py install --prefix=%(installdir)s/%(name)s-%(version)s "
 
 sanity_check_paths = {
     'files': [
