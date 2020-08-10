@@ -6,11 +6,15 @@ version = '0.9.1'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = "https://commonmarkpy.readthedocs.io/en/latest/"
-description = """commonmark.py is a pure Python port of jgm’s commonmark.js, a Markdown parser and renderer for the
+description = """commonmark.py is a pure Python port of jgm's commonmark.js, a Markdown parser and renderer for the
  CommonMark specification, using only native modules. Once both this project and the CommonMark specification are
  stable we will release the first 1.0 version and attempt to keep up to date with changes in commonmark.js."""
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+builddependencies = [
+    ('binutils', '2.32'),
+]
 
 dependencies = [
     ('Python', '3.7.4'),
