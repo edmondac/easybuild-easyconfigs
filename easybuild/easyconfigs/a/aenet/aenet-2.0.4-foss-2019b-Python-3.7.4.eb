@@ -41,7 +41,10 @@ prebuildopts = "cd lib && make && "
 build_cmd = "cd ../src && make -f makefiles/Makefile.%s && " % _makefilever
 build_cmd += "make lib -f makefiles/Makefile.%s" % _makefilever
 
-install_cmd = "cd python3 && pip install -e ."
+install_cmd = "cd python3 && "
+install_cmd += "mkdir -p %(installdir)s/%(name)s-%(version)s/lib/python%(pyshortver)s/site-packages && "
+install_cmd += "export PYTHONPATH=%(installdir)s/%(name)s-%(version)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && "
+install_cmd += "python setup.py install --prefix=%(installdir)s/%(name)s-%(version)s "
 
 sanity_check_paths = {
     'files': [
@@ -60,6 +63,7 @@ sanity_check_commands = ["python -c 'import aenet'"]
 
 modextrapaths = {
     'PATH': '%(name)s-%(version)s/bin',
+    'PYTHONPATH': ['%(name)s-%(version)s/lib/python%(pyshortver)s/site-packages'],
 }
 
 moduleclass = 'chem'
