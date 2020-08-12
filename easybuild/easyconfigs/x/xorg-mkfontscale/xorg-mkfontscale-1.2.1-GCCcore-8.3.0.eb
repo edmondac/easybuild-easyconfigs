@@ -11,6 +11,7 @@ toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
 source_urls = ['https://github.com/freedesktop/%(name)s/archive/']
 sources = ['mkfontscale-%(version)s.tar.gz']
+checksums = ['c58577fad9a331b4023ba0cbee60a834dc429c4992c091bba3679f096f3e637e']
 
 builddependencies = [('Autoconf', '2.69')]
 

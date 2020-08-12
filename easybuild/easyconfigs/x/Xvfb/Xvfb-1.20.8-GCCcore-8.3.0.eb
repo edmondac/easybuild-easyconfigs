@@ -11,6 +11,7 @@ toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
 builddependencies = [
     ('binutils', '2.32'),
+    ('bdftopcf', '1.1'),
     ('pkg-config', '0.29.2'),
 ]
 
@@ -50,7 +51,8 @@ components = [
     }),
     ('font-misc-misc', '1.1.2', {
         'checksums': ['46142c876e176036c61c0c24c0a689079704d5ca5b510d48c025861ee2dbf829'],
-        'preconfigopts': "export PKG_CONFIG_PATH=%(installdir)s/lib/pkgconfig:$PKG_CONFIG_PATH && ",
+        'preconfigopts': ("export PKG_CONFIG_PATH=%(installdir)s/lib/pkgconfig:$PKG_CONFIG_PATH && "
+                          "export PATH=${PATH}:../font-util-*/ && "),
     }),
     ('xkbcomp', '1.4.3', {
         'source_urls': ['https://www.x.org/archive//individual/app/'],
