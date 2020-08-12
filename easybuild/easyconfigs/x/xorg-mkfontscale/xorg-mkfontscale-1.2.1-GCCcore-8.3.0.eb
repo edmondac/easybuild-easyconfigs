@@ -19,7 +19,6 @@ dependencies = [
     ('xorg-macros', '1.19.2'),
 ]
 
-#preconfigopts = 'autoreconf -v --install && '
 preconfigopts = './autogen.sh && '
 
 sanity_check_paths = {
