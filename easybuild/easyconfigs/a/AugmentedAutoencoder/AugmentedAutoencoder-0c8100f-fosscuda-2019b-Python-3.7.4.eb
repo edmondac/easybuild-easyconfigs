@@ -1,0 +1,60 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'AugmentedAutoencoder'
+version = '0c8100f'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/DLR-RM/AugmentedAutoencoder"
+description = """Implicit 3D Orientation Learning for 6D Object Detection from RGB Images"""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('assimp', '5.0.1'),
+    ('GLFW', '3.3.2'),
+    ('TensorFlow', '1.15.0', versionsuffix),
+    ('OpenCV', '4.2.0', versionsuffix),
+    ('PyOpenGL', '3.1.5'),
+    ('imgaug', '0.4.0', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('PyOpenGL-accelerate', '3.1.5', {
+        'checksums': ['12e5518b0216a478527c7ce5ddce623c3d0517adeb87226da767772e8b7f2f06'],
+    }),
+    ('cyglfw3', '3.1.0.2', {
+        'checksums': ['3bcb31c4e6f0c7020b48715cd598c809f0c36b66b191e345cb53adf857353863'],
+    }),
+    ('pyassimp', '3.3', {
+        'checksums': ['626b4db1d11adb84e4b4d27f2fd9f0ea7ddcd6a328ab5b2a989c072a6fde0c4b'],
+    }),
+    ('progressbar', '2.5', {
+        'checksums': ['5d81cb529da2e223b53962afd6c8ca0f05c6670e40309a7219eacc36af9b6c63'],
+    }),
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/DLR-RM/AugmentedAutoencoder/archive'],
+        'checksums': ['f23cee4e2240f5ee3f3bef523b3d6d8e6ea5c10c15474ba4ad8ebd8b1edf3be7'],
+    }),
+]
+
+modextravars = {
+    'PYOPENGL_PLATFORM': 'egl',
+}
+
+# May need the following too. Not sure of the path. See homepage.
+
+# modextrapaths = {
+#    'AE_WORKSPACE_PATH': '',
+# }
+
+moduleclass = 'vis'
