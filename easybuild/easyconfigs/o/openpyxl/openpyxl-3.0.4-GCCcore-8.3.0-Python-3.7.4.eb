@@ -1,0 +1,39 @@
+easyblock = 'PythonBundle'
+
+name = 'openpyxl'
+version = '3.0.4'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://openpyxl.readthedocs.io'
+description = "A Python library to read/write Excel 2010 xlsx/xlsm files"
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+builddependencies = [('binutils', '2.32')]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('lxml', '4.4.2'),
+    ('Pillow', '6.2.1'),
+]
+
+use_pip = True
+sanity_pip_check = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('et_xmlfile', '1.0.1', {
+        'checksums': ['614d9722d572f6246302c4491846d2c393c199cfa4edc9af593437691683335b'],
+    }),
+    ('jdcal', '1.4.1', {
+        'checksums': ['472872e096eb8df219c23f2689fc336668bdb43d194094b5cc1707e1640acfc8'],
+    }),
+    (name, version, {
+        'checksums': ['d88dd1480668019684c66cfff3e52a5de4ed41e9df5dd52e008cbf27af0dbf87'],
+    }),
+]
+
+moduleclass = 'data'
