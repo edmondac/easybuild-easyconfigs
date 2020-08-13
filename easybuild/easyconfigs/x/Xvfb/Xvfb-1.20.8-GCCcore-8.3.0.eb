@@ -10,6 +10,7 @@ description = """Xvfb is an X server that can run on machines with no display ha
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
 builddependencies = [
+    ('Autotools', '20180311'),
     ('binutils', '2.32'),
     ('pkg-config', '0.29.2'),
 ]
