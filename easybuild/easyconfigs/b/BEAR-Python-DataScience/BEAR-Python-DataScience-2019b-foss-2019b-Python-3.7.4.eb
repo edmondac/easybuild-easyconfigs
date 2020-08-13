@@ -36,6 +36,9 @@ dependencies = [
     ('Mako', '1.1.0'),
     ('PyTables', '3.6.1', versionsuffix),
     ('Globus-CLI', '1.11.0', versionsuffix),
+    ('Rtree', '0.9.4', versionsuffix),
+    ('PyGEOS', '0.7.1', versionsuffix),
+    ('openpyxl', '3.0.4', versionsuffix),
 ]
 
 moduleclass = 'tools'

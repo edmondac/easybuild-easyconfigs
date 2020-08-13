@@ -1,0 +1,26 @@
+easyblock = 'PythonPackage'
+
+name = 'Rtree'
+version = '0.9.4'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://toblerity.org/rtree/'
+description = """Rtree is a ctypes Python wrapper of libspatialindex that provides a number of advanced spatial
+ indexing features for the spatially curious Python user."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['cae327e2c03b3da4ea40d0fdf68f3e55fe9f302c56b9f31e1bfeb36dbea73f44']
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('libspatialindex', '1.8.5'),
+]
+
+sanity_pip_check = True
+use_pip = True
+download_dep_fail = True
+
+moduleclass = 'data'
