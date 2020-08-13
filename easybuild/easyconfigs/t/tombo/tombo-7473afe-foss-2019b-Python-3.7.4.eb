@@ -1,0 +1,39 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'tombo'
+version = '7473afe'
+versionsuffix = '-Python-%(pyver)s'
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+homepage = 'https://github.com/nanoporetech/tombo'
+description = """Tombo is a suite of tools primarily for the identification of modified nucleotides from raw
+ nanopore sequencing data."""
+
+source_urls = ['https://github.com/nanoporetech/%(name)s/archive/']
+sources = ['%(version)s.tar.gz']
+patches = ['tombo_cowplot.patch']
+checksums = [
+    '23bf17fca849b1a87e3bbc9017e726847cc2cd6e6060d1d09cba84cbdc7e3bc6',  # 7473afe.tar.gz
+    '66ff9893470052f948cd3193572bf9a7fc622c96879902433e3e383575695c12',  # tombo_cowplot.patch
+]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('h5py', '2.10.0', versionsuffix),
+    ('rpy2', '3.2.6', versionsuffix),
+    ('mappy', '2.17', versionsuffix),
+    ('tqdm', '4.41.1'),
+]
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+sanity_check_paths = {
+    'files': ['bin/tombo'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
