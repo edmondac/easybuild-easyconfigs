@@ -1,0 +1,11 @@
+--- tombo/R_scripts/plotMotifStats.R.orig	2020-08-13 15:36:04.505272000 +0100
++++ tombo/R_scripts/plotMotifStats.R	2020-08-13 15:40:35.315408000 +0100
+@@ -1,7 +1,7 @@
+ numModelVals <- 20
+ pseudoQuants <- seq(1/numModelVals,1-(1/numModelVals),
+                     1/numModelVals)
+-USE_COWPLOT <- FALSE
++USE_COWPLOT <- TRUE
+ 
+ plotMotifStats <- function(PlotDat, BaseDat, StatsDat,
+                            ModelDat, AltModelDat=NULL){
