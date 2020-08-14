@@ -1,10 +1,8 @@
-# DO NOT USE: THIS PRODUCES A BROKEN PARAVIEW!!!
-
 easyblock = 'CMakeMake'
 
 name = 'ParaView'
 version = '5.8.0'
-versionsuffix = '-Python-%(pyver)s-mpi'
+versionsuffix = '-Python-%(pyver)s-mpi-offscreen'
 
 homepage = "https://www.paraview.org"
 description = "ParaView is a scientific parallel visualizer."
@@ -26,7 +24,6 @@ dependencies = [
     ('libGLU', '9.0.1'),
     ('X11', '20200222'),
     ('Mesa', '20.0.2'),
-    ('Qt5', '5.14.1'),
     ('zlib', '1.2.11'),
     ('FFmpeg', '4.2.2'),
     ('Szip', '2.1.1'),
@@ -48,14 +45,13 @@ configopts += '-DPARAVIEW_USE_PYTHON=ON '
 configopts += '-DPython3_ROOT_DIR=$EBROOTPYTHON '
 
 # OpenGL & Mesa & Qt5
-configopts += '-DPARAVIEW_USE_QT=ON '
-configopts += '-DQt5_DIR=$EBROOTQT5/lib/cmake/Qt5 '
-configopts += '-DVTK_USE_X=ON '
-configopts += '-DOPENGL_glu_LIBRARY=$EBROOTLIBGLU/lib/libGLU.%s ' % SHLIB_EXT
-configopts += '-DOPENGL_INCLUDE_DIR=$EBROOTMESA/include '
+configopts += '-DPARAVIEW_USE_QT=OFF '
+configopts += '-DVTK_USE_X=OFF '
+configopts += '-DVTK_OPENGL_HAS_OSMESA=ON '
+
 
 sanity_check_paths = {
-    'files': ['bin/paraview', 'bin/pvpython'],
+    'files': ['bin/pvpython'],
     'dirs': ['include/paraview-%(version_major_minor)s', 'lib/python%(pyshortver)s/site-packages'],
 }
 
