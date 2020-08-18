@@ -50,6 +50,14 @@ sources = [
         'extract_cmd': local_extract_cmd_pattern % 'xtl',
     },
 ]
+checksums = [
+    'd55e287289b5e7a621b92eb94d4521c9bbb6525ebfece5a1a4debc0ce28acb81',  # v0.12.0.tar.gz
+    '5a2ddaa029977d64783a0abfa6e3f154fad6954b7622199fcbcd845918f40058',  # fmt-20200112.tar.gz
+    '1978f9c6a6c3fffebac174c34d907ad145a5805e01f94b2de433aa5b0e6efdf4',  # gsl-lite-20200513.tar.gz
+    'b145725a8eb17081783d3e0b7118ec825140f8972da5ab5e15c1d051810c1a93',  # pugixml-20191220.tar.gz
+    '73453595a7b089169a9208180c3b126cfa57c62ff469a694c9e492bcfe398420',  # xtensor-20200123.tar.gz
+    '8eac026ed61c3d8c826cd311d1f9b86bf199a071cadccc4fdf04e5a1eb7e5a72',  # xtl-20200309.tar.gz
+]
 
 builddependencies = [('CMake', '3.15.3')]
 
