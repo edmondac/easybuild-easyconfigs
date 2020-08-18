@@ -1,0 +1,88 @@
+# This easyconfig was created by Simon Branford of the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMake'
+
+name = 'OpenMC'
+version = '0.12.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://docs.openmc.org/"
+description = """OpenMC is a community-developed Monte Carlo neutron and photon transport simulation code. It is
+ capable of performing fixed source, k-eigenvalue, and subcritical multiplication calculations on models built using
+ either a constructive solid geometry or CAD representation. OpenMC supports both continuous-energy and multigroup
+ transport. The continuous-energy particle interaction data is based on a native HDF5 format that can be generated
+ from ACE files produced by NJOY. Parallelism is enabled via a hybrid MPI and OpenMP programming model."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'usempi': True}
+
+local_extract_cmd_pattern = 'tar -C %%(namelower)s-%%(version)s/vendor/%s --strip-components=1 -xf %%s'
+source_urls = ['https://github.com/openmc-dev/openmc/archive/']
+sources = [
+    'v%(version)s.tar.gz',  # OpenMC
+    {
+        'source_urls': ['https://github.com/fmtlib/fmt/archive'],
+        'download_filename': '65ac626c5856f5aad1f1542e79407a6714357043.tar.gz',
+        'filename': 'fmt-20200112.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % ('fmt'),
+    },
+    {
+        'source_urls': ['https://github.com/gsl-lite/gsl-lite/archive'],
+        'download_filename': '913e86d49c6a1acca980f4e325378f9dc393493a.tar.gz',
+        'filename': 'gsl-lite-20200513.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % 'gsl-lite',
+    },
+    {
+        'source_urls': ['https://github.com/zeux/pugixml/archive'],
+        'download_filename': '41b6ff21c455865bb8ef67c5952b7f895b62bacc.tar.gz',
+        'filename': 'pugixml-20191220.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % 'pugixml',
+    },
+    {
+        'source_urls': ['https://github.com/xtensor-stack/xtensor/archive'],
+        'download_filename': '31acec1e90bbea6d4bc17af0710a123bd5da6689.tar.gz',
+        'filename': 'xtensor-20200123.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % 'xtensor',
+    },
+    {
+        'source_urls': ['https://github.com/xtensor-stack/xtl/archive'],
+        'download_filename': 'c19750fb1488369dc41f6069bc2b8446fc093e75.tar.gz',
+        'filename': 'xtl-20200309.tar.gz',
+        'extract_cmd': local_extract_cmd_pattern % 'xtl',
+    },
+]
+checksums = [
+    'd55e287289b5e7a621b92eb94d4521c9bbb6525ebfece5a1a4debc0ce28acb81',  # v0.12.0.tar.gz
+    '5a2ddaa029977d64783a0abfa6e3f154fad6954b7622199fcbcd845918f40058',  # fmt-20200112.tar.gz
+    '1978f9c6a6c3fffebac174c34d907ad145a5805e01f94b2de433aa5b0e6efdf4',  # gsl-lite-20200513.tar.gz
+    'b145725a8eb17081783d3e0b7118ec825140f8972da5ab5e15c1d051810c1a93',  # pugixml-20191220.tar.gz
+    '73453595a7b089169a9208180c3b126cfa57c62ff469a694c9e492bcfe398420',  # xtensor-20200123.tar.gz
+    '8eac026ed61c3d8c826cd311d1f9b86bf199a071cadccc4fdf04e5a1eb7e5a72',  # xtl-20200309.tar.gz
+]
+
+builddependencies = [('CMake', '3.15.3')]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('GSL', '2.6'),
+    ('h5py', '2.10.0', versionsuffix),
+    ('HDF5', '1.10.5'),
+    ('IPython', '7.9.0', versionsuffix),
+    ('lxml', '4.4.2'),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('uncertainties', '3.1.2'),
+]
+
+postinstallcmds = ['cd %(builddir)s/%(namelower)s-%(version)s && '
+                   'pip install --prefix=%(installdir)s --verbose --no-deps --ignore-installed --no-build-isolation .']
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s', 'lib/lib%%(namelower)s.%s' % SHLIB_EXT],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/%(namelower)s'],
+}
+
+sanity_check_commands = ['%(namelower)s --help', "python -c 'import openmc'"]
+
+modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
+
+moduleclass = 'phys'
