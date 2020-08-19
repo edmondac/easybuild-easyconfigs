@@ -57,10 +57,4 @@ modextravars = {
     'PYOPENGL_PLATFORM': 'egl',
 }
 
-# May need the following too. Not sure of the path. See homepage.
-
-# modextrapaths = {
-#    'AE_WORKSPACE_PATH': '',
-# }
-
 moduleclass = 'vis'
