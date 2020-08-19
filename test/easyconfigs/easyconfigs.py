@@ -275,7 +275,7 @@ class EasyConfigTest(TestCase):
             # scVelo and PyTorch-Geometric dependency numba requires LLVM 7x or 8x (see https://github.com/numba/llvmlite#compatibility)
             'LLVM': (r'[78]\.', ['numba-0.47.0-', 'scVelo-', 'PyTorch-Geometric-1.4.3-']),
             # Deepbinner and n2v require TensorFlow 1.15.0
-            'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-', 'n2v-0.1.11-']),
+            'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-', 'n2v-0.1.11-', 'AugmentedAutoencoder-0c8100f-']),
             'Keras': ('2.3.1', ['Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-']),
             # ANSYSEM requires libpng 1.2.58
             'libpng': ('1.2.58', ['ANSYSEM-2020R1-', 'X11-20190717-', 'libdrm-2.4.99-', 'fontconfig-2.13.1-', 'Mesa-19.2.1-', 'freetype-2.10.1-']),
