@@ -1,0 +1,13 @@
+diff -Nru pyassimp-3.3.orig/pyassimp/helper.py pyassimp-3.3/pyassimp/helper.py
+--- pyassimp-3.3.orig/pyassimp/helper.py	2020-08-18 18:32:03.467939000 +0100
++++ pyassimp-3.3/pyassimp/helper.py	2020-08-18 18:32:57.231887562 +0100
+@@ -26,6 +26,9 @@
+     additional_dirs.append('/usr/lib/x86_64-linux-gnu')
+     additional_dirs.append('/usr/local/lib/')
+ 
++    if 'LD_LIBRARY_PATH' in os.environ:
++        additional_dirs.extend([item for item in os.environ['LD_LIBRARY_PATH'].split(':') if item])
++
+     # note - this won't catch libassimp.so.N.n, but 
+     # currently there's always a symlink called
+     # libassimp.so in /usr/local/lib.

@@ -1,0 +1,32 @@
+easyblock = 'CMakeMakeCp'
+
+name = 'assimp'
+version = '5.0.1'
+
+homepage = 'https://github.com/assimp/assimp'
+description = """Open Asset Import Library (assimp). A library to import and export various
+ 3d-model-formats including scene-post-processing to generate missing render data."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://github.com/assimp/assimp/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['11310ec1f2ad2cd46b95ba88faca8f7aaa1efe9aa12605c55e3de2b977b3dbfc']
+
+builddependencies = [
+    ('CMake', '3.15.3'),
+    ('binutils', '2.32'),
+    ('pkg-config', '0.29.2')
+]
+
+preconfigopts = 'cd %(builddir)s/%(name)s-%(version)s && '
+prebuildopts = preconfigopts
+
+files_to_copy = ['%%(builddir)s/%%(name)s-%%(version)s/%s' % x for x in ['bin', 'include', 'lib']]
+
+sanity_check_paths = {
+    'files': ['bin/assimp', 'lib/libassimp.so'],
+    'dirs': ['include/assimp']
+}
+
+moduleclass = 'data'
