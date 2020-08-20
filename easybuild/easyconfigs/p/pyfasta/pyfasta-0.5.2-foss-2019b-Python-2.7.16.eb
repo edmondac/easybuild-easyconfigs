@@ -1,0 +1,26 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'pyfasta'
+version = '0.5.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/brentp/pyfasta/"
+description = """Fast, memory-efficient, pythonic (and command-line) access to fasta sequence files"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['ab08d75fa90253bc91933d10567d5d9cca2718f4796ef3bdc36b68df0e45b258']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'bio'
