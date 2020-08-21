@@ -37,7 +37,7 @@ local_xvfb_buildopts = "V=1 "
 
 # use static libraries for nettle & libunwind, so avoid errors like "No rule to make target '-lnettle'"
 local_xvfb_buildopts += 'SHA1_LIBS="$EBROOTNETTLE/lib*/libnettle.a" '
-local_xvfb_buildopts += 'LIBUNWIND_LIBS="$EBROOTLIBUNWIND/lib*/libunwind.a $EBROOTXZ/lib*/liblzma.a"'
+local_xvfb_buildopts += 'LIBUNWIND_LIBS="$EBROOTLIBUNWIND/lib*/libunwind{,-x86_64}.a $EBROOTXZ/lib*/liblzma.a"'
 
 default_component_specs = {
     'source_urls': ['https://www.x.org/archive//individual/font/'],
