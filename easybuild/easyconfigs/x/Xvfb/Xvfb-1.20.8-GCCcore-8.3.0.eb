@@ -13,6 +13,7 @@ builddependencies = [
     ('Autotools', '20180311'),
     ('binutils', '2.32'),
     ('pkg-config', '0.29.2'),
+    ('Python', '3.7.4'),
 ]
 
 dependencies = [
@@ -73,13 +74,17 @@ components = [
     }),
     ('xkeyboard-config', '2.29', {
         'source_urls': ['https://www.x.org/archive//individual/data/xkeyboard-config/'],
+        'patches': [('xkeyboard-shebang-fix.patch')],
         'checksums': ['d8034c8b771b51140409039f8e3351e90a0092238b81af04239794e8d3dc0813'],
         'configopts': '--with-xkb-rules-symlink=xorg',
     }),
     (name, version, {
         'source_urls': ['https://www.x.org/releases/individual//xserver/'],
         'sources': ['xorg-server-%(version)s.tar.gz'],
-        'patches': [('xvfb-run', '.')],
+        'patches': [
+            ('xvfb-run', '.'),
+            ('xorg-server-shebang-fix.patch', '.'),
+        ],
         'checksums': [
             '1e1f9245301cb3b7e89cb3ac7ae9ac513e362963fae92d2153762e3a95758f0b',  # xorg-server-1.20.8.tar.gz
             'fd6d13182b77871d4f65fccdaebb8a72387a726426066d3f8e6aa26b010ea0e8',  # xvfb-run
