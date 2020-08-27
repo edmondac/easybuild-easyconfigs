@@ -5,7 +5,7 @@ easyblock = 'Tarball'
 name = 'texlive'
 version = '20200406'
 
-homepage = 'http://tug.org'
+homepage = 'https://tug.org'
 description = """TeX is a typesetting language. Instead of visually formatting your text, you enter your manuscript
  text intertwined with TeX commands in a plain text file. You then run TeX to produce formatted output, such as a
  PDF file. Thus, in contrast to standard word processors, your document is a separate file that does not pretend to
