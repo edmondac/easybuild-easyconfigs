@@ -660,6 +660,7 @@ class EasyConfigTest(TestCase):
             'p4vasp',  # https://www.p4vasp.at doesn't work
             'ITSTool',  # https://itstool.org/ doesn't work
             'UCX-',  # bad certificate for https://www.openucx.org
+            'PycURL',  # bad cert
         ]
 
         http_regex = re.compile('http://[^"\'\n]+', re.M)
