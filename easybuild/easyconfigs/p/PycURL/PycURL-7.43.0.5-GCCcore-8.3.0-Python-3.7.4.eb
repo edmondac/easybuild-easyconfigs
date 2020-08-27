@@ -12,6 +12,8 @@ description = """PycURL is a Python interface to libcurl. PycURL can be used to 
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
+builddependencies = [('binutils', '2.32')]
+
 dependencies = [
     ('Python', '3.7.4'),
     ('cURL', '7.66.0'),
