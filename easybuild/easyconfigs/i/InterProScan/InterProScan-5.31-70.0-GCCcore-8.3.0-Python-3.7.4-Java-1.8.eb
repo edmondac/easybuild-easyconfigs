@@ -19,10 +19,10 @@ source_urls = [
 ]
 sources = [
     '%(namelower)s-%(version)s-64-bit.tar.gz',
-     {
+    {
         'filename': 'panther-data-12.0.tar.gz',
         'extract_cmd': 'tar xvzf %s -C %(builddir)s/%(namelower)s-%(version)s/data'
-     }
+    }
 ]
 checksums = [
     'aed98eb11dd70c6a1a15dbdacf234d5fc9dbc690d7733cbb618969279bb4df7c',  # interproscan-5.31-70.0-64-bit.tar.gz
@@ -44,7 +44,7 @@ sanity_check_paths = {
 }
 
 fix_perl_shebang_for = [
-    '%%(installdir)s/bin/%s' % x for x in ['mobidb/2.0/binx/espritz/bin/*.pl', 
+    '%%(installdir)s/bin/%s' % x for x in ['mobidb/2.0/binx/espritz/bin/*.pl',
                                            'mobidb/2.0/binx/espritz/align/*.pl'
                                            'superfamily/1.75/*.pl']
 ]
