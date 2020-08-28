@@ -3,12 +3,12 @@ easyblock = 'Tarball'
 
 name = 'InterProScan'
 version = '5.31-70.0'
-versionsuffix = '-Python-%(pyver)s'
+versionsuffix = '-Python-%(pyver)s-Java-%(javaver)s'
 
 homepage = "https://interproscan5-docs.readthedocs.io/"
 description = """InterProScan can be used to run the scanning algorithms from the InterPro database
  in an integrated way. Sequences are submitted in FASTA format. Matches are then calculated against
- all of the required member database’s signatures and the results are then output in a variety of
+ all of the required member database's signatures and the results are then output in a variety of
  formats."""
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
