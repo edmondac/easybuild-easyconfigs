@@ -1,0 +1,54 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'InterProScan'
+version = '5.31-70.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://interproscan5-docs.readthedocs.io/"
+description = """InterProScan can be used to run the scanning algorithms from the InterPro database
+ in an integrated way. Sequences are submitted in FASTA format. Matches are then calculated against
+ all of the required member database’s signatures and the results are then output in a variety of
+ formats."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = [
+    'ftp://ftp.ebi.ac.uk/pub/software/unix/iprscan/%(version_major)s/%(version)s',
+    'ftp://ftp.ebi.ac.uk/pub/software/unix/iprscan/%(version_major)s/data'
+]
+sources = [
+    '%(namelower)s-%(version)s-64-bit.tar.gz',
+     {
+        'filename': 'panther-data-12.0.tar.gz',
+        'extract_cmd': 'tar xvzf %s -C %(builddir)s/%(namelower)s-%(version)s/data'
+     }
+]
+checksums = [
+    'aed98eb11dd70c6a1a15dbdacf234d5fc9dbc690d7733cbb618969279bb4df7c',  # interproscan-5.31-70.0-64-bit.tar.gz
+    'bb8dcaeb68876b5abe7842ae1d65eecf15c43a0baea6be9514339b487167be79',  # panther-data-12.0.tar.gz
+]
+
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('binutils', '2.32'),
+    ('Perl', '5.30.0'),
+    ('libgd', '2.2.5'),
+    ('Java', '1.8', '', True),
+]
+
+sanity_check_paths = {
+    'files': ['interproscan.sh', 'interproscan-%(version_major)s.jar'],
+    'dirs': ['bin', 'data', 'data/panther/12.0', 'lib', 'src', 'work'],
+}
+
+fix_perl_shebang_for = [
+    '%%(installdir)s/bin/%s' % x for x in ['mobidb/2.0/binx/espritz/bin/*.pl', 
+                                           'mobidb/2.0/binx/espritz/align/*.pl'
+                                           'superfamily/1.75/*.pl']
+]
+
+modextrapaths = {'PATH': ''}
+
+moduleclass = 'bio'
