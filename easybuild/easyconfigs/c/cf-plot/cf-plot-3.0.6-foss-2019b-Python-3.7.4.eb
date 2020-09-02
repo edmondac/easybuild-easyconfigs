@@ -1,0 +1,37 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'cf-plot'
+version = '3.0.6'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://ajheaps.github.io/cf-plot/"
+description = """cf-plot is a set of Python routines for making the common contour, vector and line
+ plots that climate researchers use. The data to make a contour plot can be passed to cf-plot using
+ cf-python as in the following example."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('Cartopy', '0.18.0', versionsuffix),
+    ('cf-python', '3.4.0', versionsuffix)
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    (name, version, {
+        'modulename': 'cfplot',
+        'checksums': ['f8eb05875b5739f497a23503b9d8a9f7f7153ab6eada28f57ff9d48def268064'],
+    }),
+]
+
+moduleclass = 'geo'

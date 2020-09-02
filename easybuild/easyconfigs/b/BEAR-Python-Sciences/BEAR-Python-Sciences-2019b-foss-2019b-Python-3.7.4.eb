@@ -38,6 +38,8 @@ dependencies = [
     ('Cartopy', '0.18.0', versionsuffix),
     ('basemap', '1.2.1', versionsuffix),
     ('geopandas', '0.8.1', versionsuffix),
+    ('cf-python', '3.4.0', versionsuffix),
+    ('cf-plot', '3.0.6', versionsuffix),
 ]
 
 moduleclass = 'tools'
