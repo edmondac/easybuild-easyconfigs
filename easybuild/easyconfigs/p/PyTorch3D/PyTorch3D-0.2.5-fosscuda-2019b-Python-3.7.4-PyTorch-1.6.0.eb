@@ -1,0 +1,45 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'PyTorch3D'
+version = '0.2.5'
+_pyversuffix = '-Python-%(pyver)s'
+versionsuffix = '%s-PyTorch-1.6.0' % _pyversuffix
+
+homepage = "https://pytorch3d.org/"
+description = """PyTorch3D is FAIR's library of reusable components for deep learning with 3D data."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('tqdm', '4.41.1'),
+    ('PyTorch', '1.6.0', _pyversuffix),
+    ('imageio', '2.6.1', _pyversuffix),
+    ('IPython', '7.9.0', _pyversuffix),
+    ('torchvision', '0.5.0', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('portalocker', '1.7.1', {
+    }),
+    ('termcolor', '1.1.0', {
+    }),
+    ('yacs', '0.1.8', {
+    }),
+    ('fvcore', '0.1.1.post20200716', {
+    }),
+    (name, version, {
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/facebookresearch/%(namelower)s/archive'],
+    }),
+]
+
+moduleclass = 'tools'

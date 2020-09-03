@@ -293,24 +293,23 @@ dependencies = [
 # p100 - 6.0
 # v100 - 7.0
 cuda_compute_capabilities = ['6.0', '7.0']
-# cuda_compute_capabilities = ['7.0']
 
 excluded_tests = {
     'POWER': [
-#        # https://github.com/pytorch/pytorch/issues/41186
-#        'test_autograd',
+        # https://github.com/pytorch/pytorch/issues/41186
+        'test_autograd',
         # https://github.com/pytorch/pytorch/issues/41261
         'test_cpp_extensions_aot_no_ninja', 'test_cpp_extensions_aot_ninja',
-#        # https://github.com/pytorch/pytorch/issues/41400
-#        'test_jit',
-#        # https://github.com/pytorch/pytorch/issues/41469
-#        'test_nn',
+        # https://github.com/pytorch/pytorch/issues/41400
+        'test_jit',
+        # https://github.com/pytorch/pytorch/issues/41469
+        'test_nn',
     ],
     '': [
-#        # This test fails everywhere: https://github.com/pytorch/pytorch/issues/41242
-#        'test_cpp_extensions_jit',
-#        # Throws illegal memory access due to float16: https://github.com/pytorch/pytorch/issues/41340
-#        'test_torch',
+        # This test fails everywhere: https://github.com/pytorch/pytorch/issues/41242
+        'test_cpp_extensions_jit',
+        # Throws illegal memory access due to float16: https://github.com/pytorch/pytorch/issues/41340
+        'test_torch',
         # Potentially problematic save/load issue with test_lstm on only some machines. Tell users to verify save&load!
         # https://github.com/pytorch/pytorch/issues/43209
         'test_quantization',
