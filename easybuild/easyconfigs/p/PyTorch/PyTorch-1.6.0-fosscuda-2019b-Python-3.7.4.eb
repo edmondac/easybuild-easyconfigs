@@ -313,6 +313,8 @@ excluded_tests = {
         # Potentially problematic save/load issue with test_lstm on only some machines. Tell users to verify save&load!
         # https://github.com/pytorch/pytorch/issues/43209
         'test_quantization',
+        # https://github.com/easybuilders/easybuild-easyconfigs/pull/11041#issuecomment-674855269
+        # 'test_dataloader',
     ],
 }
 
