@@ -213,15 +213,9 @@ class EasyConfigTest(TestCase):
                     dep_vars.pop(key)
 
         # Allow torchvision as a dep, so long as PyTorch 1.4.0 or 1.6.0 is in the versionsuffix
-        if (dep == 'torchvision' or dep == 'PyTorch3D') and len(dep_vars) > 1:
-            pytorch14_16_vars = [v for v in dep_vars.keys() if v.endswith('versionsuffix: -Python-3.7.4-PyTorch-1.4.0')
-                                                            or v.endswith('versionsuffix: -Python-3.7.4-PyTorch-1.6.0')]
-            if len(pytorch14_16_vars) == 1:
-                dep_vars = dict((k, v) for (k, v) in dep_vars.items() if k != pytorch14_16_vars[0])
-        # Allow PyTorch 1.4.0 or 1.6.0 as a dep
-        if dep == 'PyTorch' and len(dep_vars) > 1:
+        if dep == 'torchvision' and len(dep_vars) > 1:
             for key in list(dep_vars):
-                if re.search('^version: (?P<ver>[^;]+);', key).group('ver') in ['1.4.0', '1.6.0']:
+                if re.search('^versionsuffix: .*-PyTorch-1\.[46]\.0.*'):
                     dep_vars.pop(key)
 
         # filter out FFTW and imkl with -serial versionsuffix which are used in non-MPI subtoolchains
