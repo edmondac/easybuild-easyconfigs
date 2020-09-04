@@ -1,0 +1,77 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 's2dv'
+version = '0.0.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=s2dv"
+description = """The advanced version of package 's2dverification', which the details can be found in Manubens
+ et al. (2018) <doi:10.1016/j.envsoft.2018.01.018>. It is intended for 'seasonal to decadal' (s2d) climate forecast
+ verification, but it can also be used in other kinds of forecasts or general climate analysis. This package is
+ specially designed for the comparison between the experimental and observational datasets. The functionality of the
+ included functions covers from data retrieval, data post-processing, skill scores against observation, to
+ visualization. Compared to 's2dverification', 's2dv' is more compatible with the package 'startR', able to use
+ multiple cores for computation and handle multi-dimensional arrays with a higher flexibility."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('ncdf4', '1.16.1', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('RPMG', '2.2-3', {
+        'checksums': ['74d5bada6a51d280296cb36fae4938c16ba9ed2fa37f3bfb60cf7c541c5b22b6'],
+    }),
+    ('splancs', '2.01-40', {
+        'checksums': ['79744381ebc4a361740a36dca3c9fca9ae015cfe0bd585b7856a664a3da74363'],
+    }),
+    ('MBA', '0.0-9', {
+        'checksums': ['cf804e42a77c4e33364549fa1ee1da1742244a369a235eda1c79730e67cb751a'],
+    }),
+    ('GEOmap', '2.4-4', {
+        'checksums': ['101f177135514572d2aba44633dae4a870019340cf8570662a9571c61dd86272'],
+    }),
+    ('geomapdata', '1.0-4', {
+        'checksums': ['bcf7d220e592e04d6147ac6a477a1a84ecd019f66af52e468df3a0adacae09bd'],
+    }),
+    ('mapproj', '1.2.7', {
+        'checksums': ['f0081281b08bf3cc7052c4f1360d6d3c20d9063be57754448ad9b48ab0d34c5b'],
+    }),
+    ('PCICt', '0.5-4.1', {
+        'checksums': ['ca07c4f7609351f01c6f36fdf4d51a263f6aad97b2cf34c96e891d7dcdae379e'],
+    }),
+    ('multiApply', '2.1.1', {
+        'checksums': ['90da358d72f98d2efb89e894e1d9dc95c8f8efa75a1cd5555ab5c6c93fb653ef'],
+    }),
+    ('ClimProjDiags', '0.1.0', {
+        'checksums': ['95b9b84717891cacfb2d2c14e3282a1f79661343850356b76cadabb499738703'],
+    }),
+    (name, version, {
+        'checksums': ['a87a788f966123c96205ce52b128356f32debef6f29e073e0ef1ceeb904b561a'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['s2dv/R/s2dv'],
+    'dirs': [],
+}
+
+moduleclass = 'geo'

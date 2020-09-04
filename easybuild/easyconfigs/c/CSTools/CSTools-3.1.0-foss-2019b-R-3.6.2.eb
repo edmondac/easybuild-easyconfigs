@@ -1,0 +1,69 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'CSTools'
+version = '3.1.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=CSTools"
+description = """Exploits dynamical seasonal forecasts in order to provide information relevant to stakeholders at the
+ seasonal timescale. The package contains process-based methods for forecast calibration, bias correction, statistical
+ and stochastic downscaling, optimal forecast combination and multivariate verification, as well as basic and advanced
+ tools to obtain tailored products. This package was developed in the context of the ERA4CS project MEDSCOPE and the
+ H2020 S2S4E project."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('s2dv', '0.0.1', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('NbClust', '3.0', {
+        'checksums': ['6cf041a7a22661b59eb9eddbee71c5c80214438ccfba8a6f6bc152e33f228bef'],
+    }),
+    ('SpecsVerification', '0.5-3', {
+        'checksums': ['630fd876b51cb5e22061fa64dbb447c09e88c14e81fb801001ae18e969a4e6ec'],
+    }),
+    ('s2dverification', '2.8.6', {
+        'checksums': ['34f63f324110319a808ad139e19191b714584f9319cd7dc2b62ce376eb6075db'],
+    }),
+    ('rainfarmr', '0.1', {
+        'checksums': ['b11061bb76e22b791bfe52e1e7c24edb2831594ac2f43cc1de46472b7db55abd'],
+    }),
+    ('qmap', '1.0-4', {
+        'checksums': ['629657ade403735847d88daef7320320ac3de11e713105efb1f40dc46bc0bb0b'],
+    }),
+    ('CircStats', '0.2-6', {
+        'checksums': ['8efed93b75b314577341effea214e3dd6e0a515cfe1212eb051047a1f3276f1d'],
+    }),
+    ('verification', '1.42', {
+        'checksums': ['3c2adb4b924fe09258f35719d0be8010a1c305f15d304813a9eaa5cacedbb85d'],
+    }),
+    (name, version, {
+        'checksums': ['e65cd0c05a9c58f95ee695bfd5a4abe61bef725a752d4d7b34b4d482e83cbc86'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['CSTools/R/CSTools'],
+    'dirs': [],
+}
+
+moduleclass = 'geo'
