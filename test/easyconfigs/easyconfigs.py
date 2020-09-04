@@ -213,7 +213,7 @@ class EasyConfigTest(TestCase):
                     dep_vars.pop(key)
 
         # Allow torchvision as a dep, so long as PyTorch 1.4.0 or 1.6.0 is in the versionsuffix
-        if dep == 'torchvision' and len(dep_vars) > 1:
+        if (dep == 'torchvision' or dep == 'PyTorch3D') and len(dep_vars) > 1:
             pytorch14_16_vars = [v for v in dep_vars.keys() if v.endswith('versionsuffix: -Python-3.7.4-PyTorch-1.4.0')
                                                             or v.endswith('versionsuffix: -Python-3.7.4-PyTorch-1.6.0')]
             if len(pytorch14_16_vars) == 1:
