@@ -248,10 +248,7 @@ checksums = [
     '1a1ccf8779332a7d6d0db9034d42df188867cbaf52eb71d74451f79aa8ce2040',  # pybind11-20190204.tar.gz
     '13100c3deed300bbf16f87d8af3539f432462bfef9d38f0c7e3e387dc2e88676',  # PeachPy-20180218.tar.gz
     '8cb5fae822077ca9cbc14dcc7bba9a3a35ad519284fc5169f9a176672c63860a',  # sleef-20190730.tar.gz
-    # checksum for original download of tbb-20181009.tar.gz from https://github.com/intel/tbb/archive
-    ('dc0a8d8d96cb8765782aa6ac1b509ad4db955d9bbb58fa5cc2265f0292756d72',
-     # checksum for download of tbb-20181009.tar.gz from https://github.com/01org/tbb/archive
-     'be111cf161b587812fa3b106fe550efb6f129b8b0b702fef32fac23af9580e5e'),
+    'dc0a8d8d96cb8765782aa6ac1b509ad4db955d9bbb58fa5cc2265f0292756d72',  # tbb-20181009.tar.gz
     '9d78a64a4456eb0caeba8742080c39e07019114c1f4914f0e1ffa8f0a507c40f',  # tensorpipe-20200626.tar.gz
     '5ca4e9091f3231d8ad8801862dc4e851c23af89c69141d27723157776f7291e7',  # libuv-20200419.tar.gz
     'f3725477d554800a19a8d7f4ab300ab7b70da76b62328081c0ed1f8517c6a61c',  # PyTorch-1.6.0-fix-missing-source-dir.patch
@@ -288,8 +285,6 @@ dependencies = [
 ]
 
 # https://en.wikipedia.org/wiki/CUDA#GPUs_supported
-# k40  - 3.5
-# m60  - 5.2
 # p100 - 6.0
 # v100 - 7.0
 cuda_compute_capabilities = ['6.0', '7.0']
