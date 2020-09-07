@@ -6,7 +6,8 @@ version = '1.4.2'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = "https://github.com/agshumate/Liftoff"
-description = """Liftoff is a gene annotation mapping tool that maps annotations in GFF or GTF between assemblies of the same, or closely-related species."""
+description = """Liftoff is a gene annotation mapping tool that maps annotations in GFF or GTF
+ between assemblies of the same, or closely-related species."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
