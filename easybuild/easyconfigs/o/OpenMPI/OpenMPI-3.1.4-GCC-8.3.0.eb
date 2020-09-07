@@ -44,7 +44,7 @@ if local_ib:
     # Configure InfiniBand options
     configopts += "--with-verbs "
     osdependencies = [
-        ('libibverbs-dev', 'libibverbs-devel'),
+        ('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel'),
         ('libpciaccess-devel', 'libpciaccess-dev'),
         ('libudev-devel', 'systemd-devel', 'libsystemd-dev'),
         ('rdma-core-devel', 'librdmacm-devel'),
