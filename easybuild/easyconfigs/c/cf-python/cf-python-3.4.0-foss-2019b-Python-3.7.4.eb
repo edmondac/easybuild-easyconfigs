@@ -1,0 +1,41 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'cf-python'
+version = '3.4.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://ncas-cms.github.io/cf-python/"
+description = """The Python cf package is an Earth Science data analysis library that is built on a
+ complete implementation of the CF data model."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('netcdf4-python', '1.5.3', versionsuffix),
+    ('UDUNITS', '2.2.26')
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('cfunits', '3.2.6', {
+        'checksums': ['3fdbb0473f972a19ff3dd36d6d1302733f03a1ad9e0e86e421f58116c2b1ae28'],
+    }),
+    ('cfdm', '1.8.3', {
+        'checksums': ['805405c43922effefe2afc054b5a36d7c43bc4aa0bc68d90cb648bbb9f534afa'],
+    }),
+    (name, version, {
+        'modulename': 'cf',
+        'checksums': ['d7622d60357811599352a31cce9d8055ed82fc3710db498ee2d376d52726d50a'],
+    }),
+]
+
+moduleclass = 'geo'
