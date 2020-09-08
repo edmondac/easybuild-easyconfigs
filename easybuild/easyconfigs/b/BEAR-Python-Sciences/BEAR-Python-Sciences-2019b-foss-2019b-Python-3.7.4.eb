@@ -38,6 +38,7 @@ dependencies = [
     ('Cartopy', '0.18.0', versionsuffix),
     ('basemap', '1.2.1', versionsuffix),
     ('geopandas', '0.8.1', versionsuffix),
+    ('neuropythy', '0.11.8', '%s-Java-11' % versionsuffix),
 ]
 
 moduleclass = 'tools'
