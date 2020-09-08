@@ -15,8 +15,8 @@ dependencies = [
     ('Python', '3.7.4'),
     ('SciPy-bundle', '2019.10', _pysuffix),
     ('NiBabel', '3.1.0', _pysuffix),
-    ('h5py', '2.10.0', _pysuffix),   
-    ('Java', '11', '', True),   
+    ('h5py', '2.10.0', _pysuffix), 
+    ('Java', '11', '', True),
 ]
 
 sanity_pip_check = True
