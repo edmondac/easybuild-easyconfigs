@@ -1,0 +1,63 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'neuropythy'
+version = '0.11.8'
+_pysuffix = '-Python-%(pyver)s'
+versionsuffix = '-Python-%(pyver)s-Java-%(javaver)s'
+
+homepage = "https://github.com/noahbenson/neuropythy"
+description = """Toolbox for flexible cortical mesh analysis and registration."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', _pysuffix),
+    ('NiBabel', '3.1.0', _pysuffix),
+    ('h5py', '2.10.0', _pysuffix),
+    ('Java', '11', '', True),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('Pint', '0.9', {
+        'modulename': 'pint',
+        'checksums': ['32d8a9a9d63f4f81194c0014b3b742679dce81a26d45127d9810a68a561fe4e2'],
+    }),
+    ('pimms', '0.3.16', {
+        'checksums': ['812bdb2af57d75cae16e06b85d7f921a15784c91049727670f5c74fe05577841'],
+    }),
+    ('py4j', '0.10.9.1', {
+        'checksums': ['7605e512bf9b002245f5a9121a8c2df9bfd1a6004fe6dd3ff29d46f901719d53'],
+    }),
+    ('pyrsistent', '0.15.5', {
+        'checksums': ['eb6545dbeb1aa69ab1fb4809bfbf5a8705e44d92ef8fc7c2361682a47c46c778'],
+    }),
+    ('jmespath', '0.10.0', {
+        'checksums': ['b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9'],
+    }),
+    ('botocore', '1.17.45', {
+        'checksums': ['bc8b1c83ccc0d77963849b66a94bbb20a666ff0225aff84de7ed0175db1fd6f7'],
+    }),
+    ('fsspec', '0.8.0', {
+        'checksums': ['176f3fc405471af0f1f1e14cffa3d53ab8906577973d068b976114433c010d9d'],
+    }),
+    ('s3fs', '0.4.2', {
+        'checksums': ['2ca5de8dc18ad7ad350c0bd01aef0406aa5d0fff78a561f0f710f9d9858abdd0'],
+    }),
+    ('six', '1.13.0', {
+        'checksums': ['30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66'],
+    }),
+    (name, version, {
+        'checksums': ['984ffb72f06fa8cef4e6df994be0d535064672c6c696c591d538eec0741cf98e'],
+    }),
+]
+
+moduleclass = 'bio'
