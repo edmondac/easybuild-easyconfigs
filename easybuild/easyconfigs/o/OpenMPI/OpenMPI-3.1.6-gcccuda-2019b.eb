@@ -1,0 +1,56 @@
+name = 'OpenMPI'
+version = '3.1.6'
+
+homepage = 'https://www.open-mpi.org/'
+description = """The Open MPI Project is an open source MPI-3 implementation."""
+
+toolchain = {'name': 'gcccuda', 'version': '2019b'}
+
+source_urls = ['https://www.open-mpi.org/software/ompi/v%(version_major_minor)s/downloads']
+sources = [SOURCELOWER_TAR_GZ]
+patches = ['%(name)s-3.1.3-add_ompi_datatype_attribute_to_release_ucp_datatype.patch']
+checksums = [
+    '627d350846008dff233ff2acc8542d20000a6abc1daa7277244d060298f88001',  # openmpi-3.1.6.tar.gz
+    # OpenMPI-3.1.3-add_ompi_datatype_attribute_to_release_ucp_datatype.patch
+    '46fa94eb417954bdb297291bad4f4d32018af4911bebf3e59af6276eba6a50a9',
+]
+
+dependencies = [
+    ('zlib', '1.2.11'),
+    ('hwloc', '1.11.12')
+]
+
+configopts = '--enable-shared '
+configopts += '--enable-mpirun-prefix-by-default '  # suppress failure modes in relation to mpirun path
+configopts += '--with-hwloc=$EBROOTHWLOC '  # hwloc support
+
+modextravars = {
+    "OPAL_PREFIX": '%(installdir)s',
+    "PMIX_INSTALL_PREFIX": '%(installdir)s',
+    "OMPI_HOME": '%(installdir)s',
+    "MPI_HOME": '%(installdir)s',
+    "OSHMEM_HOME": '%(installdir)s',
+    "SHMEM_HOME": '%(installdir)s',
+}
+
+import os as local_os  # NOQA
+# Are we on an InfiniBand machine?
+local_ib = int(local_os.environ.get('BB_IB_DETECTED', 0))
+if local_ib:
+    # Configure Slurm options
+    configopts += '--with-pmi '  # srun support for mpi
+    configopts += '--with-slurm '  # we want slurm suppport
+
+    # Configure InfiniBand options
+    configopts += "--with-verbs "
+    osdependencies = [
+        ('libibverbs-dev', 'libibverbs-devel', 'rdma-core-devel'),
+        ('libpciaccess-devel', 'libpciaccess-dev'),
+        ('libudev-devel', 'systemd-devel', 'libsystemd-dev'),
+        ('rdma-core-devel', 'librdmacm-devel'),
+    ]
+    configopts += '--without-knem --without-mxm --without-hcoll --without-ucx '
+else:
+    print("Please make sure you're building on a VM that doesn't have InfiniBand or gpfs etc.")
+
+moduleclass = 'mpi'
