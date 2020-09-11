@@ -22,17 +22,15 @@ dependencies = [
 ]
 
 unpack_options = '--strip-components=1'
-buildininstalldir = True
-skipsteps = ['install']
 
 postinstallcmds = [
     "mkdir -p %(installdir)s/lib64/R/library",
-    "R CMD INSTALL --library=%(installdir)s/lib64/R/library dropestr",
+    "R CMD INSTALL --library=%(installdir)s/lib64/R/library %(builddir)s/dropestr",
 ]
 
 sanity_check_paths = {
-    'files': ['dropest', 'droptag', 'dropReport.Rsc'],
-    'dirs': [],
+    'files': ['bin/dropest', 'bin/droptag', 'bin/dropReport.Rsc'],
+    'dirs': ['lib64/R/library/dropestr'],
 }
 
 sanity_check_commands = [
@@ -41,7 +39,6 @@ sanity_check_commands = [
 ]
 
 modextrapaths = {
-    'PATH': '',
     'R_LIBS': 'lib64/R/library',
 }
 
