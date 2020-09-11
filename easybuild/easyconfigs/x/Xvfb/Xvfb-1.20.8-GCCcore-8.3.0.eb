@@ -44,6 +44,13 @@ default_component_specs = {
 }
 
 components = [
+    ('xauth', '1.1', {
+        'source_urls': ['https://gitlab.freedesktop.org/xorg/app/%(name)s/-/archive/%(name)s-%(version)s'],
+        'sources': ['%(name)s-%(name)s-%(version)s.tar.gz'],
+        'checksums': ['18614f2788dd5b33a790458320181441452b28e0ed72f8b3f32c417cd9e03b30'],
+        'start_dir': '%(name)s-%(name)s-%(version)s',
+        'preconfigopts': "./autogen.sh && ",
+    }),
     ('bdftopcf', '1.1', {
         'source_urls': ['https://gitlab.freedesktop.org/xorg/util/%(name)s/-/archive/%(name)s-%(version)s'],
         'sources': ['%(name)s-%(name)s-%(version)s.tar.gz'],
