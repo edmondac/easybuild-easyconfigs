@@ -44,15 +44,14 @@ checksums = [
 
 osdependencies = ['java-1.8.0-openjdk-devel', 'cups-devel', 'alsa-lib-devel']
 
-preconfigopts = 'mv ../corba-* corba && '
-preconfigopts += 'mv ../jaxp-* jaxp && '
-preconfigopts += 'mv ../jaxws-* jaxws && '
-preconfigopts += 'mv ../langtools-* langtools && '
-preconfigopts += 'mv ../jdk-* jdk && '
-preconfigopts += 'mv ../hotspot-* hotspot && '
-preconfigopts += 'mv ../nashorn-* nashorn && '
+preconfigopts = ''
+for repo in ['corba', 'jaxp', 'jaxws', 'langtools', 'jdk', 'hotspot', 'nashorn']:
+    preconfigopts += 'mv ../%s-* %s && ' % (repo, repo)
+
 preconfigopts += 'chmod u+x configure && '
 configopts = '--with-cacerts-file=/etc/pki/ca-trust/extracted/java/cacerts '
+no_error = "-Wno-error=deprecated-declarations -Wno-error=stringop-overflow"
+prebuildopts = 'export CXXFLAGS="%s" CFLAGS="%s" && ' % (no_error, no_error)
 buildopts = 'images'
 
 maxparallel = 1
