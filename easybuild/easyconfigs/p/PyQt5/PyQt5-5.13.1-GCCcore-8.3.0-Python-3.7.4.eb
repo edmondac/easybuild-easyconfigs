@@ -84,7 +84,7 @@ components = [
 
 # QtWebEngine is not available on ppc64le, so only build PyQtWebEngine if we are on x86_64
 import subprocess as _subprocess  # NOQA
-_arch = _subprocess.check_output(['uname', '-m']).strip()
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'x86_64':
     components.append(
         ('PyQtWebEngine', version, {

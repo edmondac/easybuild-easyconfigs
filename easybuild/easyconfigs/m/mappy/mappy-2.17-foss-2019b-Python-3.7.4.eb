@@ -23,7 +23,7 @@ sanity_pip_check = True
 use_pip = True
 
 import subprocess as _subprocess  # NOQA
-_arch = _subprocess.check_output(['uname', '-m']).strip()
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
     patches = ['%(name)s-%(version)s-ppc64le.patch']
     dependencies.append(('veclib', '77ad285'))
