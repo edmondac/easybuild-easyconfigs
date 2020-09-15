@@ -39,7 +39,7 @@ dependencies = [
     ('Rtree', '0.9.4', versionsuffix),
     ('PyGEOS', '0.7.1', versionsuffix),
     ('openpyxl', '3.0.4', versionsuffix),
-    ('pingouin', '0.3.8', versionsuffix),
+    ('Pingouin', '0.3.8', versionsuffix),
 ]
 
 moduleclass = 'tools'

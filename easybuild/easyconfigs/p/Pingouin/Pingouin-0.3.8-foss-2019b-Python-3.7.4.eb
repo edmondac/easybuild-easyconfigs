@@ -1,7 +1,7 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
 easyblock = 'PythonBundle'
 
-name = 'pingouin'
+name = 'Pingouin'
 version = '0.3.8'
 versionsuffix = '-Python-%(pyver)s'
 
@@ -39,6 +39,8 @@ exts_list = [
         'checksums': ['bcb145e0e372ba467e998c327d3d1ba72a134b0d5a729749729df6c6244ce643'],
     }),
     (name, version, {
+        'modulename': '%(namelower)s',
+        'source_tmpl': '%(namelower)s-%(version)s.tar.gz',
         'checksums': ['ae12581174740a358ca9127bdc2360edf7af357b094de682c80f993ff402b813'],
     }),
 ]
