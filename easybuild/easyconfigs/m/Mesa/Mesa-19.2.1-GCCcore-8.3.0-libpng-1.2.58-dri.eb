@@ -54,7 +54,7 @@ dependencies = [
 ]
 
 import subprocess as local_subprocess  # NOQA
-local_arch = local_subprocess.check_output(['uname', '-m']).strip()
+local_arch = local_subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 
 configopts = " -Dplatforms=x11 -Dosmesa=gallium -Ddri3=auto -Ddri-drivers='auto' -Dvulkan-drivers=''"
 configopts += " -Dgbm=false -Dglx-direct=false -Degl=false"
