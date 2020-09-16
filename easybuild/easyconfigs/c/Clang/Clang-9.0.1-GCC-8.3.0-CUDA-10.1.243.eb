@@ -62,7 +62,7 @@ builddependencies = [
     ('libxml2', '2.9.9'),
 ]
 
-import subprocess
+import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
     # Set the c++ std for NVCC or the build fails on ppc64le looking for __ieee128
