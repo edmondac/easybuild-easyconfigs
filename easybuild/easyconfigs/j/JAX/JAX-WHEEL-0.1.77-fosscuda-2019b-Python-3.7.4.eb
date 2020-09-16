@@ -1,0 +1,51 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'JAX'
+version = '0.1.77'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/google/jax"
+description = """JAX is Autograd and XLA, brought together for high-performance machine learning research."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('cuDNN', '7.6.4.38'),
+    # ('glibc', '2.23')  # glibc 2.17 is installed. Version 2.23 is required, but there were problems installing it.
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('absl-py', '0.10.0', {
+        'modulename': 'absl',
+        'checksums': ['b20f504a7871a580be5268a18fbad48af4203df5d33dbc9272426cb806245a45'],
+    }),
+    ('jaxlib', '0.1.55', {
+        'source_tmpl': 'cuda101/%(name)s-%(version)s-cp37-none-manylinux2010_x86_64.whl',
+        'source_urls': ['https://storage.googleapis.com/jax-releases'],
+        'unpack_sources': False,
+        'checksums': ['89cd71f7aaf4c0e4509a5906f00264787ffa3c83be30a37eb52095b7f99e05f8'],
+    }),
+    ('opt-einsum', '3.3.0', {
+        'source_tmpl': 'opt_einsum-%(version)s.tar.gz',
+        'checksums': ['59f6475f77bbc37dcf7cd748519c0ec60722e91e63ca114e68821c0c54a46549'],
+    }),
+    ('jax', version, {
+        'checksums': ['140b0b7ff9e7483c3efae54fa3dd2cc86559536482ea15d2b2cad6001780c85e'],
+    }),
+]
+
+modextravars = {
+    'XLA_FLAGS': '--xla_gpu_cuda_data_dir=$env(EBROOTCUDA)/bin',
+}
+
+moduleclass = 'data'
