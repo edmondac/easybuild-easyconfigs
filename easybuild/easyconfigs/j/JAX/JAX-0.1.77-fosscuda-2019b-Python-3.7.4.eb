@@ -3,8 +3,6 @@ easyblock = 'ConfigureMake'
 
 name = 'JAX'
 version = '0.1.77'
-#_jaxlibver = '0.1.55'
-# versionsuffix = 'jaxlib-%(_jaxlibver)s-Python-%%(pyver)s'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = "https://github.com/google/jax"
@@ -14,25 +12,24 @@ toolchain = {'name': 'fosscuda', 'version': '2019b'}
 
 dependencies = [
     ('Python', '3.7.4'),
-    # ('SciPy-bundle', '2019.10', versionsuffix),  # use JAX-dependencies instead (Numpy 1.15.4 and latest cython & scipy, as recommended).
-    # ('Bazel', '2.0.0'),  # let it install Bazel itself 
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('Bazel', '2.0.0'),
     ('cuDNN', '7.6.4.38'),
-    ('JAX-dependencies', '0.1.77', versionsuffix),
 ]
 
 source_urls = ['https://github.com/google/jax/archive']
 sources = ['jax-v%(version)s.tar.gz']
 checksums = ['18fa3bcebf4b1a526349db5a76a508784ec5d05324c192c40f240ccbf9480e26']
-
-# sources = ['jaxlib-v%s.tar.gz' % _jaxlibver]
-
 skipsteps = ['configure', 'build']
 
 install_cmd = 'export TF_CUDA_PATHS=${EBROOTCUDA} && '
-install_cmd += 'python build/build.py --enable_cuda --cuda_path ${EBROOTCUDA} ' 
-# install_cmd += '--enable_march_native '
+# To prevent bazel builds on different hosts/architectures conflicting with each other
+# we'll set HOME, inside which Bazel puts active files (in ~/.cache/bazel/...)
+install_cmd += 'export HOME=/rds/bear-apps/devel/${USER}/${HOSTNAME} && '
+install_cmd += 'python build/build.py --enable_cuda --cuda_path ${EBROOTCUDA} '
 install_cmd += '--cudnn_path ${EBROOTCUDNN} '
-# install_cmd += '--bazel_path ${EBROOTBAZEL}/bin/bazel '
+install_cmd += '--bazel_path ${EBROOTBAZEL}/bin/bazel '
+install_cmd += '--bazel_options=\'--action_env=PYTHONPATH --subcommands\' '
 install_cmd += '--noenable_mkl_dnn && '
 install_cmd += 'pip install -e build && '  # install jaxlib
 install_cmd += 'pip install -e .'  # install jax
