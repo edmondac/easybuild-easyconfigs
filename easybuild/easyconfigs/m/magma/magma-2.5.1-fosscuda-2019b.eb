@@ -20,7 +20,16 @@ checksums = [
 
 skipsteps = ['configure']
 
-prebuildopts = 'touch make.inc && GPU_TARGET="Kepler Maxwell Pascal Volta" '
+prebuildopts = 'touch make.inc && '
+# magma 2.5.0 does not build on sm_30 - so remove Kepler and specify sm_35
+# http://icl.cs.utk.edu/magma/forum/viewtopic.php?f=2&t=1906&sid=7048fadfd48a0d00c3c4294ddef6a096
+prebuildopts += 'GPU_TARGET="sm_35 Maxwell Pascal Volta" '
+
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need c++11 (to avoid __ieee128 errors
+    prebuildopts += 'CFLAGS="-mno-float128 -std=c++11" '
 
 installopts = 'prefix=%(installdir)s'
 
