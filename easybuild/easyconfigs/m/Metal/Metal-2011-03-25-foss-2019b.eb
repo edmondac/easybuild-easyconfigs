@@ -3,11 +3,11 @@ easyblock = 'ConfigureMake'
 name = 'Metal'
 version = '2011-03-25'
 
-homepage = 'http://csg.sph.umich.edu/abecasis/Metal/'
+homepage = 'https://csg.sph.umich.edu/abecasis/Metal/'
 description = """Metal - Meta Analysis Helper. The METAL software is designed to facilitate meta-analysis of large
  datasets (such as several whole genome scans) in a convenient, rapid and memory efficient manner."""
 
-source_urls = ['http://csg.sph.umich.edu/abecasis/Metal/download/']
+source_urls = ['https://csg.sph.umich.edu/abecasis/Metal/download/']
 sources = ['generic-%(namelower)s-%(version)s.tar.gz']
 patches = ['Metal-%(version)s_Makefile.patch']
 checksums = [
