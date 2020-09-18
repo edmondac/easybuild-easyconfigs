@@ -15,8 +15,8 @@ source_urls = [
     'https://ftpmirror.gnu.org/gnu/mpfr',  # idem for MPFR
     'https://ftpmirror.gnu.org/gnu/mpc',  # idem for MPC
     'ftp://gcc.gnu.org/pub/gcc/infrastructure/',  # GCC dependencies
-    'http://gcc.cybermirror.org/infrastructure/',  # HTTP mirror for GCC dependencies
-    'http://isl.gforge.inria.fr/',  # original HTTP source for ISL
+    'http://gcc.cybermirror.org/infrastructure/',  # HTTP mirror for GCC dependencies  # NOQA
+    'http://isl.gforge.inria.fr/',  # original HTTP source for ISL  # NOQA
 ]
 sources = [
     'gcc-%(version)s.tar.gz',
