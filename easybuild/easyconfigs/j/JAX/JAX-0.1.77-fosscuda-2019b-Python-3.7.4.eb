@@ -29,6 +29,7 @@ install_cmd += 'export HOME=/rds/bear-apps/devel/${USER}/${HOSTNAME} && '
 install_cmd += 'python build/build.py --enable_cuda --cuda_path ${EBROOTCUDA} '
 install_cmd += '--cudnn_path ${EBROOTCUDNN} '
 install_cmd += '--bazel_path ${EBROOTBAZEL}/bin/bazel '
+# Tell Bazel to pass PYTHONPATH through to what it's building, so it can find scipy etc.
 install_cmd += '--bazel_options=\'--action_env=PYTHONPATH --subcommands\' '
 install_cmd += '--noenable_mkl_dnn && '
 install_cmd += 'pip install -e build && '  # install jaxlib
