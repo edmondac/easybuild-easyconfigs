@@ -25,7 +25,7 @@ skipsteps = ['configure', 'build']
 install_cmd = 'export TF_CUDA_PATHS=${EBROOTCUDA} && '
 # To prevent bazel builds on different hosts/architectures conflicting with each other
 # we'll set HOME, inside which Bazel puts active files (in ~/.cache/bazel/...)
-install_cmd += 'export HOME=/rds/bear-apps/devel/${USER}/${HOSTNAME} && '
+install_cmd += 'export HOME=%(builddir)s/.home/ && '
 install_cmd += 'python build/build.py --enable_cuda --cuda_path ${EBROOTCUDA} '
 install_cmd += '--cudnn_path ${EBROOTCUDNN} '
 install_cmd += '--bazel_path ${EBROOTBAZEL}/bin/bazel '
@@ -36,8 +36,8 @@ install_cmd += '--noenable_mkl_dnn && '
 install_cmd += 'pip install --prefix %(installdir)s build && '  # install jaxlib
 install_cmd += 'pip install --prefix %(installdir)s .'  # install jax
 
-modextravars = {
-    'XLA_FLAGS': '--xla_gpu_cuda_data_dir=$env(EBROOTCUDA)/bin',
-}
+modextravars = {'XLA_FLAGS': '--xla_gpu_cuda_data_dir=$env(EBROOTCUDA)/bin'}
+
+modextrapaths = {'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages'}
 
 moduleclass = 'data'
