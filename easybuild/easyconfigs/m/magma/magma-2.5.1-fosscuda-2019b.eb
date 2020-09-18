@@ -29,7 +29,7 @@ import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
     # for ppc64le we need c++11 (to avoid __ieee128 errors
-    prebuildopts += 'CFLAGS="-mno-float128 -std=c++11" '
+    prebuildopts += 'CFLAGS="-mno-float128 -std=c++11 ${CFLAGS}" '
 
 installopts = 'prefix=%(installdir)s'
 
