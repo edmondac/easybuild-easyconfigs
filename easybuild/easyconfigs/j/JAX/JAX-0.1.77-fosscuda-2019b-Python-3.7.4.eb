@@ -33,18 +33,16 @@ install_cmd += '--bazel_path ${EBROOTBAZEL}/bin/bazel '
 #install_cmd += '--bazel_options=\'--action_env=PYTHONPATH --subcommands\' '
 install_cmd += '--bazel_options=--action_env=PYTHONPATH '
 install_cmd += '--noenable_mkl_dnn && '
-install_cmd += 'pip install --prefix %(installdir)s . && '  # install jax
-install_cmd += 'cd build && pip install --prefix %(installdir)s . '  # install jaxlib
+install_cmd += '(cd build && pip install --prefix %(installdir)s .) && '  # install jaxlib
+install_cmd += 'pip install --prefix %(installdir)s .'  # install jax
 
 modextravars = {'XLA_FLAGS': '--xla_gpu_cuda_data_dir=$env(EBROOTCUDA)/bin'}
 
 modextrapaths = {'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages'}
 
 sanity_check_paths = {
-    'dirs': [
-        'lib/python%(pyshortver)s/jax',
-        'lib/python%(pyshortver)s/jaxlib',
-    ],
+    'files': [],
+    'dirs': ['lib/python%(pyshortver)s/jax', 'lib/python%(pyshortver)s/jaxlib'],
 }
 
 moduleclass = 'data'
