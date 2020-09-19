@@ -42,7 +42,8 @@ modextrapaths = {'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages'}
 
 sanity_check_paths = {
     'files': [],
-    'dirs': ['lib/python%(pyshortver)s/jax', 'lib/python%(pyshortver)s/jaxlib'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/jax',
+             'lib/python%(pyshortver)s/site-packages/jaxlib'],
 }
 
 moduleclass = 'data'
