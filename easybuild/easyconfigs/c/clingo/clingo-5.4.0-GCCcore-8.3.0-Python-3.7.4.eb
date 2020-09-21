@@ -8,7 +8,8 @@ versionsuffix = '-Python-%(pyver)s'
 homepage = "https://potassco.org/clingo"
 description = """Clingo is part of the Potassco project for Answer Set Programming (ASP). ASP
  offers a simple and powerful modeling language to describe combinatorial problems as logic
- programs. The clingo system then takes such a logic program and computes answer sets representing solutions to the given problem."""
+ programs. The clingo system then takes such a logic program and computes answer sets representing
+ solutions to the given problem."""
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
