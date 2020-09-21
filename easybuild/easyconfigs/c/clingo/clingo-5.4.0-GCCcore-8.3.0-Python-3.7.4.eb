@@ -28,15 +28,10 @@ dependencies = [
     ('re2c', '1.2.1'),
 ]
 
-preconfigopts = 'mkdir build && cd build && '
-configure_cmd = 'cmake ..'
 configopts = '-DLIB_POTASSCO_INSTALL_LIB=ON '
 configopts += '-DCLASP_BUILD_APP=ON'
-prebuildopts = 'cd build && '
 
-files_to_copy = [
-    'build/*'
-]
+files_to_copy = ['*']
 
 sanity_check_paths = {
     'files': ['bin/%s' % x for x in ['%(name)s', 'clasp', 'lpconvert',
