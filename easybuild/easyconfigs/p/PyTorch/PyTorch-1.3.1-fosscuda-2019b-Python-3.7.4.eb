@@ -269,7 +269,6 @@ dependencies = [
     ('GMP', '6.1.2'),
     ('numactl', '2.0.12'),
     ('FFmpeg', '4.2.1'),
-    ('gflags', '2.2.2'),
     ('Pillow', '6.2.1'),
     ('cuDNN', '7.6.4.38'),
     ('magma', '2.5.1'),
@@ -280,7 +279,7 @@ download_dep_fail = True
 
 prebuildopts = 'PYTORCH_BUILD_VERSION=%(version)s PYTORCH_BUILD_NUMBER=1 VERBOSE=1 '
 prebuildopts += 'LDFLAGS="$LDFLAGS -ldl" '
-prebuildopts += 'USE_FFMPEG=ON USE_IBVERBS=1 USE_GFLAGS=ON '
+prebuildopts += 'USE_FFMPEG=ON USE_IBVERBS=1 '
 prebuildopts += 'CUDNN_LIB_DIR=$EBROOTCUDNN/lib64 CUDNN_INCLUDE_DIR=$EBROOTCUDNN/include '
 prebuildopts += 'USE_SYSTEM_NCCL=1 NCCL_INCLUDE_DIR=$EBROOTNCCL/include '
 prebuildopts += 'TORCH_CUDA_ARCH_LIST="3.5 3.7 5.2 6.0 6.1 7.0 7.2 7.5" '
@@ -289,10 +288,12 @@ import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
     # for ppc64le we need c++11 (to avoid __ieee128 errors
-    prebuildopts += 'CFLAGS="-mno-float128 -std=c++11 $CFLAGS" '
-    prebuildopts += 'CXXFLAGS="-mno-float128 -std=c++11 $CXXFLAGS" '
-    prebuildopts += 'CUDA_CFLAGS="-mno-float128 -std=c++11 $CUDA_CFLAGS" '
-    prebuildopts += 'CUDA_CXXFLAGS="-mno-float128 -std=c++11 $CUDA_CXXFLAGS" '
+    #prebuildopts += 'CFLAGS="-mno-float128 -std=c++11 $CFLAGS" '
+    #prebuildopts += 'CXXFLAGS="-mno-float128 -std=c++11 $CXXFLAGS" '
+    #prebuildopts += 'CUDA_CFLAGS="-mno-float128 -std=c++11 $CUDA_CFLAGS" '
+    #prebuildopts += 'CUDA_CXXFLAGS="-mno-float128 -std=c++11 $CUDA_CXXFLAGS" '
+    #prebuildopts += 'CUDA_NVCC_FLAGS="-std=c++11;-Xcompiler;-mno-float128" '
+    patches.append('tmp.patch')
 
 preinstallopts = prebuildopts
 

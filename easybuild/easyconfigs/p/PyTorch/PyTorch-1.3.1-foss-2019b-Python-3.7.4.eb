@@ -269,7 +269,6 @@ dependencies = [
     ('GMP', '6.1.2'),
     ('numactl', '2.0.12'),
     ('FFmpeg', '4.2.1'),
-    ('gflags', '2.2.2'),
     ('Pillow', '6.2.1'),
 ]
 
@@ -277,7 +276,7 @@ download_dep_fail = True
 
 prebuildopts = 'PYTORCH_BUILD_VERSION=%(version)s PYTORCH_BUILD_NUMBER=1 VERBOSE=1 '
 prebuildopts += 'LDFLAGS="$LDFLAGS -ldl" '
-prebuildopts += 'USE_FFMPEG=ON USE_GFLAGS=ON '
+prebuildopts += 'USE_FFMPEG=ON '
 
 preinstallopts = prebuildopts
 

@@ -276,7 +276,6 @@ dependencies = [
     ('GMP', '6.1.2'),
     ('numactl', '2.0.12'),
     ('FFmpeg', '4.2.1'),
-    ('gflags', '2.2.2'),
     ('Pillow', '6.2.1'),
     ('cuDNN', '7.6.4.38'),
     ('magma', '2.5.1'),
