@@ -1,0 +1,33 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'TIGRAMITE'
+version = '4.2.0.3'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://jakobrunge.github.io/tigramite/"
+description = """Tigramite is a causal time series analysis python package. It allows to efficiently reconstruct causal
+ graphs from high-dimensional time series datasets and model the obtained causal dependencies for causal mediation and
+ prediction analyses. Causal discovery is based on linear as well as non-parametric conditional independence tests
+ applicable to discrete or continuously-valued time series. Also includes functions for high-quality plots of the
+ results."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('networkx', '2.4', versionsuffix),
+]
+
+source_urls = ['https://github.com/jakobrunge/tigramite/archive/']
+sources = ['4.2.tar.gz']
+checksums = ['5d156b46ed79eeaba4640536e24622b84be0d5d090b9d85c32cba96673ae43c3']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'math'
