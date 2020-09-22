@@ -215,6 +215,7 @@ patches = [
     '%(name)s-1.2.0_disable-tests-ppc64le.patch',
     '%(name)s-%(version)s_fix-missing-sleef_h.patch',
     '%(name)s-%(version)s_el8_ppc64le_disable_test.patch',
+    '%(name)s-1.2.0_gloo_el8_ppc64le.patch',
 ]
 checksums = [
     'ab6feb5044f7d36f6e93dce4668d8c593e89d34aca7023fd99a38d215ca9dfc0',  # v1.3.1.tar.gz
@@ -253,6 +254,7 @@ checksums = [
     'c4183bcb29a8bcbadea0341e93a3a32afdf860aa31331b768e787d899183da92',  # PyTorch-1.2.0_disable-tests-ppc64le.patch
     '1337647ff64a1208d1e401fc84052d0bc6174b133cec2f3521319cb593f524fa',  # PyTorch-1.3.1_fix-missing-sleef_h.patch
     '3560c9f31e32b6e41e5afb275a1eca81b090c547353c5edc555387caec50a3ae',  # PyTorch-1.3.1-foss-2019b-Python-3.7.4.eb
+    'f57283c0347bac4fc5ebe16a79caf7cebeca0078f9f575c1d9f52c33d8775131',  # PyTorch-1.2.0_gloo_el8_ppc64le.patch
 ]
 
 builddependencies = [
@@ -288,12 +290,7 @@ import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
     # for ppc64le we need c++11 (to avoid __ieee128 errors
-    #prebuildopts += 'CFLAGS="-mno-float128 -std=c++11 $CFLAGS" '
-    #prebuildopts += 'CXXFLAGS="-mno-float128 -std=c++11 $CXXFLAGS" '
-    #prebuildopts += 'CUDA_CFLAGS="-mno-float128 -std=c++11 $CUDA_CFLAGS" '
-    #prebuildopts += 'CUDA_CXXFLAGS="-mno-float128 -std=c++11 $CUDA_CXXFLAGS" '
-    #prebuildopts += 'CUDA_NVCC_FLAGS="-std=c++11;-Xcompiler;-mno-float128" '
-    patches.append('tmp.patch')
+    prebuildopts += 'TORCH_NVCC_FLAGS="-Xcompiler -mno-float128 " '
 
 preinstallopts = prebuildopts
 

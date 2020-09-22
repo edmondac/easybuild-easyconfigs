@@ -216,6 +216,7 @@ patches = [
     '%(name)s-%(version)s-fix-test-missing-rpc-shutdown.patch',
     '%(name)s-%(version)s-fix-rpc-test-world-size.patch',
     '%(name)s-%(version)s-fix-system-pybind11.patch',
+    '%(name)s-1.2.0_gloo_el8_ppc64le.patch',
 ]
 checksums = [
     '7160e5bd291ad649d035f1c830dd064d1db42839b64b9a3502b5d47641233fb7',  # v1.6.0.tar.gz
@@ -258,6 +259,7 @@ checksums = [
     '9afd9b3a85a7b115e9535cf6a618d5dd137a69a5f36747d6290ac3bf123ab896',
     '7d48c4ef7ae98a8a9e5eade3341ce18e41fa3fe4b868e9435efbfba849d1f977',  # PyTorch-1.6.0-fix-rpc-test-world-size.patch
     'f0e09866e500a6ec96f7a0ad606d220960683901aa8dc491e245f9f8f4d89e45',  # PyTorch-1.6.0-fix-system-pybind11.patch
+    'f57283c0347bac4fc5ebe16a79caf7cebeca0078f9f575c1d9f52c33d8775131',  # PyTorch-1.2.0_gloo_el8_ppc64le.patch
 ]
 
 builddependencies = [
@@ -286,6 +288,12 @@ dependencies = [
 # p100 - 6.0
 # v100 - 7.0
 cuda_compute_capabilities = ['6.0', '7.0']
+
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need c++11 (to avoid __ieee128 errors
+    custom_opts = ['TORCH_NVCC_FLAGS="-Xcompiler -mno-float128 " ']
 
 excluded_tests = {
     'POWER': [
