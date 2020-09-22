@@ -22,6 +22,8 @@ dependencies = [
     ('networkx', '2.4', versionsuffix),
 ]
 
+# Version on pypi is missing the .pyx file
+# Version of github is versioned as 4.2, but is from the same date as 4.2.0.3 on pypi
 source_urls = ['https://github.com/jakobrunge/tigramite/archive/']
 sources = ['4.2.tar.gz']
 checksums = ['5d156b46ed79eeaba4640536e24622b84be0d5d090b9d85c32cba96673ae43c3']
