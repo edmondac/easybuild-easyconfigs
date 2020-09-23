@@ -1,9 +1,9 @@
 --- third_party/gloo/cmake/Cuda.cmake.orig  2020-09-21 22:18:15.004211000 +0100
 +++ third_party/gloo/cmake/Cuda.cmake   2020-09-21 22:19:05.071892000 +0100
 @@ -169,6 +169,7 @@
- set(CUDA_PROPAGATE_HOST_FLAGS OFF)
- gloo_list_append_if_unique(CUDA_NVCC_FLAGS "-std=c++11")
- gloo_list_append_if_unique(CUDA_NVCC_FLAGS "-Xcompiler -fPIC")
+   gloo_list_append_if_unique(CUDA_NVCC_FLAGS "-std=c++11")
+ endif()
+ gloo_list_append_if_unique(CUDA_NVCC_FLAGS "-Xcompiler" "-fPIC")
 +gloo_list_append_if_unique(CUDA_NVCC_FLAGS "-Xcompiler -mno-float128")
  
  mark_as_advanced(CUDA_BUILD_CUBIN CUDA_BUILD_EMULATION CUDA_VERBOSE_BUILD)

@@ -216,7 +216,7 @@ patches = [
     '%(name)s-1.2.0_disable-tests-ppc64le.patch',
     '%(name)s-%(version)s_fix-missing-sleef_h.patch',
     '%(name)s-1.3.1_el8_ppc64le_disable_test.patch',
-    '%(name)s-1.2.0_gloo_el8_ppc64le.patch',
+    '%(name)s-%(version)s_gloo_el8_ppc64le.patch',
 ]
 checksums = [
     '8efc9c3d1804ffb97cbcf4ef988febc8d0b8701763614a586c7fc457a97cf847',  # v1.4.0.tar.gz
@@ -255,7 +255,7 @@ checksums = [
     'c4183bcb29a8bcbadea0341e93a3a32afdf860aa31331b768e787d899183da92',  # PyTorch-1.2.0_disable-tests-ppc64le.patch
     '57cc8d2159a35de89139729c5390eb944332b9907d97b2b85a0b6ded30bd198e',  # PyTorch-1.4.0_fix-missing-sleef_h.patch
     '3560c9f31e32b6e41e5afb275a1eca81b090c547353c5edc555387caec50a3ae',  # PyTorch-1.3.1-foss-2019b-Python-3.7.4.eb
-    'f57283c0347bac4fc5ebe16a79caf7cebeca0078f9f575c1d9f52c33d8775131',  # PyTorch-1.2.0_gloo_el8_ppc64le.patch
+    'fb31255d96e6fc7f00ed6ff3984371102915b665ab0ffd427786822761daf18d',  # PyTorch-1.4.0_gloo_el8_ppc64le.patch
 ]
 
 builddependencies = [
