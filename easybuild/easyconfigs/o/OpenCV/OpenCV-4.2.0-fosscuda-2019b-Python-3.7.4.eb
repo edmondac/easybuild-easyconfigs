@@ -56,4 +56,10 @@ preconfigopts += "cp -a %(builddir)s/opencv_contrib-4.2.0/modules/cudev/ %(build
 
 configopts = "-DOPENCV_EXTRA_MODULES_PATH=%(builddir)s/opencv_modules/ -DBUILD_opencv_cudev=ON"
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need c++11 (to avoid __ieee128 errors
+    configopts += ' -DCUDA_NVCC_FLAGS="-Xcompiler;-mno-float128"'
+
 moduleclass = 'vis'
