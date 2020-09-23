@@ -101,6 +101,7 @@ exts_list = [
             'TensorFlow-1.14.0_fix-mpi-undeclared-inclusion.patch',
             'TensorFlow-1.14.0_fix-cuda-build.patch',
             'TensorFlow-1.14.0_fix-cuda-mpi.patch',
+            'TensorFlow-2.0.0_ppc64le_nvcc_options.patch',
         ],
         'source_tmpl': 'v%(version)s.tar.gz',
         'source_urls': ['https://github.com/tensorflow/tensorflow/archive/'],
@@ -117,6 +118,8 @@ exts_list = [
             # TensorFlow-1.14.0_fix-cuda-build.patch
             '92afeee76520a63dc638c2cd4adaf2e7429411068ea4be96718255f67f113e43',
             'fbc43da0de293bf7f42810ee439543b47cc7e19107b9ad7b6db95cec21eb8b33',  # TensorFlow-1.14.0_fix-cuda-mpi.patch
+            # TensorFlow-2.0.0_ppc64le_nvcc_options.patch
+            'be298263f9afb5081ae17dbce888620b1d58354b9fc0f8529d4b5337971b8e05',
         ]
     }),
 ]
