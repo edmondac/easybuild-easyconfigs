@@ -1,0 +1,11 @@
+--- tensorflow/tensorflow.bzl.orig	2020-09-22 13:38:29.898779668 +0100
++++ tensorflow/tensorflow.bzl	2020-09-22 15:10:24.650462935 +0100
+@@ -1288,6 +1288,8 @@
+         "@local_config_cuda//cuda:using_nvcc": ([
+             "-nvcc_options=relaxed-constexpr",
+             "-nvcc_options=ftz=true",
++            "-nvcc_options=compiler-options=-mno-float128",
++            "-nvcc_options=compiler-options=-std=c++11"
+         ]),
+         "@local_config_cuda//cuda:using_clang": ([
+             "-fcuda-flush-denormals-to-zero",
