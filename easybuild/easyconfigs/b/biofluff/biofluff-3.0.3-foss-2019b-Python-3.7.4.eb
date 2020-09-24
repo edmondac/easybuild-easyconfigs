@@ -1,0 +1,43 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'biofluff'
+version = '3.0.3'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://pypi.org/project/biofluff/"
+description = """fluff : exploratory analysis and visualization of high-throughput sequencing data."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('HTSeq', '0.12.4', versionsuffix),
+    ('pybedtools', '0.8.1'),
+    ('scikit-learn', '0.21.3', versionsuffix)
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('palettable', '3.3.0', {
+        'checksums': ['72feca71cf7d79830cd6d9181b02edf227b867d503bec953cf9fa91bf44896bd'],
+    }),
+    ('pyBigWig', '0.3.7', {
+        'modulename': 'pyBigWig',
+        'checksums': ['4f13fba8ec835fc868686e6aad420c8b6f0d3728c0fef19411e4dba8f084e268'],
+    }),
+    (name, version, {
+        'modulename': 'fluff',
+        'checksums': ['7f424f89b9b1a157e46b168b9d2b655dca2c8651e5e334bc807fcc0b728ff02b'],
+    }),
+]
+
+moduleclass = 'bio'

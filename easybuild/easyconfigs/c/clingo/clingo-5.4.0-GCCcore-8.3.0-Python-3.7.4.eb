@@ -1,0 +1,47 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMakeCp'
+
+name = 'clingo'
+version = '5.4.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://potassco.org/clingo"
+description = """Clingo is part of the Potassco project for Answer Set Programming (ASP). ASP
+ offers a simple and powerful modeling language to describe combinatorial problems as logic
+ programs. The clingo system then takes such a logic program and computes answer sets representing
+ solutions to the given problem."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://github.com/potassco/clingo/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['e2de331ee0a6d254193aab5995338a621372517adcf91568092be8ac511c18f3']
+
+builddependencies = [
+    ('binutils', '2.32'),
+    ('CMake', '3.15.3')
+]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Bison', '3.3.2'),
+    ('re2c', '1.2.1'),
+]
+
+configopts = '-DLIB_POTASSCO_INSTALL_LIB=ON '
+configopts += '-DCLASP_BUILD_APP=ON'
+
+files_to_copy = ['*']
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in ['%(name)s', 'clasp', 'lpconvert',
+                                     'python/clingo.cpython-37m-x86_64-linux-gnu.so']],
+    'dirs': ['lib%s' % x for x in ['', '%(name)s', 'gringo', 'pyclingo', 'reify']]
+}
+
+modextrapaths = {
+    'LD_LIBRARY_PATH': 'bin',  # libclingo.so.3 is in 'bin'
+    'PYTHONPATH': 'bin/python'
+}
+
+moduleclass = 'lib'
