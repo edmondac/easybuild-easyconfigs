@@ -2,7 +2,7 @@
 name = 'HEXPRESS'
 version = '8.1'
 
-homepage = "http://www.numeca.com/product/hexpresshybrid"
+homepage = "https://www.numeca.com/hexpress"
 description = """Parallel Unstructured Hex Dominant Meshing for complex and/or unclean geometries."""
 
 toolchain = SYSTEM
