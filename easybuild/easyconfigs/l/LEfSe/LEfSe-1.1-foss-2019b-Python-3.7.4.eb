@@ -1,0 +1,36 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'LEfSe'
+version = '1.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/SegataLab/lefse"
+description = """LEfSe (Linear discriminant analysis Effect Size) determines the features (organisms, clades,
+operational taxonomic units, genes, or functions) most likely to explain differences between classes by coupling
+standard tests for statistical significance with additional tests encoding biological consistency and effect relevance."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('R', '3.6.2'),
+    ('rpy2', '3.2.6', versionsuffix),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('biom-format', '2.1.8', versionsuffix),
+]
+
+source_urls = ['https://github.com/SegataLab/%(namelower)s/archive/']
+sources = ['%(version)s.tar.gz']
+
+sanity_check_paths = {
+    'files': ['format_input.py', 'run_lefse.py'],
+    'dirs': ['example'],
+}
+
+sanity_check_commands = ['run_lefse.py --help']
+
+modextrapaths = {'PATH': '', 'PYTHONPATH': ''}
+
+moduleclass = 'bio'

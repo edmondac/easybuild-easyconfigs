@@ -1,0 +1,31 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'biom-format'
+version = '2.1.8'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://biom-format.org/"
+description = """The BIOM file format (canonically pronounced biome) is designed to be a general-use format for
+representing biological sample by observation contingency tables. BIOM is a recognized standard for the Earth Microbiome
+Project and is a Genomics Standards Consortium supported project."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('h5py', '2.10.0', versionsuffix),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = ['%(name)s-%(version)s-1.tar.gz']
+options = {'modulename': 'biom'}
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+sanity_check_commands = ['biom --help']
+
+moduleclass = 'bio'
