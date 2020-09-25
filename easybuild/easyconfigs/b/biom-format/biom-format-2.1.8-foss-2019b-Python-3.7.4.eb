@@ -20,6 +20,8 @@ dependencies = [
 
 source_urls = [PYPI_SOURCE]
 sources = ['%(name)s-%(version)s-1.tar.gz']
+checksums = ['3711de5807e5b29d944cd2713a16f26b6148eefd5b831ccad6a10c06cbd42649']
+
 options = {'modulename': 'biom'}
 
 download_dep_fail = True

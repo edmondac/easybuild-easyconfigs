@@ -8,7 +8,8 @@ versionsuffix = '-Python-%(pyver)s'
 homepage = "https://github.com/SegataLab/lefse"
 description = """LEfSe (Linear discriminant analysis Effect Size) determines the features (organisms, clades,
 operational taxonomic units, genes, or functions) most likely to explain differences between classes by coupling
-standard tests for statistical significance with additional tests encoding biological consistency and effect relevance."""
+standard tests for statistical significance with additional tests encoding biological consistency and effect
+relevance."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
@@ -23,6 +24,7 @@ dependencies = [
 
 source_urls = ['https://github.com/SegataLab/%(namelower)s/archive/']
 sources = ['%(version)s.tar.gz']
+checksums = ['2767d0cefdd9ceb417358023eac1a18af64774e1f05435aeafd0dc3950339f81']
 
 sanity_check_paths = {
     'files': ['format_input.py', 'run_lefse.py'],
