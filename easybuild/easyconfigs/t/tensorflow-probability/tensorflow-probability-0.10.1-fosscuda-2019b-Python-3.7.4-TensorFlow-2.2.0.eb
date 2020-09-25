@@ -3,7 +3,8 @@ easyblock = 'PythonBundle'
 
 name = 'tensorflow-probability'
 version = '0.10.1'
-versionsuffix = '-Python-%(pyver)s'
+_pysuffix = '-Python-%(pyver)s'
+versionsuffix = '-%s-TensorFlow-2.2.0' % _pysuffix
 
 homepage = "https://github.com/tensorflow/probability"
 description = """Probabilistic reasoning and statistical analysis in TensorFlow"""
@@ -12,7 +13,7 @@ toolchain = {'name': 'fosscuda', 'version': '2019b'}
 
 dependencies = [
     ('Python', '3.7.4'),
-    ('TensorFlow', '2.2.0', versionsuffix),
+    ('TensorFlow', '2.2.0', _pysuffix),
 ]
 
 use_pip = True
