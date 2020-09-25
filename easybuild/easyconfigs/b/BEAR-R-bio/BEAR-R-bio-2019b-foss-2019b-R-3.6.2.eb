@@ -24,6 +24,7 @@ dependencies = [
     ('Taxonstand', '2.2', versionsuffix),
     ('rts', '1.0-49', versionsuffix),
     ('trend', '1.1.4', versionsuffix),
+    ('Kendall', '2.2', versionsuffix),
 ]
 
 moduleclass = 'bio'
