@@ -14,7 +14,7 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 dependencies = [
     ('Python', '3.7.4'),
     ('TensorFlow', '2.2.0', _pysuffix),
-    ('tensorflow-probability', '0.10.1', _pysuffix)
+    ('tensorflow-probability', '0.10.1', versionsuffix)
 ]
 
 sanity_pip_check = True
