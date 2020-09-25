@@ -232,7 +232,7 @@ class EasyConfigTest(TestCase):
 
         # for some dependencies, we allow exceptions for software that depends on a particular version,
         # as long as that's indicated by the versionsuffix
-        if dep in ['ASE', 'Boost', 'Java', 'Lua', 'PLUMED', 'R', 'TensorFlow'] and len(dep_vars) > 1:
+        if dep in ['ASE', 'Boost', 'Java', 'Lua', 'PLUMED', 'R'] and len(dep_vars) > 1:
             for key in list(dep_vars):
                 dep_ver = re.search('^version: (?P<ver>[^;]+);', key).group('ver')
                 # use version of Java wrapper rather than full Java version
@@ -278,6 +278,8 @@ class EasyConfigTest(TestCase):
             # Deepbinner and n2v require TensorFlow 1.15.0
             'TensorFlow': ('1.15.0', ['Keras-2.3.1-', 'Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-', 'n2v-0.1.11-', 'AugmentedAutoencoder-0c8100f-']),
             'Keras': ('2.3.1', ['Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-']),
+            # GPflow and tensorflow-probability 0.10.1 require TensorFlow 2.2.0
+            'TensorFlow': ('2.2.0', ['GPflow-2.1.1-', 'tensorflow-probability-0.10.1-']),
             # ANSYSEM requires libpng 1.2.58
             'libpng': ('1.2.58', ['ANSYSEM-2020R1-', 'X11-20190717-', 'libdrm-2.4.99-', 'fontconfig-2.13.1-', 'Mesa-19.2.1-', 'freetype-2.10.1-']),
             # ANSYSEM requires dri version of Mesa
