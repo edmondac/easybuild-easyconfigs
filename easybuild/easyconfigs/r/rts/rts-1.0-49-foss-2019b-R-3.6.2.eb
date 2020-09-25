@@ -1,0 +1,44 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'rts'
+version = '1.0-49'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=rts"
+description = """This framework aims to provide classes and methods for manipulating and processing of raster time
+ series data (e.g. a time series of satellite images)."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['62bf43e55cdc50784a1ce833e7e08ef6f44ae116f83b19261aea6c2d59a5df20'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['rts/R/rts'],
+    'dirs': [],
+}
+
+moduleclass = 'data'
