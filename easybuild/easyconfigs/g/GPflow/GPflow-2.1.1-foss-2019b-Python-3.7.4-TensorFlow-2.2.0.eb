@@ -4,7 +4,7 @@ easyblock = 'PythonBundle'
 name = 'GPflow'
 version = '2.1.1'
 _pysuffix = '-Python-%(pyver)s'
-versionsuffix = '-%s-TensorFlow-2.2.0' % _pysuffix
+versionsuffix = '%s-TensorFlow-2.2.0' % _pysuffix
 
 homepage = "https://www.gpflow.org"
 description = """GPflow is a package for building Gaussian process models in Python, using TensorFlow."""
