@@ -1,0 +1,137 @@
+--- install_numeca.orig	2018-10-23 19:31:35.000000000 +0100
++++ install_numeca	2019-01-03 13:40:30.914074539 +0000
+@@ -56,9 +56,9 @@
+ 
+ askyn () {
+ #$1 is the question
+-#usage:  askyn "do you want to do something?"
++#usage:  #askyn "do you want to do something?"
+   case X$1 in
+-   X) echo "no question to askyn"; return;;
++   X) echo "no question to #askyn"; return;;
+   esac
+   echo "  $1"
+   read YES_NO
+@@ -151,11 +151,12 @@
+       if [ $is_lsb -eq 0 ] ; then
+         niecho ""
+         niecho "Your machine may not be a LSB platform, required for the license server."
+-        askyn "Do you want to run the wizard to configure your license server? [yes/no]"
++        #askyn "Do you want to run the wizard to configure your license server? [yes/no]"
+       fi
+     fi
+   fi
+ 
++  YES_NO="no"
+   if [ X${YES_NO} = "Xyes" ] ; then
+     case X`uname` in
+     XLinux)
+@@ -205,9 +206,10 @@
+ echo "   *************************************************"
+ 
+ lic_dir=`dirname $0`
+-more ${lic_dir}/license_agreement
++#more ${lic_dir}/license_agreement
+ 
+-askyn "Do you accept the license agreement [yes/no]"
++#askyn "Do you accept the license agreement [yes/no]"
++YES_NO="yes"
+ if [ X${YES_NO} = "Xno" ] ; then
+   exit
+ fi
+@@ -238,14 +240,16 @@
+     niecho "      ============================================================================"
+     niecho " "
+     if [ "X$linux_distro" = "Xubuntu" ] ; then
+-	askyn "      Install the lsb package with the command: sudo apt-get install lsb ? [yes/no]"
++	#askyn "      Install the lsb package with the command: sudo apt-get install lsb ? [yes/no]"
++    YES_NO="no"
+ 	if [ X${YES_NO} = "Xyes" ] ; then
+ 	    echo "sudo apt-get install lsb"
+ 	    sudo apt-get install lsb
+ 	fi
+     fi
+     if [ "X$linux_distro" = "Xfedora" ] || [ "X$linux_distro" = "Xcentos" ]  ; then
+-        askyn "      Install the lsb package with the command: sudo yum install lsb ? [yes/no]"
++        #askyn "      Install the lsb package with the command: sudo yum install lsb ? [yes/no]"
++        YES_NO="no"
+         if [ X${YES_NO} = "Xyes" ] ; then
+ 	    echo "sudo yum install lsb"
+             sudo yum install lsb
+@@ -267,7 +271,8 @@
+ 	niecho " "
+ 	new_font_installed=0
+ 	if [ "X$linux_distro" = "Xubuntu" ] ; then
+-	    askyn "      Install missing font package with command: sudo apt-get install xfonts-75dpi xfonts-100dpi ? [yes/no]"
++	    #askyn "      Install missing font package with command: sudo apt-get install xfonts-75dpi xfonts-100dpi ? [yes/no]"
++        YES_NO="no"
+ 	    if [ X${YES_NO} = "Xyes" ] ; then
+ 		new_font_installed=1
+ 		echo "sudo apt-get install xfonts-75dpi xfonts-100dpi"
+@@ -301,7 +306,8 @@
+     if [ -z "$res" ] ; then
+       echo ""
+       echo "  pciutils missing, required for the license server on the machine."
+-      askyn " Install the pciutils package with the command: sudo yum install pciutils ? [yes/no]"
++      #askyn " Install the pciutils package with the command: sudo yum install pciutils ? [yes/no]"
++      YES_NO="no"
+        if [ X${YES_NO} = "Xyes" ] ; then
+           echo "sudo yum install pciutils"
+           sudo yum install pciutils
+@@ -312,7 +318,8 @@
+     if [ -z "$res" ] ; then
+       echo ""
+       echo "  pciutils missing, required for the license server on the machine."
+-      askyn " Install the pciutils package with the command: sudo apt-get install pciutils ? [yes/no]"
++      #askyn " Install the pciutils package with the command: sudo apt-get install pciutils ? [yes/no]"
++      YES_NO="no" 
+        if [ X${YES_NO} = "Xyes" ] ; then
+           echo "sudo apt-get install pciutils"
+           sudo apt-get install pciutils
+@@ -335,7 +342,7 @@
+ echo " Please enter the full path name of the directory where ${PRODUCT_NAME}"
+ echo " will be installed (default: $DEF_PATH )"
+ echo " "
+-read NI_VERSIONS_DIR
++NI_VERSIONS_DIR="build"
+ 
+ case X$NI_VERSIONS_DIR in
+  X) NI_VERSIONS_DIR=$DEF_PATH
+@@ -387,8 +394,8 @@
+ echo " ${PRODUCT_NAME} will now be installed under $NI_VERSIONS_DIR"
+ echo " This will require about $DISK_SPACE GB of disk space "
+ 
+-askyn "Do you want to continue the installation [yes/no] ? "
+-
++#askyn "Do you want to continue the installation [yes/no] ? "
++YES_NO="yes"
+ case $YES_NO in
+   no)
+    exit
+@@ -423,7 +430,7 @@
+ 
+     if [ ! -d ${NI_VERSIONS_DIR}/${BACKUP_DIR} ]
+     then
+-	mkdir ${NI_VERSIONS_DIR}/${BACKUP_DIR}
++	mkdir -p ${NI_VERSIONS_DIR}/${BACKUP_DIR}
+ 	if [  $? != 0 ]
+ 	then
+ 	    niecho "Cannot create ${NI_VERSIONS_DIR}/${BACKUP_DIR} ... exiting setup"
+@@ -458,7 +465,7 @@
+ fi
+ 
+ if [ ! -d ${NI_VERSIONS_DIR} ] ; then
+-  mkdir $NI_VERSIONS_DIR
++  mkdir -p $NI_VERSIONS_DIR
+   if [  $? != 0 ] ; then
+     niecho "Cannot create $NI_VERSIONS_DIR ... exiting setup"
+     exit
+@@ -543,7 +550,7 @@
+ 
+ niecho "Creating symbolic links to ${NI_VERSIONS_DIR}/bin"
+ if [ ! -d ${NI_VERSIONS_DIR}/bin ] ; then
+-  mkdir ${NI_VERSIONS_DIR}/bin
++  mkdir -p ${NI_VERSIONS_DIR}/bin
+ fi
+ `${NI_VERSIONS_DIR}/COMMON/make_links ${NI_VERSIONS_DIR}/bin |sh`
+ `"${NI_VERSIONS_DIR}/COMMON/make_omnis_links" "${NI_VERSIONS_DIR}"/bin |sh`
