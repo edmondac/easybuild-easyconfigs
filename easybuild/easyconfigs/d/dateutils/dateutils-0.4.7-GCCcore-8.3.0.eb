@@ -1,0 +1,31 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'dateutils'
+version = '0.4.7'
+
+homepage = "https://www.fresse.org/dateutils/"
+description = """Dateutils are a bunch of tools that revolve around fiddling with dates and times in the command line
+ with a strong focus on use cases that arise when dealing with large amounts of financial data."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://github.com/hroptatyr/%(name)s/releases/download/v%(version)s']
+sources = ['%(name)s-%(version)s.tar.xz']
+checksums = ['49725457f5bef45ea424baade8999a6e54496e357f64280474ff7134a54f599a']
+
+builddependencies = [
+    ('binutils', '2.32'),
+]
+
+dependencies = []
+
+sanity_check_paths = {
+    'files': [
+        'bin/dateadd', 'bin/dateconv', 'bin/datediff', 'bin/dategrep', 'bin/dateround',
+        'bin/dateseq', 'bin/datesort', 'bin/datetest', 'bin/datezone', 'bin/strptime',
+    ],
+    'dirs': ['share/man'],
+}
+
+moduleclass = 'tools'
