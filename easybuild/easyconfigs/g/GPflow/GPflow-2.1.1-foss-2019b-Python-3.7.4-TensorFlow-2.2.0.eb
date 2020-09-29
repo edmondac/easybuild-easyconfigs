@@ -33,7 +33,7 @@ exts_list = [
         'source_tmpl': 'typing_extensions-%(version)s.tar.gz',
         'checksums': ['99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c'],
     }),
-    (name, version, {
+    ('gpflow', version, {
         'checksums': ['16df9ad6344f93b956d0a6ad7f0ea2f0503c1166e74c5cfeca8185c0bdd6d820'],
     }),
 ]
