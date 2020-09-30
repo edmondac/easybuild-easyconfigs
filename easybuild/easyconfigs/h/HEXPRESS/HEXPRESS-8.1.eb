@@ -1,0 +1,33 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+name = 'HEXPRESS'
+version = '8.1'
+
+homepage = "https://www.numeca.com/hexpress"
+description = """Parallel Unstructured Hex Dominant Meshing for complex and/or unclean geometries."""
+
+toolchain = SYSTEM
+
+# Source is licensed and an account is needed to obtain it.
+sources = ['install_%(namelower)s_hybrid_%(version)s_LINUX.tar']
+# Patch out all of the interactivity.
+patches = ['%(name)s-%(version)s_remove-interactivity.patch']
+checksums = [
+    'f517aaf7294a90d9ff297ec658c379a899c657cba446e2106e307a7fe3434f40',  # install_hexpress_hybrid_8.1_LINUX.tar
+    'd30d9c47f3699c874508ce0b12fe152ac9139e792855716caf6eb75d7c0a455c',  # HEXPRESS-8.1_remove-interactivity.patch
+]
+
+sanity_check_paths = {
+    'files': ['bin/hexpress'],
+    'dirs': [],
+}
+
+# Add our license servers
+modextravars = {
+    'NUMECA_LICENSE_FILE': '27023@lic-server1.bham.ac.uk:27023@lic-server2.bham.ac.uk:27023@lic-server3.bham.ac.uk'
+}
+
+dependencies = [
+    ('libpng', '1.2.58'),
+]
+
+moduleclass = 'cae'

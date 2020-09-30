@@ -1,0 +1,41 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'GPflow'
+version = '2.1.1'
+_pysuffix = '-Python-%(pyver)s'
+versionsuffix = '%s-TensorFlow-2.2.0' % _pysuffix
+
+homepage = "https://www.gpflow.org"
+description = """GPflow is a package for building Gaussian process models in Python, using TensorFlow."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('TensorFlow', '2.2.0', _pysuffix),
+    ('tensorflow-probability', '0.10.1', versionsuffix)
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('multipledispatch', '0.6.0', {
+        'checksums': ['a7ab1451fd0bf9b92cab3edbd7b205622fb767aeefb4fb536c2e3de9e0a38bea'],
+    }),
+    ('typing-extensions', '3.7.4.3', {
+        'modulename': 'typing_extensions',
+        'source_tmpl': 'typing_extensions-%(version)s.tar.gz',
+        'checksums': ['99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c'],
+    }),
+    ('gpflow', version, {
+        'checksums': ['16df9ad6344f93b956d0a6ad7f0ea2f0503c1166e74c5cfeca8185c0bdd6d820'],
+    }),
+]
+
+moduleclass = 'data'

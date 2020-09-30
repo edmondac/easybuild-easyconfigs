@@ -41,6 +41,7 @@ dependencies = [
     ('cf-python', '3.4.0', versionsuffix),
     ('cf-plot', '3.0.6', versionsuffix),
     ('neuropythy', '0.11.8', '%s-Java-11' % versionsuffix),
+    ('GPflow', '2.1.1', '%s-TensorFlow-2.2.0' % versionsuffix),
 ]
 
 moduleclass = 'tools'

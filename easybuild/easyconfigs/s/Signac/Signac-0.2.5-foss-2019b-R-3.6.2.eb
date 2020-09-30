@@ -1,0 +1,60 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'Signac'
+version = '0.2.5'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=Signac"
+description = """A framework for the analysis and exploration of single-cell chromatin data. The
+ 'Signac' package contains functions for quantifying single-cell chromatin data, computing per-cell
+ quality control metrics, dimension reduction and normalization, visualization, and DNA sequence
+ motif analysis."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('R-bundle-Bioconductor', '3.10', versionsuffix),
+    ('Seurat', '3.1.5', versionsuffix)
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('ggseqlogo', '0.1', {
+        'checksums': ['c14f145a982597f32264b37a5f2645206a0bee30dd2584a25cb8e3dc2f9b068f'],
+    }),
+    ('shades', '1.4.0', {
+        'checksums': ['122fa09aa893cf81f95835ccf69459162dbbc14defa0c11c6d6bbb0ca52ee9fd'],
+    }),
+    ('ggfittext', '0.9.0', {
+        'checksums': ['2357f0212081095476cf703d5b2c401cfa484bff59516ae3afbe680da2a7dfc9'],
+    }),
+    ('gggenes', '0.4.0', {
+        'checksums': ['76be2ef63408339c71d0d7c9c21e9aec722ec52ee89a71ea4631d30c1094198e'],
+    }),
+    (name, version, {
+        'checksums': ['ab0d72d5c34814cdc6e719047b781b369c62a15371e68f59ecf2b7d485f29705'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['Signac/R/Signac'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'

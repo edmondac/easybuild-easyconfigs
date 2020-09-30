@@ -22,6 +22,10 @@ dependencies = [
     ('dropEst', '0.8.6', versionsuffix),
     ('AUCell', '1.8.0', versionsuffix),
     ('Taxonstand', '2.2', versionsuffix),
+    ('rts', '1.0-49', versionsuffix),
+    ('trend', '1.1.4', versionsuffix),
+    ('Kendall', '2.2', versionsuffix),
+    ('Signac', '0.2.5', versionsuffix),
 ]
 
 moduleclass = 'bio'
