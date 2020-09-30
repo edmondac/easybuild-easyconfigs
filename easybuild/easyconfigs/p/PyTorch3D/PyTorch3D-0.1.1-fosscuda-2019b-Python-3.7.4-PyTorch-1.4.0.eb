@@ -27,6 +27,15 @@ exts_default_options = {
     'source_urls': [PYPI_SOURCE],
 }
 
+_pinstopts = ''
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need this avoid __ieee128 errors
+    # it is necessary to have the -std=c++11 before the other items
+    # so we specify it in the NVCC_FLAGS even though it is automatically added
+    _pinstopts = 'export NVCC_FLAGS="-std=c++11 -Xcompiler -mno-float128" && '
+
 exts_list = [
     ('portalocker', '1.5.2', {
         'checksums': ['dac62e53e5670cb40d2ee4cdc785e6b829665932c3ee75307ad677cf5f7d2e9f'],
@@ -44,6 +53,7 @@ exts_list = [
         'source_tmpl': 'v%(version)s.tar.gz',
         'source_urls': ['https://github.com/facebookresearch/%(namelower)s/archive'],
         'checksums': ['75d134aa01da54bd1c269c881437899539bf3970f7425ed6062f7ff1d400ddc6'],
+        'preinstallopts': _pinstopts,
     }),
 ]
 
