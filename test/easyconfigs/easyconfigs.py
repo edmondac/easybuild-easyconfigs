@@ -663,6 +663,7 @@ class EasyConfigTest(TestCase):
             'ITSTool',  # https://itstool.org/ doesn't work
             'UCX-',  # bad certificate for https://www.openucx.org
             'PycURL',  # bad cert
+            'GBOOST',  # no cert
         ]
 
         url_whitelist = [
