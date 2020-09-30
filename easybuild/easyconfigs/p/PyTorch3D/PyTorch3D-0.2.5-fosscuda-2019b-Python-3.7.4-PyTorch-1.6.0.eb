@@ -27,6 +27,7 @@ exts_default_options = {
     'source_urls': [PYPI_SOURCE],
 }
 
+_pinstopts = ''
 import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
