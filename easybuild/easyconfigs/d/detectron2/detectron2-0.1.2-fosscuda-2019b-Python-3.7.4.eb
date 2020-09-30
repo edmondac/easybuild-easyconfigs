@@ -57,7 +57,11 @@ exts_list = [
     (name, version, {
         'source_tmpl': 'v%(version)s.tar.gz',
         'source_urls': ['https://github.com/facebookresearch/%(name)s/archive'],
-        'checksums': ['1b3f4b621cb9615f928de0a5ce79a92cb5e920c3bd076689889ddf48d990503c'],
+        'patches': ['detectron2-0.1.1_ppc64le.patch'],
+        'checksums': [
+            '1b3f4b621cb9615f928de0a5ce79a92cb5e920c3bd076689889ddf48d990503c',
+            'b0e8c4cf113d7894869d0b16670ab0c2e7f7143ef7aeb4bb7364d23284d0aecc'
+        ],
     }),
 ]
 
