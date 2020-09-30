@@ -25,6 +25,15 @@ exts_default_options = {'source_urls': [PYPI_SOURCE]}
 
 use_pip = True
 
+_pinstopts = ''
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need this avoid __ieee128 errors
+    # it is necessary to have the -std=c++11 before the other items
+    # so we specify it in the NVCC_FLAGS even though it is automatically added
+    _pinstopts = 'export NVCC_FLAGS="-std=c++11 -Xcompiler -mno-float128" && '
+
 exts_list = [
     ('googledrivedownloader', '0.4', {
         'modulename': 'google_drive_downloader',
@@ -35,18 +44,23 @@ exts_list = [
     }),
     ('torch_scatter', '2.0.4', {
         'checksums': ['db6c9eca919b86f3eb6102dd0e1215af72e39ed3a4e8d142e6a21d3f20d5c244'],
+        'preinstallopts': _pinstopts,
     }),
     ('torch_sparse', '0.6.3', {
         'checksums': ['2d2bb488e14207187f9856d2a9349851e7a3cc37d0f5cf7c7ed930d0fc8c7531'],
+        'preinstallopts': _pinstopts,
     }),
     ('torch_cluster', '1.5.4', {
         'checksums': ['000f217e6bb2ef89e2403b27fe7c4b2c1f7fbacf781790b194f712b46d648a0c'],
+        'preinstallopts': _pinstopts,
     }),
     ('torch_spline_conv', '1.2.0', {
         'checksums': ['b7a1788004f6c6143d47040f2dd7d8a579a0c69a0cb0b5d7537416bf37c082a5'],
+        'preinstallopts': _pinstopts,
     }),
     ('torch_geometric', version, {
         'checksums': ['51369ad28a632a135e7eadc649e39a714107a338ff00b8d5f62ddc9f8c3a2010'],
+        'preinstallopts': _pinstopts,
     }),
 ]
 
