@@ -27,6 +27,14 @@ exts_default_options = {
     'source_urls': [PYPI_SOURCE],
 }
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need this avoid __ieee128 errors
+    # torchvision requires std=c++14, but it is necessary to have that before the other items
+    # so we specify it in the NVCC_FLAGS even though it is automatically added
+    _pinstopts = 'export NVCC_FLAGS="-std=c++14 -Xcompiler -mno-float128" && '
+
 exts_list = [
     ('portalocker', '1.7.1', {
         'checksums': ['6d6f5de5a3e68c4dd65a98ec1babb26d28ccc5e770e07b672d65d5a35e4b2d8a'],
@@ -44,6 +52,7 @@ exts_list = [
         'source_tmpl': 'v%(version)s.tar.gz',
         'source_urls': ['https://github.com/facebookresearch/%(namelower)s/archive'],
         'checksums': ['78363281b76f2609987dfe099d93439feba30a54fff50a9986e8a3b27e9f85e8'],
+        'preinstallopts': _pinstopts,
     }),
 ]
 
