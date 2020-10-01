@@ -30,6 +30,8 @@ builddependencies = [
     ('binutils', '2.32'),
 ]
 
+configopts = "-Dracon_enable_cuda=ON"
+
 import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
@@ -43,8 +45,7 @@ if _arch == 'ppc64le':
         # Racon-1.4.10_veclib_ppc64le_support.patch
         'bfcf9b70140ed3d9727af381fb5d138af3c822d40830a0803ba52bcd2b1de6e7',
     ]
-
-configopts = "-Dracon_enable_cuda=ON"
+    configopts += ' -DCUDA_NVCC_FLAGS="-Xcompiler -mno-float128" '
 
 sanity_check_paths = {
     'files': ['bin/racon'],
