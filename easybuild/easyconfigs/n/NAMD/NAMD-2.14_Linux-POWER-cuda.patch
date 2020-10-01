@@ -6,7 +6,7 @@
  
 -CUDACCOPTS=-O3 --maxrregcount 48 $(CUDAGENCODE) $(CUDA) -use_fast_math
 +# For POWER and gcc 8+ we need to set -std=c++11 to avoid 'error: identifier “__ieee128” is undefined'
-+CUDACCOPTS=-O3 --maxrregcount 48 $(CUDAGENCODE) $(CUDA) -use_fast_math -std=c++11
++CUDACCOPTS=-O3 --maxrregcount 48 $(CUDAGENCODE) $(CUDA) -use_fast_math -std=c++11 -Xcompiler -mno-float128
  
 --- arch/Linux-POWER-g++.arch.orig	2020-08-11 11:34:22.373336634 +0100
 +++ arch/Linux-POWER-g++.arch	2020-08-11 11:33:37.085528433 +0100
@@ -16,7 +16,7 @@
  CXX = g++ -m64 -std=c++11
 -CXXOPTS = -O3 -fexpensive-optimizations -ffast-math 
 +# For POWER and gcc 8+ we need to set -std=c++11 to avoid 'error: identifier “__ieee128” is undefined'
-+CXXOPTS = -O3 -fexpensive-optimizations -ffast-math -std=c++11
++CXXOPTS = -O3 -fexpensive-optimizations -ffast-math -std=c++11 -Xcompiler -mno-float128
  CC = gcc -m64
  COPTS = -O3 -fexpensive-optimizations -ffast-math
  
