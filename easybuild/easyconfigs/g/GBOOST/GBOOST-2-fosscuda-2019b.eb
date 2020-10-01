@@ -15,12 +15,17 @@ sources = ['%(name)s%(version)s.zip']
 patches = [('%(name)s-%(version)s_fixes.patch', 1)]
 checksums = [
     '6f5fa03593031b6c122d34d1a1baa25dcce4f5273c93a0bb42d3dcde7137ac9f',  # GBOOST2.zip
-    'e10a49b23f8d78a7174d10a6af09d4faf8051eada415b5c7ff349023e00d8fb7',  # GBOOST-2_fixes.patch
+    '83d2c262c928f2411842563eb1bf1743e2dfe2cd216df78b6a1f7baf8f375412',  # GBOOST-2_fixes.patch
 ]
 
 dependencies = []
 
 start_dir = 'GBOOST2/source code'
+
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    prebuildopts = 'export EXTRA_NVCC_FLAGS="-Xcompiler -mno-float128" && '
 
 files_to_copy = [(['%(name)s%(version)s'], 'bin')]
 
