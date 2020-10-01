@@ -18,6 +18,11 @@ builddependencies = [('CMake', '3.15.3')]
 
 dependencies = [('Qt5', '5.13.1')]
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    configopts = ' -DCUDA_NVCC_FLAGS="-Xcompiler -mno-float128" '
+
 files_to_copy = [
     (['openQmin.out', 'openQminGUI.out'], 'bin'),
     (['ui_mainwindow.h'], 'include'),
