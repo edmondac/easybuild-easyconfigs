@@ -19,6 +19,10 @@ sources = [{
 }]
 checksums = ['5d6ee9ead329619696aa93729508c9a85f39b9457fce4dce83b65e568e4abb35']
 
+builddependencies = [
+    ('Python', '2.7.16'),
+]
+
 dependencies = [
     ('zlib', '1.2.11'),
 ]
