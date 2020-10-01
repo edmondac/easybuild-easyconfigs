@@ -1,0 +1,45 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'ukbtools'
+version = '0.11.3'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=ukbtools"
+description = """A set of tools to create a UK Biobank <http://www.ukbiobank.ac.uk/> dataset from a UKB fileset (.tab,
+ .r, .html), visualize primary demographic data for a sample subset, query ICD diagnoses, retrieve genetic metadata,
+ read and write standard file formats for genetic analyses."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['031def0cc9e7959173fc016a4c81cf0146eef7248652255009e8e861af4fb7c8'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['ukbtools/R/ukbtools'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'

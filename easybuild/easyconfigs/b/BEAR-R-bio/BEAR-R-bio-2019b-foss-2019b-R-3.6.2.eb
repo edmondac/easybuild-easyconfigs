@@ -26,6 +26,7 @@ dependencies = [
     ('trend', '1.1.4', versionsuffix),
     ('Kendall', '2.2', versionsuffix),
     ('Signac', '0.2.5', versionsuffix),
+    ('ukbtools', '0.11.3', versionsuffix),
 ]
 
 moduleclass = 'bio'
