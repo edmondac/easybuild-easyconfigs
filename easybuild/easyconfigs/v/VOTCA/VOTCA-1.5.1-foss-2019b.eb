@@ -77,7 +77,8 @@ dependencies = [
     ('GROMACS', '2019.6'),
     ('libxc', '4.3.4'),
     ('HDF5', '1.10.5'),
-    ('ceres-solver', '1.14.0')
+    ('ceres-solver', '1.14.0'),
+    ('GSL', '2.6'),
 ]
 
 preconfigopts = 'export LDFLAGS="$LDFLAGS -lfftw3f" && '
