@@ -24,4 +24,10 @@ dependencies = [
 use_pip = True
 download_dep_fail = True
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need this avoid __ieee128 errors
+    preinstallopts = 'export NVCC_FLAGS="-Xcompiler -mno-float128" && '
+
 moduleclass = 'vis'

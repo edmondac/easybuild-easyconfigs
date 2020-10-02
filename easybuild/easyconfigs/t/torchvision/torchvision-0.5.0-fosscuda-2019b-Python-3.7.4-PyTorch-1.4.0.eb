@@ -24,4 +24,12 @@ dependencies = [
 use_pip = True
 download_dep_fail = True
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need this avoid __ieee128 errors
+    # torchvision requires std=c++14, but it is necessary to have that before the other items
+    # so we specify it in the NVCC_FLAGS even though it is automatically added
+    preinstallopts = 'export NVCC_FLAGS="-std=c++14 -Xcompiler -mno-float128" && '
+
 moduleclass = 'vis'

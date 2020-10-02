@@ -33,4 +33,10 @@ sanity_pip_check = True
 use_pip = True
 options = {'modulename': 'soft_renderer'}
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    patches = ['%(name)s-%(version)s_ppc64le.patch']
+    checksums.append('7ca9c0580849889aa79d5d5e713eea8450b18daa0122b3d2cab3613831d89344')
+
 moduleclass = 'vis'

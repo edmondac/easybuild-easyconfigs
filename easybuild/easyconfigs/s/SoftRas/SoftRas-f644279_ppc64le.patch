@@ -1,0 +1,37 @@
+--- setup.py.orig	2020-09-30 14:57:36.287760000 +0100
++++ setup.py	2020-09-30 14:58:41.711527000 +0100
+@@ -3,24 +3,26 @@
+ from torch.utils.cpp_extension import BuildExtension, CUDAExtension
+ 
+ CUDA_FLAGS = []
++extra_compile_args = {"cxx": ["-O2"], "nvcc": ['-std=c++11', '-Xcompiler', '-mno-float128']}
+ 
+ ext_modules=[
+     CUDAExtension('soft_renderer.cuda.load_textures', [
+         'soft_renderer/cuda/load_textures_cuda.cpp',
+-        'soft_renderer/cuda/load_textures_cuda_kernel.cu',
+-        ]),
++        'soft_renderer/cuda/load_textures_cuda_kernel.cu',],
++        extra_compile_args=extra_compile_args,
++        ),
+     CUDAExtension('soft_renderer.cuda.create_texture_image', [
+         'soft_renderer/cuda/create_texture_image_cuda.cpp',
+-        'soft_renderer/cuda/create_texture_image_cuda_kernel.cu',
+-        ]),
++        'soft_renderer/cuda/create_texture_image_cuda_kernel.cu',],
++        extra_compile_args=extra_compile_args,),
+     CUDAExtension('soft_renderer.cuda.soft_rasterize', [
+         'soft_renderer/cuda/soft_rasterize_cuda.cpp',
+-        'soft_renderer/cuda/soft_rasterize_cuda_kernel.cu',
+-        ]),
++        'soft_renderer/cuda/soft_rasterize_cuda_kernel.cu',],
++        extra_compile_args=extra_compile_args,),
+     CUDAExtension('soft_renderer.cuda.voxelization', [
+         'soft_renderer/cuda/voxelization_cuda.cpp',
+-        'soft_renderer/cuda/voxelization_cuda_kernel.cu',
+-        ]),
++        'soft_renderer/cuda/voxelization_cuda_kernel.cu',],
++        extra_compile_args=extra_compile_args,),
+     ]
+ 
+ INSTALL_REQUIREMENTS = ['numpy', 'torch', 'torchvision', 'scikit-image', 'tqdm', 'imageio']

@@ -1,0 +1,15 @@
+--- setup.py.orig	2020-09-30 19:06:45.654133000 +0100
++++ setup.py	2020-09-30 19:10:22.100485000 +0100
+@@ -66,6 +66,12 @@
+             "-D__CUDA_NO_HALF2_OPERATORS__",
+         ]
+ 
++        import subprocess as _subprocess  # NOQA
++        arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
++        if arch == 'ppc64le':
++            extra_compile_args["nvcc"].append("-Xcompiler")
++            extra_compile_args["nvcc"].append("-mno-float128")
++
+         # It's better if pytorch can do this by default ..
+         CC = os.environ.get("CC", None)
+         if CC is not None:
