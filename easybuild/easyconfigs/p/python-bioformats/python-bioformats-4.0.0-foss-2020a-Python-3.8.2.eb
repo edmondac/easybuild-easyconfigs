@@ -1,0 +1,53 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'python-bioformats'
+version = '4.0.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/CellProfiler/python-bioformats/"
+description = """Python-bioformats is a Python wrapper for Bio-Formats, a standalone Java library for reading and
+ writing life sciences image file formats. Bio-Formats is capable of parsing both pixels and metadata for a large
+ number of formats, as well as writing to several formats. Python-bioformats uses the python-javabridge to start a
+ Java virtual machine from Python and interact with it. Python-bioformats was developed for and is used by the cell
+ image analysis software CellProfiler (cellprofiler.org)."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('SciPy-bundle', '2020.03', versionsuffix),
+    ('Java', '11', '', True),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('botocore', '1.18.9', {
+        'checksums': ['35b06b8801eb2dd7e708de35581f9c0304740645874f3af5b8b0c1648f8d6365'],
+    }),
+    ('jmespath', '0.10.0', {
+        'checksums': ['b85d0567b8666149a93172712e68920734333c0ce7e89b78b3e987f71e5ed4f9'],
+    }),
+    ('s3transfer', '0.3.3', {
+        'checksums': ['921a37e2aefc64145e7b73d50c71bb4f26f46e4c9f414dc648c6245ff92cf7db'],
+    }),
+    ('boto3', '1.15.9', {
+        'checksums': ['02f5f7a2b1349760b030c34f90a9cb4600bf8fe3cbc76b801d122bc4cecf3a7f'],
+    }),
+    ('python-javabridge', version, {
+        'modulename': 'javabridge',
+        'checksums': ['9fd9c85e6a32f4edd9fff659d387cbf4c1c91fde9fe3670e4f6d37d79eb6200f'],
+    }),
+    (name, version, {
+        'modulename': 'bioformats',
+        'checksums': ['9a952de4d326d961af0a497753a4b71b2f7844605023d170c931d3624e036506'],
+    }),
+]
+
+moduleclass = 'data'
