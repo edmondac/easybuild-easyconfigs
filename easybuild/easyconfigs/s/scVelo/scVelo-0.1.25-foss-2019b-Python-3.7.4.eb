@@ -87,7 +87,7 @@ exts_list = [
 
 # N.B. need to build with X11 forwarding enabled, else the sanity check command fails
 sanity_check_commands = [
-    """python -c 'import matplotlib; matplotlib.use("TkAgg"); import matplotlib.pyplot' """,
+    """python -c 'import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot' """,
     "python -c 'from mpl_toolkits.mplot3d import Axes3D'",
     "python -c 'import scvelo; scvelo.test()'",
 ]
