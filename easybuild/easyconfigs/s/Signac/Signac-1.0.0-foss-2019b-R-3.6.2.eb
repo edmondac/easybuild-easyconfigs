@@ -1,0 +1,72 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'Signac'
+version = '1.0.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=Signac"
+description = """A framework for the analysis and exploration of single-cell chromatin data. The
+ 'Signac' package contains functions for quantifying single-cell chromatin data, computing per-cell
+ quality control metrics, dimension reduction and normalization, visualization, and DNA sequence
+ motif analysis."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('R-bundle-Bioconductor', '3.10', versionsuffix),
+    ('Seurat', '3.2.0', versionsuffix)
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('rlang', '0.4.6', {
+        'checksums': ['3a81b107765fd6ac0ad716c428d01878775ded9208ba125d43c890c73d2533ca'],
+    }),
+    ('tidyselect', '1.1.0', {
+        'checksums': ['e635ed381fb53f7a53c3fa36bb33e134a3273d272367de2a8d909c821be93893'],
+    }),
+    ('lifecycle', '0.2.0', {
+        'checksums': ['29746e8dee05d4e36f9c612e8c7a903a4f648a36b3b94c9776e518c38a412224'],
+    }),
+    ('glue', '1.3.2', {
+        'checksums': ['6f3452efb571a0ada8767356e33df67794b2dd514792ab35637522e318a6932a'],
+    }),
+    ('vctrs', '0.3.0', {
+        'checksums': ['f6ee13245e2507049706d3f45efa8d63cadae5359de3bfdcb5cccc5ac074c12b'],
+    }),
+    ('dplyr', '1.0.0', {
+        'checksums': ['bfb65131cd24d891e671999be29e6dfebb3eefa41c262dbc7a13d7c0ff3db1f3'],
+    }),
+    ('ggseqlogo', '0.1', {
+        'checksums': ['c14f145a982597f32264b37a5f2645206a0bee30dd2584a25cb8e3dc2f9b068f'],
+    }),
+    ('lsa', '0.73.2', {
+        'checksums': ['cb0017bbda9b0eb1d05b451e0f557d02f789f65b2f8bf005606b63a3708e63a8'],
+    }),
+    (name, version, {
+        'checksums': ['315d52b5879f9612551c5ef4baf94e0bd67a2e89d18c327d90c98ad8d358dad8'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['Signac/R/Signac'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
