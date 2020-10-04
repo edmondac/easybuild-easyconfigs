@@ -19,6 +19,7 @@ patches = [
     'Qt5-%(version)s_fix-avx2.patch',
     'Qt5-%(version)s_fix-qmake-libdir.patch',
     'Qt5-%(version)s_fix-mantissatable.patch',
+    'Qt5-%(version)s_fix-webrtc.patch',
 ]
 checksums = [
     'adf00266dc38352a166a9739f1a24a1e36f1be9c04bf72e16e142a256436974e',  # qt-everywhere-src-5.13.1.tar.xz
