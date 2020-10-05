@@ -1,0 +1,33 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMakeCp'
+
+name = 'MPI3SNP'
+version = 'f03aecf'
+
+homepage = "https://github.com/UDC-GAC/mpi3snp"
+description = """MPI3SNP is a parallel software tool dedicated to genome-wide association studies, performing a
+ third-order exhaustive search. It is targeted to cluster architectures, and mitigates the cubic time complexity
+ inherent to third-order searches by exploiting the several layers of parallelism present in a supercomputer."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/UDC-GAC/mpi3snp/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['65de3fe8706b703abc6431c9ffe7fb33e62e91ec2a6e26cd923889f3f1adbe0a']
+
+builddependencies = [('CMake', '3.15.3')]
+
+dependencies = []
+
+configopts = '-DTARGET_ARCH=CPU -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS -pthread" '
+
+files_to_copy = [([name], 'bin'), 'LICENSE.md']
+
+sanity_check_commands = ['%(name)s -h']
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
