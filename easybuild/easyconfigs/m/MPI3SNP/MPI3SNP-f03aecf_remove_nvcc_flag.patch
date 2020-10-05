@@ -1,0 +1,11 @@
+--- CMakeLists.txt.orig	2020-10-05 14:37:09.665604000 +0100
++++ CMakeLists.txt	2020-10-05 14:37:47.778611000 +0100
+@@ -51,7 +51,7 @@
+     enable_language(CUDA)
+     set(CMAKE_CUDA_STANDARD 11)
+     set(CMAKE_CUDA_STANDARD_REQUIRED ON)
+-    set(CMAKE_CUDA_FLAGS "-arch=sm_30")
++    # set(CMAKE_CUDA_FLAGS "-arch=sm_30")
+     set(CMAKE_CUDA_FLAGS_DEBUG "-g -O0")
+     set(CMAKE_CUDA_FLAGS_RELEASE "-DNDEBUG -O3")
+ #    set(CUDA_PROPAGATE_HOST_FLAGS OFF)
