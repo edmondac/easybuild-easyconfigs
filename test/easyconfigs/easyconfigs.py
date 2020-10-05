@@ -285,6 +285,8 @@ class EasyConfigTest(TestCase):
             'Mesa': (r'19\.2\.1.+-dri', ['ANSYSEM-']),
             # Fasterize requires sf < 0.9
             'sf': (r'0\.[0-8]-', ['fasterize-']),
+            # Signac 0.2.5 requires Seurat 3.1.5
+            'Seurat': ('3.1.5', ['Signac-0.2.5-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
