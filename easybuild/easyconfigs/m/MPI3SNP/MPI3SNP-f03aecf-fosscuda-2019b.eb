@@ -13,7 +13,11 @@ toolchain = {'name': 'fosscuda', 'version': '2019b'}
 
 source_urls = ['https://github.com/UDC-GAC/mpi3snp/archive']
 sources = ['%(version)s.tar.gz']
-checksums = ['65de3fe8706b703abc6431c9ffe7fb33e62e91ec2a6e26cd923889f3f1adbe0a']
+patches = ['%(name)s-%(version)s_remove_nvcc_flag.patch']
+checksums = [
+    '65de3fe8706b703abc6431c9ffe7fb33e62e91ec2a6e26cd923889f3f1adbe0a',  # f03aecf.tar.gz
+    '26a83654139328fd34730d66c5f12d2a38b77898aa3c3e082367a8b7c2e3cae4',  # MPI3SNP-f03aecf_remove_nvcc_flag.patch
+]
 
 builddependencies = [('CMake', '3.15.3')]
 
@@ -21,12 +25,17 @@ dependencies = []
 
 configopts = '-DTARGET_ARCH=GPU -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS -pthread" '
 
+
 import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
-    patches = ['%(name)s-%(version)s_remove_nvcc_flag.patch']
-    checksums.append('f73c0d90488b36fcae92c521af4ec625a2b85d5ed609acf762017f5bf2d3be31')
     configopts += '-DCMAKE_CUDA_FLAGS="-arch=sm_70 -Xcompiler -mno-float128 " '
+else:
+    configopts += '-DCMAKE_CUDA_FLAGS="'
+    for x in ['35', '52', '60', '70']:
+        # k40 - 3.5; m60 - 5.2; p100 - 6.0; v100 - 7.0
+        configopts += '--generate-code code=sm_%s,arch=compute_%s ' % (x, x)
+    configopts += '" '
 
 files_to_copy = [([name], 'bin'), 'LICENSE.md']
 
