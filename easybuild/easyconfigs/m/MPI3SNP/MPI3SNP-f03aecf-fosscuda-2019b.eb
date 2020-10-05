@@ -25,7 +25,6 @@ dependencies = []
 
 configopts = '-DTARGET_ARCH=GPU -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS -pthread" '
 
-
 import subprocess as _subprocess  # NOQA
 _arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
 if _arch == 'ppc64le':
