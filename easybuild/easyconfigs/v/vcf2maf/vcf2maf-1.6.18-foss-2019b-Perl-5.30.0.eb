@@ -1,0 +1,36 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'vcf2maf'
+version = '1.6.18'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = "https://github.com/mskcc/vcf2maf"
+description = """Convert a VCF into a MAF, where each variant is annotated to only one of all possible gene
+ isoforms."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/mskcc/vcf2maf/archive/']
+sources = ['v%(version)s.tar.gz']
+checksums = ['4740b9621c0e3d7105eed0be32870e190b1e798d1dc53069836837d3296338b9']
+
+dependencies = [
+    ('Perl', '5.30.0'),
+    ('SAMtools', '1.10'),
+    ('VEP', '99.2', versionsuffix),
+]
+
+sanity_check_paths = {
+    'files': ['vcf2maf.pl', 'maf2vcf.pl'],
+    'dirs': [],
+}
+
+postinstallcmds = ['chmod a+rx %(installdir)s/*.pl']
+
+modextrapaths = {
+    'PERL5LIB': '',
+    'PATH': '',
+}
+
+moduleclass = 'tools'

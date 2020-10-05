@@ -54,7 +54,9 @@ else:
 modextravars = {
     'JULIA_DEPOT_PATH': _julia_depot_path,
     'JULIA_LOAD_PATH': _julia_load_path,
-    'JUPYTER': '$env(EBROOTIPYTHON)/bin/jupyter',
+    # We can't evaluate EBROOTJUPYTER in the module file, because Lmod evaluates it before
+    # it's loaded JUPYTER, and it doesn't work. So we HARDCODE it here for now...
+    'JUPYTER': "%(installdir)s/../../IPython/7.9.0-foss-2019b-Python-3.7.4/bin/jupyter",
 }
 
 sanity_check_paths = {
