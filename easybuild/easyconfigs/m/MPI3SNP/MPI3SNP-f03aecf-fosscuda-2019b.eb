@@ -16,7 +16,7 @@ sources = ['%(version)s.tar.gz']
 patches = ['%(name)s-%(version)s_remove_nvcc_flag.patch']
 checksums = [
     '65de3fe8706b703abc6431c9ffe7fb33e62e91ec2a6e26cd923889f3f1adbe0a',  # f03aecf.tar.gz
-    '26a83654139328fd34730d66c5f12d2a38b77898aa3c3e082367a8b7c2e3cae4',  # MPI3SNP-f03aecf_remove_nvcc_flag.patch
+    'f73c0d90488b36fcae92c521af4ec625a2b85d5ed609acf762017f5bf2d3be31',  # MPI3SNP-f03aecf_remove_nvcc_flag.patch
 ]
 
 builddependencies = [('CMake', '3.15.3')]
