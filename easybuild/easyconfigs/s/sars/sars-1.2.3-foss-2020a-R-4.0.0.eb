@@ -6,7 +6,10 @@ version = '1.2.3'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://cran.r-project.org/package=sars"
-description = """"""
+description = """Implements the basic elements of the multi-model inference paradigm for up to twenty species-area
+ relationship models (SAR), using simple R list-objects and functions, as in Triantis et al. 2012
+ <https://doi.org/10.1111%2Fj.1365-2699.2011.02652.x>. The package is scalable and users can easily create their own
+ model and data objects. Additional SAR related functions are provided."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
