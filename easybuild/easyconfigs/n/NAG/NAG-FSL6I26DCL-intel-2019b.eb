@@ -24,7 +24,9 @@ postinstallcmds = [
 
 modextravars = {
     'NAG_FINCLUDE': '-I%(installdir)s/nag_interface_blocks',
-    'NAG_FLINK': '%(installdir)s/lib/libnag_mkl.so -L%(installdir)s/mkl_intel64_11.3.3 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -L%(installdir)s/rtl/intel64 -liomp5 -lpthread -lm -ldl',
+    'NAG_FLINK': """%(installdir)s/lib/libnag_mkl.so
+ -L%(installdir)s/mkl_intel64_11.3.3 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core
+ -L%(installdir)s/rtl/intel64 -liomp5 -lpthread -lm -ldl""",
 }
 
 modextrapaths = {
