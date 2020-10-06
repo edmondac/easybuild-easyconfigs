@@ -1,0 +1,44 @@
+easyblock = 'Binary'
+
+name = 'NAG'
+version = 'FSL6I26DCL'
+
+homepage = 'https://www.nag.co.uk'
+description = """The worlds largest collection of robust, documented, tested and maintained numerical algorithms.
+ NAG FSL6I26DCL is the SMP & Multicore version of the NAG Fortran Library."""
+
+toolchain = {'name': 'intel', 'version': '2019b'}
+
+source_urls = ['https://www.nag.co.uk/downloads/impl']
+sources = ['%(version)s.tgz']
+checksums = ['cb6e6c2518add9cc5fea778690576800db2178c5f15206dab71d08f89fda9a96']
+
+extract_sources = True
+
+install_cmd = "./install.sh -accept -installdir=%(installdir)s -docinstalldir=%(installdir)s"
+
+postinstallcmds = [
+    'mv %%(installdir)s/%s/* %%(installdir)s' % version.lower(),
+    'rmdir %%(installdir)s/%s' % version.lower()
+]
+
+modextravars = {
+    'NAG_FINCLUDE': '-I%(installdir)s/nag_interface_blocks',
+    'NAG_FLINK': '%(installdir)s/lib/libnag_mkl.so -L%(installdir)s/mkl_intel64_11.3.3 -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -L%(installdir)s/rtl/intel64 -liomp5 -lpthread -lm -ldl',
+}
+
+modextrapaths = {
+    'LD_LIBRARY_PATH': ['rtl/intel64', 'mkl_intel64_11.3.3/lib'],
+    'NAGDIR':  '',
+    'NAGLDIR': 'lib',
+    'NAGMODDIR': 'nag_interface_blocks',
+    'NAGMKLDIR': 'mkl_intel64_11.3.3/lib',
+}
+
+sanity_check_paths = {
+    'files': ['lib/libnag_mkl.so', 'lib/libnag_nag.so'],
+    'dirs': ['c_headers', 'doc', 'examples', 'lib', 'license', 'mkl_intel64_11.3.3',
+             'nag_interface_blocks', 'rtl', 'scripts']
+}
+
+moduleclass = 'lib'
