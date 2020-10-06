@@ -1,0 +1,49 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'betapart'
+version = '1.5.2'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=betapart"
+description = """"""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('rcdd', '1.2-2', {
+        'checksums': ['2ce698877a65f3e44408f6d13ffb5a96177fd111e04416232022ff472d5ef75f'],
+    }),
+    ('picante', '1.8.2', {
+        'checksums': ['56565ca7f7c37f49c961372a816724967c21a4f5025cd69b8b671122bfdc4aa7'],
+    }),
+    (name, version, {
+        'checksums': ['681a5d5b34e3474bcf40edf23cda2a500b0659478eeab8b392108d16f127d89c'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['betapart/R/betapart'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
