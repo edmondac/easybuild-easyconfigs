@@ -1,0 +1,47 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'gambin'
+version = '2.4.4'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=gambin"
+description = """Fits unimodal and multimodal gambin distributions to species-abundance distributions from ecological
+ data. 'gambin' is short for 'gamma-binomial'. The main function is fit_abundances(), which estimates the 'alpha'
+ parameter(s) of the gambin distribution using maximum likelihood. Functions are also provided to generate the gambin
+ distribution and for calculating likelihood statistics."""
+
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['f5db6324055fea3537e9ede61d8eb4011ff34e0e9c04b8224f19a80d4f60bdcf'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['gambin/R/gambin'],
+    'dirs': [],
+}
+
+moduleclass = 'geo'

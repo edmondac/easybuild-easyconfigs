@@ -1,0 +1,43 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'gdm'
+version = '1.4.2'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=gdm"
+description = """A toolkit with functions to fit, plot, summarize, and apply Generalized Dissimilarity Models."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['95ad8ad0d16b20cb1a0a4573dcbb52c06cce4c25ae51559b148729da33ae4be0'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['gdm/R/gdm'],
+    'dirs': [],
+}
+
+moduleclass = 'tools'
