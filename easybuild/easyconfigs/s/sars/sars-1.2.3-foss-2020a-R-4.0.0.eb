@@ -1,0 +1,46 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'sars'
+version = '1.2.3'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=sars"
+description = """"""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('nortest', '1.0-4', {
+        'checksums': ['a3850a048181d5d059c1e74903437569873b430c915b709808237d71fee5209f'],
+    }),
+    (name, version, {
+        'checksums': ['da07ce43bc0bd5da7f1fe1b560d13eacfab735e270a7749133a0d5c7eba6b411'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['sars/R/sars'],
+    'dirs': [],
+}
+
+moduleclass = 'geo'
