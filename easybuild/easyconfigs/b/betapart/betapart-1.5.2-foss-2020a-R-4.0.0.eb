@@ -6,7 +6,9 @@ version = '1.5.2'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://cran.r-project.org/package=betapart"
-description = """"""
+description = """Functions to compute pair-wise dissimilarities (distance matrices) and multiple-site dissimilarities,
+ separating the turnover and nestedness-resultant components of taxonomic (incidence and abundance based), functional
+ and phylogenetic beta diversity."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
