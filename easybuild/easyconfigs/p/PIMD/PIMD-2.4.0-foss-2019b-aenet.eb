@@ -55,14 +55,15 @@ build_cmd += 'make '
 # do not compile in parallel
 parallel = 1
 
+_exes = ['calc.x', 'convert_charmm.x', 'convert_tinker.x', 'gau.x', 'pimd.mpi.x', 'pimd.x', 'polymers.x',
+         'prep_best.x', 'prep_liquid.x', 'run_molpro.x', 'run_vasp.x']
+
 files_to_copy = [
-    (['calc.x', 'convert_charmm.x', 'convert_tinker.x', 'gau.x', 'pimd.mpi.x', 'pimd.x', 'polymers.x', 'prep_best.x',
-      'prep_liquid.x', 'run_molpro.x', 'run_vasp.x'], 'bin'),
-    'examples', 'tools',
+    (['source/%s' % x for x in _exes], 'bin'), 'examples', 'tools',
 ]
 
 sanity_check_paths = {
-    'files': ['pimd.mpi.x', 'pimd.x'],
+    'files': ['bin/%s' % x for x in _exes],
     'dirs': ['examples', 'tools'],
 }
 
