@@ -21,11 +21,6 @@ sanity_check_paths = {
     'dirs': [],
 }
 
-# Add our license servers
-modextravars = {
-    'NUMECA_LICENSE_FILE': '27023@lic-server1.bham.ac.uk:27023@lic-server2.bham.ac.uk:27023@lic-server3.bham.ac.uk'
-}
-
 dependencies = [
     ('libpng', '1.2.58'),
 ]
