@@ -1,0 +1,64 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'PIMD'
+version = '2.4.0'
+versionsuffix = '-aenet'
+_aenet_ver = '2.0.3'
+
+homepage = "https://ccse.jaea.go.jp/software/PIMD/index.en.html"
+description = """PIMD is an open-source software for parallel molecular simulations originally developed by Dr.
+ Motoyuki Shiga (Principal Researcher at Japan Atomic Energy Agency)."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://ccse.jaea.go.jp/software/PIMD/download/']
+sources = [
+    '%(namelower)s.%(version)s.tar',
+    {
+        # PIMD uses a modified aenet - so we'll compile the custom version inside the PIMD structure
+        'source_urls': ['https://github.com/atomisticnet/aenet/archive'],
+        'download_filename': 'v%s.tar.gz' % _aenet_ver,
+        'filename': 'aenet_%s.tar.gz' % _aenet_ver,
+    },
+]
+patches = ['%(name)s-%(version)s_makefile.patch']
+
+dependencies = []
+
+skipsteps = ['configure']
+
+# place the aenet src and lib directories in the PIMD structure
+build_cmd = 'cp -r %%(builddir)s/aenet-%s/{src,lib} lib/aenet/.  && ' % _aenet_ver
+
+# compile the aenet lib
+build_cmd += 'cd %(builddir)s/lib/aenet/lib && '
+build_cmd += 'make && '
+build_cmd += 'cp liblbfgsb.a ../../ && '
+
+# patch and compile the aenet lib
+build_cmd += 'cd .. && '
+build_cmd += 'patch -u -p1 -d src < src.patch && '
+build_cmd += 'cd src && '
+build_cmd += 'make -f makefiles/Makefile.gfortran_openblas_mpi lib && '
+build_cmd += 'cp libaenet.a ../../ && '
+
+# compile PIMD
+build_cmd += 'cd ../../../source && '
+build_cmd += 'make '
+
+# do not compile in parallel
+parallel = 1
+
+files_to_copy = [
+    (['calc.x', 'convert_charmm.x', 'convert_tinker.x', 'gau.x', 'pimd.mpi.x', 'pimd.x', 'polymers.x', 'prep_best.x',
+      'prep_liquid.x', 'run_molpro.x', 'run_vasp.x'], 'bin'),
+    'examples', 'tools',
+]
+
+sanity_check_paths = {
+    'files': ['pimd.mpi.x', 'pimd.x'],
+    'dirs': ['examples', 'tools'],
+}
+
+moduleclass = 'chem'
