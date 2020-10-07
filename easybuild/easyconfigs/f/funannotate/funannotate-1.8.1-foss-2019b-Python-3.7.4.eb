@@ -24,22 +24,35 @@ dependencies = [
     ('AUGUSTUS', '3.3.3'),
     ('BamTools', '2.5.1'),
     ('BEDTools', '2.29.2'),
+    # CodingQuarry https://sourceforge.net/projects/codingquarry/
     ('BLAT', '3.5'),
     ('DIAMOND', '0.9.30'),
+    # emapper.py http://eggnog-mapper.embl.de/ - old version in EB
     ('ETE', '3.1.2', versionsuffix),
     ('Exonerate', '2.4.0'),
-    ('FASTA', '36.3.8h_04-May-2020'),
+    ('FASTA', '36.3.8h_04-May-2020'),  # ?? not being detected
+    ('GeneMark-ET', '4.61'),
+    ('GlimmerHMM', '3.0.4c'),
+    ('GMAP-GSNAP', '2020-09-12'),
     ('HISAT2', '2.2.1'),
     ('kallisto', '0.46.1'),
+    # pslCDnaFilter ??kent tools???
+    ('Kent_tools', '401'),
     ('MAFFT', '7.453', '-with-extensions'),
     ('minimap2', '2.17'),
+    # ('Proteinortho', '6.0.23', '-Python-3.7.4-Perl-5.30.0'),
     ('RepeatMasker', '4.0.9-p2', '-HMMER'),
     ('RMBlast', '2.9.0'),
     ('Salmon', '1.1.0'),
     ('SAMtools', '1.10'),
+    # signalp http://www.cbs.dtu.dk/services/SignalP/
     ('SNAP', '2013-11-29'),
-    ('Trimmomatic', '0.39', '-Java-11', True),
+    ('StringTie', '2.1.3'),
+    # tantan http://cbrc3.cbrc.jp/~martin/tantan/README.html
+    ('Trimmomatic', '0.39', '-Java-11', True),  # ??
+    ('trimAl', '1.4.1'),
     ('Trinity', '2.9.1', versionsuffix),
+    # tRNAscan-SE http://lowelab.ucsc.edu/tRNAscan-SE/
 ]
 
 sanity_pip_check = True

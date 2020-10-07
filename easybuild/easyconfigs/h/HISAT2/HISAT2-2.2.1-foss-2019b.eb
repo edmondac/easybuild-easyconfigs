@@ -10,11 +10,10 @@ description = """HISAT2 is a fast and sensitive alignment program for mapping ne
 toolchain = {'name': 'foss', 'version': '2019b'}
 
 sources = [{
-    'source_iurls': ['https://cloud.biohpc.swmed.edu/index.php/s/fE9QCsX3NH4QwBi/download'],
+    'source_urls': ['https://cloud.biohpc.swmed.edu/index.php/s/fE9QCsX3NH4QwBi/download'],
     'download_filename': 'download',
     'filename': '%(namelower)s-%(version)s-source.zip',
 }]
-checksums = ['0dd55168853b82c1b085f79ed793dd029db163773f52272d7eb51b3b5e4a4cdd']
 
 dependencies = [
     ('NGS', '2.10.4', '-Java-11'),

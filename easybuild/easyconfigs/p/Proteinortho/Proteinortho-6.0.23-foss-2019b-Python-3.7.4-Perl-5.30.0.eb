@@ -1,0 +1,35 @@
+easyblock = 'MakeCp'
+
+name = 'Proteinortho'
+version = '6.0.23'
+versionsuffix = '-Python-%(pyver)s-Perl-%(perlver)s'
+
+homepage = 'https://www.bioinf.uni-leipzig.de/Software/proteinortho/'
+description = "Proteinortho is a tool to detect orthologous genes within different species."
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://gitlab.com/paulklemm_PHD/proteinortho/-/archive/v6.0.23/']
+sources = ['%(namelower)s_v%(version)s.tar.gz']
+
+dependencies = [
+    ('Perl', '5.30.0'),
+    ('Python', '3.7.4'),
+    # ('BLAST+', '2.9.0'),
+    ('RMBlast', '2.9.0'),
+]
+
+files_to_copy = [
+    (['proteinortho%(version_major)s_clustering', 'proteinortho%(version_major)s_tree', 'chk_test.pl',
+      'po2tree.pl', 'proteinortho%(version_major)s_clean_edges2.pl', 'proteinortho%(version_major)s.pl',
+      'proteinortho%(version_major)s_singletons.pl', 'ffadj_mcs.py'], 'bin'),
+    'tools', 'manual.html',
+]
+
+sanity_check_paths = {
+    'files': ["bin/proteinortho%(version_major)s_clustering", "bin/proteinortho%(version_major)s_tree",
+              "bin/proteinortho%(version_major)s.pl"],
+    'dirs': []
+}
+
+moduleclass = 'bio'
