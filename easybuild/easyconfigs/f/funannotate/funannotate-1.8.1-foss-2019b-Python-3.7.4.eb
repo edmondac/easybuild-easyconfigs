@@ -1,0 +1,71 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'funannotate'
+version = '1.8.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = ""
+description = """"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Biopython', '1.75', versionsuffix),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('Seaborn', '0.10.0', versionsuffix),
+    ('statsmodels', '0.11.0', versionsuffix),
+    ('Perl', '5.30.0'),
+    ('BioPerl', '1.7.2'),
+    ('DBD-mysql', '4.050', '-Perl-5.30.0'),
+    ('BamTools', '2.5.1'),
+    ('BEDTools', '2.29.2'),
+    ('BLAT', '3.5'),
+    ('DIAMOND', '0.9.30'),
+    ('Exonerate', '2.4.0'),
+    ('kallisto', '0.46.1'),
+    ('MAFFT', '7.453', '-with-extensions'),
+    ('minimap2', '2.17'),
+    ('RepeatMasker', '4.0.9-p2', '-HMMER'),
+    ('RMBlast', '2.9.0'),
+    ('Salmon', '1.2.0'),
+    ('SAMtools', '1.10'),
+    ('SNAP', '2013-11-29'),
+    ('Trimmomatic', '0.39', '-Java-11', True),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('pydot', '1.4.1', {
+    }),
+    ('coverage', '5.3', {
+    }),
+    ('pytest-cov', '2.10.1', {
+    }),
+    ('wget', '3.2', {
+        'source_tmpl': '%(name)s-%(version)s.zip',
+    }),
+    ('XlsxWriter', '1.3.6', {
+    }),
+    ('goatools', '1.0.6', {
+    }),
+    ('natsort', '7.0.1', {
+    }),
+    ('distro', '1.5.0', {
+    }),
+    (name, version, {
+    }),
+]
+
+sanity_check_commands = ['%(name)s check --show-versions']
+
+moduleclass = 'bio'
