@@ -23,6 +23,11 @@ sources = [
     },
 ]
 patches = ['%(name)s-%(version)s_makefile.patch']
+checksums = [
+    'd8a0dac212b3056d434a7470865b74544a03ee42f8094caaaa144a80ebe228b5',  # pimd.2.4.0.tar
+    '406cb6b77088323b2d5fae25ea82e51142c8b0e95e50f11d94e8a4f5d256cfc9',  # aenet_2.0.3.tar.gz
+    '88227e4c0305e4a0c86cb91b60cea1205799d22fba091f2e41498af2b94ebb5c',  # PIMD-2.4.0_makefile.patch
+]
 
 dependencies = []
 
