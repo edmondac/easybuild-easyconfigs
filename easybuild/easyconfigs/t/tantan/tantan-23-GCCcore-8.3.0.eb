@@ -18,6 +18,8 @@ checksums = [
     '05bfe982920b6bf04e7e3a38182a16a1f2d402824ac046893e4a7cad592643c4',  # tantan-23_no_mercurial.patch
 ]
 
+builddependencies = [('binutils', '2.32')]
+
 dependencies = []
 
 skipsteps = ['configure']

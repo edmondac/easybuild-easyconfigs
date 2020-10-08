@@ -1,4 +1,4 @@
-easyblock = 'MakeCp'
+easyblock = 'ConfigureMake'
 
 name = 'Proteinortho'
 version = '6.0.23'
@@ -11,25 +11,29 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 
 source_urls = ['https://gitlab.com/paulklemm_PHD/proteinortho/-/archive/v6.0.23/']
 sources = ['%(namelower)s_v%(version)s.tar.gz']
+checksums = ['267b98a83eea84948793640ec454fd21ef46ecc6afd7d23887ff9f621b27df91']
 
 dependencies = [
     ('Perl', '5.30.0'),
     ('Python', '3.7.4'),
-    # ('BLAST+', '2.9.0'),
     ('RMBlast', '2.9.0'),
 ]
 
-files_to_copy = [
-    (['proteinortho%(version_major)s_clustering', 'proteinortho%(version_major)s_tree', 'chk_test.pl',
-      'po2tree.pl', 'proteinortho%(version_major)s_clean_edges2.pl', 'proteinortho%(version_major)s.pl',
-      'proteinortho%(version_major)s_singletons.pl', 'ffadj_mcs.py'], 'bin'),
-    'tools', 'manual.html',
-]
+skipsteps = ['configure']
+
+prebuildopts = 'make clean && make echoENV && '
+
+preinstallopts = 'mkdir -p %(installdir)s/bin && '
+installopts = 'PREFIX=%(installdir)s/bin'
+
+tests = 'test'
 
 sanity_check_paths = {
-    'files': ["bin/proteinortho%(version_major)s_clustering", "bin/proteinortho%(version_major)s_tree",
-              "bin/proteinortho%(version_major)s.pl"],
+    'files': ["bin/%(namelower)s_clustering", "bin/%(namelower)s",
+              "bin/%(namelower)s%(version_major)s.pl"],
     'dirs': []
 }
+
+sanity_check_commands = ['%(namelower)s --help']
 
 moduleclass = 'bio'
