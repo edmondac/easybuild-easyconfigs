@@ -27,7 +27,7 @@ dependencies = [
     ('SciPy-bundle', '2019.10', versionsuffix),
     ('Seaborn', '0.10.0', versionsuffix),
     ('statsmodels', '0.11.0', versionsuffix),
-    ('Perl', '5.30.0'),
+    ('Perl', '5.30.0'),  # DB_File in EL7 but not EL8 ??
     ('BioPerl', '1.7.2'),
     ('DBD-mysql', '4.050', '-Perl-5.30.0'),
     ('AUGUSTUS', '3.3.3'),

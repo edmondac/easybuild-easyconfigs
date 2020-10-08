@@ -24,7 +24,8 @@ dependencies = [('Java', '11')]
 
 postinstallcmds = [
     "mkdir %(installdir)s/bin && "
-    """echo exec java -jar %(installdir)s/trimmomatic-*.jar '"$@"' > %(installdir)s/bin/trimmomatic && """
+    """echo "#!/bin/bash" > %(installdir)s/bin/trimmomatic && """
+    """echo exec java -jar %(installdir)s/trimmomatic-*.jar '"$@"' >> %(installdir)s/bin/trimmomatic && """
     "chmod +x %(installdir)s/bin/trimmomatic"
 ]
 
