@@ -33,10 +33,10 @@ dependencies = [
     ('AUGUSTUS', '3.3.3'),
     ('BamTools', '2.5.1'),
     ('BEDTools', '2.29.2'),
-    # CodingQuarry https://sourceforge.net/projects/codingquarry/
+    ('CodingQuarry', '2.0'),
     ('BLAT', '3.5'),
     ('DIAMOND', '0.9.30'),
-    # emapper.py is eggnog-mapper - only Python 2
+    # emapper.py is eggnog-mapper - Python 2 only
     ('ETE', '3.1.2', versionsuffix),
     ('Exonerate', '2.4.0'),
     ('FASTA', '36.3.8h_04-May-2020'),  # fasta vs fast36 mean it is not being detected

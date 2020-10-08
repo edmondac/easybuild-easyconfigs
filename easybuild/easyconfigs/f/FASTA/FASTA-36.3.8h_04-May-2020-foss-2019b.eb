@@ -13,16 +13,20 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 
 source_urls = ['https://github.com/wrpearson/fasta36/archive/']
 sources = ['v%(version)s.tar.gz']
+checksums = ['d13ec06a040e4d77bf6913af44b705d3ecc921131da018e71d24daf47d3664d3']
 
 buildopts = '-C ./src -f ../make/Makefile.linux64_sse2'
 
 files_to_copy = ["bin", "conf", "data", "doc", "FASTA_LIST", "misc", "README", "seq", "sql", "test"]
 
+_exes = ['fasta', 'fastm', 'fastx', 'ggsearch', 'lalign', 'tfastf', 'tfasts', 'tfasty', 'fastf', 'fasts', 'fasty',
+         'glsearch', 'ssearch', 'tfastm', 'tfastx']
+
+postinstallcmds = ['cd %%(installdir)s/bin && ln -s %s%%(version_major)s %s' % (x, x) for x in _exes]
+
 sanity_check_paths = {
     'files': ["FASTA_LIST", "README"] + ['bin/%s' % x for x in ['map_db']] +
-             ['bin/%s%%(version_major)s' % x for x in ['fasta', 'fastm', 'fastx', 'ggsearch', 'lalign', 'tfastf',
-                                                       'tfasts', 'tfasty', 'fastf', 'fasts', 'fasty', 'glsearch',
-                                                       'ssearch', 'tfastm', 'tfastx']],
+             ['bin/%s%%(version_major)s' % x for x in _exes],
     'dirs': ["conf", "data", "doc", "misc", "seq", "sql", "test"]
 }
 

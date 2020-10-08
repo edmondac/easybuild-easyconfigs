@@ -1,0 +1,27 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'CodingQuarry'
+version = '2.0'
+
+homepage = "https://sourceforge.net/projects/codingquarry/"
+description = """"""
+
+toolchain = {'name': 'GCC', 'version': '8.3.0'}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources = ['%(name)s_v%(version)s.tar.gz']
+checksums = ['1198afbf7cebcf0975c5b20d92b7a2dd6d956072fcde6e86fdce6aeae4842504']
+
+dependencies = []
+
+files_to_copy = ['QuarryFiles', 'TESTING', 'INSTRUCTIONS.pdf', ([name], 'bin')]
+
+modextravars = {'QUARRY_PATH': '%(installdir)s'}
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
