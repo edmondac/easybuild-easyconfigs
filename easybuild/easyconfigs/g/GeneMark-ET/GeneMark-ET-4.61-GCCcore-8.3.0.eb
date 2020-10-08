@@ -23,4 +23,6 @@ sanity_check_paths = {
 
 modextrapaths = {'PATH': ''}
 
+modextravars = {'GENEMARK_PATH': '%(installdir)s'}
+
 moduleclass = 'bio'
