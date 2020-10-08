@@ -5,7 +5,8 @@ name = 'CodingQuarry'
 version = '2.0'
 
 homepage = "https://sourceforge.net/projects/codingquarry/"
-description = """"""
+description = """CodingQuarry is a highly accurate, self-training GHMM fungal gene predictor designed to work with
+ assembled, aligned RNA-seq transcripts."""
 
 toolchain = {'name': 'GCC', 'version': '8.3.0'}
 

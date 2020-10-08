@@ -19,6 +19,7 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 
 source_urls = ['http://research-pub.gene.com/gmap/src/']
 sources = [SOURCELOWER_TAR_GZ]
+checksums = ['9f267d8d165a99b8cb41a22217ed9f8a987ba8b8f8303b0ae867d3e8bf96cef3']
 
 # with these deps you can use standard compressed files
 # to support files in gobby format take a look at README for extra dependencies

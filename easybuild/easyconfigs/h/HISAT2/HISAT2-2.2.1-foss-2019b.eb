@@ -14,6 +14,7 @@ sources = [{
     'download_filename': 'download',
     'filename': '%(namelower)s-%(version)s-source.zip',
 }]
+checksums = ['48e933330d4d8470d2b3dfe7ec3918f2e98a75f7381891e23b7df1fb4f135eb1']
 
 dependencies = [
     ('NGS', '2.10.4', '-Java-11'),

@@ -11,6 +11,7 @@ toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 # download via http://exon.gatech.edu/GeneMark/license_download.cgi
 # rename gmes_linux_64.tar.gz to gmes_linux_64-4.61.tar.gz
 sources = ['gmes_linux_64-4.61.tar.gz']
+checksums = ['6d9a95884eebe932a15346d27bab738d75eba386b533dec5cdbefa64c5f13709']
 
 dependencies = [('Perl', '5.30.0')]
 

@@ -14,6 +14,7 @@ toolchain = SYSTEM
 
 # no public download url - download from https://services.healthtech.dtu.dk/software.php
 sources = ['signalp-%(version)s.Linux.tar.gz']
+checksums = ['3bfbfa2c0a903bbd568877e6ae8560833eab90c8a9aa18473edf03037e9f61cf']
 
 dependencies = []
 

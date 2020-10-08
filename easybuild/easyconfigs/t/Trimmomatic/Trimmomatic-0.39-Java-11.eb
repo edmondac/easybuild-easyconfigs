@@ -22,11 +22,19 @@ checksums = ['2f97e3a237378d55c221abfc38e4b11ea232c8a41d511b8b4871f00c0476abca']
 
 dependencies = [('Java', '11')]
 
+postinstallcmds = [
+    "mkdir %(installdir)s/bin && "
+    """echo exec java -jar %(installdir)s/trimmomatic-*.jar '"$@"' > %(installdir)s/bin/trimmomatic && """
+    "chmod +x %(installdir)s/bin/trimmomatic"
+]
+
 modloadmsg = """To execute Trimmomatic run: java -jar $EBROOTTRIMMOMATIC/trimmomatic-%(version)s.jar\n"""
 
 sanity_check_paths = {
     'files': ["trimmomatic-%(version)s.jar"],
     'dirs': [""],
 }
+
+sanity_check_commands = ['%(namelower)s -version']
 
 moduleclass = 'bio'

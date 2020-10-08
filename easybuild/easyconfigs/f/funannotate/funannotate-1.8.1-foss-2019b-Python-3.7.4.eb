@@ -39,7 +39,7 @@ dependencies = [
     # emapper.py is eggnog-mapper - Python 2 only
     ('ETE', '3.1.2', versionsuffix),
     ('Exonerate', '2.4.0'),
-    ('FASTA', '36.3.8h_04-May-2020'),  # fasta vs fast36 mean it is not being detected
+    ('FASTA', '36.3.8h_04-May-2020'),
     ('GeneMark-ET', '4.61'),
     ('GlimmerHMM', '3.0.4c'),
     ('GMAP-GSNAP', '2020-09-12'),
@@ -48,7 +48,7 @@ dependencies = [
     ('Kent_tools', '401'),
     ('MAFFT', '7.453', '-with-extensions'),
     ('minimap2', '2.17'),
-    # ('Proteinortho', '6.0.23', '-Python-3.7.4-Perl-5.30.0'),
+    ('Proteinortho', '6.0.23', '-Python-3.7.4-Perl-5.30.0'),
     ('RepeatMasker', '4.0.9-p2', '-HMMER'),
     ('RMBlast', '2.9.0'),
     ('Salmon', '1.1.0'),
@@ -57,7 +57,7 @@ dependencies = [
     ('SNAP', '2013-11-29'),
     ('StringTie', '2.1.3'),
     ('tantan', '23'),
-    ('Trimmomatic', '0.39', '-Java-11', True),  # ??
+    ('Trimmomatic', '0.39', '-Java-11', True),
     ('trimAl', '1.4.1'),
     ('Trinity', '2.9.1', versionsuffix),
     ('tRNAscan-SE', '2.0.6'),
@@ -72,23 +72,32 @@ exts_default_options = {
 
 exts_list = [
     ('pydot', '1.4.1', {
+        'checksums': ['d49c9d4dd1913beec2a997f831543c8cbd53e535b1a739e921642fe416235f01'],
     }),
     ('coverage', '5.3', {
+        'checksums': ['280baa8ec489c4f542f8940f9c4c2181f0306a8ee1a54eceba071a449fb870a0'],
     }),
     ('pytest-cov', '2.10.1', {
+        'checksums': ['47bd0ce14056fdd79f93e1713f88fad7bdcc583dcd7783da86ef2f085a0bb88e'],
     }),
     ('wget', '3.2', {
         'source_tmpl': '%(name)s-%(version)s.zip',
+        'checksums': ['35e630eca2aa50ce998b9b1a127bb26b30dfee573702782aa982f875e3f16061'],
     }),
     ('XlsxWriter', '1.3.6', {
+        'checksums': ['b89002dea57bb3d4c8207f3e28ef8244bfd9e936b85d74e7dd1f97e11bb70313'],
     }),
     ('goatools', '1.0.6', {
+        'checksums': ['3deeee5d207e5a2053a874e4e37e1f76de227aed72ca6abb7df8b888607c5e52'],
     }),
     ('natsort', '7.0.1', {
+        'checksums': ['a633464dc3a22b305df0f27abcb3e83515898aa1fd0ed2f9726c3571a27258cf'],
     }),
     ('distro', '1.5.0', {
+        'checksums': ['0e58756ae38fbd8fc3020d54badb8eae17c5b9dcbed388b17bb55b8a5928df92'],
     }),
     (name, version, {
+        'checksums': ['e2ec5661697ea1a1628e523ecc1d3225dbc0c0c95e859b7ba77235557c48584b'],
     }),
 ]
 
