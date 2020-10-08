@@ -1,0 +1,36 @@
+--- source/makefile.orig	2020-03-16 04:47:00.000000000 +0000
++++ source/makefile	2020-10-07 20:03:44.102255954 +0100
+@@ -16,12 +16,11 @@
+ #     machine dependent compile options
+ #-----------------------------------------------------------------------
+ 
+-#     MAC OSX:
+-OPTS   = -g -O4 -Wall -framework Accelerate -fbounds-check \
++OPTS   = -g -O4 -Wall -fbounds-check \
+          -Wuninitialized -fbacktrace
+ 
+ #     compile PIMD with lapack
+-# LAPACK = -Dlapack
++LAPACK = -Dlapack -lopenblas
+ 
+ #     compile PIMD without lapack
+ # LAPACK = -Dnolapack
+@@ -144,10 +143,10 @@
+ #-----------------------------------------------------------------------
+ 
+ #     compile PIMD with AENET
+-# AENET = -Daenet
++AENET = -Daenet
+ 
+ #     compile PIMD without AENET
+-AENET =
++# AENET =
+ 
+ #     directory of AENET
+ ifdef AENET
+@@ -268,4 +267,4 @@
+ #-----------------------------------------------------------------------
+ 
+ include makefile.smash.inc
+-#include makefile.aenet.inc
++include makefile.aenet.inc
