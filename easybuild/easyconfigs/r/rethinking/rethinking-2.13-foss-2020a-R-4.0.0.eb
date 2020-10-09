@@ -1,0 +1,46 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'rethinking'
+version = '2.13'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=rethinking"
+description = """contains tools for conducting both quick quadratic approximation of the posterior distribution as well
+ as Hamiltonian Monte Carlo (through RStan or cmdstanr - mc-stan.org). Many packages do this. The signature difference
+ of this package is that it forces the user to specify the model as a list of explicit distributional assumptions."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/rmcelreath/rethinking/archive'],
+        'checksums': ['e40e47645ccef09b9191658af3e39876b5f05f331ad335738839216f986e561a'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['rethinking/R/rethinking'],
+    'dirs': [],
+}
+
+moduleclass = 'data'
