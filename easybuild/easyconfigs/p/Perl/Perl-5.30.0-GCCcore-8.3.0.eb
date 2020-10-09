@@ -16,6 +16,7 @@ builddependencies = [('binutils', '2.32')]
 dependencies = [
     ('zlib', '1.2.11'),  # for Net::SSLeay
     ('expat', '2.2.7'),  # for XML::Parser
+    ('DB', '18.1.32'),  # for DB_File
 ]
 
 # OpenSSL is required for Net::SSLeay
