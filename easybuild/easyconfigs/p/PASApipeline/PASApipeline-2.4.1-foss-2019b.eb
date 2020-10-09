@@ -1,0 +1,38 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'PASApipeline'
+version = '2.4.1'
+
+homepage = "https://github.com/PASApipeline/PASApipeline/wiki"
+description = """PASA, acronym for Program to Assemble Spliced Alignments (and pronounced 'pass-uh'), is a eukaryotic
+ genome annotation tool that exploits spliced alignments of expressed transcript sequences to automatically model
+ gene structures, and to maintain gene structure annotation consistent with the most recently available experimental
+ sequence data. PASA also identifies and classifies all splicing variations supported by the transcript alignments."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/PASApipeline/PASApipeline/releases/download/pasa-v%(version)s/']
+sources = ['%(name)s.v%(version)s.FULL.tar.gz']
+checksums = ['aa6a71e104b30fa8ef96217452f8d34fbb4713103318bd62369fcf26e08c4970']
+
+dependencies = [
+    ('SQLite', '3.29.0'),
+    ('Perl', '5.30.0'),
+    ('GMAP-GSNAP', '2020-09-12'),
+    ('Kent_tools', '401'),
+    ('FASTA', '36.3.8h_04-May-2020'),
+]
+
+files_to_copy = []
+buildininstalldir = True
+
+sanity_check_paths = {
+    'files': ['%%(name)s.v%%(version)s/%s' % x for x in ['Launch_PASA_pipeline.pl', 'bin/trimpoly', 'bin/cdbfasta']],
+    'dirs': ['%(name)s.v%(version)s/scripts'],
+}
+
+modextrapaths = {'PATH': ['%(name)s.v%(version)s', '%(name)s.v%(version)s/bin']}
+modextravars = {'PASAHOME': '%(installdir)s/%(name)s.v%(version)s'}
+
+moduleclass = 'bio'
