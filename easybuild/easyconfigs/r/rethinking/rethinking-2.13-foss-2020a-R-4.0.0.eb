@@ -5,7 +5,7 @@ name = 'rethinking'
 version = '2.13'
 versionsuffix = '-R-%(rver)s'
 
-homepage = "https://cran.r-project.org/package=rethinking"
+homepage = "https://xcelab.net/rm/software"
 description = """contains tools for conducting both quick quadratic approximation of the posterior distribution as well
  as Hamiltonian Monte Carlo (through RStan or cmdstanr - mc-stan.org). Many packages do this. The signature difference
  of this package is that it forces the user to specify the model as a list of explicit distributional assumptions."""
