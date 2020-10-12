@@ -17,16 +17,18 @@ dependencies = [
     ('Perl', '5.30.0'),
     ('Python', '3.7.4'),
     ('RMBlast', '2.9.0'),
+    ('DIAMOND', '0.9.30'),
+    ('Kent_tools', '401'),
 ]
 
 skipsteps = ['configure']
 
-prebuildopts = 'make clean && make echoENV && '
+prebuildopts = 'make clean && echo ENV && '
 
 preinstallopts = 'mkdir -p %(installdir)s/bin && '
 installopts = 'PREFIX=%(installdir)s/bin'
 
-tests = 'test'
+runtest = 'test'
 
 sanity_check_paths = {
     'files': ["bin/%(namelower)s_clustering", "bin/%(namelower)s",
