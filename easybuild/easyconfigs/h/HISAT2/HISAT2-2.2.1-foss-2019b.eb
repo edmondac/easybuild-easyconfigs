@@ -1,0 +1,36 @@
+easyblock = 'MakeCp'
+
+name = 'HISAT2'
+version = '2.2.1'
+
+homepage = 'https://daehwankimlab.github.io/hisat2/'
+description = """HISAT2 is a fast and sensitive alignment program for mapping next-generation sequencing reads
+ (both DNA and RNA) against the general human population (as well as against a single reference genome)."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+sources = [{
+    'source_urls': ['https://cloud.biohpc.swmed.edu/index.php/s/fE9QCsX3NH4QwBi/download'],
+    'download_filename': 'download',
+    'filename': '%(namelower)s-%(version)s-source.zip',
+}]
+checksums = ['48e933330d4d8470d2b3dfe7ec3918f2e98a75f7381891e23b7df1fb4f135eb1']
+
+dependencies = [
+    ('NGS', '2.10.4', '-Java-11'),
+    ('ncbi-vdb', '2.10.4'),
+]
+
+buildopts = 'CC="$CC" CPP="$CXX" RELEASE_FLAGS="$CFLAGS" '
+buildopts += "USE_SRA=1 NCBI_NGS_DIR=$EBROOTNGS NCBI_VDB_DIR=$EBROOTNCBIMINVDB"
+
+local_executables = ['hisat2', 'hisat2-align-l', 'hisat2-align-s', 'hisat2-build', 'hisat2-build-l', 'hisat2-build-s',
+                     'hisat2-inspect', 'hisat2-inspect-s', 'hisat2-inspect-l']
+files_to_copy = [(local_executables, 'bin')]
+
+sanity_check_paths = {
+    'files': ['bin/%s' % x for x in local_executables],
+    'dirs': [],
+}
+
+moduleclass = 'bio'

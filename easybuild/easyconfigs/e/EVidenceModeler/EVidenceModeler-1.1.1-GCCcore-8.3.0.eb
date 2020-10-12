@@ -1,0 +1,29 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'EVidenceModeler'
+version = '1.1.1'
+
+homepage = "https://evidencemodeler.github.io/"
+description = """The EVidenceModeler (aka EVM) software combines ab intio gene predictions and protein and transcript
+ alignments into weighted consensus gene structures. EVM provides a flexible and intuitive framework for combining
+ diverse evidence types into a single automated gene structure annotation system. Inputs to EVM include the genome
+ sequence, gene predictions and alignment data in GFF3 format, and a list of numeric weight values to be applied to
+ each type of evidence. The weights can be configured manually."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://github.com/EVidenceModeler/EVidenceModeler/archive/']
+sources = ['v%(version)s.tar.gz']
+checksums = ['9ef89095fe37326d44eb95cc5b7dacae301aafa1dedfc13c17fcaec1c9388757']
+
+dependencies = [('Perl', '5.30.0')]
+
+sanity_check_paths = {
+    'files': ['evidence_modeler.pl'],
+    'dirs': ['PerlLib', 'EvmUtils'],
+}
+
+modextravars = {'EVM_HOME': '%(installdir)s'}
+
+moduleclass = 'bio'

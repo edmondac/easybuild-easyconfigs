@@ -1,0 +1,26 @@
+easyblock = 'Tarball'
+
+name = 'SignalP'
+version = '5.0b'
+
+homepage = 'https://services.healthtech.dtu.dk/software.php'
+description = """The SignalP 5.0 tool predicts the presence of signal peptides and the location of their cleavage
+ sites in proteins from Archaea, Gram-positive Bacteria, Gram-negative Bacteria and Eukarya. In Bacteria and Archaea,
+ SignalP 5.0 can discriminate between three types of signal peptides Sec/SPI (standard signal peptide), Sec/SPII
+ (lipoprotein signal peptide) and Tat/SPI (tat signal peptide). SignalP 5.0 is based on a deep convolutional and
+ recurrent neural network architecture including a conditional random field."""
+
+toolchain = SYSTEM
+
+# no public download url - download from https://services.healthtech.dtu.dk/software.php
+sources = ['signalp-%(version)s.Linux.tar.gz']
+checksums = ['3bfbfa2c0a903bbd568877e6ae8560833eab90c8a9aa18473edf03037e9f61cf']
+
+dependencies = []
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s'],
+    'dirs': ['lib'],
+}
+
+moduleclass = 'bio'

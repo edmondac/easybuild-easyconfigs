@@ -1,0 +1,21 @@
+--- src/Makefile.orig	2020-10-08 16:04:15.220231000 +0100
++++ src/Makefile	2020-10-08 16:04:41.655448000 +0100
+@@ -4,17 +4,9 @@
+ 
+ all: tantan
+ 
+-tantan: *.cc *.hh version.hh Makefile
++tantan: *.cc *.hh Makefile
+ 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) -o $@ *.cc
+ 
+ clean:
+ 	rm -f tantan
+ 
+-VERSION = \"`hg id -n`\"
+-
+-version.hh: FORCE
+-	if test -e ../.hg; \
+-	then echo $(VERSION) | cmp -s $@ - || echo $(VERSION) > $@ ; \
+-	fi
+-
+-FORCE:

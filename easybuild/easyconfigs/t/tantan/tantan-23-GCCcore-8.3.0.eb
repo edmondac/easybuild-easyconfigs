@@ -1,0 +1,36 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'tantan'
+version = '23'
+
+homepage = "http://cbrc3.cbrc.jp/~martin/tantan/"
+description = """tantan is a tool to mask simple regions (low complexity and short-period tandem repeats) in DNA, RNA,
+ and protein sequences."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['http://cbrc3.cbrc.jp/~martin/tantan/']
+sources = ['%(name)s-%(version)s.zip']
+patches = ['%(name)s-%(version)s_no_mercurial.patch']
+checksums = [
+    '3680412e6c806989232ca0c52e0d58021ddb5286aa619b6bc517a62ee635bc93',  # tantan-23.zip
+    '05bfe982920b6bf04e7e3a38182a16a1f2d402824ac046893e4a7cad592643c4',  # tantan-23_no_mercurial.patch
+]
+
+builddependencies = [('binutils', '2.32')]
+
+dependencies = []
+
+skipsteps = ['configure']
+
+installopts = 'prefix=%(installdir)s'
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s'],
+    'dirs': [],
+}
+
+sanity_check_commands = ['%(name)s --help']
+
+moduleclass = 'bio'
