@@ -27,6 +27,7 @@ dependencies = [
     ('Kendall', '2.2', versionsuffix),
     ('Signac', '1.0.0', versionsuffix),
     ('ukbtools', '0.11.3', versionsuffix),
+    ('Monocle3', '0.2.1', versionsuffix),
 ]
 
 moduleclass = 'bio'
