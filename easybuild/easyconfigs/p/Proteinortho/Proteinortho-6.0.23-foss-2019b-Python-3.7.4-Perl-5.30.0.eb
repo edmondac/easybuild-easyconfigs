@@ -23,7 +23,7 @@ dependencies = [
 
 skipsteps = ['configure']
 
-prebuildopts = 'make clean && echo ENV && '
+prebuildopts = 'make clean && make echoENV && '
 
 preinstallopts = 'mkdir -p %(installdir)s/bin && '
 installopts = 'PREFIX=%(installdir)s/bin'
