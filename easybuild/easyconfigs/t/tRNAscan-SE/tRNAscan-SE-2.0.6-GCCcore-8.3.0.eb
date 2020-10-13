@@ -20,6 +20,8 @@ builddependencies = [
 
 dependencies = []
 
+parallel = 1
+
 sanity_check_paths = {
     'files': ['bin/%(name)s'],
     'dirs': [],
