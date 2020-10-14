@@ -1,0 +1,59 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'DiffBind'
+version = '2.14.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://www.bioconductor.org/packages/release/bioc/html/DiffBind.html"
+description = """Differential Binding Analysis of ChIP-Seq Peak Data."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('R-bundle-Bioconductor', '3.10', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://bioconductor.org/packages/3.10/bioc/src/contrib/',
+        'https://bioconductor.org/packages/3.10/data/annotation/src/contrib/',
+        'https://bioconductor.org/packages/3.10/data/experiment/src/contrib/',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz'
+}
+
+
+# Order is important!
+exts_list = [
+    ('amap', '0.8-18', {
+        'checksums': ['7afbbdd681a201121374821b733c9000ca1046a2353ee386507604c2c759ec7e'],
+    }),
+    ('base64url', '1.4', {
+        'checksums': ['1d058f138660e9155ebb331d7a2561e2541ee3321b8da90f6c41fd8dcc122c58'],
+    }),
+    ('batchtools', '0.9.13', {
+        'checksums': ['dafa5055dd568ef0f3adcb631019c85506f3e256f2a48486a1b6d8c76d747c09'],
+    }),
+    ('systemPipeR', '1.20.0', {
+        'checksums': ['122cd8062491d77c95589a76a50deaeed406909a0eb1b085aa9e3ec6d32e229f'],
+    }),
+    (name, version, {
+        'checksums': ['028a30e5426ce0c93c0e1a4b3b2498b4e61c7d1e8f973bb30788102aa2e7499c'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['DiffBind/R/DiffBind'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
