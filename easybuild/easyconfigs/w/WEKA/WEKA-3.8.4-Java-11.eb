@@ -9,7 +9,7 @@ name = 'WEKA'
 version = '3.8.4'
 versionsuffix = '-Java-%(javaver)s'
 
-homepage = 'http://www.cs.waikato.ac.nz/ml/weka/index.html'
+homepage = 'https://www.cs.waikato.ac.nz/ml/weka/index.html'
 description = """ Weka is a collection of machine learning algorithms for data mining tasks. 
  The algorithms can either be applied directly to a dataset or called from your own Java code. 
  Weka contains tools for data pre-processing, classification, regression, clustering, 
@@ -18,7 +18,7 @@ description = """ Weka is a collection of machine learning algorithms for data m
 
 toolchain = SYSTEM
 
-source_urls = ['http://prdownloads.sourceforge.net/weka/']
+source_urls = ['https://prdownloads.sourceforge.net/weka/']
 sources = ['%s-%s.zip' % (name.lower(), version.replace('.', '-'))]
 checksums = ['ffca58c609d15b78775253f83850c23a0b8dcd57360b97058ceb94da0e0c6821']
 
