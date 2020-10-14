@@ -33,6 +33,8 @@ dependencies = [
     ('lwgrp', '1.0.2'),
 ]
 
+configopts = '-DENABLE_GPFS=ON'
+
 sanity_check_paths = {
     'files': ['bin/dsync', 'include/mfu.h', 'lib/libmfu.%s' % SHLIB_EXT],
     'dirs': []
