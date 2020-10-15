@@ -13,11 +13,15 @@ toolchain = {'name': 'gompi', 'version': '2020a'}
 
 source_urls = ['https://github.com/hpc/%(name)s/archive/']
 sources = ['v%(version)s.tar.gz']
-patches = ['mpifileutils-%(version)s_fix_acl_xattr_problem.patch']
+patches = [
+    '%(name)s-%(version)s_fix_acl_xattr_problem.patch',
+    '%(name)s-%(version)s_fix_gpfs_acl.patch',
+]
 checksums = [
     '4c8409ef4140f6f557d0e93f0c1267baf5d893c203b29fb7a33d9bc3c5a5d25c',  # v0.10.1.tar.gz
     # mpifileutils-0.10.1_fix_acl_xattr_problem.patch
     'e540ceaeb99758f4776252069d56b703411824ba83f48b474fc18785868151a2',
+    '53a501eacc03e64df6efdd21c51c84e464a17dcd526b2dfac73e88cc983408ad',  # mpifileutils-0.10.1_fix_gpfs_acl.patch
 ]
 
 builddependencies = [

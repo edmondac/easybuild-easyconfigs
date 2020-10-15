@@ -1,0 +1,40 @@
+--- src/dsync/dsync.c.orig    2020-10-15 10:27:01.629355000 +0100
++++ src/dsync/dsync.c 2020-10-15 10:30:17.256694818 +0100
+@@ -51,6 +51,7 @@ static void print_usage(void)
+     printf("      --dryrun          - show differences, but do not synchronize files\n");
+     printf("  -b  --batch-files <N> - batch files into groups of N during copy\n");
+     printf("  -c, --contents        - read and compare file contents rather than compare size and mtime\n");
++    printf("  -p, --preserve        - preserve permissions, ownership, timestamps, extended attributes\n");
+     printf("  -D, --delete          - delete extraneous files from target\n");
+     printf("      --link-dest <DIR> - hardlink to files in DIR when unchanged\n");
+     printf("  -S, --sparse          - create sparse files when possible\n");
+@@ -2859,6 +2860,7 @@ int main(int argc, char **argv)
+         {"debug",         0, 0, 'd'}, // undocumented
+         {"link-dest",     1, 0, 'l'},
+         {"sparse",        0, 0, 'S'},
++        {"preserve",      0, 0, 'p'},
+         {"progress",      1, 0, 'P'},
+         {"verbose",       0, 0, 'v'},
+         {"quiet",         0, 0, 'q'},
+@@ -2878,7 +2878,7 @@
+ 
+     while (1) {
+         int c = getopt_long(
+-            argc, argv, "b:cDo:Svqh",
++            argc, argv, "b:cDpo:Svqh",
+             long_options, &option_index
+         );
+ 
+@@ -2921,6 +2923,12 @@ int main(int argc, char **argv)
+         case 'D':
+             options.delete = 1;
+             break;
++        case 'p':
++            mfu_copy_opts->preserve = true;
++            if(rank == 0) {
++                MFU_LOG(MFU_LOG_INFO, "Preserving file attributes.");
++            }
++            break;
+         case 'l':
+             options.link_dest = MFU_STRDUP(optarg);
+             break;
