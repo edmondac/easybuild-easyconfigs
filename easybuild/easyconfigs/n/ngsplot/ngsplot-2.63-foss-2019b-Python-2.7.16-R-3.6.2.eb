@@ -12,11 +12,15 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 source_urls = ['https://github.com/shenlab-sinai/ngsplot/archive/']
 sources = ['%(version)s.tar.gz']
 
-patches = ['ngsplot-no-bam.patch']
+patches = [
+    'ngsplot-no-bam.patch',
+    'ngsplot-no-tar-distfolder.patch',
+]
 
 checksums = [
     '5159a1e75f8d82f2b5fe8b46ff597a504f6e829f0b8d46c7ce525a6f8d70e6c1',  # 2.63.tar.gz
     'b5d33bf19f9b40cd32851c9ad8fbc29e6e980e9b392be10785b98c949ea99d27',  # ngsplot-no-bam.patch
+    'b8f1be29a32147a684b6ad5e245ef9c6ffcc0812caf0e5e05acbd22076fff67b',  # ngsplot-no-tar-distfolder.patch
 ]
 
 dependencies = [
@@ -24,9 +28,6 @@ dependencies = [
     ('R', '3.6.2'),
     ('R-bundle-Bioconductor', '3.10', '-R-%(rver)s'),
 ]
-
-# This builds a distributable tar file, which we want to unpack...
-buildopts = " && tar xf ngsplot-2.63.tar.gz"
 
 local_files = ['README', 'Changes']
 local_dirs = ['bin', 'lib', 'database', 'example', 'galaxy']
