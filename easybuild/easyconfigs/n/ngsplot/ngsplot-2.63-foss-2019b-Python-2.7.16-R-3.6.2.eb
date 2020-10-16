@@ -28,13 +28,13 @@ dependencies = [
 # This builds a distributable tar file, which we want to unpack...
 buildopts = " && tar xf ngsplot-2.63.tar.gz"
 
-files = ['README', 'Changes']
-dirs = ['bin', 'lib', 'database', 'example', 'galaxy']
-files_to_copy = [(["ngsplot/%s" % f for f in files + dirs], "")]
+local_files = ['README', 'Changes']
+local_dirs = ['bin', 'lib', 'database', 'example', 'galaxy']
+files_to_copy = [(["ngsplot/%s" % f for f in local_files + local_dirs], "")]
 
 sanity_check_paths = {
-    'files': files,
-    'dirs': dirs,
+    'files': local_files,
+    'dirs': local_dirs,
 }
 
 modextravars = {
