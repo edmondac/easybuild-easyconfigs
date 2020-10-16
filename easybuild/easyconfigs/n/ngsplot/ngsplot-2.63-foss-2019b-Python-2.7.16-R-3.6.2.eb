@@ -38,7 +38,7 @@ sanity_check_paths = {
 }
 
 modextravars = {
-    'NGSPLOT': '$root',
+    'NGSPLOT': '%(installdir)s',
 }
 
 postinstallcmds = [
