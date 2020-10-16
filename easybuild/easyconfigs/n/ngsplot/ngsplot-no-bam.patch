@@ -1,0 +1,11 @@
+--- Makefile.orig	2017-11-17 15:23:48.587152446 +0000
++++ Makefile	2017-11-17 15:25:25.866236076 +0000
+@@ -26,7 +26,7 @@
+ # example bam files.
+ BAM=example.bam
+ 
+-all: program bam
++all: program
+ 
+ program: ngsplot-$(CURVER).tar.gz
+ bam: example.bam.tar.gz

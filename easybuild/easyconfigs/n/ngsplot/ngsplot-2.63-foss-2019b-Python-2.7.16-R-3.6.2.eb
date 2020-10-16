@@ -1,0 +1,49 @@
+easyblock = 'MakeCp'
+
+name = 'ngsplot'
+version = '2.63'
+versionsuffix = '-Python-%(pyver)s-R-%(rver)s'
+
+homepage = 'https://github.com/shenlab-sinai/ngsplot'
+description = """Quick mining and visualization of NGS data by integrating genomic databases"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/shenlab-sinai/ngsplot/archive/']
+sources = ['%(version)s.tar.gz']
+
+patches = [
+    'ngsplot-no-bam.patch',
+    'ngsplot-no-tar-distfolder.patch',
+]
+
+checksums = [
+    '5159a1e75f8d82f2b5fe8b46ff597a504f6e829f0b8d46c7ce525a6f8d70e6c1',  # 2.63.tar.gz
+    'b5d33bf19f9b40cd32851c9ad8fbc29e6e980e9b392be10785b98c949ea99d27',  # ngsplot-no-bam.patch
+    'b8f1be29a32147a684b6ad5e245ef9c6ffcc0812caf0e5e05acbd22076fff67b',  # ngsplot-no-tar-distfolder.patch
+]
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('R', '3.6.2'),
+    ('R-bundle-Bioconductor', '3.10', '-R-%(rver)s'),
+]
+
+local_files = ['README', 'Changes']
+local_dirs = ['bin', 'lib', 'database', 'example', 'galaxy']
+files_to_copy = [(["ngsplot/%s" % f for f in local_files + local_dirs], "")]
+
+sanity_check_paths = {
+    'files': local_files,
+    'dirs': local_dirs,
+}
+
+modextravars = {
+    'NGSPLOT': '%(installdir)s',
+}
+
+postinstallcmds = [
+    "cd %(installdir)s && rm -rf database && ln -fs ${BB_APPS_DATA}/ngsplot-database database"
+]
+
+moduleclass = 'bio'

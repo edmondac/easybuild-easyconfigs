@@ -1,0 +1,13 @@
+--- ./ngsplot-2.63/Makefile.orig	2020-10-16 16:04:10.415389707 +0100
++++ ./ngsplot-2.63/Makefile	2020-10-16 16:04:54.621792628 +0100
+@@ -44,8 +44,8 @@
+ 	# 	sed '2,+10000 s/^\s*#.*//' ${DISTFOLDER}/$$r|sed '/^$$/ c\' > tmp; \
+ 	# 	mv tmp ${DISTFOLDER}/$$r; \
+ 	# done
+-	tar czvf $@ ${DISTFOLDER}
+-	rm -rf ${DISTFOLDER}
++	# tar czvf $@ ${DISTFOLDER}
++	# rm -rf ${DISTFOLDER}
+ 
+ example.bam.tar.gz: $(BAM)
+ 	tar czvf $@ $(BAM)
