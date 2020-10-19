@@ -23,6 +23,7 @@ dependencies = [
 ]
 
 download_dep_fail = True
+use_pip = True
 
 postinstallcmds = ["mkdir %(installdir)s/bin && cp {download_eggnog_data.py,emapper.py} %(installdir)s/bin"]
 
