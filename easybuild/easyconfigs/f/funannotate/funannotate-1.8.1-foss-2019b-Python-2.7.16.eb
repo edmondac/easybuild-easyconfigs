@@ -1,0 +1,108 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'funannotate'
+version = '1.8.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://funannotate.readthedocs.io/"
+description = """Funannotate is a genome prediction, annotation, and comparison software package. It was originally
+ written to annotate fungal genomes (small eukaryotes ~ 30 Mb genomes), but has evolved over time to accomodate
+ larger genomes. The impetus for this software package was to be able to accurately and easily annotate a genome for
+ submission to NCBI GenBank. Existing tools (such as Maker) require significant manually editing to comply with
+ GenBank submission rules, thus funannotate is aimed at simplifying the genome submission process.
+
+Funannotate is also a lightweight comparative genomics platform. Genomes that have had functional annotation added
+ via the funannotate annotate command can be run through the funannotate compare script that outputs html based
+ whole genome comparisons. The software can run orthologous clustering, construct whole-genome phylogenies, run Gene
+ Ontology enrichment analysis, as well as calculate dN/dS ratios for orthologous clusters under positive selection."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('Biopython', '1.75', versionsuffix),
+    ('matplotlib', '2.2.5', versionsuffix),
+    ('scikit-learn', '0.20.4', versionsuffix),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('Seaborn', '0.9.1', versionsuffix),
+    ('statsmodels', '0.10.2', versionsuffix),
+    ('Perl', '5.30.0'),
+    ('BioPerl', '1.7.2'),
+    ('DBD-mysql', '4.050', '-Perl-5.30.0'),
+    ('AUGUSTUS', '3.3.3'),
+    ('BamTools', '2.5.1'),
+    ('BEDTools', '2.29.2'),
+    ('CodingQuarry', '2.0'),
+    ('BLAT', '3.5'),
+    ('DIAMOND', '0.9.30'),
+    ('eggnog-mapper', '1.0.3', versionsuffix),
+    ('ETE', '3.1.2', versionsuffix),
+    ('Exonerate', '2.4.0'),
+    ('FASTA', '36.3.8h_04-May-2020'),
+    ('GeneMark-ET', '4.61'),
+    ('GlimmerHMM', '3.0.4c'),
+    ('GMAP-GSNAP', '2020-09-12'),
+    ('HISAT2', '2.2.1'),
+    ('kallisto', '0.46.1'),
+    ('Kent_tools', '401'),
+    ('MAFFT', '7.453', '-with-extensions'),
+    ('minimap2', '2.17'),
+    ('Proteinortho', '6.0.23', '-Python-2.7.16-Perl-5.30.0'),
+    ('RepeatMasker', '4.0.9-p2', '-HMMER'),
+    ('RMBlast', '2.9.0'),
+    ('Salmon', '1.1.0'),
+    ('SAMtools', '1.10'),
+    ('SignalP', '5.0b', '', True),
+    ('SNAP', '2013-11-29'),
+    ('StringTie', '2.1.3'),
+    ('tantan', '23'),
+    ('Trimmomatic', '0.39', '-Java-11', True),
+    ('trimAl', '1.4.1'),
+    ('Trinity', '2.9.1', versionsuffix),
+    ('tRNAscan-SE', '2.0.6'),
+    ('EVidenceModeler', '1.1.1'),
+    ('PASApipeline', '2.4.1'),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('pydot', '1.4.1', {
+        'checksums': ['d49c9d4dd1913beec2a997f831543c8cbd53e535b1a739e921642fe416235f01'],
+    }),
+    ('coverage', '5.3', {
+        'checksums': ['280baa8ec489c4f542f8940f9c4c2181f0306a8ee1a54eceba071a449fb870a0'],
+    }),
+    ('pytest-cov', '2.10.1', {
+        'checksums': ['47bd0ce14056fdd79f93e1713f88fad7bdcc583dcd7783da86ef2f085a0bb88e'],
+    }),
+    ('wget', '3.2', {
+        'source_tmpl': '%(name)s-%(version)s.zip',
+        'checksums': ['35e630eca2aa50ce998b9b1a127bb26b30dfee573702782aa982f875e3f16061'],
+    }),
+    ('XlsxWriter', '1.3.6', {
+        'checksums': ['b89002dea57bb3d4c8207f3e28ef8244bfd9e936b85d74e7dd1f97e11bb70313'],
+    }),
+    ('goatools', '1.0.6', {
+        'checksums': ['3deeee5d207e5a2053a874e4e37e1f76de227aed72ca6abb7df8b888607c5e52'],
+    }),
+    ('natsort', '6.2.1', {
+        'checksums': ['c5944ffd2343141fa5679b17991c398e15105f3b35bb11beefe66c67e08289d5'],
+    }),
+    ('distro', '1.5.0', {
+        'checksums': ['0e58756ae38fbd8fc3020d54badb8eae17c5b9dcbed388b17bb55b8a5928df92'],
+    }),
+    (name, version, {
+        'checksums': ['e2ec5661697ea1a1628e523ecc1d3225dbc0c0c95e859b7ba77235557c48584b'],
+    }),
+]
+
+sanity_check_commands = ['%(name)s check --show-versions']
+
+moduleclass = 'bio'

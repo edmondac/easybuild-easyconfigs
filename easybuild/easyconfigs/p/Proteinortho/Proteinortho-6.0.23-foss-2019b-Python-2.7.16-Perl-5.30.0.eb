@@ -1,0 +1,41 @@
+easyblock = 'ConfigureMake'
+
+name = 'Proteinortho'
+version = '6.0.23'
+versionsuffix = '-Python-%(pyver)s-Perl-%(perlver)s'
+
+homepage = 'https://www.bioinf.uni-leipzig.de/Software/proteinortho/'
+description = "Proteinortho is a tool to detect orthologous genes within different species."
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://gitlab.com/paulklemm_PHD/proteinortho/-/archive/v6.0.23/']
+sources = ['%(namelower)s_v%(version)s.tar.gz']
+checksums = ['267b98a83eea84948793640ec454fd21ef46ecc6afd7d23887ff9f621b27df91']
+
+dependencies = [
+    ('Perl', '5.30.0'),
+    ('Python', '2.7.16'),
+    ('RMBlast', '2.9.0'),
+    ('DIAMOND', '0.9.30'),
+    ('Kent_tools', '401'),
+]
+
+skipsteps = ['configure']
+
+prebuildopts = 'make clean && make echoENV && '
+
+preinstallopts = 'mkdir -p %(installdir)s/bin && '
+installopts = 'PREFIX=%(installdir)s/bin'
+
+runtest = 'test'
+
+sanity_check_paths = {
+    'files': ["bin/%(namelower)s_clustering", "bin/%(namelower)s",
+              "bin/%(namelower)s%(version_major)s.pl"],
+    'dirs': []
+}
+
+sanity_check_commands = ['%(namelower)s --help']
+
+moduleclass = 'bio'
