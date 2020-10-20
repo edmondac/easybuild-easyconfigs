@@ -1,0 +1,39 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'VASP'
+version = '5.4.4'
+
+homepage = "https://www.vasp.at"
+description = """The Vienna Ab initio Simulation Package (VASP) is a computer program for atomic scale
+ materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics,
+ from first principles."""
+
+toolchain = {'name': 'intelcuda', 'version': '2019b'}
+toolchainopts = {'usempi': True}
+
+# source_urls = []
+# VASP is proprietary software. For installation purposes please download from https://www.vasp.at/vasp-portal
+# using the RSG's installation licence.
+sources = ['vasp.5.4.4.pl2.tgz']
+
+# Note that the file diff.patch in the downloaded archive tar.gz has already been applied.
+patches = ['VASP-gpu-openmp.patch']
+
+prebuildopts = "unset LIBS && mv arch/makefile.include.linux_intel makefile.include &&"
+# build type
+buildopts = 'gpu CUDA_ROOT=$EBROOTCUDA'
+
+# don't use parallel make, results in compilation failure
+parallel = 1
+
+files_to_copy = [(['./bin/vasp_*'], 'bin')]
+
+sanity_check_paths = {
+    'files': ['bin/vasp_gpu'],
+    'dirs': [],
+}
+
+moduleclass = 'phys'
+
+local_bham_group = "p-vasp"
