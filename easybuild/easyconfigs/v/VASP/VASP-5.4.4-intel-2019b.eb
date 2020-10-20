@@ -9,7 +9,8 @@ description = """The Vienna Ab initio Simulation Package (VASP) is a computer pr
  materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics,
  from first principles."""
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+toolchain = {'name': 'intel', 'version': '2019b'}
+toolchainopts = {'usempi': True}
 
 # source_urls = []
 # VASP is proprietary software. For installation purposes please download from https://www.vasp.at/vasp-portal
@@ -19,13 +20,9 @@ sources = ['vasp.5.4.4.pl2.tgz']
 # Note that the file diff.patch in the downloaded archive tar.gz has already been applied.
 patches = []
 
-dependencies = []
-
-# buildininstalldir = True
-
-prebuildopts = "mv arch/makefile.include.linux_gnu makefile.include &&"
+prebuildopts = "unset LIBS && mv arch/makefile.include.linux_intel makefile.include &&"
 # build type
-buildopts = "all"
+buildopts = 'all'
 
 # don't use parallel make, results in compilation failure
 parallel = 1
