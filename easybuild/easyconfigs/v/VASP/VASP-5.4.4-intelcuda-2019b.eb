@@ -22,7 +22,7 @@ patches = ['VASP-gpu-openmp.patch']
 
 prebuildopts = "unset LIBS && mv arch/makefile.include.linux_intel makefile.include &&"
 # build type
-buildopts = 'gpu CUDA_ROOT=$EBROOTCUDA'
+buildopts = """gpu CUDA_ROOT=$EBROOTCUDA GENCODE_ARCH=-gencode=arch=compute_60,code='\\\"sm_60,compute_60\\\"'"""
 
 # don't use parallel make, results in compilation failure
 parallel = 1
