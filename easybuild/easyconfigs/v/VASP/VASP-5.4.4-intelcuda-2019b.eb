@@ -27,6 +27,8 @@ checksums = [
 
 prebuildopts = "unset LIBS && mv arch/makefile.include.linux_intel makefile.include &&"
 # build type
+# Default CUDA archs for VASP are fine. If we do need to change them then add:
+# GENCODE_ARCH="-gencode=arch=compute_60,code=sm_60 -gencode=arch=compute_50,code=sm_50"'
 buildopts = "gpu CUDA_ROOT=$EBROOTCUDA"
 
 # don't use parallel make, results in compilation failure
