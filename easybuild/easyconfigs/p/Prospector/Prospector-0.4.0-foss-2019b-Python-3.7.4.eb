@@ -1,0 +1,46 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'Prospector'
+version = '0.4.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://prospect.readthedocs.io"
+description = """Prospector is a package to conduct principled inference of stellar population properties from
+ photometric and/or spectroscopic data using flexible models."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('astropy', '4.0', versionsuffix),
+    ('h5py', '2.10.0', versionsuffix),
+    # ('mosfit', '1.1.6', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('emcee', '3.0.2', {
+        'checksums': ['035a44d7594fdd03efd10a522558cdfaa080e046ad75594d0bf2aec80ec35388'],
+    }),
+    ('sedpy', '1a20c81', {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/bd-j/sedpy/archive/'],
+        'checksums': ['0c11f38b4f1896df403b6fe5b11078f77dd6675f99287898cf1e4eaca8a5a2fc'],
+    }),
+    (name, version, {
+        'modulename': 'prospect',
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/bd-j/prospector/archive/'],
+        'checksums': ['e1d3a1eda4b8464825b4f24dc8dfc65295e4775cf58d88101f6b62c6f601dee3'],
+    }),
+]
+
+moduleclass = 'astro'
