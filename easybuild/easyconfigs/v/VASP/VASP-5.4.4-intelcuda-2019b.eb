@@ -1,0 +1,46 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'VASP'
+version = '5.4.4'
+
+homepage = "https://www.vasp.at"
+description = """The Vienna Ab initio Simulation Package (VASP) is a computer program for atomic scale
+ materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics,
+ from first principles."""
+
+toolchain = {'name': 'intelcuda', 'version': '2019b'}
+toolchainopts = {'usempi': True}
+
+# source_urls = []
+# VASP is proprietary software. For installation purposes please download from https://www.vasp.at/vasp-portal
+# using the RSG's installation licence.
+sources = ['vasp.5.4.4.pl2.tgz']
+
+# Note that the file diff.patch in the downloaded archive tar.gz has already been applied.
+patches = ['VASP-gpu-openmp.patch']
+
+checksums = [
+    '98f75fd75399a23d76d060a6155f4416b340a1704f256a00146f89024035bc8e',  # vasp.5.4.4.pl2.tgz
+    'a6e4b0e90d2670846130b88b26c2d84f8dd2290b577ac0e6392fa1a2c4d7b22f',  # VASP-gpu-openmp.patch
+]
+
+prebuildopts = "unset LIBS && mv arch/makefile.include.linux_intel makefile.include &&"
+# build type
+# Default CUDA archs for VASP are fine. If we do need to change them then add:
+# GENCODE_ARCH="-gencode=arch=compute_60,code=sm_60 -gencode=arch=compute_50,code=sm_50"'
+buildopts = "gpu CUDA_ROOT=$EBROOTCUDA"
+
+# don't use parallel make, results in compilation failure
+parallel = 1
+
+files_to_copy = [(['./bin/vasp_*'], 'bin')]
+
+sanity_check_paths = {
+    'files': ['bin/vasp_gpu'],
+    'dirs': [],
+}
+
+moduleclass = 'phys'
+
+local_bham_group = "p-vasp"
