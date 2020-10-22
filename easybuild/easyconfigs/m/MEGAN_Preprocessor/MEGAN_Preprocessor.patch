@@ -1,0 +1,167 @@
+diff -Nru MEGAN31_Prep_Code_July2020.orig/Makefile MEGAN31_Prep_Code_July2020/Makefile
+--- MEGAN31_Prep_Code_July2020.orig/Makefile	2020-10-16 12:32:54.229273000 +0100
++++ MEGAN31_Prep_Code_July2020/Makefile	2020-10-16 16:47:09.365351000 +0100
+@@ -1,10 +1,10 @@
+ .SUFFIXES: .o .f90
+ 
+-F90    = ifort #$(FC) 
+-#LIBS   = -L$(NETCDF_DIR)/lib -lnetcdf 
+-LIBS   = -L$(NETCDF_DIR)/lib -lnetcdf
+-INCLUDE_MODULES = -I$(NETCDF_DIR)/include
+-FFLAGS = -O3 -Bstatic
++F90    = gfortran 
++#LIBS   = -L$(EBROOTNETCDF)/lib -lnetcdf
++LIBS   = -L$(EBROOTNETCDF)/lib -lnetcdf -L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INCLUDE_MODULES = -I$(EBROOTNETCDF)/include -I$(EBROOTNETCDFMINFORTRAN)/include
++FFLAGS = -O3 -Bstatic -ffree-line-length-none
+ 
+ OBJS_PREPMEGAN4CMAQ_LAI = misc_definitions_module.o\
+        constants_module.o\
+diff -Nru MEGAN31_Prep_Code_July2020.orig/make_util MEGAN31_Prep_Code_July2020/make_util
+--- MEGAN31_Prep_Code_July2020.orig/make_util	2020-10-16 12:32:54.598715000 +0100
++++ MEGAN31_Prep_Code_July2020/make_util	2020-10-16 16:22:40.116052000 +0100
+@@ -2,12 +2,12 @@
+ 
+ set OP_SYS=`uname -s`
+ if( $OP_SYS == "Linux" ) then
+-  setenv FC pgf90
++  setenv FC gfortran
+ else
+   setenv FC xlf90
+ endif
+-module load pgi
+-module load netcdf/4.6.3
++#module load pgi
++#module load netcdf/4.6.3
+ 
+ ##if( ! $?NETCDF_DIR ) then
+ ###------------------------------------------------------------
+@@ -44,7 +44,7 @@
+ ##
+ #setenv NETCDF_DIR /models/CMAQ/lib64/netcdf-3.6.0-p1
+ #setenv NETCDF_DIR /usr/local/netcdf-4.0.pgf.v13.4
+-setenv NETCDF_DIR /glade/u/apps/ch/opt/netcdf/4.6.3/pgi/19.3
++setenv NETCDF_DIR $EBROOTNETCDF
+ echo "NETCDF_DIR = $NETCDF_DIR"
+ echo " "
+ 
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_arid.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_arid.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_arid.f90	2020-10-16 12:32:54.227857000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_arid.f90	2020-10-16 16:48:53.596868629 +0100
+@@ -784,7 +784,7 @@
+               else
+                arid(ilon,ilat)=1
+               endif
+-              write (99, '(3(I,","), F10.4,",")')cell_id,ilon_mcip,ilat_mcip, &
++              write (99, '(3(I0,","), F10.4,",")')cell_id,ilon_mcip,ilat_mcip, &
+                    arid(ilon,ilat)
+            endif
+         end do
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_ef.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_ef.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_ef.f90	2020-10-16 12:32:54.589528000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_ef.f90	2020-10-16 16:51:58.678658774 +0100
+@@ -1082,7 +1082,7 @@
+                cell_id=cell_id+1
+                ilon_mcip = (ilon - x0 + 1) - 1
+                ilat_mcip = (ilat - y0 + 1) - 1
+-               write (99, '(3(I5,","), 2(F10.4,","),2(I,","),19(F10.4,","),1(F10.4))') &
++               write (99, '(3(I5,","), 2(F10.4,","),2(I0,","),19(F10.4,","),1(F10.4))') &
+                     cell_id,ilon_mcip,ilat_mcip,XLAT(ilon,ilat),XLONG(ilon,ilat), &
+                     dsrad,dtemp,&
+                     MSEBIO_ISOP(ilon,ilat),MSEBIO_MYRC(ilon,ilat),MSEBIO_SABI(ilon,ilat), &
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_fert.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_fert.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_fert.f90	2020-10-16 12:32:54.365279000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_fert.f90	2020-10-16 16:52:53.659824230 +0100
+@@ -801,7 +801,7 @@
+                cell_id=cell_id+1
+                ilon_mcip = (ilon - x0 + 1) - 1
+                ilat_mcip = (ilat - y0 + 1) - 1
+-               write (99, '(3(I,","), 2(F10.4,","),366(E10.4,","))')   &
++               write (99, '(3(I0,","), 2(F10.4,","),366(E10.4,","))')   &
+                     cell_id,ilon_mcip,ilat_mcip,XLAT(ilon,ilat),XLONG(ilon,ilat), &
+                      xfert(ilon,ilat,:)
+             endif
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_lai.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_lai.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_lai.f90	2020-10-16 12:32:54.213666000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_lai.f90	2020-10-16 16:55:19.527089436 +0100
+@@ -828,7 +828,7 @@
+                cell_id=cell_id+1
+                ilon_mcip = (ilon - x0 + 1) - 1
+                ilat_mcip = (ilat - y0 + 1) - 1
+-               write (99, '(3(I,","), 48(F10.4,","))')   &
++               write (99, '(3(I0,","), 48(F10.4,","))')   &
+                     cell_id,ilon_mcip,ilat_mcip,XLAT(ilon,ilat),XLONG(ilon,ilat), &
+                      xlai(ilon,ilat,:)
+             endif
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_landtype.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_landtype.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_landtype.f90	2020-10-16 12:32:54.225514000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_landtype.f90	2020-10-16 16:56:09.074682574 +0100
+@@ -796,7 +796,7 @@
+                cell_id=cell_id+1
+                ilon_mcip = (ilon - x0 + 1) - 1
+                ilat_mcip = (ilat - y0 + 1) - 1
+-               write (99, '(3(I,","), 2(F10.4,","),1(I,","))')   &
++               write (99, '(3(I0,","), 2(F10.4,","),1(I0,","))')   &
+                     cell_id,ilon_mcip,ilat_mcip,XLAT(ilon,ilat),XLONG(ilon,ilat), &
+                      xland(ilon,ilat)
+             endif
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_landtype.f90.sav MEGAN31_Prep_Code_July2020/prepmegan4cmaq_landtype.f90.sav
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_landtype.f90.sav	2020-10-16 12:32:54.596369000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_landtype.f90.sav	2020-10-16 16:56:53.379518460 +0100
+@@ -793,7 +793,7 @@
+                cell_id=cell_id+1
+                ilon_mcip = (ilon - x0 + 1) - 1
+                ilat_mcip = (ilat - y0 + 1) - 1
+-               write (99, '(3(I,","), 2(F10.4,","),24(I,","))')   &
++               write (99, '(3(I0,","), 2(F10.4,","),24(I0,","))')   &
+                     cell_id,ilon_mcip,ilat_mcip,XLAT(ilon,ilat),XLONG(ilon,ilat), &
+                      xland(ilon,ilat,:)
+             endif
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_nitrogen.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_nitrogen.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_nitrogen.f90	2020-10-16 12:32:54.211838000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_nitrogen.f90	2020-10-16 16:47:51.781126743 +0100
+@@ -792,7 +792,7 @@
+                cell_id=cell_id+1
+                ilon_mcip = (ilon - x0 + 1) - 1
+                ilat_mcip = (ilat - y0 + 1) - 1
+-               write (99, '(3(I,","), 2(F10.4,","),12(E14.6,","))')   &
++               write (99, '(3(I0,","), 2(F10.4,","),12(E14.6,","))')   &
+                     cell_id,ilon_mcip,ilat_mcip,XLAT(ilon,ilat),XLONG(ilon,ilat), &
+                      xnitrogen(ilon,ilat,:)
+             endif
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_non_arid.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_non_arid.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_non_arid.f90	2020-10-16 12:32:54.612556000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_non_arid.f90	2020-10-16 16:35:40.847902177 +0100
+@@ -784,7 +784,7 @@
+               else
+                non_arid(ilon,ilat)=1
+               endif
+-              write (99, '(3(I,","), F10.4,",")')cell_id,ilon_mcip,ilat_mcip, &
++              write (99, '(3(I0,","), F10.4,",")')cell_id,ilon_mcip,ilat_mcip, &
+                    non_arid(ilon,ilat)
+            endif
+         end do
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_pft.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_pft.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_pft.f90	2020-10-16 12:32:54.607583000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_pft.f90	2020-10-16 16:57:21.104656168 +0100
+@@ -1046,7 +1046,7 @@
+               cell_id=cell_id+1
+               ilon_mcip = (ilon - x0 + 1) - 1
+               ilat_mcip = (ilat - y0 + 1) - 1
+-              write (99, '(3(I,","), 16(F10.4,","))')cell_id,ilon_mcip,ilat_mcip, &
++              write (99, '(3(I0,","), 16(F10.4,","))')cell_id,ilon_mcip,ilat_mcip, &
+                    NT_EG_TEMP(ilon,ilat),  NT_DC_BORL(ilon,ilat),  NT_EG_BORL(ilon,ilat), &
+                    BT_EG_TROP(ilon,ilat),  BT_EG_TEMP(ilon,ilat),  BT_DC_TROP(ilon,ilat), &
+                    BT_DC_TEMP(ilon,ilat),  BT_DC_BORL(ilon,ilat), &
+diff -Nru MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_w126.f90 MEGAN31_Prep_Code_July2020/prepmegan4cmaq_w126.f90
+--- MEGAN31_Prep_Code_July2020.orig/prepmegan4cmaq_w126.f90	2020-10-16 12:32:54.367082000 +0100
++++ MEGAN31_Prep_Code_July2020/prepmegan4cmaq_w126.f90	2020-10-16 16:57:44.932064599 +0100
+@@ -778,7 +778,7 @@
+               cell_id=cell_id+1
+               ilon_mcip = (ilon - x0 + 1) - 1
+               ilat_mcip = (ilat - y0 + 1) - 1
+-              write (99, '(3(I,","), F10.4,",")')cell_id,ilon_mcip,ilat_mcip, &
++              write (99, '(3(I0,","), F10.4,",")')cell_id,ilon_mcip,ilat_mcip, &
+                    o3(ilon,ilat)
+            endif
+         end do
