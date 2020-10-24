@@ -5,7 +5,7 @@ version = 'FLL6I23DCL'
 
 homepage = 'https://www.nag.co.uk'
 description = """The worlds largest collection of robust, documented, tested and maintained numerical algorithms.
- NAG FLL6I26DCL is the serial version of the NAG Fortran Library."""
+ NAG FLL6I23DCL is the serial version of the NAG Fortran Library."""
 
 toolchain = {'name': 'intel', 'version': '2019b'}
 
