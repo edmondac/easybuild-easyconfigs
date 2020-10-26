@@ -15,7 +15,7 @@
    licence_agreement_file=lic_agr.txt
    if [ -f ${licence_agreement_file} ]; then
 -    more ${licence_agreement_file}
-+    tail ${licence_agreement_file}
++    cat ${licence_agreement_file}
    else
      echo "Cannot find licence agreement file ${licence_agreement_file}."
      echo "NAG Library not installed."
