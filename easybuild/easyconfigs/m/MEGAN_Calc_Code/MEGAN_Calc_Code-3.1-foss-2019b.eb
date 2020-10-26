@@ -17,12 +17,13 @@ sources = ['MEGAN31_Calc_Code_191022.tar.gz']
 patches = ['MEGAN31_Calc_Code.patch']
 checksums = [
     '2c6ed4d4a01155be943791e6817c56ddf6b88a1c98f0699f18354457d312735e',  # MEGAN31_Calc_Code_191022.tar.gz
-    '8f3e18ee18f9a9db75abeb793f7a3c6edec376d33b6b74452342b2bccd99ad51',  # MEGAN31_Calc_Code.patch
+    'ea7e1a87fe2b0f1858d085b339bf47130ab0a773772068151ad73053b781eb33',  # MEGAN31_Calc_Code.patch
 ]
 
 dependencies = [
     ('netCDF', '4.7.1'),
-    ('netCDF-Fortran', '4.5.2')
+    ('netCDF-Fortran', '4.5.2'),
+    ('ioapi', '3.2-2020111', '-nocpl')
 ]
 
 buildininstalldir = True
@@ -32,14 +33,22 @@ skipsteps = ['configure', 'build']
 install_cmd = 'cd src && chmod u+x make_all_programs.scr && '
 install_cmd += './make_all_programs.scr 64bit'
 
-postinstallcmds = ['chmod 755 work/*.csh']
+_executables = ['daymet', 'ioapi2uam', 'megcan', 'megsea',
+                'megvea', 'met2mgn',
+                'mgn2mech', 'txt2ioapi']
+
+postinstallcmds = ['chmod 755 src/%s/%s' % (x.upper(), x) for x in _executables]
+postinstallcmds += ['chmod 755 src/MET2MGN_rad45/met2mgn.rad45']
+postinstallcmds += ['chmod 755 bin/*']
+postinstallcmds += ['chmod 755 work/*.csh']
 
 modextrapaths = {
-    'PATH': 'bin',
+    'MGNHOME': 'MEGAN31_Calc_Code_191022',
+    'PATH': ['MEGAN31_Calc_Code_191022/bin', 'MEGAN31_Calc_Code_191022/work'],
 }
 
 sanity_check_paths = {
-    'files': ['MEGAN31_Calc_Code_191022/bin/%s' % x for x in ['txt2ioapi', 'megvea', 'mgn2mech']],
+    'files': ['MEGAN31_Calc_Code_191022/bin/%s' % x for x in _executables],
     'dirs': ['MEGAN31_Calc_Code_191022/%s' % x for x in ['src', 'work']],
 }
 
