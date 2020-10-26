@@ -10,6 +10,7 @@ toolchain = SYSTEM
 
 source_urls = ['https://s3.amazonaws.com/plink2-assets/']
 sources = ['plink2_linux_avx2_20190731.zip']
+checksums = ['57f3920c624cc37ac4649bbca9909d7d7ff2e165b8806173a8e50734af73f9d5']
 
 sanity_check_paths = {
     'files': ['plink2'],
