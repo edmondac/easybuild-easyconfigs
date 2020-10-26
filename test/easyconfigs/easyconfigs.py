@@ -689,7 +689,7 @@ class EasyConfigTest(TestCase):
                 cwd = change_dir(top_dir)
 
                 # get list of changed easyconfigs
-                cmd = "git diff --name-only --diff-filter=AM %s...HEAD" % target_branch
+                cmd = "git diff --name-only --diff-filter=AM %s..HEAD" % target_branch
                 out, ec = run_cmd(cmd, simple=False)
                 changed_ecs_filenames = [os.path.basename(f) for f in out.strip().split('\n') if f.endswith('.eb')]
                 print("\nList of changed easyconfig files in this PR: %s" % '\n'.join(changed_ecs_filenames))
