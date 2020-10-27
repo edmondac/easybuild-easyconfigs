@@ -26,15 +26,16 @@ dependencies = [
 
 skipsteps = ['configure']
 
-build_cmd = './make_util prepmegan4cmaq_arid.x && '
-build_cmd += './make_util prepmegan4cmaq_ecotype.x && '
-build_cmd += './make_util prepmegan4cmaq_ef.x && '
-build_cmd += './make_util prepmegan4cmaq_fert.x && '
-build_cmd += './make_util prepmegan4cmaq_grwform.x && '
-build_cmd += './make_util prepmegan4cmaq_landtype.x && '
-build_cmd += './make_util prepmegan4cmaq_nitrogen.x && '
-build_cmd += './make_util prepmegan4cmaq_non_arid.x && '
-build_cmd += './make_util prepmegan4cmaq_w126.x'
+_executables = [
+    'prepmegan4cmaq_%s.x' % x for x in ['ecotype', 'ef', 'fert', 'grwform', 'lai',
+                                        'landtype', 'nitrogen', 'non_arid', 'w126']
+]
+
+build_cmd = './make_util prepmegan4cmaq_arid.x'
+
+for x in _executables:
+    build_cmd += ' && ./make_util %s' % x
+
 
 files_to_copy = ['*.x', '*.f90', '*.inp', 'README', 'README_history', '*.sav', '*.csh', 'Makefile', 'make_util']
 
@@ -43,10 +44,7 @@ modextrapaths = {
 }
 
 sanity_check_paths = {
-    'files': ['prepmegan4cmaq_arid.x', 'prepmegan4cmaq_ecotype.x', 'prepmegan4cmaq_ef.x',
-              'prepmegan4cmaq_fert.x', 'prepmegan4cmaq_grwform.x', 'prepmegan4cmaq_landtype.x',
-              'prepmegan4cmaq_nitrogen.x', 'prepmegan4cmaq_non_arid.x', 'prepmegan4cmaq_w126.x',
-              'prepmegan4cmaq.ecotype.inp'],
+    'files': [_executables, 'prepmegan4cmaq_arid.x'],
     'dirs': [],
 }
 
