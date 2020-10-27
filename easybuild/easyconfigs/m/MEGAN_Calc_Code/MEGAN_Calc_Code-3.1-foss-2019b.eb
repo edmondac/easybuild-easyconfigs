@@ -5,9 +5,8 @@ name = 'MEGAN_Calc_Code'
 version = '3.1'
 
 homepage = "https://bai.ess.uci.edu/megan"
-description = """Model of Emissions of Gases and Aerosols from Nature. Use the MEGAN Preprocessor to
- regrid input data to your domain. The output of the preprocessor is used as input to the Emission 
- Factor Processor (Python code) and the Emission Calculator (Fortran code)."""
+description = """Model of Emissions of Gases and Aerosols from Nature. Use the MEGAN Emission
+ Calculator and Speciator (Fortran code) to calculate biogenic emissions."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
