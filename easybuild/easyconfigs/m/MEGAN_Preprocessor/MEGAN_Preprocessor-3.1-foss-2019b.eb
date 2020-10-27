@@ -40,6 +40,7 @@ for x in _executables:
 files_to_copy = ['*.x', '*.f90', '*.inp', 'README', 'README_history', '*.sav', '*.csh', 'Makefile', 'make_util']
 
 modextrapaths = {
+    'MGNPREPHOME': '',
     'PATH': '',
 }
 
