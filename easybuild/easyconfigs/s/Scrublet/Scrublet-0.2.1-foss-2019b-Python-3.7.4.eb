@@ -1,0 +1,61 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'Scrublet'
+version = '0.2.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/swolock/scrublet"
+description = """Single-Cell Remover of Doublets. Python code for identifying doublets in single-cell RNA-seq data."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('scikit-image', '0.16.2', versionsuffix),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('LLVM', '8.0.1'),  # for numba
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('annoy', '1.17.0', {
+        'checksums': ['9891e264041d1dcf3af42f67fbb16cb273c5404bc8c869d0915a3087f71d58dd'],
+    }),
+    ('umap-learn', '0.4.6', {
+        'modulename': 'umap',
+        'checksums': ['4276da9a039c79fa5b4f8d3515a8ccaaccf11a2f59ce8d15baf9d2015a5e82b3'],
+    }),
+    ('llvmlite', '0.31.0', {
+        'patches': ['llvmlite-0.31.0_fix-ffi-Makefile.patch'],
+        'preinstallopts': "export LLVM_CONFIG=${EBROOTLLVM}/bin/llvm-config && ",
+        'checksums': [
+            '22ab2b9d7ec79fab66ac8b3d2133347de86addc2e2df1b3793e523ac84baa3c8',  # llvmlite-0.31.0.tar.gz
+            # llvmlite-0.31.0_fix-ffi-Makefile.patch
+            '672aba7b753dcfe5cb07c731bf1ec8bde1de148d4e0e2d10f6be81fb17f34bbc',
+        ],
+    }),
+    ('numba', '0.48.0', {
+        'preinstallopts': 'CFLAGS="$CFLAGS -lpthread -Wl,-u,pthread_atfork -Wl,-u,pthread_create"',
+        'checksums': ['9d21bc77e67006b5723052840c88cc59248e079a907cc68f1a1a264e1eaba017'],
+    }),
+    (name, version, {
+        'source_tmpl': '8499dc0.tar.gz',
+        'source_urls': ['https://github.com/swolock/scrublet/archive'],
+        'checksums': ['99e6d8f491d6177ab37f2a6d555d33a72d098ee4be72d58748bce1416a3c2c8d'],
+    }),
+]
+
+fix_python_shebang_for = ['bin/*']
+
+sanity_check_commands = ["numba --help"]
+
+moduleclass = 'bio'
