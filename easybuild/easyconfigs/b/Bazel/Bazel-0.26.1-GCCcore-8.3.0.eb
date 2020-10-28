@@ -9,7 +9,11 @@ toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
 source_urls = ['https://github.com/bazelbuild/bazel/releases/download/%(version)s']
 sources = ['%(namelower)s-%(version)s-dist.zip']
-checksums = ['c0e94f8f818759f3f67af798c38683520c540f469cb41aea8f5e5a0e43f11600']
+patches = ['Bazel-0.26.1_grpc_gettid.patch']
+checksums = [
+    'c0e94f8f818759f3f67af798c38683520c540f469cb41aea8f5e5a0e43f11600',  # bazel-0.26.1-dist.zip
+    '115b384708540a0fb3ebe911366e618741613bdecb1edb65b10753ccc6879c10',  # Bazel-0.26.1_grpc_gettid.patch
+]
 
 builddependencies = [
     ('binutils', '2.32'),
