@@ -1,0 +1,71 @@
+--- install_orig.sh	2011-06-28 08:23:18.000000000 +0100
++++ install.sh	2020-10-24 21:47:49.360842000 +0100
+@@ -4,7 +4,8 @@
+ 
+ get_installdir()
+ {
+-installdir=""
++#installdir=""
++installdir="$1"
+ while [ "${installdir}" = "" ]; do
+   echo "> "
+   read ans
+@@ -25,14 +26,15 @@
+ {
+   licence_agreement_file=lic_agr.txt
+   if [ -f ${licence_agreement_file} ]; then
+-    more ${licence_agreement_file}
++    cat ${licence_agreement_file}
+   else
+     echo "Cannot find licence agreement file ${licence_agreement_file}."
+     echo "NAG Library not installed."
+     exit
+   fi
+ 
+-  reply=""
++  #reply=""
++  reply="$1"
+   while [ "${reply}" != "accept" -a "${reply}" != "decline" ]; do
+     echo "[accept/decline]? :"
+     read reply
+@@ -47,7 +49,7 @@
+ echo ""
+ echo "This script installs NAG Library Mark 23."
+ 
+-showLicense
++showLicense $1
+ 
+ if [ "${reply}" != "accept" ]; then
+   echo "Installation declined. NAG Library not installed."
+@@ -75,7 +77,7 @@
+ echo "or enter an alternative path."
+ echo "The directory will be created if it does not already exist."
+ 
+-get_installdir
++get_installdir $2
+ 
+ echo ""
+ echo "Installing NAG Fortran Library material to : ${installdir}"
+@@ -135,9 +137,10 @@
+   install_doc=0
+   echo
+   echo "Do you wish to install NAG Mark 23 Library Manual? (yes/no):"
+-  read ans
+-  ans=`echo ${ans} | tr [:upper:] [:lower:]`
+-
++  #read ans
++  #ans=`echo ${ans} | tr [:upper:] [:lower:]`
++  ans = $3
++    
+   if [ "$ans" = "y" -o "$ans" = "ye" -o "$ans" = "yes" ] ; then
+      defaultinstalldir=${installdir}
+      echo ""
+@@ -146,7 +149,7 @@
+      echo "or enter an alternative path."
+      echo "The directory will be created if it does not already exist."
+ 
+-     get_installdir
++     get_installdir $2
+ 
+      echo ""
+      echo "Installing NAG Mark 23 Library Manual to : ${installdir}"

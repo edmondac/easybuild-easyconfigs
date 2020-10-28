@@ -1,0 +1,51 @@
+easyblock = 'Binary'
+
+name = 'NAG'
+version = 'FLL6I23DCL'
+
+homepage = 'https://www.nag.co.uk'
+description = """The world's largest collection of robust, documented, tested and maintained numerical algorithms.
+ NAG FLL6I23DCL is the serial version of the NAG Fortran Library, Mark 23."""
+
+toolchain = {'name': 'intel', 'version': '2019b'}
+
+source_urls = ['https://www.nag.co.uk/downloads/impl']
+sources = ['%s.tgz' % version.lower()]
+patches = ['%(name)s_%(version)s_installer.patch']
+checksums = [
+    'c0540ab25fb3f8111d2c5c05e79add2b7ce79e08bf09e268015df8f4aa4b3507',  # fll6i23dcl.tgz
+    '0df2cbf9bfc6fab2505a22dc0825211ed34e142940c1b35055ae2ebb220955c6',  # NAG_FLL6I23DCL_installer.patch
+]
+
+extract_sources = True
+
+install_cmd = "chmod u+x install.sh && "
+# accept licence agreement / installation dir / install documentation
+install_cmd += "./install.sh accept %(installdir)s yes"
+
+postinstallcmds = [
+    'mv %%(installdir)s/%s/* %%(installdir)s' % version.lower(),
+    'rmdir %%(installdir)s/%s' % version.lower()
+]
+
+modextravars = {
+    'NAG_OPTS': '-mkl=sequential',
+    'NAG_FINCLUDE': '-I%(installdir)s/nag_interface_blocks',
+    'NAG_FLINK': '%(installdir)s/lib/libnag_mkl.so'
+}
+
+modextrapaths = {
+    'LD_LIBRARY_PATH': ['rtl', 'mkl_intel64'],
+    'NAGDIR':  '',
+    'NAGLDIR': 'lib',
+    'NAGMODDIR': 'nag_interface_blocks',
+    'NAGMKLDIR': 'mkl_intel64',
+}
+
+sanity_check_paths = {
+    'files': ['lib/libnag_mkl.so', 'lib/libnag_nag.so'],
+    'dirs': ['doc', 'examples', 'lib', 'license', 'mkl_intel64',
+             'nag_interface_blocks', 'rtl', 'scripts']
+}
+
+moduleclass = 'lib'
