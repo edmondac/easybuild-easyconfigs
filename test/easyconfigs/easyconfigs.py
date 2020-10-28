@@ -273,8 +273,8 @@ class EasyConfigTest(TestCase):
             # EMAN2 2.3 requires Boost(.Python) 1.64.0
             'Boost': ('1.64.0;', ['Boost.Python-1.64.0-', 'EMAN2-2.3-']),
             'Boost.Python': ('1.64.0;', ['EMAN2-2.3-']),
-            # scVelo and PyTorch-Geometric dependency numba requires LLVM 7x or 8x (see https://github.com/numba/llvmlite#compatibility)
-            'LLVM': (r'[78]\.', ['numba-0.47.0-', 'scVelo-', 'PyTorch-Geometric-1.4.3-']),
+            # scVelo, Scrublet, and PyTorch-Geometric dependency numba requires LLVM 7x or 8x (see https://github.com/numba/llvmlite#compatibility)
+            'LLVM': (r'[78]\.', ['numba-0.47.0-', 'scVelo-', 'PyTorch-Geometric-1.4.3-', 'Scrublet-']),
             # Keras 2.3.1, Deepbinner, n2v, and AugmentedAutoencoder require TensorFlow 1.15.0. GPflow and tensorflow-probability 0.10.1 require TensorFlow 2.2.0
             'TensorFlow': (r'[12]\.[12]', ['Keras-2.3.1-', 'Deepbinner-c261ae9-', 'BEAR-Python-Sciences-2019b-',
                            'n2v-0.1.11-', 'AugmentedAutoencoder-0c8100f-', 'GPflow-2.1.1-', 'tensorflow-probability-0.10.1-']),
