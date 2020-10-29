@@ -1,0 +1,166 @@
+# This easyconfig was created by Simon Branford of the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'JupyterLab'
+version = '2.2.8'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://jupyter.org/"
+description = """JupyterLab is the next-generation user interface for Project Jupyter offering all the familiar
+ building blocks of the classic Jupyter Notebook (notebook, terminal, text editor, file browser, rich outputs,
+ etc.) in a flexible and powerful user interface. JupyterLab will eventually replace the classic Jupyter
+ Notebook."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('IPython', '7.9.0', versionsuffix),
+    ('nodejs', '12.16.1'),
+    ('git', '2.23.0', '-nodocs'),
+]
+
+use_pip = True
+sanity_pip_check = True
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+exts_list = [
+    ('json5', '0.9.5', {
+        'checksums': ['703cfee540790576b56a92e1c6aaa6c4b0d98971dc358ead83812aa4d06bdb96'],
+    }),
+    ('jupyterlab_server', '1.2.0', {
+        'checksums': ['5431d9dde96659364b7cc877693d5d21e7b80cea7ae3959ecc2b87518e5f5d8c'],
+    }),
+    ('aiohttp', '3.6.3', {
+        'checksums': ['698cd7bc3c7d1b82bb728bae835724a486a8c376647aec336aa21a60113c3645'],
+    }),
+    ('simpervisor', '0.3', {
+        'checksums': ['d82e4527ae326747551e4bdfa632ff4ebef275ce721f80886c747adfdbf41c2e'],
+    }),
+    ('jupyter-server-proxy', '1.5.0', {
+        'checksums': ['5576248f44e8ee05317050f03503d3b775d188818ab3bdab6133b1df2279c1c2'],
+    }),
+    ('python-jsonrpc-server', '0.4.0', {
+        'modulename': 'pyls_jsonrpc',
+        'checksums': ['62c543e541f101ec5b57dc654efc212d2c2e3ea47ff6f54b2e7dcb36ecf20595'],
+    }),
+    ('nbdime', '2.1.0', {
+        'checksums': ['4e3efdcfda31c3074cb565cd8e76e2e5421b1c4560c3a00c56f8679dd15590e5'],
+    }),
+    ('async-timeout', '3.0.1', {
+        'checksums': ['0c3c816a028d47f659d6ff5c745cb2acf1f966da1fe5c19c77a70282b25f4c5f'],
+    }),
+    ('multidict', '4.7.6', {
+        'checksums': ['fbb77a75e529021e7c4a8d4e823d88ef4d23674a202be4f5addffc72cbb91430'],
+    }),
+    ('yarl', '1.5.1', {
+        'checksums': ['c22c75b5f394f3d47105045ea551e08a3e804dc7e01b37800ca35b58f856c3d6'],
+    }),
+    ('jedi', '0.17.2', {
+        'checksums': ['86ed7d9b750603e4ba582ea8edc678657fb4007894a12bcf6f4bb97892f31d20'],
+    }),
+    ('ujson', '3.2.0', {
+        'checksums': ['abb1996ba1c1d2faf5b1e38efa97da7f64e5373a31f705b96fe0587f5f778db4'],
+    }),
+    ('typing_extensions', '3.7.4.3', {
+        'checksums': ['99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c'],
+    }),
+    ('colorama', '0.4.4', {
+        'checksums': ['5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b'],
+    }),
+    ('gitdb', '4.0.5', {
+        'checksums': ['c9e1f2d0db7ddb9a704c2a0217be31214e91a4fe1dea1efad19ae42ba0c285c9'],
+    }),
+    ('smmap', '3.0.4', {
+        'checksums': ['9c98bbd1f9786d22f14b3d4126894d56befb835ec90cef151af566c7e19b5d24'],
+    }),
+    ('GitPython', '3.1.9', {
+        'modulename': 'git',
+        'checksums': ['a03f728b49ce9597a6655793207c6ab0da55519368ff5961e4a74ae475b9fa8e'],
+    }),
+    ('parso', '0.7.1', {
+        'checksums': ['caba44724b994a8a5e086460bb212abc5a8bc46951bf4a9a1210745953622eb9'],
+    }),
+    ('astroid', '2.4.2', {
+        'checksums': ['2f4078c2a41bf377eea06d71c9d2ba4eb8f6b1af2135bec27bbbb7d8f12bb703'],
+    }),
+    ('autopep8', '1.5.4', {
+        'checksums': ['d21d3901cb0da6ebd1e83fc9b0dfbde8b46afc2ede4fe32fbda0c7c6118ca094'],
+    }),
+    ('flake8', '3.8.4', {
+        'checksums': ['aadae8761ec651813c24be05c6f7b4680857ef6afaae4651a4eccaef97ce6c3b'],
+    }),
+    ('isort', '5.6.4', {
+        'checksums': ['dcaeec1b5f0eca77faea2a35ab790b4f3680ff75590bfcb7145986905aab2f58'],
+        'use_pip': False,
+    }),
+    ('lazy-object-proxy', '1.4.3', {
+        'checksums': ['f3900e8a5de27447acbf900b4750b0ddfd7ec1ea7fbaf11dfa911141bc522af0'],
+    }),
+    ('mccabe', '0.6.1', {
+        'checksums': ['dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f'],
+    }),
+    ('pycodestyle', '2.6.0', {
+        'checksums': ['c58a7d2815e0e8d7972bf1803331fb0152f867bd89adf8a01dfd55085434192e'],
+    }),
+    ('pydocstyle', '5.1.1', {
+        'checksums': ['19b86fa8617ed916776a11cd8bc0197e5b9856d5433b777f51a3defe13075325'],
+    }),
+    ('pyflakes', '2.2.0', {
+        'checksums': ['35b2d75ee967ea93b55750aa9edbbf72813e06a66ba54438df2cfac9e3c27fc8'],
+    }),
+    ('pylint', '2.6.0', {
+        'checksums': ['bb4a908c9dadbc3aac18860550e870f58e1a02c9f2c204fdf5693d73be061210'],
+    }),
+    ('rope', '0.18.0', {
+        'checksums': ['786b5c38c530d4846aa68a42604f61b4e69a493390e3ca11b88df0fbfdc3ed04'],
+    }),
+    ('toml', '0.10.1', {
+        'checksums': ['926b612be1e5ce0634a2ca03470f95169cf16f939018233a670519cb4ac58b0f'],
+    }),
+    ('typed_ast', '1.4.1', {
+        'checksums': ['8c8aaad94455178e3187ab22c8b01a3837f8ee50e09cf31f1ba129eb293ec30b'],
+    }),
+    ('wrapt', '1.12.1', {
+        'checksums': ['b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7'],
+    }),
+    ('yapf', '0.30.0', {
+        'checksums': ['3000abee4c28daebad55da6c85f3cd07b8062ce48e2e9943c8da1b9667d48427'],
+    }),
+    (name, version, {
+        'patches': ['%(name)s-1.2.5_set-app-path-for-easybuild.patch'],
+        'source_tmpl': '%(namelower)s-%(version)s.tar.gz',
+        'checksums': [
+            'c8377bee30504919c1e79949f9fe35443ab7f5c4be622c95307e8108410c8b8c',  # jupyterlab-2.2.8.tar.gz
+            # JupyterLab-1.2.5_set-app-path-for-easybuild.patch
+            'a219b1071f37f848f7e79c6800149c0b2386a2b748be43288bc32af8e7dab668',
+        ],
+    }),
+    ('jupyterlab_git', '0.22.1', {
+        'checksums': ['e0fe2503d08dc00cda781b1ff89eb10c0decb45b5f8983b4970525b8f108dc02'],
+    }),
+    ('jupyter-lsp', '0.9.2', {
+        'checksums': ['afcb1c1923075ac1f22126e72c302295098dfc97f8c7e2dc95471898c413819b'],
+    }),
+    ('python-language-server', '0.35.1', {
+        'modulename': 'pyls',
+        'checksums': ['6e0c9a3b2ae98e0eb22e98ed6b3c4e190a6bf9e27af53efd2396da60cd92b221'],
+    }),
+]
+
+# misuse the sanity check commands to run these once the extenstions are installed
+sanity_check_commands = [
+    "jupyter labextension install @jupyterlab/server-proxy",
+    "jupyter labextension install @krassowski/jupyterlab-lsp",
+    "jupyter lab build",
+    "jupyter serverextension enable --py jupyter_server_proxy --system --sys-prefix",
+    "jupyter serverextension enable --py jupyter_lsp --system --sys-prefix",
+    "jupyter serverextension enable --py nbdime --system --sys-prefix",
+    "jupyter serverextension enable --py jupyterlab_git --system --sys-prefix",
+    "jupyter lab --help",
+    "jupyter serverextension list",
+    "jupyter labextension list",
+]
+
+moduleclass = 'tools'
