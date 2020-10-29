@@ -3,7 +3,7 @@ easyblock = 'PythonBundle'
 
 name = 'JupyterLab'
 version = '2.2.8'
-versionsuffix = '-Python-%(pyver)s'
+versionsuffix = '-Python-%(pyver)s-full'
 
 homepage = "https://jupyter.org/"
 description = """JupyterLab is the next-generation user interface for Project Jupyter offering all the familiar
