@@ -1,0 +1,1428 @@
+Binary files MEGAN31_Calc_Code_191022.orig/src/DAYMET/checkmem.o and MEGAN31_Calc_Code_191022/src/DAYMET/checkmem.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/DAYMET/daymet and MEGAN31_Calc_Code_191022/src/DAYMET/daymet differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/DAYMET/daymet.f MEGAN31_Calc_Code_191022/src/DAYMET/daymet.f
+--- MEGAN31_Calc_Code_191022.orig/src/DAYMET/daymet.f	2020-10-22 12:49:24.095818000 +0100
++++ MEGAN31_Calc_Code_191022/src/DAYMET/daymet.f	2020-10-26 14:29:56.968468539 +0000
+@@ -246,7 +246,7 @@
+         IDATE = SDATE; ITIME = STIME
+         CALL NEXTIME ( IDATE, ITIME, (I-1)*240000 )
+         
+-        WRITE(MESG,"I0.3") I
++        WRITE(MESG,"(I0.3)") I
+         MGNMET = 'MGNMET'//TRIM(MESG)
+ 
+ !...    Open files
+Binary files MEGAN31_Calc_Code_191022.orig/src/DAYMET/daymet.o and MEGAN31_Calc_Code_191022/src/DAYMET/daymet.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/DAYMET/Makefile.daymet.64bit MEGAN31_Calc_Code_191022/src/DAYMET/Makefile.daymet.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/DAYMET/Makefile.daymet.64bit	2020-10-22 12:49:24.062376000 +0100
++++ MEGAN31_Calc_Code_191022/src/DAYMET/Makefile.daymet.64bit	2020-10-26 15:23:59.881957000 +0000
+@@ -1,13 +1,14 @@
+ SHELL=/bin/sh
+-FC= pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Mlfs -Bstatic_pgi
++FC= gfortran
++FFLAGS= -O -mfpmath=sse -ffixed-line-length-132 -fsecond-underscore -D_FILE_OFFSET_BITS=64 -Bstatic -std=legacy
+ PROGRAM= daymet
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I$(CURDIR)
+-
++LIBS = 	-L$(EBROOTIOAPI) -lioapi -lgomp \
++	   	-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++	   	-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INCLUDE = -I$(EBROOTIOAPI)/include \
++		  -I$(EBROOTNETCDF)/include \
++		  -I$(EBROOTNETCDFMINFORTRAN)/include \
++		  -I$(CURDIR)
+ 
+ OBJS = \
+      checkmem.o \
+Binary files MEGAN31_Calc_Code_191022.orig/src/IOAPI2UAM/ioapi2uam and MEGAN31_Calc_Code_191022/src/IOAPI2UAM/ioapi2uam differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/IOAPI2UAM/ioapi2uam.f MEGAN31_Calc_Code_191022/src/IOAPI2UAM/ioapi2uam.f
+--- MEGAN31_Calc_Code_191022.orig/src/IOAPI2UAM/ioapi2uam.f	2020-10-22 12:49:24.413026000 +0100
++++ MEGAN31_Calc_Code_191022/src/IOAPI2UAM/ioapi2uam.f	2020-10-26 15:08:42.655777871 +0000
+@@ -162,7 +162,7 @@
+       etime = REAL(CTIME/10000) + REAL(TIME2SEC(MOD(CTIME,10000)))/3600.
+ 
+       write(*,'(/,A)')'Output period (start date/time & end date/time):'
+-      write(*,'(2(i,f))') ibdate,btime,iedate,etime
++      write(*,'(2(i0,g0))') ibdate,btime,iedate,etime
+ 
+       nstep = RLENG / TSTEP3D
+       xorg  = XORIG3D
+@@ -296,7 +296,7 @@
+      &          REAL(TIME2SEC(MOD(JTIME,10000)))/3600.
+ 
+         write(MUNIT) ibdate,btime,iedate,etime
+-        write(*,'(a,2(i,f))')'Writing ',ibdate,btime,iedate,etime
++        write(*,'(a,2(i0,g0))')'Writing ',ibdate,btime,iedate,etime
+ 
+         do l = 1, nspec
+           write(MUNIT) iseg,(mspec(n,l),n=1,10),
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/IOAPI2UAM/Makefile.ioapi2uam.64bit MEGAN31_Calc_Code_191022/src/IOAPI2UAM/Makefile.ioapi2uam.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/IOAPI2UAM/Makefile.ioapi2uam.64bit	2020-10-22 12:49:24.410529000 +0100
++++ MEGAN31_Calc_Code_191022/src/IOAPI2UAM/Makefile.ioapi2uam.64bit	2020-10-26 15:24:30.960148000 +0000
+@@ -1,10 +1,11 @@
+ SHELL = /bin/sh
+-FC = pgf90
+-FFLAGS = -O2 -Mdalign -Mnoframe -byteswapio -Mlfs -Bstatic_pgi
++FC = gfortran
++FFLAGS= -O2 -falign-commons -fomit-frame-pointer -fconvert=big-endian -D_FILE_OFFSET_BITS=64 -Bstatic -std=legacy
+ PROGRAM = ioapi2uam
+-LIBS = -L/models/CMAQ/lib64/ioapi_3/Linux2_x86_64pg -lioapi \
+-       -L/models/CMAQ/lib64/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi_3/ioapi/fixed_src
++LIBS =  -L$(EBROOTIOAPI) -lioapi -lgomp \
++		-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++		-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INCLUDE = -I$(EBROOTIOAPI)/include
+ 
+ RAW = $(PROGRAM).o
+ 
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/make_all_programs.scr MEGAN31_Calc_Code_191022/src/make_all_programs.scr
+--- MEGAN31_Calc_Code_191022.orig/src/make_all_programs.scr	2020-10-22 12:49:24.133980000 +0100
++++ MEGAN31_Calc_Code_191022/src/make_all_programs.scr	2020-10-26 15:36:45.345403000 +0000
+@@ -14,49 +14,50 @@
+ exit -1
+ endif
+ 
+-source ../setcase.csh
++#source ../setcase.csh
+ echo "Removing *.o"
+-#rm $MGNSRC/MET2MGN/*.o
+-#rm $MGNSRC/MET2MGN_rad45/*.o
++rm $MGNSRC/MET2MGN/*.o
++rm $MGNSRC/MET2MGN_rad45/*.o
+ rm $MGNSRC/TXT2IOAPI/*.o
+-#rm $MGNSRC/DAYMET/*.o
+-#rm $MGNSRC/MEGCAN/*.o
+-#rm $MGNSRC/MEGSEA/*.o
++rm $MGNSRC/DAYMET/*.o
++rm $MGNSRC/MEGCAN/*.o
++rm $MGNSRC/MEGSEA/*.o
+ rm $MGNSRC/MEGVEA/*.o
+ rm $MGNSRC/MGN2MECH/*.o
+ rm $MGNSRC/IOAPI2UAM/*.o
+ 
+ 
+ echo "Make all programs"
+-#cd $MGNSRC/MET2MGN
+-#ln -sf Makefile.met2mgn.$argv makefile
+-#make
+-#cd $MGNSRC/MET2MGN_rad45
+-#ln -sf Makefile.met2mgn.$argv makefile
+-#make
++cd $MGNSRC/MET2MGN
++ln -sf Makefile.met2mgn.$argv makefile
++make
++cd $MGNSRC/MET2MGN_rad45
++ln -sf Makefile.met2mgn.$argv makefile
++make
+ cd $MGNSRC/TXT2IOAPI
+ ln -sf Makefile.txt2ioapi.$argv makefile
+ make
+-#cd $MGNSRC/DAYMET
+-#ln -sf Makefile.daymet.$argv makefile
+-#make
+-#cd $MGNSRC/MEGCAN
+-#ln -sf Makefile.megcan.$argv makefile
+-#make
+-#cd $MGNSRC/MEGSEA
+-#ln -sf Makefile.megsea.$argv makefile
+-#make
++cd $MGNSRC/DAYMET
++ln -sf Makefile.daymet.$argv makefile
++make
++cd $MGNSRC/MEGCAN
++ln -sf Makefile.megcan.$argv makefile
++make
++cd $MGNSRC/MEGSEA
++ln -sf Makefile.megsea.$argv makefile
++make
+ cd $MGNSRC/MEGVEA
+ ln -sf Makefile.megvea.$argv makefile
+ make
+ cd $MGNSRC/MGN2MECH
+ ln -sf Makefile.mgn2mech.$argv makefile
+ make
+-#cd $MGNSRC/IOAPI2UAM
+-#ln -sf Makefile.ioapi2uam.$argv makefile
+-#make
++cd $MGNSRC/IOAPI2UAM
++ln -sf Makefile.ioapi2uam.$argv makefile
++make
+ 
+ echo "Create symbolic links"
++
+ if (! -e $MGNEXE/met2mgn ) then
+   ln -sf $MGNSRC/MET2MGN/met2mgn $MGNEXE/met2mgn
+ endif
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGCAN/checkmem.o and MEGAN31_Calc_Code_191022/src/MEGCAN/checkmem.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGCAN/findlai.o and MEGAN31_Calc_Code_191022/src/MEGCAN/findlai.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MEGCAN/Makefile.megcan.64bit MEGAN31_Calc_Code_191022/src/MEGCAN/Makefile.megcan.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/MEGCAN/Makefile.megcan.64bit	2020-10-22 12:49:24.011577000 +0100
++++ MEGAN31_Calc_Code_191022/src/MEGCAN/Makefile.megcan.64bit	2020-10-26 15:24:55.069639000 +0000
+@@ -1,13 +1,14 @@
+ SHELL=/bin/sh
+-FC= pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Mlfs -Bstatic_pgi
++FC= gfortran
++FFLAGS= -O -mfpmath=sse -ffixed-line-length-132 -fsecond-underscore -D_FILE_OFFSET_BITS=64 -Bstatic -std=legacy
+ PROGRAM= megcan
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I$(CURDIR)
+-
++LIBS =  -L$(EBROOTIOAPI) -lioapi -lgomp \
++		-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++		-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INCLUDE = -I$(EBROOTIOAPI)/include \
++		  -I$(EBROOTNETCDF)/include \
++		  -I$(EBROOTNETCDFMINFORTRAN)/include \
++		  -I$(CURDIR)
+ 
+ OBJS = \
+      checkmem.o \
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGCAN/megcan and MEGAN31_Calc_Code_191022/src/MEGCAN/megcan differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGCAN/megcan.o and MEGAN31_Calc_Code_191022/src/MEGCAN/megcan.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MEGSEA/BDSNP_MOD_EPIC.F MEGAN31_Calc_Code_191022/src/MEGSEA/BDSNP_MOD_EPIC.F
+--- MEGAN31_Calc_Code_191022.orig/src/MEGSEA/BDSNP_MOD_EPIC.F	2020-10-22 12:49:22.769179000 +0100
++++ MEGAN31_Calc_Code_191022/src/MEGSEA/BDSNP_MOD_EPIC.F	2020-10-26 14:41:52.301203286 +0000
+@@ -636,20 +636,20 @@
+            !scale emissions
+ 
+            !diagnostics
+-           EMPOL = SOILNOX * GAREA * 3600.0 * 10.0**-9![ng N/m2/s] * m2 * s/hr * g/ng
++           EMPOL = SOILNOX * GAREA * 3600.0 * 10.0**(-9)![ng N/m2/s] * m2 * s/hr * g/ng
+            BDSNP_NO(C,R) = SOILNOX / 14 ![nmol/m2/s]
+            ! sum various quantities for daily averaging
+            EMPOLSUM = EMPOLSUM + EMPOL
+            BASESUM(C,R) = BASESUM(C,R) + ( A_BIOME(K) + A_FERT ) !don'tforget check paren when uncommenting
+      &             * ( TEMP_TERM * WET_TERM)
+-     &             * GAREA * 3600.0 * 10.0**-9 ![ng N/m2/s] * m2 * s/hr * g/ng
++     &             * GAREA * 3600.0 * 10.0**(-9) ![ng N/m2/s] * m2 * s/hr * g/ng
+            PULSEAVG(C,R) = PULSEAVG(C,R) + ( A_BIOME(K) + A_FERT ) !don'tforget check paren when uncommenting
+      &             * ( TEMP_TERM * WET_TERM * PULSE )
+-     &             * GAREA * 3600.0 * 10.0**-9 ![ng N/m2/s] * m2 * s/hr * g/ng
++     &             * GAREA * 3600.0 * 10.0**(-9) ![ng N/m2/s] * m2 * s/hr * g/ng
+            CRFAVG(C,R) = CRFAVG(C,R) + ( A_BIOME(K) + A_FERT ) !don'tforget check paren when uncommenting
+      &             * ( TEMP_TERM * WET_TERM )
+      &             * ( 1.d0 - CRF_TERM  )
+-     &             * GAREA * 3600.0 * 10.0**-9 ![ng N/m2/s] * m2 * s/hr * g/ng
++     &             * GAREA * 3600.0 * 10.0**(-9) ![ng N/m2/s] * m2 * s/hr * g/ng
+ 
+ C--------- MORE DIAGNOSTICS  ---------------------------------
+            A_DIAG( C,R ) = A_BIOME(K)
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/BDSNP_MOD_EPIC.o and MEGAN31_Calc_Code_191022/src/MEGSEA/BDSNP_MOD_EPIC.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/bdsnp_mod.mod and MEGAN31_Calc_Code_191022/src/MEGSEA/bdsnp_mod.mod differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MEGSEA/canopy_nox_mod.F MEGAN31_Calc_Code_191022/src/MEGSEA/canopy_nox_mod.F
+--- MEGAN31_Calc_Code_191022.orig/src/MEGSEA/canopy_nox_mod.F	2020-10-22 12:49:22.734306000 +0100
++++ MEGAN31_Calc_Code_191022/src/MEGSEA/canopy_nox_mod.F	2020-10-26 14:38:04.546133859 +0000
+@@ -96,7 +96,7 @@
+      & 100, 100, 100, 100/)   
+ 
+       REAL, PARAMETER :: DRYCOEFF(20) = (/-0.358, 3.02, 3.85, -0.0978, -3.66, 
+-     & 12, 0.252, -7.8, 0.226, 0.274, 1.14, -2.19, 0.261, -4.62, 0.685, 
++     & 12.0, 0.252, -7.8, 0.226, 0.274, 1.14, -2.19, 0.261, -4.62, 0.685, 
+      & -0.254, 4.37, -0.266, -0.159, -0.206 /)   
+ 
+       ! Canopy wind extinction coefficients
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/canopy_nox_mod.mod and MEGAN31_Calc_Code_191022/src/MEGSEA/canopy_nox_mod.mod differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/canopy_nox_mod.o and MEGAN31_Calc_Code_191022/src/MEGSEA/canopy_nox_mod.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/checkmem.o and MEGAN31_Calc_Code_191022/src/MEGSEA/checkmem.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/czangle.o and MEGAN31_Calc_Code_191022/src/MEGSEA/czangle.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/findlai.o and MEGAN31_Calc_Code_191022/src/MEGSEA/findlai.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/growseason.o and MEGAN31_Calc_Code_191022/src/MEGSEA/growseason.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MEGSEA/makefile MEGAN31_Calc_Code_191022/src/MEGSEA/makefile
+--- MEGAN31_Calc_Code_191022.orig/src/MEGSEA/makefile	2020-10-22 12:49:22.771482000 +0100
++++ MEGAN31_Calc_Code_191022/src/MEGSEA/makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,51 +0,0 @@
+-SHELL=/bin/sh
+-FC= pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Mlfs -Bstatic_pgi
+-PROGRAM= megsea
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I/models/CMAQ/src/CMAQv5.1/lib/ioapi/include \
+-          -I$(CURDIR)
+-
+-
+-OBJS = \
+-     checkmem.o \
+-     findlai.o \
+-     soilnox_fx.o \
+-     soilnox.o \
+-     czangle.o \
+-     growseason.o \
+-     time2sec.o \
+-     secsdiff.o \
+-     canopy_nox_mod.o \
+-     BDSNP_MOD_EPIC.o \
+-     $(PROGRAM).o
+-
+-MODULES= *mod.f
+-
+-#-----------------------------------------------------------------------
+-# line to allow file.mod files to be recognised by GNU make
+-%.o : %.mod
+-#-----------------------------------------------------------------------
+-
+-.SUFFIXES : .f .f .o 
+-
+-.f.o:
+-	$(FC) -c $(FFLAGS) $(INCLUDE) $<
+-.F.o:
+-	$(FC) -c $(FFLAGS) $(INCLUDE) $<
+-
+-#-----------------------------------------------------------------------
+-
+-$(PROGRAM):	$(OBJS)
+-	$(FC) $(FFLAGS) $(INCLUDE) -o $(@) $(OBJS) $(LIBS)
+-
+-#-----------------------------------------------------------------------
+-
+-clean:
+-	rm -f $(PROGRAM) *.o *.mod *.core
+-#-----------------------------------------------------------------------
+-
+-
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MEGSEA/Makefile.megsea.64bit MEGAN31_Calc_Code_191022/src/MEGSEA/Makefile.megsea.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/MEGSEA/Makefile.megsea.64bit	2020-10-22 12:49:22.873032000 +0100
++++ MEGAN31_Calc_Code_191022/src/MEGSEA/Makefile.megsea.64bit	2020-10-26 15:25:13.445453000 +0000
+@@ -1,14 +1,14 @@
+ SHELL=/bin/sh
+-FC= pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Mlfs -Bstatic_pgi
++FC= gfortran
++FFLAGS= -O -mfpmath=sse -ffixed-line-length-132 -fsecond-underscore -D_FILE_OFFSET_BITS=64 -Bstatic -std=legacy
+ PROGRAM= megsea
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I/models/CMAQ/src/CMAQv5.1/lib/ioapi/include \
+-          -I$(CURDIR)
+-
++LIBS =  -L$(EBROOTIOAPI) -lioapi -lgomp \
++		-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++		-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INCLUDE = -I$(EBROOTIOAPI)/include \
++		  -I$(EBROOTNETCDF)/include \
++		  -I$(EBROOTNETCDFMINFORTRAN)/include \
++		  -I$(CURDIR)
+ 
+ OBJS = \
+      checkmem.o \
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/megsea and MEGAN31_Calc_Code_191022/src/MEGSEA/megsea differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/megsea.o and MEGAN31_Calc_Code_191022/src/MEGSEA/megsea.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/secsdiff.o and MEGAN31_Calc_Code_191022/src/MEGSEA/secsdiff.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/soilnox_fx.mod and MEGAN31_Calc_Code_191022/src/MEGSEA/soilnox_fx.mod differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/soilnox_fx.o and MEGAN31_Calc_Code_191022/src/MEGSEA/soilnox_fx.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/soilnox.o and MEGAN31_Calc_Code_191022/src/MEGSEA/soilnox.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGSEA/time2sec.o and MEGAN31_Calc_Code_191022/src/MEGSEA/time2sec.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGVEA/checkmem.o and MEGAN31_Calc_Code_191022/src/MEGVEA/checkmem.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGVEA/findlai.o and MEGAN31_Calc_Code_191022/src/MEGVEA/findlai.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MEGVEA/makefile MEGAN31_Calc_Code_191022/src/MEGVEA/makefile
+--- MEGAN31_Calc_Code_191022.orig/src/MEGVEA/makefile	2020-10-22 12:49:23.010292000 +0100
++++ MEGAN31_Calc_Code_191022/src/MEGVEA/makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,42 +0,0 @@
+-SHELL=/bin/sh
+-FC= pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Mlfs -Bstatic_pgi
+-PROGRAM= megvea
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I$(CURDIR)
+-
+-
+-OBJS = \
+-     checkmem.o \
+-     findlai.o  \
+-     $(PROGRAM).o
+-
+-MODULES= *mod.f
+-
+-#-----------------------------------------------------------------------
+-# line to allow file.mod files to be recognised by GNU make
+-%.o : %.mod
+-#-----------------------------------------------------------------------
+-
+-.SUFFIXES : .f .f .o 
+-
+-.f.o:
+-	$(FC) -c $(FFLAGS) $(INCLUDE) $<
+-.F.o:
+-	$(FC) -c $(FFLAGS) $(INCLUDE) $<
+-
+-#-----------------------------------------------------------------------
+-
+-$(PROGRAM):	$(OBJS)
+-	$(FC) $(FFLAGS) $(INCLUDE) -o $(@) $(OBJS) $(LIBS)
+-
+-#-----------------------------------------------------------------------
+-
+-clean:
+-	rm -f $(PROGRAM) *.o *.mod *.core
+-#-----------------------------------------------------------------------
+-
+-
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MEGVEA/Makefile.megvea.64bit MEGAN31_Calc_Code_191022/src/MEGVEA/Makefile.megvea.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/MEGVEA/Makefile.megvea.64bit	2020-10-22 12:49:23.127178000 +0100
++++ MEGAN31_Calc_Code_191022/src/MEGVEA/Makefile.megvea.64bit	2020-10-26 15:23:30.013149000 +0000
+@@ -1,13 +1,14 @@
+ SHELL=/bin/sh
+-FC= pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Mlfs -Bstatic_pgi
++FC= gfortran
++FFLAGS= -O -mfpmath=sse -ffixed-line-length-132 -fsecond-underscore -D_FILE_OFFSET_BITS=64 -Bstatic -std=legacy
+ PROGRAM= megvea
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I$(CURDIR)
+-
++LIBS =  -L$(EBROOTIOAPI) -lioapi -lgomp \
++		-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++		-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INCLUDE = -I$(EBROOTIOAPI)/include \
++		  -I$(EBROOTNETCDF)/include \
++		  -I$(EBROOTNETCDFMINFORTRAN)/include \
++		  -I$(CURDIR)
+ 
+ OBJS = \
+      checkmem.o \
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGVEA/megvea and MEGAN31_Calc_Code_191022/src/MEGVEA/megvea differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MEGVEA/megvea.o and MEGAN31_Calc_Code_191022/src/MEGVEA/megvea.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/caldate.o and MEGAN31_Calc_Code_191022/src/MET2MGN/caldate.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/interp_lcp.o and MEGAN31_Calc_Code_191022/src/MET2MGN/interp_lcp.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/juldate.o and MEGAN31_Calc_Code_191022/src/MET2MGN/juldate.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/lcpgeo.o and MEGAN31_Calc_Code_191022/src/MET2MGN/lcpgeo.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN/makefile MEGAN31_Calc_Code_191022/src/MET2MGN/makefile
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN/makefile	2020-10-22 12:49:22.885212000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN/makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,56 +0,0 @@
+-PGF90 = /usr/local/pgi/linux86-64/bin/pgf90
+-FCFLGS = -O -Mextend -Mlfs -Msecond_underscore
+-FCFLGS2 = -O -Mbyteswapio -Mextend -Mlfs -Msecond_underscore
+-LNKFLGS = -Bstatic_pgi
+-
+-OBJCTS = \
+-met2mgn.o \
+-readpar.o \
+-readmcip.o \
+-micromet.o \
+-caldate.o \
+-lcpgeo.o \
+-interp_lcp.o \
+-procmm5.o \
+-readmm5.o \
+-xtod.o \
+-vertmap.o \
+-juldate.o \
+-utmgeo.o
+-
+-
+-LIBS = -L/models/CMAQ/lib64/ioapi_3/Linux2_x86_64pg -lioapi \
+-       -L/models/CMAQ/lib64/netcdf-3.6.0-p1/lib -lnetcdf
+-INC = -I/models/CMAQ/lib64/ioapi_3/ioapi/fixed_src
+-
+-met2mgn: $(OBJCTS)
+-	$(PGF90) $(LNKFLAGS) $(OBJCTS) $(LIBS) -o met2mgn
+-met2mgn.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) met2mgn.f
+-readpar.o:
+-	$(PGF90) -c $(FCFLGS) $(INC) readpar.f
+-readmcip.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) readmcip.f
+-micromet.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) micromet.f
+-caldate.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) caldate.f
+-lcpgeo.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} lcpgeo.f
+-interp_lcp.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} interp_lcp.f
+-procmm5.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} procmm5.f
+-readmm5.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} readmm5.f
+-xtod.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} xtod.f
+-vertmap.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} vertmap.f
+-juldate.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} juldate.f
+-utmgeo.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} utmgeo.f
+-clean:
+-	rm -rf *.o met2mgn
+-
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN/Makefile.met2mgn.64bit MEGAN31_Calc_Code_191022/src/MET2MGN/Makefile.met2mgn.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN/Makefile.met2mgn.64bit	2020-10-22 12:49:22.878690000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN/Makefile.met2mgn.64bit	2020-10-26 15:33:46.514392000 +0000
+@@ -1,7 +1,7 @@
+-PGF90 = /usr/local/pgi/linux86-64/bin/pgf90
+-FCFLGS = -O -Mextend -Mlfs -Msecond_underscore
+-FCFLGS2 = -O -Mbyteswapio -Mextend -Mlfs -Msecond_underscore
+-LNKFLGS = -Bstatic_pgi
++FC = gfortran
++FCFLGS= -O -ffixed-line-length-132 -fsecond-underscore -D_FILE_OFFSET_BITS=64 -std=legacy
++FCFLGS2 = -O -fconvert=big-endian -ffixed-line-length-132 -D_FILE_OFFSET_BITS=64 -fsecond-underscore -std=legacy
++LNKFLGS = -Bstatic
+ 
+ OBJCTS = \
+ met2mgn.o \
+@@ -18,39 +18,39 @@
+ juldate.o \
+ utmgeo.o
+ 
+-
+-LIBS = -L/models/CMAQ/lib64/ioapi_3/Linux2_x86_64pg -lioapi \
+-       -L/models/CMAQ/lib64/netcdf-3.6.0-p1/lib -lnetcdf
+-INC = -I/models/CMAQ/lib64/ioapi_3/ioapi/fixed_src
++LIBS =  -L$(EBROOTIOAPI) -lioapi -lgomp \
++		-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++		-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INC = -I$(EBROOTIOAPI)/include
+ 
+ met2mgn: $(OBJCTS)
+-	$(PGF90) $(LNKFLAGS) $(OBJCTS) $(LIBS) -o met2mgn
++	$(FC) $(LNKFLAGS) $(OBJCTS) $(LIBS) -o met2mgn
+ met2mgn.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) met2mgn.f
++	$(FC) -c $(FCFLGS2) $(INC) met2mgn.f
+ readpar.o:
+-	$(PGF90) -c $(FCFLGS) $(INC) readpar.f
++	$(FC) -c $(FCFLGS) $(INC) readpar.f
+ readmcip.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) readmcip.f
++	$(FC) -c $(FCFLGS2) $(INC) readmcip.f
+ micromet.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) micromet.f
++	$(FC) -c $(FCFLGS2) $(INC) micromet.f
+ caldate.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) caldate.f
++	$(FC) -c $(FCFLGS2) $(INC) caldate.f
+ lcpgeo.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} lcpgeo.f
++	$(FC) -c $(FCFLGS2) ${INC} lcpgeo.f
+ interp_lcp.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} interp_lcp.f
++	$(FC) -c $(FCFLGS2) ${INC} interp_lcp.f
+ procmm5.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} procmm5.f
++	$(FC) -c $(FCFLGS2) ${INC} procmm5.f
+ readmm5.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} readmm5.f
++	$(FC) -c $(FCFLGS2) ${INC} readmm5.f
+ xtod.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} xtod.f
++	$(FC) -c $(FCFLGS2) ${INC} xtod.f
+ vertmap.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} vertmap.f
++	$(FC) -c $(FCFLGS2) ${INC} vertmap.f
+ juldate.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} juldate.f
++	$(FC) -c $(FCFLGS2) ${INC} juldate.f
+ utmgeo.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} utmgeo.f
++	$(FC) -c $(FCFLGS2) ${INC} utmgeo.f
+ clean:
+ 	rm -rf *.o met2mgn
+ 
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/met2mgn and MEGAN31_Calc_Code_191022/src/MET2MGN/met2mgn differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/met2mgn.o and MEGAN31_Calc_Code_191022/src/MET2MGN/met2mgn.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/micromet.o and MEGAN31_Calc_Code_191022/src/MET2MGN/micromet.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN/procmm5.f MEGAN31_Calc_Code_191022/src/MET2MGN/procmm5.f
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN/procmm5.f	2020-10-22 12:49:22.940003000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN/procmm5.f	2020-10-26 14:27:34.636491491 +0000
+@@ -32,7 +32,7 @@
+       character*80  runmsg,pgname
+       character*16  TMCIP,MM5file(10),gnamex
+       character*256 MESG
+-      character*10 project,kvmeth
++      character*16 project,kvmeth
+       character*16  :: ONAME = 'OUTFILE'
+       integer :: ENVINT,IOS,numMM5
+ c
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/procmm5.o and MEGAN31_Calc_Code_191022/src/MET2MGN/procmm5.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN/readmcip.f MEGAN31_Calc_Code_191022/src/MET2MGN/readmcip.f
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN/readmcip.f	2020-10-22 12:49:22.907464000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN/readmcip.f	2020-10-26 14:24:45.748085906 +0000
+@@ -323,7 +323,7 @@
+         else
+           lfirst = .false.
+         endif 
+-        if (lfirst) then
++        if (lfirst .eq. true) then
+           if (.not.read3(PNAME,'PTYPE',1,jdate,jtime,
+      &           PTYPE)) then
+              call m3err( 'readmcip', jdate, jtime,
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/readmcip.o and MEGAN31_Calc_Code_191022/src/MET2MGN/readmcip.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/readmm5.o and MEGAN31_Calc_Code_191022/src/MET2MGN/readmm5.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN/readpar.f MEGAN31_Calc_Code_191022/src/MET2MGN/readpar.f
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN/readpar.f	2020-10-22 12:49:22.951307000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN/readpar.f	2020-10-26 14:21:48.441277615 +0000
+@@ -7,7 +7,7 @@
+ cccccccccccccccccccccccccccccccccccccc
+ 
+       subroutine readpar(sdate,stime,edate,etime)
+-
++      
+       include 'IODECL3.EXT'
+       include 'PARMS3.EXT'
+       include 'FDESC3.EXT' 
+@@ -28,6 +28,7 @@
+ 
+       character*256 ifile_par1,ifile_par2,MESG
+       character*16, parameter :: ONAME = 'OUTFILE'
++      character*80  pgname
+  
+       real, allocatable::  frad(:,:,:)
+       real, allocatable::  frad1(:,:,:)
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/readpar.o and MEGAN31_Calc_Code_191022/src/MET2MGN/readpar.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/utmgeo.o and MEGAN31_Calc_Code_191022/src/MET2MGN/utmgeo.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/vertmap.o and MEGAN31_Calc_Code_191022/src/MET2MGN/vertmap.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN/xtod.o and MEGAN31_Calc_Code_191022/src/MET2MGN/xtod.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/caldate.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/caldate.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/interp_lcp.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/interp_lcp.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/juldate.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/juldate.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/lcpgeo.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/lcpgeo.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/makefile MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/makefile
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/makefile	2020-10-22 12:49:24.144568000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,56 +0,0 @@
+-PGF90 = pgf90
+-FCFLGS = -O -Mextend -Mlfs -Msecond_underscore
+-FCFLGS2 = -O -Mbyteswapio -Mextend -Mlfs -Msecond_underscore
+-LNKFLGS = -Bstatic_pgi
+-
+-OBJCTS = \
+-met2mgn.o \
+-readpar.o \
+-readmcip.o \
+-micromet.o \
+-caldate.o \
+-lcpgeo.o \
+-interp_lcp.o \
+-procmm5.o \
+-readmm5.o \
+-xtod.o \
+-vertmap.o \
+-juldate.o \
+-utmgeo.o
+-
+-
+-LIBS = -L/models/CMAQ/lib64/ioapi_3/Linux2_x86_64pg -lioapi \
+-       -L/models/CMAQ/lib64/netcdf-3.6.0-p1/lib -lnetcdf
+-INC = -I/models/CMAQ/lib64/ioapi_3/ioapi/fixed_src
+-
+-met2mgn: $(OBJCTS)
+-	$(PGF90) $(LNKFLAGS) $(OBJCTS) $(LIBS) -o met2mgn.rad45
+-met2mgn.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) met2mgn.f
+-readpar.o:
+-	$(PGF90) -c $(FCFLGS) $(INC) readpar.f
+-readmcip.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) readmcip.f
+-micromet.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) micromet.f
+-caldate.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) caldate.f
+-lcpgeo.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} lcpgeo.f
+-interp_lcp.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} interp_lcp.f
+-procmm5.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} procmm5.f
+-readmm5.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} readmm5.f
+-xtod.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} xtod.f
+-vertmap.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} vertmap.f
+-juldate.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} juldate.f
+-utmgeo.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} utmgeo.f
+-clean:
+-	rm -rf *.o met2mgn
+-
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/Makefile.met2mgn.64bit MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/Makefile.met2mgn.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/Makefile.met2mgn.64bit	2020-10-22 12:49:24.138121000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/Makefile.met2mgn.64bit	2020-10-26 15:34:35.908077000 +0000
+@@ -1,7 +1,7 @@
+-PGF90 = pgf90
+-FCFLGS = -O -Mextend -Mlfs -Msecond_underscore
+-FCFLGS2 = -O -Mbyteswapio -Mextend -Mlfs -Msecond_underscore
+-LNKFLGS = -Bstatic_pgi
++FC = gfortran
++FCFLGS= -O -ffixed-line-length-132 -fsecond-underscore -D_FILE_OFFSET_BITS=64 -std=legacy
++FCFLGS2 = -O -fconvert=big-endian -ffixed-line-length-132 -D_FILE_OFFSET_BITS=64 -fsecond-underscore -std=legacy
++LNKFLGS = -Bstatic
+ 
+ OBJCTS = \
+ met2mgn.o \
+@@ -18,39 +18,39 @@
+ juldate.o \
+ utmgeo.o
+ 
+-
+-LIBS = -L/models/CMAQ/lib64/ioapi_3/Linux2_x86_64pg -lioapi \
+-       -L/models/CMAQ/lib64/netcdf-3.6.0-p1/lib -lnetcdf
+-INC = -I/models/CMAQ/lib64/ioapi_3/ioapi/fixed_src
++LIBS =  -L$(EBROOTIOAPI) -lioapi -lgomp \
++		-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++		-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INC = -I$(EBROOTIOAPI)/include
+ 
+ met2mgn: $(OBJCTS)
+-	$(PGF90) $(LNKFLAGS) $(OBJCTS) $(LIBS) -o met2mgn.rad45
++	$(FC) $(LNKFLAGS) $(OBJCTS) $(LIBS) -o met2mgn.rad45
+ met2mgn.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) met2mgn.f
++	$(FC) -c $(FCFLGS2) $(INC) met2mgn.f
+ readpar.o:
+-	$(PGF90) -c $(FCFLGS) $(INC) readpar.f
++	$(FC) -c $(FCFLGS) $(INC) readpar.f
+ readmcip.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) readmcip.f
++	$(FC) -c $(FCFLGS2) $(INC) readmcip.f
+ micromet.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) micromet.f
++	$(FC) -c $(FCFLGS2) $(INC) micromet.f
+ caldate.o:
+-	$(PGF90) -c $(FCFLGS2) $(INC) caldate.f
++	$(FC) -c $(FCFLGS2) $(INC) caldate.f
+ lcpgeo.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} lcpgeo.f
++	$(FC) -c $(FCFLGS2) ${INC} lcpgeo.f
+ interp_lcp.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} interp_lcp.f
++	$(FC) -c $(FCFLGS2) ${INC} interp_lcp.f
+ procmm5.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} procmm5.f
++	$(FC) -c $(FCFLGS2) ${INC} procmm5.f
+ readmm5.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} readmm5.f
++	$(FC) -c $(FCFLGS2) ${INC} readmm5.f
+ xtod.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} xtod.f
++	$(FC) -c $(FCFLGS2) ${INC} xtod.f
+ vertmap.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} vertmap.f
++	$(FC) -c $(FCFLGS2) ${INC} vertmap.f
+ juldate.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} juldate.f
++	$(FC) -c $(FCFLGS2) ${INC} juldate.f
+ utmgeo.o:
+-	$(PGF90) -c $(FCFLGS2) ${INC} utmgeo.f
++	$(FC) -c $(FCFLGS2) ${INC} utmgeo.f
+ clean:
+ 	rm -rf *.o met2mgn
+ 
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/met2mgn.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/met2mgn.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/met2mgn.rad45 and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/met2mgn.rad45 differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/micromet.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/micromet.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/procmm5.f MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/procmm5.f
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/procmm5.f	2020-10-22 12:49:24.302654000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/procmm5.f	2020-10-26 15:06:02.489963895 +0000
+@@ -32,7 +32,7 @@
+       character*80  runmsg,pgname
+       character*16  TMCIP,MM5file(10),gnamex
+       character*256 MESG
+-      character*10 project,kvmeth
++      character*16 project,kvmeth
+       character*16  :: ONAME = 'OUTFILE'
+       integer :: ENVINT,IOS,numMM5
+ c
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/procmm5.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/procmm5.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/readmcip.f MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/readmcip.f
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/readmcip.f	2020-10-22 12:49:24.164907000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/readmcip.f	2020-10-26 15:05:37.116468885 +0000
+@@ -323,7 +323,7 @@
+         else
+           lfirst = .false.
+         endif 
+-        if (lfirst) then
++        if (lfirst .eq. true) then
+           if (.not.read3(PNAME,'PTYPE',1,jdate,jtime,
+      &           PTYPE)) then
+              call m3err( 'readmcip', jdate, jtime,
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/readmcip.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/readmcip.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/readmm5.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/readmm5.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/readpar.f MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/readpar.f
+--- MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/readpar.f	2020-10-22 12:49:24.339420000 +0100
++++ MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/readpar.f	2020-10-26 15:05:14.107904318 +0000
+@@ -28,6 +28,7 @@
+ 
+       character*256 ifile_par1,ifile_par2,MESG
+       character*16, parameter :: ONAME = 'OUTFILE'
++      character*80 pgname
+  
+       real, allocatable::  frad(:,:,:)
+       real, allocatable::  frad1(:,:,:)
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/readpar.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/readpar.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/utmgeo.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/utmgeo.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/vertmap.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/vertmap.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MET2MGN_rad45/xtod.o and MEGAN31_Calc_Code_191022/src/MET2MGN_rad45/xtod.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/checkmem.o and MEGAN31_Calc_Code_191022/src/MGN2MECH/checkmem.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CB05.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CB05.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CB05.EXT	2020-10-22 12:49:23.595551000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CB05.EXT	2020-10-22 12:05:03.367693903 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_CB05MECH
++      CHARACTER*32   MAP_CB05MECH
+       PARAMETER     (MAP_CB05MECH = 'CB05            ')
+ 
+       INTEGER        N_CB05
+       PARAMETER     (N_CB05 = (145))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_CB05( N_CB05 )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_CB05( N_CB05 )   ! speciated species name
+       INTEGER        SPMH_MAP_CB05( N_CB05 )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_CB05( N_CB05 )   ! mechanism species
++      CHARACTER*32   MECH_NAM_CB05( N_CB05 )   ! mechanism species
+       INTEGER        MECH_MAP_CB05( N_CB05 )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_CB05( N_CB05 )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CB6.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CB6.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CB6.EXT	2020-10-22 12:49:23.534936000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CB6.EXT	2020-10-22 12:04:42.155491976 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_CB6MECH
++      CHARACTER*32   MAP_CB6MECH
+       PARAMETER     (MAP_CB6MECH = 'CB6            ')
+ 
+       INTEGER        N_CB6
+       PARAMETER     (N_CB6 = (145))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_CB6( N_CB6 )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_CB6( N_CB6 )   ! speciated species name
+       INTEGER        SPMH_MAP_CB6( N_CB6 )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_CB6( N_CB6 )   ! mechanism species
++      CHARACTER*32   MECH_NAM_CB6( N_CB6 )   ! mechanism species
+       INTEGER        MECH_MAP_CB6( N_CB6 )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_CB6( N_CB6 )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CB6X.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CB6X.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CB6X.EXT	2020-10-22 12:49:23.605792000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CB6X.EXT	2020-10-22 11:58:58.662377396 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_CB6XMECH
++      CHARACTER*32   MAP_CB6XMECH
+       PARAMETER     (MAP_CB6XMECH = 'CB6X            ')
+ 
+       INTEGER        N_CB6X
+       PARAMETER     (N_CB6X = (231))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_CB6X( N_CB6X )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_CB6X( N_CB6X )   ! speciated species name
+       INTEGER        SPMH_MAP_CB6X( N_CB6X )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_CB6X( N_CB6X )   ! mechanism species
++      CHARACTER*32   MECH_NAM_CB6X( N_CB6X )   ! mechanism species
+       INTEGER        MECH_MAP_CB6X( N_CB6X )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_CB6X( N_CB6X )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CBMZ.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CBMZ.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CBMZ.EXT	2020-10-22 12:49:23.246980000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CBMZ.EXT	2020-10-22 12:04:14.229972568 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_CBMZMECH
++      CHARACTER*32   MAP_CBMZMECH
+       PARAMETER     (MAP_CBMZMECH = 'CBMZ            ')
+ 
+       INTEGER        N_CBMZ
+       PARAMETER     (N_CBMZ = (148))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_CBMZ( N_CBMZ )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_CBMZ( N_CBMZ )   ! speciated species name
+       INTEGER        SPMH_MAP_CBMZ( N_CBMZ )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_CBMZ( N_CBMZ )   ! mechanism species
++      CHARACTER*32   MECH_NAM_CBMZ( N_CBMZ )   ! mechanism species
+       INTEGER        MECH_MAP_CBMZ( N_CBMZ )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_CBMZ( N_CBMZ )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CRIv2.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CRIv2.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2CRIv2.EXT	2020-10-22 12:49:23.156234000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2CRIv2.EXT	2020-10-22 11:58:20.534029962 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_CRIv2MECH
++      CHARACTER*32   MAP_CRIv2MECH
+       PARAMETER     (MAP_CRIv2MECH = 'CRIv2            ')
+ 
+       INTEGER        N_CRIv2
+       PARAMETER     (N_CRIv2 = (141))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_CRIv2( N_CRIv2 )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_CRIv2( N_CRIv2 )   ! speciated species name
+       INTEGER        SPMH_MAP_CRIv2( N_CRIv2 )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_CRIv2( N_CRIv2 )   ! mechanism species
++      CHARACTER*32   MECH_NAM_CRIv2( N_CRIv2 )   ! mechanism species
+       INTEGER        MECH_MAP_CRIv2( N_CRIv2 )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_CRIv2( N_CRIv2 )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2RACM2.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2RACM2.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2RACM2.EXT	2020-10-22 12:49:23.620357000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2RACM2.EXT	2020-10-22 11:57:26.488883697 +0100
+@@ -19,10 +19,10 @@
+       INTEGER        N_RACM2
+       PARAMETER     (N_RACM2 = (156))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_RACM2( N_RACM2 )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_RACM2( N_RACM2 )   ! speciated species name
+       INTEGER        SPMH_MAP_RACM2( N_RACM2 )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_RACM2( N_RACM2 )   ! mechanism species
++      CHARACTER*32   MECH_NAM_RACM2( N_RACM2 )   ! mechanism species
+       INTEGER        MECH_MAP_RACM2( N_RACM2 )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_RACM2( N_RACM2 )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2RACM.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2RACM.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2RACM.EXT	2020-10-22 12:49:23.660313000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2RACM.EXT	2020-10-22 11:59:27.700482752 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_RACMMECH
++      CHARACTER*32   MAP_RACMMECH
+       PARAMETER     (MAP_RACMMECH = 'RACM            ')
+ 
+       INTEGER        N_RACM
+       PARAMETER     (N_RACM = (210))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_RACM( N_RACM )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_RACM( N_RACM )   ! speciated species name
+       INTEGER        SPMH_MAP_RACM( N_RACM )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_RACM( N_RACM )   ! mechanism species
++      CHARACTER*32   MECH_NAM_RACM( N_RACM )   ! mechanism species
+       INTEGER        MECH_MAP_RACM( N_RACM )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_RACM( N_RACM )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2RADM2.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2RADM2.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2RADM2.EXT	2020-10-22 12:49:23.159101000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2RADM2.EXT	2020-10-22 12:00:16.785440376 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_RADM2MECH
++      CHARACTER*32   MAP_RADM2MECH
+       PARAMETER     (MAP_RADM2MECH = 'RADM2            ')
+ 
+       INTEGER        N_RADM2
+       PARAMETER     (N_RADM2 = (233))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_RADM2( N_RADM2 )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_RADM2( N_RADM2 )   ! speciated species name
+       INTEGER        SPMH_MAP_RADM2( N_RADM2 )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_RADM2( N_RADM2 )   ! mechanism species
++      CHARACTER*32   MECH_NAM_RADM2( N_RADM2 )   ! mechanism species
+       INTEGER        MECH_MAP_RADM2( N_RADM2 )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_RADM2( N_RADM2 )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC07.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC07.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC07.EXT	2020-10-22 12:49:23.623160000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC07.EXT	2020-10-22 11:55:41.758984022 +0100
+@@ -19,10 +19,10 @@
+       INTEGER        N_SAPRC07
+       PARAMETER     (N_SAPRC07 = (141))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_SAPRC07( N_SAPRC07 )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_SAPRC07( N_SAPRC07 )   ! speciated species name
+       INTEGER        SPMH_MAP_SAPRC07( N_SAPRC07 )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_SAPRC07( N_SAPRC07 )   ! mechanism species
++      CHARACTER*32   MECH_NAM_SAPRC07( N_SAPRC07 )   ! mechanism species
+       INTEGER        MECH_MAP_SAPRC07( N_SAPRC07 )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_SAPRC07( N_SAPRC07 )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99.EXT	2020-10-22 12:49:23.657517000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99.EXT	2020-10-22 12:01:37.563495010 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_SAPRC99MECH
++      CHARACTER*32   MAP_SAPRC99MECH
+       PARAMETER     (MAP_SAPRC99MECH = 'SAPRC99            ')
+ 
+       INTEGER        N_SAPRC99
+       PARAMETER     (N_SAPRC99 = (201))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_SAPRC99( N_SAPRC99 )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_SAPRC99( N_SAPRC99 )   ! speciated species name
+       INTEGER        SPMH_MAP_SAPRC99( N_SAPRC99 )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_SAPRC99( N_SAPRC99 )   ! mechanism species
++      CHARACTER*32   MECH_NAM_SAPRC99( N_SAPRC99 )   ! mechanism species
+       INTEGER        MECH_MAP_SAPRC99( N_SAPRC99 )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_SAPRC99( N_SAPRC99 )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99Q.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99Q.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99Q.EXT	2020-10-22 12:49:23.552002000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99Q.EXT	2020-10-22 12:03:28.210686813 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_SAPRC99_QMECH
++      CHARACTER*32   MAP_SAPRC99_QMECH
+       PARAMETER     (MAP_SAPRC99_QMECH = 'SAPRC99_Q            ')
+ 
+       INTEGER        N_SAPRC99_Q
+       PARAMETER     (N_SAPRC99_Q = (197))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_SAPRC99_Q( N_SAPRC99_Q )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_SAPRC99_Q( N_SAPRC99_Q )   ! speciated species name
+       INTEGER        SPMH_MAP_SAPRC99_Q( N_SAPRC99_Q )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_SAPRC99_Q( N_SAPRC99_Q )   ! mechanism species
++      CHARACTER*32   MECH_NAM_SAPRC99_Q( N_SAPRC99_Q )   ! mechanism species
+       INTEGER        MECH_MAP_SAPRC99_Q( N_SAPRC99_Q )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_SAPRC99_Q( N_SAPRC99_Q )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99X.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99X.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99X.EXT	2020-10-22 12:49:23.582179000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRC99X.EXT	2020-10-22 12:02:16.591295077 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_SAPRC99_XMECH
++      CHARACTER*32   MAP_SAPRC99_XMECH
+       PARAMETER     (MAP_SAPRC99_XMECH = 'SAPRC99_X            ')
+ 
+       INTEGER        N_SAPRC99_X
+       PARAMETER     (N_SAPRC99_X = (197))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_SAPRC99_X( N_SAPRC99_X )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_SAPRC99_X( N_SAPRC99_X )   ! speciated species name
+       INTEGER        SPMH_MAP_SAPRC99_X( N_SAPRC99_X )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_SAPRC99_X( N_SAPRC99_X )   ! mechanism species
++      CHARACTER*32   MECH_NAM_SAPRC99_X( N_SAPRC99_X )   ! mechanism species
+       INTEGER        MECH_MAP_SAPRC99_X( N_SAPRC99_X )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_SAPRC99_X( N_SAPRC99_X )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRCII.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRCII.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SAPRCII.EXT	2020-10-22 12:49:23.735718000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SAPRCII.EXT	2020-10-22 12:01:13.803590521 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   06/13/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_SAPRCIIMECH
++      CHARACTER*32   MAP_SAPRCIIMECH
+       PARAMETER     (MAP_SAPRCIIMECH = 'SAPRCII            ')
+ 
+       INTEGER        N_SAPRCII
+       PARAMETER     (N_SAPRCII = (201))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_SAPRCII( N_SAPRCII )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_SAPRCII( N_SAPRCII )   ! speciated species name
+       INTEGER        SPMH_MAP_SAPRCII( N_SAPRCII )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_SAPRCII( N_SAPRCII )   ! mechanism species
++      CHARACTER*32   MECH_NAM_SAPRCII( N_SAPRCII )   ! mechanism species
+       INTEGER        MECH_MAP_SAPRCII( N_SAPRCII )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_SAPRCII( N_SAPRCII )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SOAX.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SOAX.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/MAP_CV2SOAX.EXT	2020-10-22 12:49:23.673734000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/MAP_CV2SOAX.EXT	2020-10-22 12:00:45.970863448 +0100
+@@ -13,16 +13,16 @@
+ C  Ling Huang   03/21/17 - Updated for MEGANv3
+ C=======================================================================
+ 
+-      CHARACTER*16   MAP_SOAXMECH
++      CHARACTER*32   MAP_SOAXMECH
+       PARAMETER     (MAP_SOAXMECH = 'SOAX            ')
+ 
+       INTEGER        N_SOAX
+       PARAMETER     (N_SOAX = (115))        ! Number of map species
+ 
+-      CHARACTER*16   SPMH_NAM_SOAX( N_SOAX )   ! speciated species name
++      CHARACTER*32   SPMH_NAM_SOAX( N_SOAX )   ! speciated species name
+       INTEGER        SPMH_MAP_SOAX( N_SOAX )   ! speciated species name
+                                               ! mapped to SPC_SPCAT.EXT
+-      CHARACTER*16   MECH_NAM_SOAX( N_SOAX )   ! mechanism species
++      CHARACTER*32   MECH_NAM_SOAX( N_SOAX )   ! mechanism species
+       INTEGER        MECH_MAP_SOAX( N_SOAX )   ! mechanism species mapped
+ 
+       REAL           CONV_FAC_SOAX( N_SOAX )   ! conversion factor
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/SPC_NOCONVER.EXT MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/SPC_NOCONVER.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/INCLDIR/SPC_NOCONVER.EXT	2020-10-22 12:49:23.147817000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/INCLDIR/SPC_NOCONVER.EXT	2020-10-22 12:05:34.157690656 +0100
+@@ -15,7 +15,7 @@
+ !======================================================================
+ 
+       INTEGER,PARAMETER :: N_MGN_SPC  = 20
+-      CHARACTER*16   MGN_SPC(N_MGN_SPC)
++      CHARACTER*32   MGN_SPC(N_MGN_SPC)
+ 
+       DATA     MGN_SPC(  1)  / 'ISOP            '/      ! isoprene
+       DATA     MGN_SPC(  2)  / 'MBO             '/      ! MBO
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/makefile MEGAN31_Calc_Code_191022/src/MGN2MECH/makefile
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/makefile	2020-10-22 12:49:23.133108000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,41 +0,0 @@
+-SHELL=/bin/sh
+-FC= pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Mlfs -Bstatic_pgi
+-
+-PROGRAM= mgn2mech
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I$(CURDIR)/INCLDIR
+-
+-OBJS = \
+-     checkmem.o \
+-     $(PROGRAM).o
+-
+-MODULES= *mod.f
+-
+-#-----------------------------------------------------------------------
+-# line to allow file.mod files to be recognised by GNU make
+-%.o : %.mod
+-#-----------------------------------------------------------------------
+-
+-.SUFFIXES : .f .f .o 
+-
+-.f.o:
+-	$(FC) -c $(FFLAGS) $(INCLUDE) $<
+-.F.o:
+-	$(FC) -c $(FFLAGS) $(INCLUDE) $<
+-
+-#-----------------------------------------------------------------------
+-
+-$(PROGRAM):	$(OBJS)
+-	$(FC) $(FFLAGS) $(INCLUDE) -o $(@) $(OBJS) $(LIBS)
+-
+-#-----------------------------------------------------------------------
+-
+-clean:
+-	rm -f $(PROGRAM) *.o *.mod *.core
+-#-----------------------------------------------------------------------
+-
+-
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/Makefile.mgn2mech.64bit MEGAN31_Calc_Code_191022/src/MGN2MECH/Makefile.mgn2mech.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/Makefile.mgn2mech.64bit	2020-10-22 12:49:23.778589000 +0100
++++ MEGAN31_Calc_Code_191022/src/MGN2MECH/Makefile.mgn2mech.64bit	2020-10-26 15:26:58.072283000 +0000
+@@ -1,13 +1,15 @@
+ SHELL=/bin/sh
+-FC= pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Mlfs -Bstatic_pgi
++FC= gfortran
++FFLAGS= -O -mfpmath=sse -ffixed-line-length-132 -fsecond-underscore -D_FILE_OFFSET_BITS=64 -Bstatic -std=legacy
+ 
+ PROGRAM= mgn2mech
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I$(CURDIR)/INCLDIR
++LIBS =  -L$(EBROOTIOAPI) -lioapi -lgomp \
++		-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++		-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INCLUDE = -I$(EBROOTIOAPI)/include \
++		  -I$(EBROOTNETCDF)/include \
++		  -I$(EBROOTNETCDFMINFORTRAN)/include \
++		  -I$(CURDIR)/INCLDIR
+ 
+ OBJS = \
+      checkmem.o \
+Binary files MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/mgn2mech and MEGAN31_Calc_Code_191022/src/MGN2MECH/mgn2mech differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/MGN2MECH/mgn2mech.o and MEGAN31_Calc_Code_191022/src/MGN2MECH/mgn2mech.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/setcase.csh MEGAN31_Calc_Code_191022/src/setcase.csh
+--- MEGAN31_Calc_Code_191022.orig/src/setcase.csh	2020-10-22 12:49:24.405489000 +0100
++++ MEGAN31_Calc_Code_191022/src/setcase.csh	2020-10-22 17:02:56.441400000 +0100
+@@ -9,6 +9,9 @@
+ setenv MGNINT $MGNHOME/Output/INT
+ setenv MGNLOG $MGNHOME/work/logdir
+ 
++if ( ! -e $MGNEXE ) then
++   mkdir -p $MGNEXE
++endif
+ 
+ if ( ! -e $MGNINP ) then
+    mkdir -p $MGNINP/MAP
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/checkmem.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/checkmem.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_arid.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_arid.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_arid.F	2020-10-22 12:49:23.868897000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_arid.F	2020-10-22 11:40:43.446091000 +0100
+@@ -51,7 +51,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-3 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD        ! Number of output variables
+ 
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_arid.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_arid.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_cantyp.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_cantyp.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_cantyp.F	2020-10-22 12:49:23.807724000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_cantyp.F	2020-10-22 10:22:37.791568000 +0100
+@@ -53,7 +53,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-3 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = 1        ! Number of output variables
+ 
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_cantyp.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_cantyp.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_efs.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_efs.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_efs.F	2020-10-22 12:49:23.867449000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_efs.F	2020-10-22 10:22:37.832356000 +0100
+@@ -52,7 +52,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-2 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD         ! Number of output variables
+       INTEGER, PARAMETER :: NEF = NFLD      ! Number of EF
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_efs.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_efs.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_fert.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_fert.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_fert.F	2020-10-22 12:49:23.864655000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_fert.F	2020-10-22 11:41:59.631168000 +0100
+@@ -52,7 +52,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-3 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD        ! Number of output variables
+       INTEGER, PARAMETER :: NFERT = NFLD - 2     ! Number of FERT 
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_fert.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_fert.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_lai.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_lai.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_lai.F	2020-10-22 12:49:23.822731000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_lai.F	2020-10-22 11:37:35.380617000 +0100
+@@ -52,7 +52,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-3 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD        ! Number of output variables
+       INTEGER, PARAMETER :: NLAI = NFLD - 2     ! Number of LAI
+@@ -139,7 +139,7 @@
+       NVARS3D = NVARS
+ !... Set VNAME3D and UNITS3D
+       DO N = 1,NLAI
+-        WRITE(MESG,'I0.2') N
++        WRITE(MESG,'(I0.2)') N
+         VNAME3D( N ) = 'LAI'//TRIM(MESG)
+         UNITS3D( N ) = 'nondimension'
+       ENDDO
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_lai.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_lai.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_landtype.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_landtype.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_landtype.F	2020-10-22 12:49:23.804967000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_landtype.F	2020-10-22 11:42:19.799310000 +0100
+@@ -50,7 +50,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-3 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD        ! Number of output variables
+       INTEGER, PARAMETER :: NLANDTYPE = NFLD - 2     ! Number of LANDTYPE 
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_landtype.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_landtype.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_LDF.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_LDF.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_LDF.F	2020-10-22 12:49:23.931952000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_LDF.F	2020-10-22 11:39:56.386831000 +0100
+@@ -53,7 +53,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-1 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD         ! Number of output variables
+       INTEGER, PARAMETER :: NEF = NFLD      ! Number of EF
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_LDF.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_LDF.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_nitrogen.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_nitrogen.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_nitrogen.F	2020-10-22 12:49:23.797146000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_nitrogen.F	2020-10-22 11:42:52.723971000 +0100
+@@ -52,7 +52,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-3 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD        ! Number of output variables
+       INTEGER, PARAMETER :: NNITROGEN = NFLD - 2     ! Number of NITROGEN 
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_nitrogen.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_nitrogen.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_nonarid.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_nonarid.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_nonarid.F	2020-10-22 12:49:23.922366000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_nonarid.F	2020-10-22 11:41:20.628441000 +0100
+@@ -51,7 +51,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-3 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD        ! Number of output variables
+ 
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_nonarid.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_nonarid.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_w126.F MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_w126.F
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_w126.F	2020-10-22 12:49:23.927701000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_w126.F	2020-10-22 11:39:13.780794000 +0100
+@@ -51,7 +51,7 @@
+       CHARACTER*30     SEGMENT( MXTCOL )     ! Input line fields
+ 
+       INTEGER, PARAMETER :: NFLD  = MXTCOL-3 ! Number of output variables
+-      INTEGER,         XREF(NFLD)
++      INTEGER         XREF(NFLD)
+       INTEGER       :: NSTEP = NFLD
+       INTEGER, PARAMETER :: NVARS = NFLD        ! Number of output variables
+ 
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/cnvt_w126.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/cnvt_w126.o differ
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/INCLDIR/CANTYP_MGN.EXT MEGAN31_Calc_Code_191022/src/TXT2IOAPI/INCLDIR/CANTYP_MGN.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/INCLDIR/CANTYP_MGN.EXT	2020-10-22 12:49:23.843827000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/INCLDIR/CANTYP_MGN.EXT	2020-10-22 11:52:11.310317000 +0100
+@@ -15,7 +15,7 @@
+ 
+       INTEGER,PARAMETER :: N_CANTYP = 6
+       CHARACTER*16   MGN_CANTYP(N_CANTYP)
+-      CHARACTER*16   MGN_NAM(N_CANTYP)
++      CHARACTER*32   MGN_NAM(N_CANTYP)
+ 
+       DATA     MGN_CANTYP(  1) / 'NEEDL      '/
+       DATA     MGN_CANTYP(  2) / 'TROPI      '/
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/INCLDIR/FERT_MGN.EXT MEGAN31_Calc_Code_191022/src/TXT2IOAPI/INCLDIR/FERT_MGN.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/INCLDIR/FERT_MGN.EXT	2020-10-22 12:49:23.856442000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/INCLDIR/FERT_MGN.EXT	2020-10-22 11:50:09.677553562 +0100
+@@ -12,7 +12,7 @@
+ !=======================================================================
+ 
+       INTEGER,PARAMETER :: N_MGN_FERT = 366
+-      CHARACTER*16   MGN_FERT(N_MGN_FERT)
++      CHARACTER*32   MGN_FERT(N_MGN_FERT)
+       REAL           MGN_UNT_FERT(N_MGN_FERT)
+ 
+ 
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/INCLDIR/NITROGEN_MGN.EXT MEGAN31_Calc_Code_191022/src/TXT2IOAPI/INCLDIR/NITROGEN_MGN.EXT
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/INCLDIR/NITROGEN_MGN.EXT	2020-10-22 12:49:23.844885000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/INCLDIR/NITROGEN_MGN.EXT	2020-10-22 11:53:40.546731000 +0100
+@@ -12,7 +12,7 @@
+ !=======================================================================
+ 
+       INTEGER,PARAMETER :: N_MGN_NITROGEN = 12 
+-      CHARACTER*16   MGN_NITROGEN(N_MGN_NITROGEN)
++      CHARACTER*32   MGN_NITROGEN(N_MGN_NITROGEN)
+       REAL           MGN_UNT_NITROGEN(N_MGN_NITROGEN)
+ 
+       DATA     MGN_NITROGEN(  1), MGN_UNT_NITROGEN(  1) / 'NITROGEN01           ', 1.0    /
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/makefile MEGAN31_Calc_Code_191022/src/TXT2IOAPI/makefile
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/makefile	2020-10-22 12:49:23.801080000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/makefile	1970-01-01 01:00:00.000000000 +0100
+@@ -1,35 +0,0 @@
+-SHELL = /bin/sh
+-FC = pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Bstatic_pgi -Mlfs
+-PROGRAM = txt2ioapi
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I$(CURDIR)/INCLDIR
+-
+-RAW = parsline.o \
+-      checkmem.o \
+-      cnvt_efs.o \
+-      cnvt_cantyp.o \
+-      cnvt_lai.o \
+-      cnvt_w126.o \
+-      cnvt_LDF.o \
+-      cnvt_arid.o \
+-      cnvt_nonarid.o \
+-      cnvt_fert.o \
+-      cnvt_nitrogen.o \
+-      cnvt_landtype.o \
+-      $(PROGRAM).o
+-
+-.f.o:
+-	$(FC) $(FFLAGS) $(INCLUDE) -c -o $@ $<
+-
+-.F.o:
+-	$(FC) $(FFLAGS) $(INCLUDE) -c -o $@ $<
+-
+-$(PROGRAM):	$(RAW)
+-	$(FC) $(FFLAGS) $(INCLUDE) -o $(@) $(RAW) $(LIBS)
+-
+-clean:
+-	rm -f $(PROGRAM)  *.o *.core
+diff -Nru MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/Makefile.txt2ioapi.64bit MEGAN31_Calc_Code_191022/src/TXT2IOAPI/Makefile.txt2ioapi.64bit
+--- MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/Makefile.txt2ioapi.64bit	2020-10-22 12:49:23.799155000 +0100
++++ MEGAN31_Calc_Code_191022/src/TXT2IOAPI/Makefile.txt2ioapi.64bit	2020-10-26 15:27:34.429538000 +0000
+@@ -1,12 +1,15 @@
+ SHELL = /bin/sh
+-FC = pgf90
+-FFLAGS= -O -Mvect=sse -Mextend -Msecond_underscore -Bstatic_pgi -Mlfs
++FC = gfortran
++FFLAGS= -O -mfpmath=sse -fsecond-underscore -D_FILE_OFFSET_BITS=64 -Bstatic -ffixed-line-length-132 -std=legacy
+ PROGRAM = txt2ioapi
+-LIBS =   -L/models/CMAQ/lib64/ioapi-3.1/Linux2_x86_64pg -lioapi \
+-         -L/models/CMAQ/lib/netcdf-3.6.0-p1/lib -lnetcdf
+-INCLUDE = -I/models/CMAQ/lib64/ioapi-3.1/ioapi/fixed_src \
+-          -I/models/CMAQ/lib/netcdf-3.6.0-p1/include \
+-          -I$(CURDIR)/INCLDIR
++
++LIBS =  -L$(EBROOTIOAPI) -lioapi -lgomp \
++		-L$(EBROOTNETCDF)/lib64 -lnetcdf \
++		-L$(EBROOTNETCDFMINFORTRAN)/lib64 -lnetcdff
++INCLUDE = -I$(EBROOTIOAPI)/include \
++		  -I$(EBROOTNETCDF)/include \
++		  -I$(EBROOTNETCDFMINFORTRAN)/include \
++		  -I$(CURDIR)/INCLDIR
+ 
+ RAW = parsline.o \
+       checkmem.o \
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/parsline.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/parsline.o differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/txt2ioapi and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/txt2ioapi differ
+Binary files MEGAN31_Calc_Code_191022.orig/src/TXT2IOAPI/txt2ioapi.o and MEGAN31_Calc_Code_191022/src/TXT2IOAPI/txt2ioapi.o differ

@@ -1,0 +1,54 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = "ConfigureMake"
+
+name = 'MEGAN_Calc_Code'
+version = '3.1'
+
+homepage = "https://bai.ess.uci.edu/megan"
+description = """Model of Emissions of Gases and Aerosols from Nature. Use the MEGAN Emission
+ Calculator and Speciator (Fortran code) to calculate biogenic emissions."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+# See https://bai.ess.uci.edu/megan/data-and-code for link to Google drive where sources are stored.
+# download rar file, extract using unrar and then compress it to tar.gz
+sources = ['MEGAN31_Calc_Code_191022.tar.gz']
+patches = ['MEGAN31_Calc_Code.patch']
+checksums = [
+    '2c6ed4d4a01155be943791e6817c56ddf6b88a1c98f0699f18354457d312735e',  # MEGAN31_Calc_Code_191022.tar.gz
+    'ea7e1a87fe2b0f1858d085b339bf47130ab0a773772068151ad73053b781eb33',  # MEGAN31_Calc_Code.patch
+]
+
+dependencies = [
+    ('netCDF', '4.7.1'),
+    ('netCDF-Fortran', '4.5.2'),
+    ('ioapi', '3.2-2020111', '-nocpl')
+]
+
+buildininstalldir = True
+
+skipsteps = ['configure', 'build']
+
+install_cmd = 'cd src && chmod u+x make_all_programs.scr && '
+install_cmd += './make_all_programs.scr 64bit'
+
+_executables = ['daymet', 'ioapi2uam', 'megcan', 'megsea',
+                'megvea', 'met2mgn',
+                'mgn2mech', 'txt2ioapi']
+
+postinstallcmds = ['chmod 755 src/%s/%s' % (x.upper(), x) for x in _executables]
+postinstallcmds += ['chmod 755 src/MET2MGN_rad45/met2mgn.rad45']
+postinstallcmds += ['chmod 755 bin/*']
+postinstallcmds += ['chmod 755 work/*.csh']
+
+modextrapaths = {
+    'MGNHOME': 'MEGAN31_Calc_Code_191022',
+    'PATH': ['MEGAN31_Calc_Code_191022/bin', 'MEGAN31_Calc_Code_191022/work'],
+}
+
+sanity_check_paths = {
+    'files': ['MEGAN31_Calc_Code_191022/bin/%s' % x for x in _executables],
+    'dirs': ['MEGAN31_Calc_Code_191022/%s' % x for x in ['src', 'work']],
+}
+
+moduleclass = 'geo'

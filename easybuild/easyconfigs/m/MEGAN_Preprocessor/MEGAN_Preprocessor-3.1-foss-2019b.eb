@@ -1,0 +1,52 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = "MakeCp"
+
+name = 'MEGAN_Preprocessor'
+version = '3.1'
+
+homepage = "https://bai.ess.uci.edu/megan"
+description = """Model of Emissions of Gases and Aerosols from Nature. Use the MEGAN Preprocessor to
+ regrid input data to your domain. The output of the preprocessor is used as input to the Emission 
+ Factor Processor (Python code) and the Emission Calculator (Fortran code)."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+# See https://bai.ess.uci.edu/megan/data-and-code for link to Google drive where sources are stored.
+sources = ['MEGAN31_Prep_Code_July2020.tar.gz']
+patches = ['MEGAN_Preprocessor.patch']
+checksums = [
+    'ec6381e88670943957185bb9adfab5b4cb8c4b95fd8a27b9c64ef8de446c6de8',  # MEGAN31_Prep_Code_July2020.tar.gz
+    '93899d520110b6730c972729f0b0c8beb2dc5e470ffd9bbcad7a67a8ec4744eb',  # MEGAN_Preprocessor.patch
+]
+
+dependencies = [
+    ('netCDF', '4.7.1'),
+    ('netCDF-Fortran', '4.5.2')
+]
+
+skipsteps = ['configure']
+
+_executables = [
+    'prepmegan4cmaq_%s.x' % x for x in ['ecotype', 'ef', 'fert', 'grwform', 'lai',
+                                        'landtype', 'nitrogen', 'non_arid', 'w126']
+]
+
+build_cmd = './make_util prepmegan4cmaq_arid.x'
+
+for x in _executables:
+    build_cmd += ' && ./make_util %s' % x
+
+
+files_to_copy = ['*.x', '*.f90', '*.inp', 'README', 'README_history', '*.sav', '*.csh', 'Makefile', 'make_util']
+
+modextrapaths = {
+    'MGNPREPHOME': '',
+    'PATH': '',
+}
+
+sanity_check_paths = {
+    'files': [_executables, 'prepmegan4cmaq_arid.x'],
+    'dirs': [],
+}
+
+moduleclass = 'geo'
