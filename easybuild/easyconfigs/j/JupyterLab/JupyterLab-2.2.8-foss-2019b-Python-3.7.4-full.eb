@@ -3,7 +3,8 @@ easyblock = 'PythonBundle'
 
 name = 'JupyterLab'
 version = '2.2.8'
-versionsuffix = '-Python-%(pyver)s-full'
+_pyversuf = '-Python-%(pyver)s'
+versionsuffix = '%s-full' % _pyversuf
 
 homepage = "https://jupyter.org/"
 description = """JupyterLab is the next-generation user interface for Project Jupyter offering all the familiar
@@ -15,7 +16,7 @@ toolchain = {'name': 'foss', 'version': '2019b'}
 
 dependencies = [
     ('Python', '3.7.4'),
-    ('IPython', '7.9.0', versionsuffix),
+    ('IPython', '7.9.0', _pyversuf),
     ('nodejs', '12.16.1'),
     ('git', '2.23.0', '-nodocs'),
 ]
