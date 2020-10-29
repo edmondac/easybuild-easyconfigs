@@ -37,6 +37,7 @@ exts_list = [
     }),
     ('pytest-runner', '5.2', {
         'checksums': ['96c7e73ead7b93e388c5d614770d2bae6526efd997757d3543fe17b557a0942b'],
+        'modulename': 'ptr',
     }),
     ('texttable', '1.6.3', {
         'checksums': ['ce0faf21aa77d806bbff22b107cc22cce68dc9438f97a2df32c93e9afa4ce436'],
@@ -65,6 +66,7 @@ exts_list = [
         'source_tmpl': 'v%(version)s.tar.gz',
         'source_urls': ['https://github.com/hakyimlab/MetaXcan/archive/'],
         'checksums': ['c46fddd645529cc8c7744ad755364e84d55b00ffd2d699222a206c53c60c9e1d'],
+        'modulename': 'metax',
     }),
 ]
 
