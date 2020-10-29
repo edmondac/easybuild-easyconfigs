@@ -11,7 +11,7 @@ description = """JupyterLab is the next-generation user interface for Project Ju
  etc.) in a flexible and powerful user interface. JupyterLab will eventually replace the classic Jupyter
  Notebook."""
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
 
 dependencies = [
     ('Python', '3.7.4'),
