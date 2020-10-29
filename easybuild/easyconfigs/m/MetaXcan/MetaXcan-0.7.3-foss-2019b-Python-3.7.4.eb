@@ -10,6 +10,7 @@ description = """MetaXcan is a set of tools to integrate genomic information of 
  traits."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'pic': True, 'lowopt': True}  # match SciPy-bundle
 
 dependencies = [
     ('Python', '3.7.4'),
