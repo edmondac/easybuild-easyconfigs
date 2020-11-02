@@ -6,7 +6,8 @@ version = '0.10.0'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://cran.r-project.org/package=doFuture"
-description = """"""
+description = """Provides a '%dopar%' adapter such that any type of futures can be used as backends for the 'foreach'
+framework."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 

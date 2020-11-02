@@ -6,7 +6,8 @@ version = '0.2.1'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://cran.r-project.org/package=furrr"
-description = """"""
+description = """Implementations of the family of map() functions from 'purrr' that can be resolved using any
+'future'-supported backend, e.g. parallel on the local machine or distributed on a compute cluster."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
