@@ -28,9 +28,11 @@ exts_default_options = {
 
 # Order is important!
 exts_list = [
-    ('future', '1.19.1'),
+    ('future', '1.19.1', {
+        'checksums': ['d49588df7d67fb86707198c79a7e3f0eece9f720f0bce5d4f3e28477e040c489'],
+    }),
     (name, version, {
-        #'checksums': [''],
+        'checksums': ['94be9e4f5eec8e6e288c638f6a56fdad36638855546bde1764792c1b74e31f75'],
     }),
 ]
 
