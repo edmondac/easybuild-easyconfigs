@@ -1,0 +1,47 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'doFuture'
+version = '0.10.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=doFuture"
+description = """Provides a '%dopar%' adapter such that any type of futures can be used as backends for the 'foreach'
+framework."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('future', '1.19.1', {
+        'checksums': ['d49588df7d67fb86707198c79a7e3f0eece9f720f0bce5d4f3e28477e040c489'],
+    }),
+    (name, version, {
+        'checksums': ['94be9e4f5eec8e6e288c638f6a56fdad36638855546bde1764792c1b74e31f75'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['doFuture/R/doFuture'],
+    'dirs': [],
+}
+
+moduleclass = 'lang'
