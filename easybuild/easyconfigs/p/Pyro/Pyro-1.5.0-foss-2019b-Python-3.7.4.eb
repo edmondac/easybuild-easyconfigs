@@ -1,0 +1,44 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'Pyro'
+version = '1.5.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://pyro.ai/"
+description = """Pyro is a universal probabilistic programming language (PPL) written in Python and supported by
+ PyTorch on the backend. Pyro enables flexible and expressive deep probabilistic modeling, unifying the best of
+ modern deep learning and Bayesian modeling."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('PyTorch', '1.6.0', versionsuffix),
+    ('tqdm', '4.41.1'),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('opt-einsum', '3.3.0', {
+        'source_tmpl': 'opt_einsum-%(version)s.tar.gz',
+        'checksums': ['59f6475f77bbc37dcf7cd748519c0ec60722e91e63ca114e68821c0c54a46549'],
+    }),
+    ('pyro-api', '0.1.2', {
+        'modulename': 'pyroapi',
+        'checksums': ['a1b900d9580aa1c2fab3b123ab7ff33413744da7c5f440bd4aadc4d40d14d920'],
+    }),
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/pyro-ppl/pyro/archive/'],
+        'checksums': ['7d7193aa403002d4cdacb3ed8fb745cd2de9f18be71a5ef35e96154c2a246b37'],
+    }),
+]
+
+moduleclass = 'devel'
