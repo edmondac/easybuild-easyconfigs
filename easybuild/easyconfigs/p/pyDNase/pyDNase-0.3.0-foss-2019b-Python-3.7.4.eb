@@ -1,0 +1,66 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'pyDNase'
+version = '0.3.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://jpiper.github.io/pyDNase/"
+description = """pyDNase - a library for analyzing DNase-seq data"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+builddependencies = [
+    ('pkg-config', '0.29.2'),  # matplotlib
+]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Pysam', '0.15.3'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('libpng', '1.6.37'),  # matplotlib
+    ('freetype', '2.10.1'),  # matplotlib
+    ('Tkinter', '%(pyver)s'),  # matplotlib
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('args', '0.1.0', {
+        'checksums': ['a785b8d837625e9b61c39108532d95b85274acd679693b71ebb5156848fcf814'],
+    }),
+    ('clint', '0.5.1', {
+        'checksums': ['05224c32b1075563d0b16d0015faaf9da43aa214e4a2140e51f08789e7a4c5aa'],
+    }),
+    ('Cycler', '0.10.0', {
+        'modulename': 'cycler',
+        'source_tmpl': 'cycler-%(version)s.tar.gz',
+        'checksums': ['cd7b2d1018258d7247a71425e9f26463dfb444d411c39569972f4ce586b0c9d8'],
+    }),
+    ('matplotlib', '1.5.3', {
+        'prebuildopts': "export CPLUS_INCLUDE_PATH=$EBROOTFREETYPE/include/freetype2:${CPLUS_INCLUDE_PATH} && ",
+        'preinstallopts': "export CPLUS_INCLUDE_PATH=$EBROOTFREETYPE/include/freetype2:${CPLUS_INCLUDE_PATH} && ",
+        'checksums': ['a0a5dc39f785014f2088fed2c6d2d129f0444f71afbb9c44f7bdf1b14d86ebbc'],
+    }),
+    (name, version, {
+        'modulename': '%(name)s',
+        'checksums': ['dba03cadca37929a1cc41545e962136f29efc41f8e3c6de042c51c47ee04d558'],
+    }),
+]
+
+sanity_check_commands = [
+    "wellington_bootstrap.py --help",
+    """python -c 'import matplotlib; matplotlib.use("TkAgg"); import matplotlib.pyplot' """,  # matplotlib
+    "python -c 'from mpl_toolkits.mplot3d import Axes3D'",  # matplotlib
+]
+
+# use non-interactive plotting backend as default
+# see https://matplotlib.org/tutorials/introductory/usage.html#what-is-a-backend
+modextravars = {'MPLBACKEND': 'Agg'}
+
+moduleclass = 'bio'
