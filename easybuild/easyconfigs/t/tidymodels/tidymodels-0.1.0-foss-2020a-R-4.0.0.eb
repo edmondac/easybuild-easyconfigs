@@ -11,7 +11,10 @@ grammar, and data structures of the tidyverse."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
-dependencies = [('R', '4.0.0')]
+dependencies = [
+    ('R', '4.0.0'),
+    ('furrr', '0.2.1', versionsuffix),
+]
 
 exts_default_options = {
     'source_urls': [
@@ -41,9 +44,6 @@ exts_list = [
     }),
     ('yardstick', '0.0.6', {
         'checksums': ['0aa7be3b2ec35e15bf3329057f31f89f20bf50b35c1f32672d945b06d85e7be2'],
-    }),
-    ('furrr', version, {
-        'checksums': ['dd2937f7cad1bc69e7a512b2a777f82d6cb7e40fe99afa2049ca360f9352a9d1'],
     }),
     ('rsample', '0.0.7', {
         'checksums': ['a832e978edde276d79e513bfa75e289c174fc64f76e016bd55716c96017ed068'],
