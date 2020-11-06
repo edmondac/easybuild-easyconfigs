@@ -16,6 +16,9 @@ dependencies = [
     ('Cardinal', '2.6.0', versionsuffix),
     ('factoextra', '1.0.7', versionsuffix),
     ('PCAmixdata', '3.1', versionsuffix),
+    ('doFuture', '0.10.0', versionsuffix),
+    ('furrr', '0.2.1', versionsuffix),
+    ('tidymodels', '0.1.0', versionsuffix),
 ]
 
 moduleclass = 'bio'
