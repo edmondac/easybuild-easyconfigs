@@ -1,0 +1,39 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'mitre'
+version = '1.0b1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/gerberlab/mitre/"
+description = """MITRE learns predictive models of patient outcomes from microbiome time-series data in the form of
+short lists of interpretable rules."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('matplotlib', '2.2.5', versionsuffix),
+    ('scikit-learn', '0.20.4', versionsuffix),
+    ('ETE', '3.1.2', versionsuffix),
+    ('tqdm', '4.41.1'),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('pypolyagamma', '1.2.3', {
+        'checksums': ['b7bb657d7468bdd48abb84d8e5640c5ca32b51f2d973a27446b42aa3a11faf32'],
+    }),
+    (name, version, {
+        'checksums': ['358fbd057f95068b2f6372af424a71fee16d6a5eb780201de6958bc2ec201dcf'],
+    }),
+]
+
+moduleclass = 'bio'
