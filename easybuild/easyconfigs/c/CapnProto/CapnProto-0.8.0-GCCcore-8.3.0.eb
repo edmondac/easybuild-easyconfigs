@@ -4,7 +4,7 @@ name = 'CapnProto'
 version = '0.8.0'
 
 homepage = 'https://capnproto.org'
-description = "Cap’n Proto is an insanely fast data interchange format and capability-based RPC system."
+description = "Cap'n Proto is an insanely fast data interchange format and capability-based RPC system."
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 # -std=c++17 to avoid problems like "error: 'aligned_alloc' was not declared in this scope"
