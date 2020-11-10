@@ -12,8 +12,9 @@ description = """LIGGGHTS stands for LAMMPS improved for general granular and gr
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
-sources = ['%(version)s.tar.gz']
 source_urls = ['https://github.com/CFDEMproject/LIGGGHTS-PUBLIC/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['9cb2e6596f584463ac2f80e3ff7b9588b7e3638c44324635b6329df87b90ab03']
 
 start_dir = 'src'
 buildopts = ' auto'
