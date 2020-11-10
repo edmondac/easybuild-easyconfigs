@@ -18,7 +18,7 @@ source_urls = ['https://github.com/CFDEMproject/LIGGGHTS-PUBLIC/archive/']
 start_dir = 'src'
 buildopts = ' auto'
 prebuildopts = 'MPI_LIB=${EBROOTOPENMPI}/lib MPI_INC=${EBROOTOPENMPI}/include '
-prebuildopts += 'VTK_INC="-I${EBROOTVTK}/include/vtk-8.0" VTK_LIB="-L${EBROOTVTK}/lib" VTK_APPENDIX_USR="8.0" '
+prebuildopts += 'VTK_INC="-I${EBROOTVTK}/include/vtk-8.2" VTK_LIB="-L${EBROOTVTK}/lib" VTK_APPENDIX_USR="8.2" '
 
 dependencies = [
     ('VTK', '8.2.0', '-Python-3.8.2'),
