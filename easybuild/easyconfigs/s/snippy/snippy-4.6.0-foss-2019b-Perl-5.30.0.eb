@@ -26,6 +26,7 @@ dependencies = [
     ('vt', '2187ff6'),
     ('SAMtools', '1.10'),
     ('BCFtools', '1.10.2'),
+    ('Java', '11', '', True),
 ]
 
 sanity_check_paths = {
@@ -34,5 +35,7 @@ sanity_check_paths = {
               'binaries/linux/bwa'],
     'dirs': [],
 }
+
+sanity_check_commands = ["snippy --check"]
 
 moduleclass = 'bio'
