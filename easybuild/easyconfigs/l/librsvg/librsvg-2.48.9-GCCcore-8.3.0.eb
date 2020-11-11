@@ -25,11 +25,11 @@ dependencies = [
 
 preconfigopts = 'LDFLAGS="-L${EBROOTHARFBUZZ}/lib ${LDFLAGS}" '
 
-# this loader wants to install in the directory of Gdk-Pixbuf itself, so disable
+# WARNING: This will install libpixbufloader-svg.{a,la,so} into
+# the live install dir for Gdk-Pixbuf: ${EBROOTGDKMINPIXBUF}/lib/gdk-pixbuf-2.0/2.10.0/loaders
+# This is needed to build adwaita-icon-theme in GTK+-3.24.13-GCCcore-8.3.0.eb
+# To prevent this behaviour, uncomment the following line:
 # configopts = '--disable-pixbuf-loader'
-
-# needed for svg compatibility for things that link against -lrsvg-2
-#configopts += ' --enable-tools'
 
 sanity_check_paths = {
     'files': ['bin/rsvg-convert', 'lib/librsvg-%%(version_major)s.%s' % SHLIB_EXT, 'lib/librsvg-2.a'],

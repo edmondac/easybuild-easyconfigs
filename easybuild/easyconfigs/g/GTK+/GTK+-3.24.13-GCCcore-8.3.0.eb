@@ -20,7 +20,7 @@ builddependencies = [
     ('pkg-config', '0.29.2'),
     ('cairo', '1.16.0'),
     ('Perl', '5.30.0'),
-    ('librsvg', '2.48.9'),  #XXX if we let it install libpixbufloader-svg.so into Gdk-Pixbuf
+    ('librsvg', '2.48.9'),
 ]
 
 dependencies = [
