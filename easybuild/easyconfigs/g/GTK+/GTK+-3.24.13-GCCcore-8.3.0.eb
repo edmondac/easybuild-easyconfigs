@@ -30,6 +30,7 @@ dependencies = [
     ('libepoxy', '1.5.4'),
     ('X11', '20190717'),
     ('FriBidi', '1.0.5'),
+    ('librsvg', '2.48.9'),
 ]
 
 default_easyblock = 'ConfigureMake'
@@ -52,10 +53,10 @@ components = [
         'configopts': "--disable-silent-rules --disable-glibtest --enable-introspection=yes "
                       "--disable-visibility --disable-cups ",
     }),
-    ('adwaita-icon-theme', '3.34.3', {
+    ('adwaita-icon-theme', '3.38.0', {
         'source_urls': [FTPGNOME_SOURCE],
-        'checksums': ['e7c2d8c259125d5f35ec09522b88c8fe7ecf625224ab0811213ef0a95d90b908'],
-        'preconfigopts': "export PATH=%(installdir)/bin:${PATH} && ",
+        'checksums': ['6683a1aaf2430ccd9ea638dd4bfe1002bc92b412050c3dba20e480f979faaf97'],
+        'preconfigopts': "export PATH=%(installdir)s/bin:${PATH} && ",
     }),
     ('hicolor-icon-theme', '0.17', {
         'source_urls': ['https://icon-theme.freedesktop.org/releases/'],
