@@ -20,6 +20,7 @@ builddependencies = [
     ('pkg-config', '0.29.2'),
     ('cairo', '1.16.0'),
     ('Perl', '5.30.0'),
+    ('librsvg', '2.48.9'),  #XXX if we let it install libpixbufloader-svg.so into Gdk-Pixbuf
 ]
 
 dependencies = [
@@ -30,7 +31,6 @@ dependencies = [
     ('libepoxy', '1.5.4'),
     ('X11', '20190717'),
     ('FriBidi', '1.0.5'),
-    ('librsvg', '2.48.9'),
 ]
 
 default_easyblock = 'ConfigureMake'
@@ -50,13 +50,13 @@ components = [
     (name, version, {
         'source_urls': [FTPGNOME_SOURCE],
         'checksums': ['4c775c38cf1e3c534ef0ca52ca6c7a890fe169981af66141c713e054e68930a9'],
-        'preconfigopts': 'export LDFLAGS="${LDFLAGS} -L${EBROOTLIBRSVG}/lib -lrsvg-2" && ',
+        'preconfigopts': 'export LDFLAGS="-L${EBROOTLIBRSVG}/lib -lrsvg-2 ${LDFLAGS}" && ',
         'configopts': "--disable-silent-rules --disable-glibtest --enable-introspection=yes "
                       "--disable-visibility --disable-cups ",
     }),
-    ('adwaita-icon-theme', '3.38.0', {
+    ('adwaita-icon-theme', '3.34.3', {
         'source_urls': [FTPGNOME_SOURCE],
-        'checksums': ['6683a1aaf2430ccd9ea638dd4bfe1002bc92b412050c3dba20e480f979faaf97'],
+        'checksums': ['e7c2d8c259125d5f35ec09522b88c8fe7ecf625224ab0811213ef0a95d90b908'],
         'preconfigopts': "export PATH=%(installdir)s/bin:${PATH} && ",
     }),
     ('hicolor-icon-theme', '0.17', {

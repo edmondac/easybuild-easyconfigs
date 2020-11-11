@@ -23,12 +23,13 @@ dependencies = [
     ('cairo', '1.16.0'),
 ]
 
-preconfigopts = 'LDFLAGS="-L${EBROOTHARFBUZZ}/lib" '
+preconfigopts = 'LDFLAGS="-L${EBROOTHARFBUZZ}/lib ${LDFLAGS}" '
 
 # this loader wants to install in the directory of Gdk-Pixbuf itself, so disable
-configopts = '--disable-pixbuf-loader'
+# configopts = '--disable-pixbuf-loader'
 
-prebuildopts = 'export LD_FLAGS="-lhb" && '
+# needed for svg compatibility for things that link against -lrsvg-2
+#configopts += ' --enable-tools'
 
 sanity_check_paths = {
     'files': ['bin/rsvg-convert', 'lib/librsvg-%%(version_major)s.%s' % SHLIB_EXT, 'lib/librsvg-2.a'],
