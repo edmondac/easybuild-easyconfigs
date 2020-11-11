@@ -48,10 +48,6 @@ components = [
         'source_urls': ['https://icon-theme.freedesktop.org/releases/'],
         'checksums': ['317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8'],
     }),
-    ('adwaita-icon-theme', '3.34.3', {
-        'source_urls': [FTPGNOME_SOURCE],
-        'checksums': ['e7c2d8c259125d5f35ec09522b88c8fe7ecf625224ab0811213ef0a95d90b908'],
-    }),
     (name, version, {
         'source_urls': [FTPGNOME_SOURCE],
         'checksums': ['4c775c38cf1e3c534ef0ca52ca6c7a890fe169981af66141c713e054e68930a9'],
@@ -68,7 +64,7 @@ sanity_check_paths = {
                                      'gtk-update-icon-cache']] +
              ['lib/%s-%%(version_major)s.%s' % (x, SHLIB_EXT) for x in ['libgailutil', 'libgdk', 'libgtk']],
     'dirs': ['include/%s-%%(version_major)s.0' % x for x in ['gail', 'gtk']] +
-            ['share/icons/hicolor', 'share/icons/Adwaita'],
+            ['share/icons/hicolor'],
 }
 
 moduleclass = 'vis'
