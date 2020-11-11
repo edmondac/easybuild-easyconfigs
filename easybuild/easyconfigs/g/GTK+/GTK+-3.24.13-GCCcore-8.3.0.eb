@@ -44,19 +44,22 @@ prebuildopts = ('export XDG_DATA_DIRS=${EBROOTGDKMINPIXBUF}/share:'
                 '${XDG_DATA_DIRS} && ')
 
 components = [
-    ('hicolor-icon-theme', '0.17', {
-        'source_urls': ['https://icon-theme.freedesktop.org/releases/'],
-        'checksums': ['317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8'],
-    }),
-    ('adwaita-icon-theme', '3.34.3', {
-        'source_urls': [FTPGNOME_SOURCE],
-        'checksums': ['e7c2d8c259125d5f35ec09522b88c8fe7ecf625224ab0811213ef0a95d90b908'],
-    }),
+    # We need to install GTK+ before the other components, as they depend on it
+    # otherwise they'll use the system gtk+ when installing, and can have symbol errors
     (name, version, {
         'source_urls': [FTPGNOME_SOURCE],
         'checksums': ['4c775c38cf1e3c534ef0ca52ca6c7a890fe169981af66141c713e054e68930a9'],
         'configopts': "--disable-silent-rules --disable-glibtest --enable-introspection=yes "
                       "--disable-visibility --disable-cups ",
+    }),
+    ('adwaita-icon-theme', '3.34.3', {
+        'source_urls': [FTPGNOME_SOURCE],
+        'checksums': ['e7c2d8c259125d5f35ec09522b88c8fe7ecf625224ab0811213ef0a95d90b908'],
+        'preconfigopts': "export PATH=%(installdir)/bin:${PATH} && ",
+    }),
+    ('hicolor-icon-theme', '0.17', {
+        'source_urls': ['https://icon-theme.freedesktop.org/releases/'],
+        'checksums': ['317484352271d18cbbcfac3868eab798d67fff1b8402e740baa6ff41d588a9d8'],
     }),
 ]
 
