@@ -1,0 +1,45 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'SoupX'
+version = '1.4.8'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=SoupX"
+description = """Quantify, profile and remove ambient mRNA contamination (the "soup") from droplet based single cell
+ RNA-seq experiments. Implements the method described in Young et al. (2018) <doi:10.1101/303727>."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('Seurat', '3.2.0', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['ac3166eb3a5bca2e57ed64b3c105d812476d07d45719173b736e8b2ee987d853'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['SoupX/R/SoupX'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
