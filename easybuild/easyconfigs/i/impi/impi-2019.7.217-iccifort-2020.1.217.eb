@@ -31,7 +31,7 @@ modextravars = {
 
     # set this if mpirun gives you a floating point exception (SIGFPE), see
     # https://software.intel.com/en-us/forums/intel-clusters-and-hpc-technology/topic/852307
-    # 'I_MPI_HYDRA_TOPOLIB': 'ipl',
+    'I_MPI_HYDRA_TOPOLIB': 'ipl',
 }
 
 # may be needed if you enable I_MPI_PMI_LIBRARY above
