@@ -1,0 +1,12 @@
+--- ungrib/src/ngl/g2/enc_jpeg2000.c.orig	2018-05-14 14:22:43.537837000 +0100
++++ ungrib/src/ngl/g2/enc_jpeg2000.c	2018-05-14 14:23:04.362012000 +0100
+@@ -138,7 +138,8 @@
+     image.clrspc_=JAS_CLRSPC_SGRAY;         /* grayscale Image */
+     image.cmprof_=0; 
+ #endif
+-    image.inmem_=1;
++    // See http://forum.wrfforum.com/viewtopic.php?f=5&t=10248
++    //image.inmem_=1;
+ 
+     cmpt.tlx_=0;
+     cmpt.tly_=0;

@@ -1,0 +1,39 @@
+name = 'WPS'
+version = '3.9.1'
+buildtype = "dmpar"
+versionsuffix = '-%s' % buildtype
+
+homepage = 'https://www.mmm.ucar.edu/weather-research-and-forecasting-model'
+description = """WRF Preprocessing System (WPS) for WRF. The Weather Research and Forecasting (WRF) Model is
+ a next-generation mesoscale numerical weather prediction system designed to serve both operational
+ forecasting and atmospheric research needs."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+toolchainopts = {'opt': True}
+
+source_urls = [
+    'http://www2.mmm.ucar.edu/wrf/src/',
+    'http://www.mmm.ucar.edu/wrf/src/',
+]
+sources = ['%(name)sV3.9.1.TAR.gz']
+
+patches = [
+    'WPS_jasper_jpeg.patch',
+    'WPS-%(version)s_netCDF-Fortran_seperate_path.patch',
+    # https://github.com/wrf-model/WPS/pull/119 <- IAND error details
+    'WPS_IAND_error.patch',
+]
+
+checksums = [
+]
+
+dependencies = [
+    ('WRF', '3.9.1.1', versionsuffix),
+    ('JasPer', '2.0.14'),
+    ('netCDF', '4.7.4'),
+    ('netCDF-Fortran', '4.5.2'),
+    ('zlib', '1.2.11'),
+    ('libpng', '1.6.37'),
+]
+
+moduleclass = 'geo'
