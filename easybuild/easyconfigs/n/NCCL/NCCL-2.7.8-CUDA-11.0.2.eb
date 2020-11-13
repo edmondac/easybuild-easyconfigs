@@ -21,7 +21,7 @@ checksums = [
         '%%(namelower)s_%%(version)s-1+cuda%s_x86_64.txz' % local_cuda_version:
             '34000cbe6a0118bfd4ad898ebc5f59bf5d532bbf2453793891fa3f1621e25653',
         '%%(namelower)s_%%(version)s-1+cuda%s_ppc64le.txz' % local_cuda_version:
-            '34000cbe6a0118bfd4ad898ebc5f59bf5d532bbf2453793891fa3f1621e25653',
+            'a3434ab140ad54a7ca20ee0ce9c411140dceb75ae4390af17ba40b4b81aaa76b',
     }
 ]
 
