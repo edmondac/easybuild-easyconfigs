@@ -12,8 +12,8 @@ toolchain = {'name': 'foss', 'version': '2020a'}
 toolchainopts = {'opt': True}
 
 source_urls = [
-    'http://www2.mmm.ucar.edu/wrf/src/',
-    'http://www.mmm.ucar.edu/wrf/src/',
+    'https://www2.mmm.ucar.edu/wrf/src/',
+    'https://www.mmm.ucar.edu/wrf/src/',
 ]
 sources = ['%(name)sV3.9.1.TAR.gz']
 patches = [
