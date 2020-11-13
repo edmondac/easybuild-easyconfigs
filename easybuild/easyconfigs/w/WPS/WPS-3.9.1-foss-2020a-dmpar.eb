@@ -16,15 +16,17 @@ source_urls = [
     'http://www.mmm.ucar.edu/wrf/src/',
 ]
 sources = ['%(name)sV3.9.1.TAR.gz']
-
 patches = [
     'WPS_jasper_jpeg.patch',
     'WPS-%(version)s_netCDF-Fortran_seperate_path.patch',
     # https://github.com/wrf-model/WPS/pull/119 <- IAND error details
     'WPS_IAND_error.patch',
 ]
-
 checksums = [
+    '48a05cb25d6dcfaf4ba6fc63719b361ae240c79aad8066412646c936eecfcf90',  # WPSV3.9.1.TAR.gz
+    '110bc89a23efc16099d5e5c90c0bf4410bb57d050ab8ebfb7f9318c7a8559627',  # WPS_jasper_jpeg.patch
+    'ddfbc76548f1a5022b45026040d5abdec8ca82e10458ccd6bc30abd2fdfdfee5',  # WPS-3.9.1_netCDF-Fortran_seperate_path.patch
+    'ccbef7099af1c80660c71517ad1d5b590ef99ede9333ba919e4a53ea62943e30',  # WPS_IAND_error.patch
 ]
 
 dependencies = [
