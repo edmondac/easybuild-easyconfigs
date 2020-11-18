@@ -3,7 +3,6 @@ easyblock = 'Tarball'
 name = 'mlst'
 version = '2.19.0'
 github_account = 'tseemann'
-versionsuffix = ''
 
 homepage = "https://github.com/tseemann/mlst"
 description = """Scan contig files against traditional PubMLST typing schemes"""
