@@ -1,0 +1,29 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+name = 'mlst'
+version = '2.19.0'
+github_account = 'tseemann'
+
+homepage = "https://github.com/tseemann/mlst"
+description = """Scan contig files against traditional PubMLST typing schemes"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = [GITHUB_SOURCE]
+sources = ['v%(version)s.tar.gz']
+checksums = ['74403be717f0bffd579028fd8e7c02d826f5c896e38e6078271a59f7dfce2b0e']
+
+dependencies = [
+    ('Perl', '5.30.0'),
+    ('BLAST+', '2.9.0'),
+    ('any2fasta', '0.4.2'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/mslt', 'db/blast/mlst.fa'],
+    'dirs': ['perl5', 'scripts'],
+}
+
+sanity_check_commands = ['%(namelower)s -v']
+
+moduleclass = 'bio'
