@@ -1,0 +1,45 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'RNAstructure'
+version = '6.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://rna.urmc.rochester.edu/RNAstructure.html"
+description = """RNAstructure is a complete package for RNA and DNA secondary structure prediction and analysis. It
+ includes algorithms for secondary structure prediction, including facility to predict base pairing probabilities.
+ It also can be used to predict bimolecular structures and can predict the equilibrium binding affinity of an
+ oligonucleotide to a structured RNA target. This is useful for siRNA design. It can also predict secondary structures
+ common to two, unaligned sequences, which is much more accurate than single sequence secondary structure prediction.
+ Finally, RNAstructure can take a number of different types of experiment mapping data to constrain or restrain
+ structure prediction. These include chemical mapping, enzymatic mapping, NMR, and SHAPE data. """
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://rna.urmc.rochester.edu/Releases/%(version)s']
+sources = [{'download_filename': '%(name)sSource.tgz', 'filename': SOURCE_TAR_GZ}]
+patches = ['%(name)s_install_dir.patch']
+checksums = [
+    '8100efd13e85c228098aa484d05b45331003f3fe4de3d2d5c0285f0e2fc66aaf',  # RNAstructure-6.2.tar.gz
+    '32084e5b97293c8fe0331016f6bdf825ca780ced5d6f50fe7cfd0d1298434120',  # RNAstructure_install_dir.patch
+]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Java', '11', '', True),
+]
+
+skipsteps = ['configure']
+buildopts = "all python-interface gui editor"
+runtest = "tests"
+installopts = "PREFIX=%(installdir)s"
+postinstallcmds = ["cp -r %(builddir)s/%(name)s/data_tables %(installdir)s/."]
+
+sanity_check_paths = {
+    'files': ['bin/dynalign', 'bin/ProbKnot-smp', 'bin/StructureEditor'],
+    'dirs': ['data_tables'],
+}
+
+modextrapaths = {'DATAPATH': 'data_tables'}
+
+moduleclass = 'bio'
