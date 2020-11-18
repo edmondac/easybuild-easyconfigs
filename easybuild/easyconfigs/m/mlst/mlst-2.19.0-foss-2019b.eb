@@ -20,7 +20,7 @@ dependencies = [
 ]
 
 sanity_check_paths = {
-    'files': ['bin/mslt', 'db/blast/mlst.fa'],
+    'files': ['bin/mlst', 'db/blast/mlst.fa'],
     'dirs': ['perl5', 'scripts'],
 }
 
