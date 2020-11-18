@@ -1,0 +1,11 @@
+--- Makefile.orig	2020-11-18 12:01:42.578202000 +0000
++++ Makefile	2020-11-18 12:04:50.615431289 +0000
+@@ -108,7 +108,7 @@
+ 
+ # Copy the executables to the /usr/local directory.
+ install:
+-	cp -r exe/ /usr/local/RNAstructure
++	cp -r exe/ $(PREFIX)/bin
+ 
+ ####  Define Makefile Targets for all programs ####
+ # Redirect `make PROGRAM` to `make exe/PROGRAM` for all programs listed above.
