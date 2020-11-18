@@ -5,7 +5,7 @@ name = 'RNAstructure'
 version = '6.2'
 versionsuffix = '-Python-%(pyver)s'
 
-homepage = "http://rna.urmc.rochester.edu/RNAstructure.html"
+homepage = "https://rna.urmc.rochester.edu/RNAstructure.html"
 description = """RNAstructure is a complete package for RNA and DNA secondary structure prediction and analysis. It
  includes algorithms for secondary structure prediction, including facility to predict base pairing probabilities.
  It also can be used to predict bimolecular structures and can predict the equilibrium binding affinity of an
@@ -16,7 +16,7 @@ description = """RNAstructure is a complete package for RNA and DNA secondary st
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
-source_urls = ['http://rna.urmc.rochester.edu/Releases/%(version)s']
+source_urls = ['https://rna.urmc.rochester.edu/Releases/%(version)s']
 sources = [{'download_filename': '%(name)sSource.tgz', 'filename': SOURCE_TAR_GZ}]
 patches = ['%(name)s_install_dir.patch']
 checksums = [
