@@ -34,9 +34,6 @@ dependencies = [
 
 configopts = '-DLIB_POTASSCO_INSTALL_LIB=ON '
 configopts += '-DCLASP_BUILD_APP=ON '
-configopts += '-DPython_EXECUTABLE:FILEPATH=${EBROOTPYTHON}/bin/python '
-configopts += '-DPython_INCLUDE_DIR:PATH=${EBROOTPYTHON}/include/python3.7m/ '
-configopts += '-DPython_LIBRARY_RELEASE:FILEPATH=${EBROOTPYTHON}/lib/libpython3.so -DCLINGO_REQUIRE_PYTHON:BOOL=On '
 
 files_to_copy = ['*']
 
