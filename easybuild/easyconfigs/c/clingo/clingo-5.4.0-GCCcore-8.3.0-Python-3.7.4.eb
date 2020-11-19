@@ -15,6 +15,7 @@ toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
 source_urls = ['https://github.com/potassco/clingo/archive']
 sources = ['v%(version)s.tar.gz']
+patches = ['%(name)s-%(version)s_tp_print.patch']
 checksums = ['e2de331ee0a6d254193aab5995338a621372517adcf91568092be8ac511c18f3']
 
 builddependencies = [
