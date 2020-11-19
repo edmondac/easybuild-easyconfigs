@@ -1,0 +1,33 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'python-fsps'
+version = '6cb5769'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://dfm.io/python-fsps"
+description = """These are a set of Python bindings to Charlie Conroy’s Flexible Stellar Population Synthesis (FSPS)
+ Fortran library. Python-FSPS makes it easy to generate spectra and magnitudes for arbitrary stellar populations."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/dfm/python-fsps/archive/']
+sources = ['%(version)s.tar.gz']
+
+patches = ['FSPS-remove-githash-check.patch']
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('FSPS', '182e2b4'),  # this FSPS commit is the closest available to the python-fsps commit date
+]
+
+preinstallopts = "export NPY_DISTUTILS_APPEND_FLAGS=1 &&"
+
+options = {'modulename': 'fsps'}
+
+sanity_pip_check = True
+use_pip = True
+download_dep_fail = True
+
+moduleclass = 'astro'

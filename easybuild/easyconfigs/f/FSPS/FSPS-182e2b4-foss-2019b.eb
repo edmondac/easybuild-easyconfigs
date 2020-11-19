@@ -1,0 +1,36 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+
+easyblock = 'ConfigureMake'
+
+name = 'FSPS'
+version = '182e2b4'  # this version is closest to when the python-fsps repo was last committed to
+
+homepage = "https://github.com/cconroy20/fsps"
+description = """Flexible Stellar Population Synthesis"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'pic': True}
+
+github_account = 'cconroy20'
+source_urls = [GITHUB_SOURCE]
+sources = ['%(version)s.tar.gz']
+
+dependencies = []
+
+parallel = 1
+
+unpack_options = '--strip-components=1'
+
+skipsteps = ['configure', 'install']
+buildininstalldir = True
+
+prebuildopts = "cd ./src && make clean &&"
+
+modextravars = {'SPS_HOME': '%(installdir)s'}
+
+sanity_check_paths = {
+    'files': [ 'src/%s' % x for x in ['simple.exe', 'lesssimple.exe', 'autosps.exe']],
+    'dirs': [],
+}
+
+moduleclass = 'astro'

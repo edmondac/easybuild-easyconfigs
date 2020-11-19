@@ -16,7 +16,7 @@ dependencies = [
     ('SciPy-bundle', '2019.10', versionsuffix),
     ('astropy', '4.0', versionsuffix),
     ('h5py', '2.10.0', versionsuffix),
-    # ('mosfit', '1.1.6', versionsuffix),
+    ('python-fsps', '6cb5769', versionsuffix),
 ]
 
 sanity_pip_check = True
