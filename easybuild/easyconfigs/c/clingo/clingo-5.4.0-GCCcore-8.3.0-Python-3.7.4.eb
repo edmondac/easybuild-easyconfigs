@@ -18,7 +18,7 @@ sources = ['v%(version)s.tar.gz']
 patches = ['%(name)s-%(version)s_find_python.patch']
 checksums = [
     'e2de331ee0a6d254193aab5995338a621372517adcf91568092be8ac511c18f3',  # v5.4.0.tar.gz
-    '79e0e0326a2dd55adab1aa3998411dc802e1105b843ee1f239137cd6d68e1fd9',  # clingo-5.4.0_find_python.patch
+    '4e9c996061cb0dedea88855ae83220fabce011ca0aff9c776ca76cf2c051e94a',  # clingo-5.4.0_find_python.patch
 ]
 
 builddependencies = [

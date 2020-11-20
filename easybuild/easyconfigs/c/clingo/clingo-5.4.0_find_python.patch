@@ -1,48 +1,20 @@
---- clingo-5.4.0/CMakeLists.txt.orig	2020-11-19 22:37:15.087105358 +0000
-+++ clingo-5.4.0/CMakeLists.txt	2020-11-19 22:37:09.443035480 +0000
-@@ -99,42 +99,10 @@
-     set(CMAKE_IMPORT_LIBRARY_PREFIX import_)
- endif()
- 
--# NOTE: searching for the interpreter first increases the chance
--#       that searching for the python libraries finds the matching libraries for the default python interpreter
--#       python is also used to run the tests
--
--if(CMAKE_VERSION VERSION_GREATER "3.15.0" OR CMAKE_VERSION VERSION_EQUAL "3.15.0")
--    set(_args Interpreter)
--    if (CLINGO_BUILD_WITH_PYTHON)
--        set(_args ${_args} Development)
--        if (CLINGO_REQUIRE_PYTHON)
--            set(_args ${_args} REQUIRED)
--        endif()
--    endif()
+--- clingo-5.4.0/CMakeLists.txt.orig	2019-08-25 21:33:04.000000000 +0000
++++ clingo-5.4.0/CMakeLists.txt	2020-11-20 07:54:48.555406499 +0000
+@@ -111,7 +111,9 @@
+             set(_args ${_args} REQUIRED)
+         endif()
+     endif()
 -    find_package(Python COMPONENTS ${_args})
--else()
--    find_package(PythonInterp)
--    set(Python_EXECUTABLE "${PYTHON_EXECUTABLE}")
--    if (CLINGO_BUILD_WITH_PYTHON)
--        if (CLINGO_REQUIRE_PYTHON)
--            find_package(PythonLibs REQUIRED)
--        else()
--            find_package(PythonLibs)
--        endif()
--        if(PYTHONLIBS_FOUND)
--            add_library(Python::Python INTERFACE IMPORTED)
--            add_library(Python::Module INTERFACE IMPORTED)
--            set(Python_Development_FOUND ON)
--            set(Python_INCLUDE_DIRS "${PYTHON_INCLUDE_DIRS}")
--            set_property(TARGET Python::Python PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${PYTHON_INCLUDE_DIRS}")
--            set_property(TARGET Python::Module PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${PYTHON_INCLUDE_DIRS}")
--            set_property(TARGET Python::Python PROPERTY INTERFACE_LINK_LIBRARIES "${PYTHON_LIBRARIES}")
--            if (NOT PYCLINGO_DYNAMIC_LOOKUP)
--                set_property(TARGET Python::Module PROPERTY INTERFACE_LINK_LIBRARIES "${PYTHON_LIBRARIES}")
--            endif()
--        endif()
--    endif()
--endif()
-+# Search for the exact Python version we have in foss/2019b - to avoid finding a newer system python
-+# https://gitlab.kitware.com/cmake/cmake/-/merge_requests/3690 would allow a better fix, but it's in CMake 3.16
-+find_package(Python "3.7.4" EXACT)
++    # Search for the exact Python version we have in foss/2019b - to avoid finding a newer system python
++    # https://gitlab.kitware.com/cmake/cmake/-/merge_requests/3690 would allow a better fix, but it's in CMake 3.16
++    find_package(Python "3.7.4" EXACT COMPONENTS ${_args})
+ else()
+     find_package(PythonInterp)
+     set(Python_EXECUTABLE "${PYTHON_EXECUTABLE}")
+@@ -135,6 +137,7 @@
+         endif()
+     endif()
+ endif()
 +
  if (CLINGO_BUILD_WITH_LUA)
      if (CLINGO_REQUIRE_LUA)
