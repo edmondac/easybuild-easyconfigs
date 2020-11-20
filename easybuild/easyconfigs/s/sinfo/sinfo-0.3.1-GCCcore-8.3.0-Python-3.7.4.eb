@@ -11,6 +11,8 @@ description = """sinfo outputs version information for modules loaded in the cur
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
+builddependencies = [('binutils', '2.32')]
+
 dependencies = [
     ('Python', '3.7.4'),
 ]
