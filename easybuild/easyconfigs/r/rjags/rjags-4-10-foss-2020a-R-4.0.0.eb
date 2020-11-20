@@ -4,7 +4,7 @@ name = 'rjags'
 version = '4-10'
 versionsuffix = '-R-%(rver)s'
 
-homepage = 'https://cran.r-project.org/web/packages/rjags'
+homepage = 'https://cran.r-project.org/package=rjags'
 description = """The rjags package is an interface to the JAGS library."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
