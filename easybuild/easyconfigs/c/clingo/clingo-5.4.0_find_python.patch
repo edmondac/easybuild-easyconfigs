@@ -1,0 +1,21 @@
+--- clingo-5.4.0/CMakeLists.txt.orig	2019-08-25 21:33:04.000000000 +0000
++++ clingo-5.4.0/CMakeLists.txt	2020-11-20 07:54:48.555406499 +0000
+@@ -111,7 +111,9 @@
+             set(_args ${_args} REQUIRED)
+         endif()
+     endif()
+-    find_package(Python COMPONENTS ${_args})
++    # Search for the exact Python version we have in foss/2019b - to avoid finding a newer system python
++    # https://gitlab.kitware.com/cmake/cmake/-/merge_requests/3690 would allow a better fix, but it's in CMake 3.16
++    find_package(Python "3.7.4" EXACT COMPONENTS ${_args})
+ else()
+     find_package(PythonInterp)
+     set(Python_EXECUTABLE "${PYTHON_EXECUTABLE}")
+@@ -135,6 +137,7 @@
+         endif()
+     endif()
+ endif()
++
+ if (CLINGO_BUILD_WITH_LUA)
+     if (CLINGO_REQUIRE_LUA)
+         find_package(Lua REQUIRED)
