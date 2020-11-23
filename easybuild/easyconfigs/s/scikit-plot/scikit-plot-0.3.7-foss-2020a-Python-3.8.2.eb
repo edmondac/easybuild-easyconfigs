@@ -1,0 +1,29 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'scikit-plot'
+version = '0.3.7'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/reiinakano/scikit-plot"
+description = """Scikit-plot is the result of an unartistic data scientist's dreadful realization that *visualization
+ is one of the most crucial components in the data science process, not just a mere afterthought*."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('matplotlib', '3.2.1', versionsuffix),
+    ('scikit-learn', '0.23.2', versionsuffix),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['2c7948817fd2dc06879cfe3c1fdde56a8e71fa5ac626ffbe79f043650baa6242']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+options = {'modulename': 'scikitplot'}
+
+moduleclass = 'vis'

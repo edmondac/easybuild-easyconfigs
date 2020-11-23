@@ -1,0 +1,31 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'wittgenstein'
+version = '0.2.3'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/imoscovitz/wittgenstein"
+description = """This package implements two iterative coverage-based ruleset algorithms: IREP and RIPPERk."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('SciPy-bundle', '2020.03', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    (name, version, {
+        'checksums': ['eda5478661fd7b64fc7d34dc7f9dd9ceedd1fed7db917030d6154e20d8aeb358'],
+    }),
+]
+
+moduleclass = 'tools'
