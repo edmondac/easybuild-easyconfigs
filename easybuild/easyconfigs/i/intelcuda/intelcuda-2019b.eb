@@ -13,7 +13,7 @@ local_compver = '2019.5.281'
 dependencies = [
     ('iccifort', local_compver),
     ('CUDA', '10.1.243', '', ('iccifort', local_compver)),
-    ('impi', '2018.5.288', '', ('iccifortcuda', version)),
+    ('impi', '2019.7.217', '', ('iccifortcuda', version)),
     ('imkl', '2019.5.281', '', ('iimpic', version)),
 ]
 
