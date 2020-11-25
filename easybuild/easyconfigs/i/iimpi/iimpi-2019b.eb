@@ -4,7 +4,7 @@ easyblock = 'Toolchain'
 name = 'iimpi'
 version = '2019b'
 
-homepage = 'http://software.intel.com/en-us/intel-cluster-toolkit-compiler/'
+homepage = 'https://software.intel.com/en-us/intel-cluster-toolkit-compiler/'
 description = """Intel C/C++ and Fortran compilers, alongside Intel MPI."""
 
 toolchain = SYSTEM
@@ -12,7 +12,7 @@ toolchain = SYSTEM
 local_compver = '2019.5.281'
 dependencies = [
     ('iccifort', local_compver),
-    ('impi', '2018.5.288', '', ('iccifort', local_compver)),
+    ('impi', '2019.7.217', '', ('iccifort', local_compver)),
 ]
 
 moduleclass = 'toolchain'
