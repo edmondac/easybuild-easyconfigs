@@ -1,4 +1,3 @@
-easyblock = 'ConfigureMake'
 name = 'MrBayes'
 version = '3.2.7a'
 github_account = 'NBISweden'
@@ -16,10 +15,6 @@ checksums = ['3eed2e3b1d9e46f265b6067a502a89732b6f430585d258b886e008e846ecc5c6']
 dependencies = [
     ('beagle-lib', '3.1.2'),
     ('libreadline', '8.0'),
-]
-
-builddependencies = [
-    ('Autotools', '20180311'),
 ]
 
 sanity_check_paths = {
