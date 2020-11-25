@@ -2,7 +2,7 @@ name = 'MrBayes'
 version = '3.2.7a'
 github_account = 'NBISweden'
 
-homepage = 'https://nbisweden.github.io/'
+homepage = 'https://nbisweden.github.io/MrBayes'
 description = "MrBayes is a program for the Bayesian estimation of phylogeny."
 
 toolchain = {'name': 'foss', 'version': '2020a'}
