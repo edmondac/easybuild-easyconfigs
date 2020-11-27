@@ -50,8 +50,8 @@ configopts += '--without-java --disable-doxygen-doc '
 configopts += '--with-cuda=$EBROOTCUDACORE '
 
 # Our EL7 doesn't have a late enough CUDA driver to support GDRCopy
-import os  # NOQA
-if not os.environ.get('BB_OSBASE', '').startswith('EL7'):
+import os as _os  # NOQA
+if not _os.environ.get('BB_OSBASE', '').startswith('EL7'):
     dependencies.append(('GDRCopy', '2.1', versionsuffix))
     configopts += '--with-gdrcopy=$EBROOTGDRCOPY '
 
