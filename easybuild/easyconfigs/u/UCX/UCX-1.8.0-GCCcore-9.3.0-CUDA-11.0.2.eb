@@ -51,8 +51,7 @@ configopts += '--with-cuda=$EBROOTCUDACORE '
 
 # Our EL7 doesn't have a late enough CUDA driver to support GDRCopy
 import os  # NOQA
-osbase = os.environ.get('BB_OSBASE', '')
-if not osbase.startswith('EL7'):
+if not os.environ.get('BB_OSBASE', '').startswith('EL7'):
     dependencies.append(('GDRCopy', '2.1', versionsuffix))
     configopts += '--with-gdrcopy=$EBROOTGDRCOPY '
 
