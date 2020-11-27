@@ -19,7 +19,7 @@ builddependencies = [
 
 srcdir = 'cmake'
 
-configopts = '-Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_BUILD_SHARED_LIBS=ON '
+configopts = ['-Dprotobuf_BUILD_TESTS=OFF -Dprotobuf_BUILD_SHARED_LIBS=%s ' % x for x in ['ON', 'OFF']]
 
 sanity_check_paths = {
     'files': ['bin/protoc', 'lib/libprotobuf.%s' % SHLIB_EXT],

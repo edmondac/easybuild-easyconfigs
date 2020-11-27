@@ -1,0 +1,44 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+# Author: Pablo Escobar Lopez
+# Swiss Institute of Bioinformatics
+# Biozentrum - University of Basel
+# updated by Kenneth Hoste (HPC-UGent)
+
+easyblock = 'CMakeMake'
+
+name = 'eXpress'
+version = '1.5.3'
+
+homepage = 'https://pachterlab.github.io/eXpress'
+description = "Streaming quantification for high-throughput sequencing"
+
+source_urls = ['https://github.com/adarob/eXpress/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['1c09fa067672ba2ccbac6901602f3e2d9b5e514ff1fe87f54163e94af69ff022']
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'cstd': 'c++11'}
+
+builddependencies = [
+    ('CMake', '3.15.3'),
+    ('BamTools', '2.5.1'),
+]
+dependencies = [
+    ('Boost', '1.71.0'),
+    ('zlib', '1.2.11'),
+    ('gperftools', '2.7.90'),
+    ('protobuf', '3.7.1'),
+]
+
+# BamTools directories are expected to be provided via symlink (include + both lib and lib64)
+preconfigopts = "mkdir bamtools && ln -s $EBROOTBAMTOOLS/include/bamtools bamtools/include && "
+preconfigopts += "ln -s $EBROOTBAMTOOLS/lib* bamtools/lib64 && ln -s $EBROOTBAMTOOLS/lib* bamtools/lib && "
+
+separate_build_dir = False
+
+sanity_check_paths = {
+    'files': ['bin/express'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
