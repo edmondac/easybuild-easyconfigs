@@ -39,8 +39,12 @@ osdependencies = [OS_PKG_OPENSSL_DEV]
 dependencies = [
     ('numactl', '2.0.13'),
     ('CUDAcore', local_cudaversion, '', True),
-    ('GDRCopy', '2.1', versionsuffix),
 ]
+
+import os  # NOQA
+osbase = os.environ.get('BB_OSBASE')
+if not osbase.startswith('EL7'):
+    dependencies.append(('GDRCopy', '2.1', versionsuffix))
 
 # CUDA_CFLAGS set by EB toolchain but also used differently in UCX makefiles
 # unset LIBS from EB toolchain to avoid unconditional linking to libcudart:
