@@ -41,18 +41,20 @@ dependencies = [
     ('CUDAcore', local_cudaversion, '', True),
 ]
 
-import os  # NOQA
-osbase = os.environ.get('BB_OSBASE')
-if not osbase.startswith('EL7'):
-    dependencies.append(('GDRCopy', '2.1', versionsuffix))
-
 # CUDA_CFLAGS set by EB toolchain but also used differently in UCX makefiles
 # unset LIBS from EB toolchain to avoid unconditional linking to libcudart:
 # it only needs to be linked by the CUDA run-time plugins
 preconfigopts = 'autoreconf && unset CUDA_CFLAGS && unset LIBS && '
 configopts = '--enable-optimizations --enable-cma --enable-mt --with-verbs '
 configopts += '--without-java --disable-doxygen-doc '
-configopts += '--with-cuda=$EBROOTCUDACORE --with-gdrcopy=$EBROOTGDRCOPY '
+configopts += '--with-cuda=$EBROOTCUDACORE '
+
+# Our EL7 doesn't have a late enough CUDA driver to support GDRCopy
+import os  # NOQA
+osbase = os.environ.get('BB_OSBASE')
+if not osbase.startswith('EL7'):
+    dependencies.append(('GDRCopy', '2.1', versionsuffix))
+    configopts += '--with-gdrcopy=$EBROOTGDRCOPY '
 
 prebuildopts = 'unset CUDA_CFLAGS && unset LIBS && '
 buildopts = 'V=1'
