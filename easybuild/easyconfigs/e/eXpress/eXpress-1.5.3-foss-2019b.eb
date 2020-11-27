@@ -27,7 +27,7 @@ dependencies = [
     ('Boost', '1.71.0'),
     ('zlib', '1.2.11'),
     ('gperftools', '2.7.90'),
-    ('protobuf', '3.7.1'),
+    ('protobuf', '3.10.0'),
 ]
 
 # BamTools directories are expected to be provided via symlink (include + both lib and lib64)
