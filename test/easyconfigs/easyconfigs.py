@@ -212,6 +212,12 @@ class EasyConfigTest(TestCase):
                 if all(ec.startswith('Boost.Python-%s-' % boost_ver) for ec in ecs):
                     dep_vars.pop(key)
 
+        # Allow static protobuf
+        if dep == 'protobuf' and len(dep_vars) > 1:
+            for key in list(dep_vars):
+                if 'suffix: -static' in key:
+                    dep_vars.pop(key)
+
         # Allow torchvision as a dep, so long as PyTorch 1.4.0 or 1.6.0 is in the versionsuffix
         if dep == 'torchvision' and len(dep_vars) > 1:
             for key in list(dep_vars):
