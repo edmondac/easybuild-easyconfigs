@@ -39,7 +39,6 @@ osdependencies = [OS_PKG_OPENSSL_DEV]
 dependencies = [
     ('numactl', '2.0.13'),
     ('CUDAcore', local_cudaversion, '', True),
-    ('GDRCopy', '2.1', versionsuffix),
 ]
 
 # CUDA_CFLAGS set by EB toolchain but also used differently in UCX makefiles
@@ -48,7 +47,13 @@ dependencies = [
 preconfigopts = 'autoreconf && unset CUDA_CFLAGS && unset LIBS && '
 configopts = '--enable-optimizations --enable-cma --enable-mt --with-verbs '
 configopts += '--without-java --disable-doxygen-doc '
-configopts += '--with-cuda=$EBROOTCUDACORE --with-gdrcopy=$EBROOTGDRCOPY '
+configopts += '--with-cuda=$EBROOTCUDACORE '
+
+# Our EL7 doesn't have a late enough CUDA driver to support GDRCopy
+import os as _os  # NOQA
+if not _os.environ.get('BB_OSBASE', '').startswith('EL7'):
+    dependencies.append(('GDRCopy', '2.1', versionsuffix))
+    configopts += '--with-gdrcopy=$EBROOTGDRCOPY '
 
 prebuildopts = 'unset CUDA_CFLAGS && unset LIBS && '
 buildopts = 'V=1'
