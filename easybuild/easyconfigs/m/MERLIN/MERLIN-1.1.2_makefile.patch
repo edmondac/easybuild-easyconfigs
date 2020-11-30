@@ -1,0 +1,11 @@
+MERLIN unpacks a .tar.gz during install. Patch the build to fix the source that is unpacked.
+--- Makefile.orig	2020-11-30 15:43:34.746222000 +0000
++++ Makefile	2020-11-30 18:48:56.852420116 +0000
+@@ -180,6 +180,7 @@
+ 
+ $(PEDSTATS) : pedstats-$(PSVERSION).tar.gz
+ 	gunzip -c pedstats-$(PSVERSION).tar.gz | tar -xf - 
++	sed -i "s/'G' + 128, 'R' + 128, 'A' + 128/(char) ('G' + 128), (char) ('R' + 128), (char) ('A' + 128)/g" pedstats-$(PSVERSION)/janpdf/PDF.cpp
+ 	cd pedstats-$(PSVERSION) ; $(MAKE) executables/pedstats
+ 	cp pedstats-$(PSVERSION)/executables/pedstats executables
+ 	rm -rf pedstats-$(PSVERSION)
