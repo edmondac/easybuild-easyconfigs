@@ -67,7 +67,8 @@ dependencies = [
 # To use additional custom configuration options, use the 'configopts' easyconfig parameter
 # See docs and lammps easyblock for more information.
 # https://github.com/lammps/lammps/blob/master/cmake/README.md#lammps-configuration-options
-# configopts = " "
+# The docs build with a python virtualenv that doesn't seem to work in Python 3.8 - so disable them.
+configopts = "-DBUILD_DOC=no "
 
 # auto-enabled by easyblock
 # 'GPU'    - if cuda package is present and kokkos is disabled
