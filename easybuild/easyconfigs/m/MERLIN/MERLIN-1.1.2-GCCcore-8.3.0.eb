@@ -23,7 +23,7 @@ dependencies = [('zlib', '1.2.11')]
 
 skipsteps = ['configure']
 
-buildopts = 'all '
+buildopts = 'all'
 
 installopts = 'INSTALLDIR=%(installdir)s/bin '
 
@@ -31,7 +31,7 @@ _exes = ['hapmapConverter', 'merlin', 'merlin-offline', 'merlin-regress', 'minx'
          'pedstats', 'pedwipe']
 
 sanity_check_paths = {
-    'files': ['bin/%s' % exe for exe in ['hapmapConverter', 'merlin', 'merlin-offline', 'merlin-regress', 'minx',
+    'files': ['bin/%s' % _x for _x in ['hapmapConverter', 'merlin', 'merlin-offline', 'merlin-regress', 'minx',
                                          'minx-offline', 'pedmerge', 'pedstats', 'pedwipe']],
     'dirs': [],
 }
