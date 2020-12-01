@@ -1,0 +1,80 @@
+easyblock = 'CMakeMake'
+
+name = 'RELION'
+version = '3.1.1'
+
+homepage = 'http://www2.mrc-lmb.cam.ac.uk/relion/index.php/Main_Page'
+description = """RELION (for REgularised LIkelihood OptimisatioN, pronounce rely-on) is a stand-alone computer
+ program that employs an empirical Bayesian approach to refinement of (multiple) 3D reconstructions or 2D class
+ averages in electron cryo-microscopy (cryo-EM)."""
+
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
+toolchainopts = {'openmp': True, 'usempi': True, 'opt': True}
+
+source_urls = ['https://github.com/3dem/relion/archive']
+sources = ['%(version)s.tar.gz']
+patches = [
+    '%(name)s-3.0.4_drop_usage_of_mpi_include_path.patch',
+    '%(name)s-%(version)s_add_bham_submit_file_args.patch',  # This is a site specific patch. Either adapt or drop.
+    ('relion_sbatch.sh', '.'),  # This submit file template is used by the bham_submit_file patch.
+]
+checksums = [
+    '481c773418fc6a0c71c33d733a65da0783fe8056cebd964dcfb7fbe630f5b601',  # 3.1.1.tar.gz
+    # RELION-3.0.4_drop_usage_of_mpi_include_path.patch
+    'c135b72ff8d4c3015a3b293fa07a2283396bfb3fd0658d5e938ec33fca4dcebc',
+    '143185b063e3596a2120c3d3c82b1aaffb45ab77a98ea2bd38a8a942bc72cbfe',  # RELION-3.1.1_add_bham_submit_file_args.patch
+    'eb07c580142dc9ddf00fce3684085e2536de2e3631c6b3c34691cbf086dc66fd',  # relion_sbatch.sh
+]
+
+builddependencies = [('CMake', '3.15.3')]
+
+dependencies = [
+    ('X11', '20190717'),
+    ('FLTK', '1.3.5'),
+    ('libpng', '1.6.37'),
+    ('LibTIFF', '4.0.10'),
+    ('tbb', '2019_U9'),
+    ('zlib', '1.2.11'),
+    ('ctffind', '4.1.14'),
+    ('MotionCor2', '1.3.2'),
+    ('Gctf', '1.06', '', True),
+    ('gnuplot', '5.2.8'),
+    ('tcsh', '6.22.02'),
+]
+
+# Execute commands in the pipeline directly, not through `which`
+local_pipejob_src = '%(builddir)s/%(namelower)s-%(version)s/src/pipeline_jobs.cpp'
+preconfigopts = "sed -i 's/`which \([a-z_]*\)`/\\1/g;s/`//g' %s &&" % local_pipejob_src
+
+# Lowest supported CUDA capability is 3.5
+local_cuda_compute_capabilities = ['3.5', '3.7', '5.0', '5.2', '5.3', '6.0', '6.1', '6.2', '7.0']
+local_caps = [''.join(x.split('.')) for x in local_cuda_compute_capabilities]
+local_cuda_gencodes = ';'.join(['-gencode arch=compute_%s,code=sm_%s' % (x, x) for x in local_caps])
+local_cuda_arch = "%s %s" % (local_caps[0], local_cuda_gencodes)
+
+configopts = "-DCMAKE_SHARED_LINKER_FLAGS='-lpthread' "
+configopts += "-DCUDA=ON -DCudaTexture=ON "
+configopts += "-DCUDA_ARCH='" + local_cuda_arch + "'"
+
+postinstallcmds = [
+    'cp ../%(namelower)s-%(version)s/relion_sbatch.sh %(installdir)s/bin',
+    'chmod +x %(installdir)s/bin/relion_sbatch.sh',
+]
+
+sanity_check_paths = {
+    'files': ['bin/relion', 'bin/relion_refine_mpi'],
+    'dirs': []
+}
+
+sanity_check_commands = ["relion --version"]
+
+modextravars = {
+    'RELION_QSUB_TEMPLATE': '%(installdir)s/bin/relion_sbatch.sh',
+    'RELION_QSUB_COMMAND': 'sbatch',
+    'RELION_ERROR_LOCAL_MPI': '1',
+    'RELION_CTFFIND_EXECUTABLE': 'ctffind',
+    'RELION_GCTF_EXECUTABLE': 'Gctf',
+    'RELION_MOTIONCOR2_EXECUTABLE': 'motioncor2',
+}
+
+moduleclass = 'bio'
