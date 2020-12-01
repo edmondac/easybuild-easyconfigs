@@ -1,0 +1,37 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'DoubletFinder'
+version = '20200901'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://github.com/chris-mcginnis-ucsf/DoubletFinder"
+description = """DoubletFinder is an R package that predicts doublets in single-cell RNA sequencing data."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+    ('Seurat', '3.2.0', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'source_tmpl': '5dfd96b.tar.gz',
+        'source_urls': ['https://github.com/chris-mcginnis-ucsf/DoubletFinder/archive'],
+        'checksums': ['965890eac7dc81473faec3f5e976c4efb64a2bc8e1c7b92c7c0be53b3e51f3fb'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['DoubletFinder/R/DoubletFinder'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
