@@ -15,6 +15,7 @@ source_urls = ['https://github.com/3dem/relion/archive']
 sources = ['%(version)s.tar.gz']
 patches = [
     '%(name)s-3.0.4_drop_usage_of_mpi_include_path.patch',
+    '%(name)s-3.0_beta_cuda_capabilities.patch',
     '%(name)s-%(version)s_add_bham_submit_file_args.patch',  # This is a site specific patch. Either adapt or drop.
     ('relion_sbatch.sh', '.'),  # This submit file template is used by the bham_submit_file patch.
 ]
@@ -22,6 +23,7 @@ checksums = [
     '481c773418fc6a0c71c33d733a65da0783fe8056cebd964dcfb7fbe630f5b601',  # 3.1.1.tar.gz
     # RELION-3.0.4_drop_usage_of_mpi_include_path.patch
     'c135b72ff8d4c3015a3b293fa07a2283396bfb3fd0658d5e938ec33fca4dcebc',
+    'aedc0c7e1806094274d8442680aade810943648b08875148f5da226121753a0e',  # RELION-3.0_beta_cuda_capabilities.patch
     '143185b063e3596a2120c3d3c82b1aaffb45ab77a98ea2bd38a8a942bc72cbfe',  # RELION-3.1.1_add_bham_submit_file_args.patch
     'eb07c580142dc9ddf00fce3684085e2536de2e3631c6b3c34691cbf086dc66fd',  # relion_sbatch.sh
 ]
@@ -54,6 +56,7 @@ local_cuda_arch = "%s %s" % (local_caps[0], local_cuda_gencodes)
 
 configopts = "-DCMAKE_SHARED_LINKER_FLAGS='-lpthread' "
 configopts += "-DCUDA=ON -DCudaTexture=ON "
+# multiple CUDA arches - so use the code and patch above to generate
 configopts += "-DCUDA_ARCH='" + local_cuda_arch + "'"
 
 postinstallcmds = [

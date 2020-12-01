@@ -44,15 +44,10 @@ dependencies = [
 local_pipejob_src = '%(builddir)s/%(namelower)s-%(version)s/src/pipeline_jobs.cpp'
 preconfigopts = "sed -i 's/`which \([a-z_]*\)`/\\1/g;s/`//g' %s &&" % local_pipejob_src
 
-# Lowest supported CUDA capability is 3.5
-local_cuda_compute_capabilities = ['3.5', '3.7', '5.0', '5.2', '5.3', '6.0', '6.1', '6.2', '7.0']
-local_caps = [''.join(x.split('.')) for x in local_cuda_compute_capabilities]
-local_cuda_gencodes = ';'.join(['-gencode arch=compute_%s,code=sm_%s' % (x, x) for x in local_caps])
-local_cuda_arch = "%s %s" % (local_caps[0], local_cuda_gencodes)
-
 configopts = "-DCMAKE_SHARED_LINKER_FLAGS='-lpthread' "
 configopts += "-DCUDA=ON -DCudaTexture=ON "
-configopts += "-DCUDA_ARCH='" + local_cuda_arch + "'"
+# we only require the one CUDA_ARCH, so set it directly
+configopts += "-DCUDA_ARCH='70' "
 configopts += '-DCUDA_NVCC_FLAGS="-Xcompiler -mno-float128" '
 
 postinstallcmds = [
