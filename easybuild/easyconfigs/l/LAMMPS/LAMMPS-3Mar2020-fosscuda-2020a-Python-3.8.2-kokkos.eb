@@ -101,7 +101,7 @@ user_packages = [
 # Specify this on the command line or here
 #   cuda_compute_capabilities = ["7.0"]
 #   --cuda-compute-capabilities=7.0
-# The easyblock just takes the highest number if you specify a list in the easyconfig, even if the GPU doesn't support it.
+# The easyblock takes the highest number if you specify a list in the easyconfig, even if the GPU doesn't support it.
 
 enhance_sanity_check = True
 
