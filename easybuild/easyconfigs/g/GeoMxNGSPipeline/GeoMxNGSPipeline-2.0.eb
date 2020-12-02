@@ -18,7 +18,7 @@ checksums = ['d43b632d3a5c58059ba3969e734396a9f7969186af508544f8b5c2b1ea128812']
 
 extract_sources = True
 buildininstalldir = True
-install_cmd = 'chmod a+x %(namelower)s && ' 
+install_cmd = 'chmod a+x %(namelower)s && '
 install_cmd += 'touch agreement_cli_yes'
 
 sanity_check_paths = {
