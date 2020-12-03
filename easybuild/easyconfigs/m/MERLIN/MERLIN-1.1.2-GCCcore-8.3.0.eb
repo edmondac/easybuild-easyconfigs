@@ -1,0 +1,38 @@
+easyblock = 'ConfigureMake'
+
+name = 'MERLIN'
+version = '1.1.2'
+
+homepage = "https://csg.sph.umich.edu/abecasis/MERLIN/index.html"
+description = """MERLIN uses sparse trees to represent gene flow in pedigrees and is one of the fastest pedigree
+ analysis packages around."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = ['https://csg.sph.umich.edu/abecasis/MERLIN/download/']
+sources = [SOURCELOWER_TAR_GZ]
+patches = ['%(name)s-%(version)s_makefile.patch']
+checksums = [
+    'aa3c087b1c717209389705bf2ace4c24884575014a561dff250c0be93fe1e411',  # merlin-1.1.2.tar.gz
+    'fd7456a33fb41b0b216c92970a0ec87236a6ee1dbfc3f9ef4f2a6ba60d3fb74b',  # MERLIN-1.1.2_makefile.patch
+]
+
+builddependencies = [('binutils', '2.32')]
+
+dependencies = [('zlib', '1.2.11')]
+
+skipsteps = ['configure']
+
+buildopts = 'all'
+
+installopts = 'INSTALLDIR=%(installdir)s/bin '
+
+sanity_check_paths = {
+    'files': ['bin/%s' % _x for _x in ['hapmapConverter', 'merlin', 'merlin-offline', 'merlin-regress', 'minx',
+                                       'minx-offline', 'pedmerge', 'pedstats', 'pedwipe']],
+    'dirs': [],
+}
+
+sanity_check_commands = ['pedmerge --help']
+
+moduleclass = 'bio'
