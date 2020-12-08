@@ -19,7 +19,11 @@ checksums = ['d43b632d3a5c58059ba3969e734396a9f7969186af508544f8b5c2b1ea128812']
 extract_sources = True
 buildininstalldir = True
 install_cmd = 'chmod a+x %(namelower)s && '
-install_cmd += 'touch agreement_cli_yes'
+install_cmd += 'touch agreement_cli_yes'  # agree to the terms in agreement_cli.txt
+
+modloadmsg = """\nBY USING THIS SOFTWARE, YOU AGREE TO THE TERMS AND CONDITIONS OF THE
+NANOSTRING TECHNOLOGIES INC GEOMX NGS PIPELINE (DND) END USER LICENSE
+AGREEMENT, WHICH CAN BE FOUND AT $EBROOTGEOMXNGSPIPELINE/agreement_cli.txt.\n"""
 
 sanity_check_paths = {
     'files': ['%(namelower)s', 'agreement_cli_yes'],
