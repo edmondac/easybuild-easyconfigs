@@ -1,0 +1,43 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'Dynare'
+version = '4.6.3'
+
+homepage = "https://www.dynare.org/"
+description = """Dynare is a software platform for handling a wide class of economic models, in particular dynamic
+ stochastic general equilibrium (DSGE) and overlapping generations (OLG) models. The models solved by Dynare include
+ those relying on the rational expectations hypothesis, wherein agents form their expectations about the future in a
+ way consistent with the model."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://www.dynare.org/release/source/']
+sources = [SOURCELOWER_TAR_XZ]
+checksums = ['1e346fc70a8ab47cad115ecb7116d98c920b366069a2491170661c51664352fd']
+
+_matlab_ver = '2020a'
+dependencies = [
+    ('Boost', '1.71.0'),
+    ('GSL', '2.6'),
+    ('HDF5', '1.10.5'),
+    ('MATLAB', _matlab_ver, '', True),
+    ('MATIO', '1.5.17'),
+    ('Szip', '2.1.1'),
+]
+
+# disable the items that require additional dependencies
+configopts = "--disable-doc --disable-octave --disable-mex-kalman-steady-state "
+# Help Dynare find MATLAB
+configopts += "--with-matlab=$EBROOTMATLAB MATLAB_VERSION=%s " % _matlab_ver
+
+runtest = 'check'
+
+sanity_check_paths = {
+    'files': ['bin/dynare++', 'bin/dynare_m'],
+    'dirs': ['lib/dynare/matlab', 'lib/dynare/mex/matlab'],
+}
+
+sanity_check_commands = ['dynare++ --help']
+
+moduleclass = 'data'
