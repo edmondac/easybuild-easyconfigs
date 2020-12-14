@@ -1,0 +1,36 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'MICRESS'
+version = '7.003'
+
+homepage = "https://micress.rwth-aachen.de/"
+description = """The Microstructure Evolution Simulation Software"""
+
+toolchain = SYSTEM
+
+# not publically available
+sources = [
+    '%(name)s-%(version)s-linux-x64.tar.gz',
+    'Examples-%(version)s.tar.gz'
+]
+checksums = [
+    '0f8efd7593b218d5e972f42525537e981146ade5c9b77290a612710876674a2d',  # MICRESS-7.003-linux-x64.tar.gz
+    '6e4da54446c4684f7ff41b7f0fc4600ce0db9064dba0774953192adc077f944f',  # Examples-7.003.tar.gz
+]
+
+postinstallcmds = ["cp -ar %(builddir)s/Examples %(installdir)s/."]
+
+sanity_check_paths = {
+    'files': ['Bin/MICpad.exe', 'Bin/MICRESS_par_noTQ.exe'],
+    'dirs': ['Tools', 'Examples'],
+}
+
+sanity_check_commands = ['MICRESS_TQ.exe --help']
+
+modextrapaths = {
+    'PATH': 'Bin',
+    'LD_LIBRARY_PATH': 'Bin',
+}
+
+moduleclass = 'cae'
