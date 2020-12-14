@@ -31,7 +31,8 @@ configopts = "--disable-doc --disable-octave --disable-mex-kalman-steady-state "
 # Help Dynare find MATLAB
 configopts += "--with-matlab=$EBROOTMATLAB MATLAB_VERSION=%s " % _matlab_ver
 
-runtest = 'check'
+# test take a looooong time
+# runtest = 'check'
 
 sanity_check_paths = {
     'files': ['bin/dynare++', 'bin/dynare_m'],
