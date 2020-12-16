@@ -1,0 +1,26 @@
+easyblock = 'Tarball'
+
+name = 'OncoSNP-Seq'
+version = '2.01'
+
+homepage = 'https://sites.google.com/site/oncosnpseq/'
+description = """OncoSNP-SEQ is an analytical tool for characterising copy
+ number alterations and loss-of-heterozygosity (LOH) events in cancer samples
+ from whole genome sequencing data."""
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/cwcyau/oncosnpseq/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['97fa66e10163e8aa0c8b8059c05e2d38259e72ff640ff680439c75a888cb0be8']
+
+dependencies = [('MCR', 'R2019a')]
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['executables'],
+}
+
+postinstallcmds = ['ln -s %(installdir)s/executables %(installdir)s/bin']
+
+moduleclass = 'bio'
