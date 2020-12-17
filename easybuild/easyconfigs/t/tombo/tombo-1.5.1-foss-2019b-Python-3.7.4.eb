@@ -13,7 +13,11 @@ description = """Tombo is a suite of tools primarily for the identification of m
 
 source_urls = ['https://github.com/nanoporetech/%(name)s/archive/']
 sources = ['%(version)s.tar.gz']
-checksums = ['f5f7ce37baee40b851ea867c2b835e6eae324ef90bdeb23fb931fde3272769a0']
+patches = ['%(name)s-%(version)s_rpy2-v3.patch']
+checksums = [
+    'f5f7ce37baee40b851ea867c2b835e6eae324ef90bdeb23fb931fde3272769a0',  # 1.5.1.tar.gz
+    'ff5c5d2725d9224a91d04499fd9b20730531cddd5f97b711ba46c79612eb486a',  # tombo-1.5.1_rpy2-v3.patch
+]
 
 dependencies = [
     ('Python', '3.7.4'),
