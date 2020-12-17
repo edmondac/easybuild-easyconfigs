@@ -14,7 +14,7 @@ source_urls = ['https://github.com/cwcyau/oncosnpseq/archive/']
 sources = ['%(version)s.tar.gz']
 checksums = ['97fa66e10163e8aa0c8b8059c05e2d38259e72ff640ff680439c75a888cb0be8']
 
-dependencies = [('MCR', 'R2019a')]
+dependencies = [('MCR', 'R2013b')]
 
 sanity_check_paths = {
     'files': [],
