@@ -1,0 +1,37 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'TensorFlow_Addons'
+version = '0.11.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/tensorflow/addons"
+description = """TensorFlow Addons is a repository of contributions that conform to well-established API patterns, but
+ implement new functionality not available in core TensorFlow."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('TensorFlow', '2.3.1', versionsuffix)
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('typeguard', '2.9.1', {
+        'checksums': ['529ef3d88189cc457f4340388028412f71be8091c2c943465146d4170fb67288'],
+    }),
+    (name, version, {
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/tensorflow/addons/archive/'],
+        'checksums': ['190c514c6785ef4011c00c3512b31d5ffed307aeebf0ebf310c28fed327c74c9'],
+    }),
+]
+
+moduleclass = 'lib'
