@@ -1,0 +1,28 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'Hail'
+version = '0.2.61'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = ""
+description = """"""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Java', '1.8', '', True),  # specifically mentions needing this version and not 9+
+    ('lz4', '1.9.2')
+]
+
+source_urls = ['https://github.com/hail-is/hail/archive']
+sources = ['0.2.61.tar.gz']
+
+skipsteps = ['configure', 'build']
+
+start_dir = 'hail'
+installopts = ' HAIL_COMPILE_NATIVES=1'
+
+
+moduleclass = 'bio'
