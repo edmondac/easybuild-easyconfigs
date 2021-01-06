@@ -1,0 +1,27 @@
+name = 'Stata'
+version = '16'
+
+homepage = 'https://www.stata.com/'
+description = """Stata is a complete, integrated statistical software package that provides everything you need
+ for data analysis, data management, and graphics."""
+
+toolchain = SYSTEM
+
+# Using EB versions breaks icons
+# requires license to access source files
+import os as _os
+_bbos = _os.environ.get('BB_OSBASE')
+if _bbos == 'EL8':
+    # EL8: libpng (1.6) and ncurses (6.1?) are required
+    sources = ['Stata%(version)sLinux64.tar.gz']
+    checksums = ['ab082d3d459733f582ed67801cbdacd25f7c199ea2bfc7f1bdb98205322e839e']
+else:
+    # EL7: libpng (1.2) and ncurses (5.9) are required
+    sources = ['Stata%(version)sLinux64-Legacy.tar.gz']
+    checksums = ['cceecc6434e64de42f73a7c2739122fab01c8cd3c4c2c2f99c6a68a03461c8e0']
+
+postinstallcmds = ['ln -s ${STATA_LICENSE_FILE} %(installdir)s/stata.lic']
+
+sanity_check_commands = ['stata -h']
+
+moduleclass = 'data'
