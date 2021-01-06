@@ -1,3 +1,5 @@
+import os as _os
+
 name = 'Stata'
 version = '16'
 
@@ -9,7 +11,6 @@ toolchain = SYSTEM
 
 # Using EB versions breaks icons
 # requires license to access source files
-import os as _os
 _bbos = _os.environ.get('BB_OSBASE')
 if _bbos == 'EL8':
     # EL8: libpng (1.6) and ncurses (6.1?) are required
