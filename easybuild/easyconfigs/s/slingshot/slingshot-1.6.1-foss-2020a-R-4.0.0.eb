@@ -1,0 +1,54 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'slingshot'
+version = '1.6.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://bioconductor.org/packages/release/bioc/html/slingshot.html"
+description = """Slingshot provides functions for inferring continuous, branching lineage structures in low-dimensional
+data. Slingshot was designed to model developmental trajectories in single-cell RNA sequencing data and serve as a
+component in an analysis pipeline after dimensionality reduction and clustering. It is flexible enough to handle
+arbitrarily many branching events and allows for the incorporation of prior knowledge through supervised graph 
+construction."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', '-R-%(rver)s'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://bioconductor.org/packages/3.11/bioc/src/contrib/',
+        'https://bioconductor.org/packages/3.11/bioc/src/contrib/Archive/%(name)s',
+        'https://bioconductor.org/packages/3.11/data/annotation/src/contrib/',
+        'https://bioconductor.org/packages/3.11/data/experiment/src/contrib/',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+# Order is important!
+exts_list = [
+    ('princurve', '2.1.5', {
+        'checksums': ['e501d92d36f3c575d11b2ac984e41104ebea812c8e20e515301636bf6fe3d245'],
+    }),
+    (name, version, {
+        'checksums': ['0a6f8bb6248ca0989b179fcdc83571c464ada55cdb03b0b410fef019a70b093e'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['slingshot/R/slingshot'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
