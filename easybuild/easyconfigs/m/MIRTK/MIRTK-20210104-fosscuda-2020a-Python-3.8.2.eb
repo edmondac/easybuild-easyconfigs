@@ -35,6 +35,7 @@ dependencies = [
     ('Boost', '1.72.0'),
     ('Eigen', '3.3.7'),
     ('tbb', '2020.1'),
+    ('Perl', '5.30.2'),
 ]
 
 separate_build_dir = True
@@ -45,7 +46,7 @@ _modules = [
 ]
 _cmake_modules = ['-DMODULE_%s=ON' % d for d in _modules]
 
-configopts = "-DWITH_VTK=$EBROOTVTK -DWITH_PNG=$EBROOTLIBPNG -DWITH_TBB=$EBROOTTBB "
+configopts = "-DWITH_VTK=$EBROOTVTK -DWITH_PNG=$EBROOTLIBPNG -DWITH_TBB=$EBROOTTBB -DOpenGL_GL_PREFERENCE=GLVND "
 configopts += ' '.join(_cmake_modules)
 
 modextrapaths = {'PYTHONPATH': ['lib/python']}
