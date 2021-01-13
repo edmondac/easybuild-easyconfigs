@@ -15,8 +15,6 @@ description = """The MIRTK is a research-focused image processing toolkit, devel
 toolchain = {'name': 'fosscuda', 'version': '2020a'}
 toolchainopts = {'usempi': True}
 
-#source_urls = ['https://github.com/BioMedIA/MIRTK/archive']
-#sources = ['']
 sources = [{
     'filename': '%(name)s-%(version)s.tar.gz',
     'git_config': {
@@ -33,7 +31,6 @@ builddependencies = [('CMake', '3.16.4')]
 dependencies = [
     ('Python', '3.8.2'),
     ('VTK', '8.2.0', versionsuffix),
-    ('ITK', '5.1.2', versionsuffix),  # needs fixing on POWER - DrawEM
     ('FLTK', '1.3.5'),
     ('Boost', '1.72.0'),
     ('Eigen', '3.3.7'),
@@ -43,7 +40,7 @@ dependencies = [
 separate_build_dir = True
 
 _modules = [
-    'Common', 'Deformable', 'DrawEM', 'Image', 'ImageIO', 'LBFGS', 'Mapping', 'Numerics', 'PointSet', 'Registration',
+    'Common', 'Deformable', 'Image', 'ImageIO', 'LBFGS', 'Mapping', 'Numerics', 'PointSet', 'Registration',
     'Scripting', 'Transformation', 'Viewer'
 ]
 _cmake_modules = ['-DMODULE_%s=ON' % d for d in _modules]
@@ -51,12 +48,19 @@ _cmake_modules = ['-DMODULE_%s=ON' % d for d in _modules]
 configopts = "-DWITH_VTK=$EBROOTVTK -DWITH_PNG=$EBROOTLIBPNG -DWITH_TBB=$EBROOTTBB "
 configopts += ' '.join(_cmake_modules)
 
+modextrapaths = {'PYTHONPATH': ['lib/python']}
+
+_libs = ['lib/lib%%(name)s%s.%s' % (x, SHLIB_EXT) for x in ['Common', 'Deformable', 'Image', 'Mapping', 'Numerics',
+                                                            'PointSet', 'Registration', 'Transformation', 'Viewer']]
+
 sanity_check_paths = {
-    'files': [],
-    'dirs': []
+    'files': ['bin/%(namelower)s'] + _libs,
+    'dirs': ['include/%(namelower)s', 'lib/python/%(namelower)s']
 }
 
 sanity_check_commands = [
+    '%(namelower)s -h',
+    ('python', "-c 'import %(namelower)s'"),
 ]
 
 moduleclass = 'vis'

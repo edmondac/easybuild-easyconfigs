@@ -15,8 +15,6 @@ description = """The MIRTK is a research-focused image processing toolkit, devel
 toolchain = {'name': 'foss', 'version': '2020a'}
 toolchainopts = {'usempi': True}
 
-#source_urls = ['https://github.com/BioMedIA/MIRTK/archive']
-#sources = ['']
 sources = [{
     'filename': '%(name)s-%(version)s.tar.gz',
     'git_config': {
