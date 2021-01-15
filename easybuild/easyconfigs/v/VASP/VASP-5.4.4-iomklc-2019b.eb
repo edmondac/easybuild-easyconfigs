@@ -26,8 +26,8 @@ checksums = [
 ]
 
 prebuildopts = "unset LIBS && cp arch/makefile.include.linux_intel makefile.include &&"
-prebuildopts += "sed -i s/'mpiifort -mkl=sequential -lstdc++'/mpif90/ makefile.include && "
-prebuildopts += "sed -i s/mpiifort/mpif90/ makefile.include && "
+prebuildopts += "sed -i s/'mpiifort -mkl=sequential -lstdc++'/mpifort/ makefile.include && "
+prebuildopts += "sed -i s/mpiifort/mpifort/ makefile.include && "
 # build type
 # Default CUDA archs for VASP are fine. If we do need to change them then add:
 # GENCODE_ARCH="-gencode=arch=compute_60,code=sm_60 -gencode=arch=compute_50,code=sm_50"'
