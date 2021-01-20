@@ -40,7 +40,8 @@ modextrapaths = {
 }
 
 sanity_check_paths = {
-    'files': ['%%(name)s-%%(version)s/bin/linux/DualSPHysics5.0%s' % x for x in ['CPU_linux64', '_NNewtonianCPU_linux64']],
+    'files': ['%%(name)s-%%(version)s/bin/linux/DualSPHysics5.0%s' % x for x in ['CPU_linux64',
+              '_NNewtonianCPU_linux64']],
     'dirs': ['%(name)s-%(version)s/src'],
 }
 
