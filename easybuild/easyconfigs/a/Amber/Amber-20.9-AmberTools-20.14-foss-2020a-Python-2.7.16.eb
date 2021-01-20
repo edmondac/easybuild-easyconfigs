@@ -1,0 +1,62 @@
+name = 'Amber'
+local_amber_ver = 20
+local_ambertools_ver = 20
+# Patch levels from http://ambermd.org/AmberPatches.php and http://ambermd.org/ATPatches.php
+patchlevels = (9, 14)  # (AmberTools, Amber)
+version = '%s.%s-AmberTools-%s.%s' % (local_amber_ver, patchlevels[1], local_ambertools_ver, patchlevels[0])
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://ambermd.org/amber.html'
+description = """Amber (originally Assisted Model Building with Energy Refinement) is software for performing
+ molecular dynamics and structure prediction."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+sources = [
+    '%%(name)s%s.tar.bz2' % local_amber_ver,
+    'AmberTools%s.tar.bz2' % local_ambertools_ver,
+]
+patches = [
+    # '%(name)s-18-AT-18_fix_hardcoding.patch',
+    # '%(name)s-18-AT-18_fix_intel_mpi_compiler_version_detection.patch',
+    # '%(name)s-18-AT-18_fix_mkl_include_path.patch',
+    # '%(name)s-%(version)s_use_fftw_from_mkl_or_external.patch',
+    # '%(name)s-%(version)s_use_FFTW_FFT_instead_of_PUBFFT.patch',
+    # '%(name)s-18-AT-18_fix_sander_link_with_external_fftw.patch',
+    # '%(name)s-18-AT-18_fix-cpptraj-dont-use-static.patch',
+    # # Must come after fix-cpptraj-dont-use-static.patch
+    # '%(name)s-18-AT-18_cpptraj_use_mkl_fft.patch',
+    # '%(name)s-%(version)s_fix_missing_openmp_at_link.patch',
+    # '%(name)s-%(version)s_use_CUSTOMBUILDFLAGS_for_nab.patch',
+    # '%(name)s-%(version)s_fix_rism_fftw_lib.patch',
+    # '%(name)s-18-AT-18_ignore_X11_checks.patch',
+    # '%(name)s-%(version)s_use_easybuild_pythonpath.patch',
+    # '%(name)s-%(version)s_use_external_boost_in_packmol_memembed.patch',
+    # '%(name)s-18-AT-18_make_cpptraj_link_with_EBs_blas_lapack_fftw.patch',
+    # '%(name)s-%(version)s_tell_amber_about_ppc64le.patch',
+    # '%(name)s-%(version)s_hacky_fix_for_multiword_GOTO.patch',
+    # '%%(name)s-%s_fix_missing_build_target.patch' % local_amber_ver,
+    # '%%(name)s-%s_dont_use_ipo.patch' % local_amber_ver,
+    # '%(name)s-%(version)s_pass_openmp_into_nab.patch',
+]
+
+builddependencies = [
+    # ('flex', '2.6.4'),
+    ('CMake', '3.16.4'),
+]
+
+dependencies = [
+    ('netCDF', '4.7.4'),
+    ('netCDF-Fortran', '4.5.2'),
+    ('Python', '3.8.2'),
+    # ('Boost.Python', '1.70.0'),  # needs building!
+    ('matplotlib', '3.2.1', '-Python-%(pyver)s'),
+    ('zlib', '1.2.11'),
+    ('bzip2', '1.0.8'),
+    ('X11', '20200222'),
+]
+
+static = False
+
+moduleclass = 'chem'
