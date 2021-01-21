@@ -25,6 +25,8 @@ dependencies = [
     ('pyhpo', '2.5.0', versionsuffix),
     ('scikit-plot', '0.3.7', versionsuffix),
     ('wittgenstein', '0.2.3', versionsuffix),
+    ('statsmodels', '0.11.1', versionsuffix),
+    ('plotly.py', '4.8.1'),
 ]
 
 moduleclass = 'tools'
