@@ -72,7 +72,12 @@ configopts += "-DPYTHON_INCLUDE_DIR=$EBROOTPYTHON/include/python%(pyshortver)sm 
 configopts += "-DPYTHON_LIBRARY=$EBROOTPYTHON/lib/libpython%%(pyshortver)sm.%s " % SHLIB_EXT
 # Other
 configopts += "-DVTK_Group_MPI:BOOL=ON "
-configopts += "-DCMAKE_INSTALL_LIBDIR=lib"
+configopts += "-DCMAKE_INSTALL_LIBDIR=lib "
+
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    configopts += '-DCMAKE_CUDA_FLAGS="-std=c++11 -Xcompiler -mno-float128" '
 
 preinstallopts = "export PYTHONPATH=%(installdir)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && "
 
