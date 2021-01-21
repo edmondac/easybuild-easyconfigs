@@ -1,0 +1,12 @@
+--- ThirdParty/vtkm/vtk-m/CMake/VTKmDeviceAdapters.cmake.orig	2021-01-21 18:46:07.592562000 +0000
++++ ThirdParty/vtkm/vtk-m/CMake/VTKmDeviceAdapters.cmake	2021-01-21 18:46:27.130993185 +0000
+@@ -259,8 +259,7 @@
+   elseif(VTKm_CUDA_Architecture STREQUAL "turing")
+     set(arch_flags --generate-code=arch=compute_75,code=sm_75)
+   elseif(VTKm_CUDA_Architecture STREQUAL "all")
+-    set(arch_flags --generate-code=arch=compute_30,code=sm_30
+-                   --generate-code=arch=compute_35,code=sm_35
++    set(arch_flags --generate-code=arch=compute_35,code=sm_35
+                    --generate-code=arch=compute_50,code=sm_50
+                    --generate-code=arch=compute_60,code=sm_60
+                    --generate-code=arch=compute_70,code=sm_70
