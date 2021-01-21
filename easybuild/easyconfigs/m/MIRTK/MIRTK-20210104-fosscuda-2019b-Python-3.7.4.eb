@@ -49,6 +49,11 @@ _cmake_modules = ['-DMODULE_%s=ON' % d for d in _modules]
 configopts = "-DWITH_VTK=$EBROOTVTK -DWITH_PNG=$EBROOTLIBPNG -DWITH_TBB=$EBROOTTBB -DOpenGL_GL_PREFERENCE=GLVND "
 configopts += ' '.join(_cmake_modules)
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    configopts += ' -DCMAKE_CUDA_FLAGS="-std=c++11 -Xcompiler -mno-float128" '
+
 modextrapaths = {'PYTHONPATH': ['lib/python']}
 
 _libs = ['lib/lib%%(name)s%s.%s' % (x, SHLIB_EXT) for x in ['Common', 'Deformable', 'Image', 'Mapping', 'Numerics',
