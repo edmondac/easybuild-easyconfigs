@@ -1,0 +1,29 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'trimesh'
+version = '3.9.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://trimsh.org"
+description = """Trimesh is a pure Python (2.7-3.4+) library for loading and using triangular meshes
+ with an emphasis on watertight surfaces. The goal of the library is to provide a full featured and
+ well tested Trimesh object which allows for easy manipulation and analysis, in the style of the
+ Polygon object in the Shapely library."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['d19cbdb830a17297aa218ba6ce4955fc11b4b553414289cfd71f58f8144cc91f']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'lib'
