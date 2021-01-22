@@ -22,7 +22,7 @@ description = """The Visualization Toolkit (VTK) is an open-source, freely avail
  algorithms including: scalar, vector, tensor, texture, and volumetric methods; and advanced modeling techniques
  such as: implicit modeling, polygon reduction, mesh smoothing, cutting, contouring, and Delaunay triangulation."""
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
 toolchainopts = {'usempi': True}
 
 source_urls = ['https://www.vtk.org/files/release/%(version_major_minor)s']
@@ -30,10 +30,11 @@ sources = [
     SOURCE_TAR_GZ,
     '%(name)sData-%(version)s.tar.gz',
 ]
-patches = [('vtk-version.egg-info', '.')]
+patches = ['VTK-8.2.0_cuda.patch', ('vtk-version.egg-info', '.')]
 checksums = [
     '34c3dc775261be5e45a8049155f7228b6bd668106c72a3c435d95730d17d57bb',  # VTK-8.2.0.tar.gz
     'd1ff312f7a63d90d8b7033a99109801f16a462ae411d648642838aae04bcc21e',  # VTKData-8.2.0.tar.gz
+    '0d63c0f1cb74e346296ab4b6be9d263be3bcb99c5bdd685e0b4ff20a4ddaf876',  # VTK-8.2.0_cuda.patch
     '787b82415ae7a4a1f815b4db0e25f7abc809a05fc85d7d219627f3a7e5d3867b',  # vtk-version.egg-info
 ]
 
@@ -61,6 +62,9 @@ configopts += "-DVTK_USE_SYSTEM_PNG=ON "
 configopts += "-DOPENGL_glu_LIBRARY=$EBROOTLIBGLU/lib/libGLU.%s " % SHLIB_EXT
 configopts += "-DOPENGL_gl_LIBRARY=$EBROOTMESA/lib/libGL.%s " % SHLIB_EXT
 configopts += "-DOPENGL_INCLUDE_DIR=$EBROOTMESA/include "
+# VTK-m with CUDA
+configopts += "-DModule_vtkVTKm:BOOL=ON -DModule_vtkAcceleratorsVTKm:BOOL=ON "
+configopts += "-DVTKm_ENABLE_CUDA:BOOL=ON -DVTKm_CUDA_Architecture=all "
 # Python
 configopts += "-DVTK_WRAP_PYTHON=ON "
 configopts += "-DVTK_PYTHON_VERSION=%(pyver)s "
@@ -68,7 +72,12 @@ configopts += "-DPYTHON_INCLUDE_DIR=$EBROOTPYTHON/include/python%(pyshortver)sm 
 configopts += "-DPYTHON_LIBRARY=$EBROOTPYTHON/lib/libpython%%(pyshortver)sm.%s " % SHLIB_EXT
 # Other
 configopts += "-DVTK_Group_MPI:BOOL=ON "
-configopts += "-DCMAKE_INSTALL_LIBDIR=lib"
+configopts += "-DCMAKE_INSTALL_LIBDIR=lib "
+
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    configopts += '-DCMAKE_CUDA_FLAGS="-std=c++11 -Xcompiler -mno-float128" '
 
 preinstallopts = "export PYTHONPATH=%(installdir)s/lib/python%(pyshortver)s/site-packages:$PYTHONPATH && "
 

@@ -1,0 +1,67 @@
+easyblock = 'CMakeMake'
+
+name = 'MIRTK'
+version = '20210104'
+_commit = '9230bfb'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://mirtk.github.io/'
+description = """The MIRTK is a research-focused image processing toolkit, developed at the BioMedIA research
+ group. It provides a collection of libraries and command-line tools to assist in processing and analyzing imaging
+ data. The main application of the MIRTK is in adult and neonatal brain MR image registration as well as the
+ reconstruction of cortical surface meshes. The modular project organization of the MIRTK enables the installation
+ of selected modules."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'usempi': True}
+
+sources = [{
+    'filename': '%(name)s-%(version)s.tar.gz',
+    'git_config': {
+        'url': 'https://github.com/BioMedIA',
+        'repo_name': '%(name)s',
+        'commit': _commit,
+        'recursive': True,
+    },
+}]
+checksums = [None]
+
+builddependencies = [('CMake', '3.15.3')]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('VTK', '8.2.0', versionsuffix),
+    ('FLTK', '1.3.5'),
+    ('Boost', '1.71.0'),
+    ('Eigen', '3.3.7', '', True),
+    ('tbb', '2019_U9'),
+    ('Perl', '5.30.0'),
+]
+
+separate_build_dir = True
+
+_modules = [
+    'Common', 'Deformable', 'Image', 'ImageIO', 'LBFGS', 'Mapping', 'Numerics', 'PointSet', 'Registration',
+    'Scripting', 'Transformation', 'Viewer'
+]
+_cmake_modules = ['-DMODULE_%s=ON' % d for d in _modules]
+
+configopts = "-DWITH_VTK=$EBROOTVTK -DWITH_PNG=$EBROOTLIBPNG -DWITH_TBB=$EBROOTTBB -DOpenGL_GL_PREFERENCE=GLVND "
+configopts += ' '.join(_cmake_modules)
+
+modextrapaths = {'PYTHONPATH': ['lib/python']}
+
+_libs = ['lib/lib%%(name)s%s.%s' % (x, SHLIB_EXT) for x in ['Common', 'Deformable', 'Image', 'Mapping', 'Numerics',
+                                                            'PointSet', 'Registration', 'Transformation', 'Viewer']]
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s'] + _libs,
+    'dirs': ['include/%(namelower)s', 'lib/python/%(namelower)s']
+}
+
+sanity_check_commands = [
+    '%(namelower)s -h',
+    ('python', "-c 'import %(namelower)s'"),
+]
+
+moduleclass = 'vis'
