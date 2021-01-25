@@ -4,7 +4,7 @@ easyblock = 'MakeCp'
 name = 'VASP'
 version = '5.4.4'
 local_vtstver = '180'
-local_vtst = 'vtstcode-%s' %local_vtstver
+local_vtst = 'vtstcode-%s' % local_vtstver
 local_vtstscripts = 'vtstscripts-967'
 versionsuffix = '-VTST-%s' % local_vtstver
 
