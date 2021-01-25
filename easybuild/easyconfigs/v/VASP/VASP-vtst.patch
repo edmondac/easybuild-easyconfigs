@@ -1,0 +1,37 @@
+diff -ru vasp.5.4.4.pl2.orig/src/main.F vasp.5.4.4.pl2/src/main.F
+--- vasp.5.4.4.pl2.orig/src/main.F	2021-01-22 19:51:03.925131000 +0000
++++ vasp.5.4.4.pl2/src/main.F	2021-01-22 20:02:54.801586220 +0000
+@@ -3144,7 +3144,7 @@
+       ENDIF
+ 
+       CALL CHAIN_FORCE(T_INFO%NIONS,DYN%POSION,TOTEN,TIFOR, &
+-           LATT_CUR%A,LATT_CUR%B,IO%IU6)
++           TSIF,LATT_CUR%A,LATT_CUR%B,IO%IU6)
+ 
+       CALL PARALLEL_TEMPERING(NSTEP,T_INFO%NIONS,DYN%POSION,DYN%VEL,TOTEN,TIFOR,DYN%TEBEG,DYN%TEEND, &
+            LATT_CUR%A,LATT_CUR%B,IO%IU6)
+diff -ru vasp.5.4.4.pl2.orig/src/.objects vasp.5.4.4.pl2/src/.objects
+--- vasp.5.4.4.pl2.orig/src/.objects	2021-01-22 19:51:04.399861000 +0000
++++ vasp.5.4.4.pl2/src/.objects	2021-01-22 23:42:23.098088000 +0000
+@@ -69,7 +69,20 @@
+ 	tet.o \
+ 	tetweight.o \
+ 	hamil_rot.o \
+-	chain.o \
++	bfgs.o \
++    dynmat.o \
++    instanton.o \
++    lbfgs.o \
++    sd.o \
++    cg.o \
++    dimer.o \
++    bbm.o \
++    fire.o \
++    lanczos.o \
++    neb.o \
++    qm.o \
++    opt.o \
++    chain.o \
+ 	dyna.o \
+ 	k-proj.o \
+ 	sphpro.o \

@@ -1,0 +1,54 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'VASP'
+version = '5.4.4'
+local_vtstver = '180'
+local_vtst = 'vtstcode-%s' %local_vtstver
+local_vtstscripts = 'vtstscripts-967'
+versionsuffix = '-VTST-%s' % local_vtstver
+
+homepage = "https://www.vasp.at"
+description = """The Vienna Ab initio Simulation Package (VASP) is a computer program for atomic scale
+ materials modelling, e.g. electronic structure calculations and quantum-mechanical molecular dynamics,
+ from first principles."""
+
+toolchain = {'name': 'iomkl', 'version': '2019b'}
+toolchainopts = {'usempi': True}
+
+# VASP is proprietary software. For installation purposes please download from https://www.vasp.at/vasp-portal
+# using the RSG's installation licence.
+source_urls = ['http://theory.cm.utexas.edu/code']  # for vtst files
+sources = ['vasp.5.4.4.pl2.tgz', '%s.tgz' % local_vtst, 'vtstscripts.tgz']
+patches = ['VASP-vtst.patch']
+checksums = [
+    '98f75fd75399a23d76d060a6155f4416b340a1704f256a00146f89024035bc8e',  # vasp.5.4.4.pl2.tgz
+    '7751bf46fd30c2d4751cc30c970c7fa44bebc9f31ef2a03c9e817015c6c0c5bc',  # vtstcode-180.tgz
+    'eacce236f15fd999c7fc6973ed8b9e6ba37ecba2adc551ec0e039cee6e451c95',  # vtstscripts.tgz
+    '0624ace67725b0891a793018d6a88dc8082cf53b3bb4a7e220d27aa2ee0bf6f4',  # VASP-vtst.patch
+]
+
+# Note that the file diff.patch in the downloaded archive tar.gz has already been applied.
+prebuildopts = "unset LIBS && cp arch/makefile.include.linux_intel makefile.include && "
+prebuildopts += "sed -i s/mpiifort/mpifort/ makefile.include && "
+prebuildopts += "cp -r %%(builddir)s/%s/* src && " % local_vtst
+# build type
+buildopts = 'all'
+
+# don't use parallel make, results in compilation failure
+parallel = 1
+
+files_to_copy = [(['./bin/vasp_*'], 'bin'), '%%(builddir)s/%s' % local_vtstscripts]
+
+sanity_check_paths = {
+    'files': ['bin/vasp_gam', 'bin/vasp_ncl', 'bin/vasp_std'],
+    'dirs': ['%s' % local_vtstscripts],
+}
+
+modextrapaths = {
+    'PATH': '%s' % local_vtstscripts,
+}
+
+moduleclass = 'phys'
+
+local_bham_group = "p-vasp"
