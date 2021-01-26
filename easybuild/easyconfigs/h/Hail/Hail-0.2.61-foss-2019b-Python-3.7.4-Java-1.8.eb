@@ -3,7 +3,9 @@ easyblock = 'ConfigureMake'
 
 name = 'Hail'
 version = '0.2.61'
-versionsuffix = '-Python-%(pyver)s'
+_pyversuf = '-Python-%(pyver)s'
+_javaversuf = '-Java-%(javaver)s'
+versionsuffix = '%s%s' % (_pyversuf, _javaversuf)
 
 homepage = "https://hail.is/"
 description = """Hail is an open-source Python library that simplifies genomic data analysis."""
@@ -14,10 +16,10 @@ dependencies = [
     ('Python', '3.7.4'),
     ('Java', '1.8', '', True),  # specifically mentions needing this version and not 9+
     ('lz4', '1.9.2'),
-    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('SciPy-bundle', '2019.10', _pyversuf),
     ('tqdm', '4.41.1'),
-    ('bokeh', '1.4.0', versionsuffix),
-    ('Spark', '2.4.1', '%s-Java-1.8' % versionsuffix),
+    ('bokeh', '1.4.0', _pyversuf),
+    ('Spark', '2.4.1', versionsuffix),
 ]
 
 source_urls = ['https://github.com/hail-is/hail/archive']
@@ -30,12 +32,14 @@ start_dir = 'hail'
 installopts = ' HAIL_COMPILE_NATIVES=1 INSTALLPATH=%(installdir)s'
 
 exts_defaultclass = 'PythonPackage'
+exts_download_dep_fail = True
 
 exts_default_options = {
     'source_urls': [PYPI_SOURCE],
     'sanity_pip_check': True,
 }
 
+# From https://github.com/hail-is/hail/blob/3c86d3ba497a447894e4ddb2560866a462854fbf/hail/python/requirements.txt
 exts_list = [
     ('aiohttp-session', '2.7.0', {
     }),
@@ -62,8 +66,6 @@ exts_list = [
     ('python-json-logger', '0.1.11', {
     }),
 ]
-
-exts_download_dep_fail = True
 
 modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
 
