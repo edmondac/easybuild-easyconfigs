@@ -31,7 +31,7 @@ checksums = [
 
 dependencies = [
     ('Python', '3.7.4'),
-    ('SciPy-bundle', '2019.10'),
+    ('SciPy-bundle', '2019.10', '-Python-%(pyver)s'),
     ('Perl', '5.30.0'),
 ]
 
