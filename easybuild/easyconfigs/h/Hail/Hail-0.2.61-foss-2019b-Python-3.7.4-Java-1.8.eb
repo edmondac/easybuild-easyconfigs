@@ -43,6 +43,7 @@ exts_default_options = {
     'source_urls': [PYPI_SOURCE],
     'use_pip': True,
     'sanity_pip_check': True,
+    'download_dep_fail': True,
 }
 
 # From https://github.com/hail-is/hail/blob/3c86d3ba497a447894e4ddb2560866a462854fbf/hail/python/requirements.txt
