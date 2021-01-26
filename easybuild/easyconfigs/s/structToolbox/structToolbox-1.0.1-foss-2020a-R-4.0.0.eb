@@ -1,0 +1,65 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'structToolbox'
+version = '1.0.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://bioconductor.org/packages/3.11/bioc/html/structToolbox.html"
+description = """An extensive set of data (pre-)processing and analysis methods and tools for metabolomics and other
+ omics, with a strong emphasis on statistics and machine learning. This toolbox allows the user to build extensive
+ and standardised workflows for data analysis. The methods and tools have been implemented using class-based templates
+ provided by the struct (Statistics in R Using Class-based Templates) package. The toolbox includes pre-processing
+ methods (e.g. signal drift and batch correction, normalisation, missing value imputation and scaling), univariate
+ (e.g. ttest, various forms of ANOVA, Kruskal–Wallis test and more) and multivariate statistical methods (e.g. PCA
+ and PLS, including cross-validation and permutation testing) as well as machine learning methods (e.g. Support
+ Vector Machines). The STATistics Ontology (STATO) has been integrated and implemented to provide standardised
+ definitions for the different methods, inputs and outputs."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://bioconductor.org/packages/3.11/bioc/src/contrib/',
+        'https://bioconductor.org/packages/3.11/bioc/src/contrib/Archive/%(name)s',
+        'https://bioconductor.org/packages/3.11/data/annotation/src/contrib/',
+        'https://bioconductor.org/packages/3.11/data/experiment/src/contrib/',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('ontologyIndex', '2.5', {
+        'checksums': ['3e5b19041941e894d6ff8620cbae134d9c6becb608a64bb07dabbaf281a3f088'],
+    }),
+    ('struct', '1.0.0', {
+        'checksums': ['609da325d4213a54b56c5aedbaa286935b9dde3f0fcb27aea0da34fa407dc7ad'],
+    }),
+    ('ggthemes', '4.2.4', {
+        'checksums': ['7b35168cf5b68f6f52dd533a1b345ec87e09d1a85ca68e8dc5377cdf95718567'],
+    }),
+    (name, version, {
+        'checksums': ['822d0f118384ddc01f36c8935e75dfba9a39dd40acf9a37f3e0ce28cc5d971f7'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['structToolbox/R/structToolbox'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
