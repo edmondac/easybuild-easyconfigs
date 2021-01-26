@@ -561,7 +561,8 @@ class EasyConfigTest(TestCase):
 
         # list of software for which checksums can not be required,
         # e.g. because 'source' files need to be constructed manually
-        whitelist = ['Kent_tools-*', 'MATLAB-*', 'OCaml-*', 'Xvfb']
+        # or because we have set "checksums = [None]"
+        whitelist = ['Kent_tools-*', 'MATLAB-*', 'OCaml-*', 'Xvfb', 'MIRTK']
 
         # the check_sha256_checksums function (again) creates an EasyBlock instance
         # for easyconfigs using the Bundle easyblock, this is a problem because the 'sources' easyconfig parameter
