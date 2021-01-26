@@ -11,11 +11,7 @@ description = """Spark is Hadoop MapReduce done in memory"""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
-source_urls = [
-    'http://www.eu.apache.org/dist/%(namelower)s/%(namelower)s-%(version)s/',
-    'http://www.us.apache.org/dist/%(namelower)s/%(namelower)s-%(version)s/',
-    'https://apache.belnet.be/%(namelower)s/%(namelower)s-%(version)s/',
-]
+source_urls = ['http://archive.apache.org/dist/%(namelower)s/%(namelower)s-%(version)s/']
 sources = ['spark-%(version)s-bin-hadoop2.7.tgz']
 
 dependencies = [
