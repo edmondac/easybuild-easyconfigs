@@ -164,6 +164,11 @@ exts_list = [
 
 modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
 
+sanity_check_paths = {
+    'files': ['bin/hailctl'],
+    'dirs': []
+}
+
 sanity_check_commands = [
     'hailctl --help',
     "python -c 'import hail'",
