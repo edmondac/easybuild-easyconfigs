@@ -294,7 +294,8 @@ class EasyConfigTest(TestCase):
             # Signac 0.2.5 requires Seurat 3.1.5
             'Seurat': ('3.1.5', ['Signac-0.2.5-']),
             # Dynare requires Java 1.8 through MATLAB dep
-            'Java': ('1.8', ['Dynare-4.6.3-']),
+            # Hail and Spark require Java 1.8
+            'Java': ('1.8', ['Dynare-4.6.3-', 'Spark-2.4.1-', 'Hail-0.2.61-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
