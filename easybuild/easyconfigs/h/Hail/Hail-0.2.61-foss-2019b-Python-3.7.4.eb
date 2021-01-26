@@ -5,24 +5,32 @@ name = 'Hail'
 version = '0.2.61'
 versionsuffix = '-Python-%(pyver)s'
 
-homepage = ""
-description = """"""
+homepage = "https://hail.is/"
+description = """Hail is an open-source Python library that simplifies genomic data analysis."""
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
 dependencies = [
     ('Python', '3.7.4'),
     ('Java', '1.8', '', True),  # specifically mentions needing this version and not 9+
-    ('lz4', '1.9.2')
+    ('lz4', '1.9.2'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('tqdm', '4.41.1'),
+    ('bokeh', '1.4.0', versionsuffix),
 ]
+# aiohttp-session asyncinit deprecated dill gcsfs google-cloud-storage humanize hurry-filesize nest-asyncio parsimonious pyjwt pyspark python-json-logger
 
 source_urls = ['https://github.com/hail-is/hail/archive']
-sources = ['0.2.61.tar.gz']
+sources = ['%(version)s.tar.gz']
+patches = ['%(name)s-%(version)s_makefile.patch']
 
 skipsteps = ['configure', 'build']
 
 start_dir = 'hail'
-installopts = ' HAIL_COMPILE_NATIVES=1'
+installopts = ' HAIL_COMPILE_NATIVES=1 INSTALLPATH=%(installdir)s'
 
+modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
+
+sanity_check_commands = ['hailctl --help', "python -c 'import hail'", "pip check"]
 
 moduleclass = 'bio'
