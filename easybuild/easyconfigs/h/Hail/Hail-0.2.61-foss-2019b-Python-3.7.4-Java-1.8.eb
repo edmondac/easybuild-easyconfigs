@@ -17,9 +17,9 @@ dependencies = [
     ('Java', '1.8', '', True),  # specifically mentions needing this version and not 9+
     ('lz4', '1.9.2'),
     ('SciPy-bundle', '2019.10', _pyversuf),
-    ('tqdm', '4.41.1'),
-    ('bokeh', '1.4.0', _pyversuf),
     ('Spark', '2.4.1', versionsuffix),
+    ('PyYAML', '5.1.2'),
+    ('Pillow', '6.2.1'),
 ]
 
 source_urls = ['https://github.com/hail-is/hail/archive']
@@ -29,25 +29,72 @@ patches = ['%(name)s-%(version)s_makefile.patch']
 skipsteps = ['configure', 'build']
 
 start_dir = 'hail'
-installopts = ' HAIL_COMPILE_NATIVES=1 INSTALLPATH=%(installdir)s'
+# use a temp dir for GRADLE, or multiple installs at the same time break each other via home dir
+install_cmd = 'GRADLE_USER_HOME=`mktemp -d` make install HAIL_COMPILE_NATIVES=1 INSTALLPATH=%(installdir)s'
 
 exts_defaultclass = 'PythonPackage'
 exts_download_dep_fail = True
 
 exts_default_options = {
     'source_urls': [PYPI_SOURCE],
+    'use_pip': True,
     'sanity_pip_check': True,
 }
 
 # From https://github.com/hail-is/hail/blob/3c86d3ba497a447894e4ddb2560866a462854fbf/hail/python/requirements.txt
 exts_list = [
+    ('tornado', '6.0.3', {
+    }),
+    ('bokeh', '1.2.0', {
+    }),
+    ('tqdm', '4.42.1', {
+    }),
+    ('async-timeout', '3.0.1', {
+    }),
+    ('multidict', '4.7.6', {
+    }),
+    ('typing_extensions', '3.7.4.3', {
+    }),
+    ('yarl', '1.5.1', {
+    }),
+    ('google-crc32c', '1.1.2', {
+    }),
+    ('cachetools', '4.2.1', {
+    }),
+    ('pyasn1-modules', '0.2.8', {
+    }),
+    ('rsa', '4.7', {
+    }),
+    ('protobuf', '3.4.0', {
+    }),
+    ('oauthlib', '3.1.0', {
+    }),
+    ('google-api-core', '1.16.0', {
+    }),
+    ('googleapis-common-protos', '1.6.0', {
+    }),
+    ('requests-oauthlib', '1.3.0', {
+    }),
+    ('aiohttp', '3.6.3', {
+    }),
     ('aiohttp-session', '2.7.0', {
     }),
     ('asyncinit', '0.2.4', {
     }),
-    ('deprecated', '1.2.11', {
+    ('wrapt', '1.12.1', {
+    }),
+    ('Deprecated', '1.2.11', {
     }),
     ('dill', '0.3.3', {
+        'source_tmpl': '%(name)s-%(version)s.zip',
+    }),
+    ('google-auth', '1.24.0', {
+    }),
+    ('google-cloud-core', '1.2.0', {
+    }),
+    ('google-resumable-media', '0.5.1', {
+    }),
+    ('google-auth-oauthlib', '0.4.2', {
     }),
     ('gcsfs', '0.2.2', {
     }),
@@ -55,9 +102,9 @@ exts_list = [
     }),
     ('humanize', '1.0.0', {
     }),
-    ('hurry-filesize', '0.9', {
+    ('hurry.filesize', '0.9', {
     }),
-    ('nest-asyncio', '1.4.3', {
+    ('nest_asyncio', '1.4.3', {
     }),
     ('parsimonious', '0.8.1', {
     }),
