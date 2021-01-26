@@ -1,0 +1,47 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'PRROC'
+version = '1.3.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=PRROC"
+description = """Computes the areas under the precision-recall (PR) and ROC curve for weighted (e.g., soft-labeled) and
+unweighted data. In contrast to other implementations, the interpolation between points of the PR curve is done by a
+non-linear piecewise function. In addition to the areas under the curves, the curves themselves can also be computed and
+plotted by a specific S3-method. References: Davis and Goadrich (2006) <doi:10.1145/1143844.1143874>; Keilwagen et al.
+(2014) <doi:10.1371/journal.pone.0092209>; Grau et al. (2015) <doi:10.1093/bioinformatics/btv153>."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        #'checksums': [''],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['PRROC/R/PRROC'],
+    'dirs': [],
+}
+
+moduleclass = 'numlib'
