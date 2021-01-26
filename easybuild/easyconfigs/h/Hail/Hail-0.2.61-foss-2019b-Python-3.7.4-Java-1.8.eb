@@ -25,6 +25,10 @@ dependencies = [
 source_urls = ['https://github.com/hail-is/hail/archive']
 sources = ['%(version)s.tar.gz']
 patches = ['%(name)s-%(version)s_makefile.patch']
+checksums = [
+    'a26ed35ea2fb7ac5df4ca78043ed52cde686de612e650c598cfe0965c79bf448',  # 0.2.61.tar.gz
+    '0dae9b2aec45112e9f70355cb06037bcfda132978cd43459ec51d47532376116',  # Hail-0.2.61_makefile.patch
+]
 
 skipsteps = ['configure', 'build']
 
@@ -44,73 +48,107 @@ exts_default_options = {
 # From https://github.com/hail-is/hail/blob/3c86d3ba497a447894e4ddb2560866a462854fbf/hail/python/requirements.txt
 exts_list = [
     ('tornado', '6.0.3', {
+        'checksums': ['c845db36ba616912074c5b1ee897f8e0124df269468f25e4fe21fe72f6edd7a9'],
     }),
     ('bokeh', '1.2.0', {
+        'checksums': ['d45d797b5b3f5bb688eb636fb0430b0d57af232abd8ddc07ddba922c1ef0c3ae'],
     }),
     ('tqdm', '4.42.1', {
+        'checksums': ['251ee8440dbda126b8dfa8a7c028eb3f13704898caaef7caa699b35e119301e2'],
     }),
     ('async-timeout', '3.0.1', {
+        'checksums': ['0c3c816a028d47f659d6ff5c745cb2acf1f966da1fe5c19c77a70282b25f4c5f'],
     }),
     ('multidict', '4.7.6', {
+        'checksums': ['fbb77a75e529021e7c4a8d4e823d88ef4d23674a202be4f5addffc72cbb91430'],
     }),
     ('typing_extensions', '3.7.4.3', {
+        'checksums': ['99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c'],
     }),
     ('yarl', '1.5.1', {
+        'checksums': ['c22c75b5f394f3d47105045ea551e08a3e804dc7e01b37800ca35b58f856c3d6'],
     }),
     ('google-crc32c', '1.1.2', {
+        'checksums': ['dff5bd1236737f66950999d25de7a78144548ebac7788d30ada8c1b6ead60b27'],
     }),
     ('cachetools', '4.2.1', {
+        'checksums': ['f469e29e7aa4cff64d8de4aad95ce76de8ea1125a16c68e0d93f65c3c3dc92e9'],
     }),
     ('pyasn1-modules', '0.2.8', {
+        'checksums': ['905f84c712230b2c592c19470d3ca8d552de726050d1d1716282a1f6146be65e'],
     }),
     ('rsa', '4.7', {
+        'checksums': ['69805d6b69f56eb05b62daea3a7dbd7aa44324ad1306445e05da8060232d00f4'],
     }),
-    ('protobuf', '3.4.0', {
+    ('protobuf', '3.6.0', {
+        'checksums': ['a37836aa47d1b81c2db1a6b7a5e79926062b5d76bd962115a0e615551be2b48d'],
     }),
     ('oauthlib', '3.1.0', {
+        'checksums': ['bee41cc35fcca6e988463cacc3bcb8a96224f470ca547e697b604cc697b2f889'],
     }),
     ('google-api-core', '1.16.0', {
+        'checksums': ['92e962a087f1c4b8d1c5c88ade1c1dfd550047dcffb320c57ef6a534a20403e2'],
     }),
     ('googleapis-common-protos', '1.6.0', {
+        'checksums': ['e61b8ed5e36b976b487c6e7b15f31bb10c7a0ca7bd5c0e837f4afab64b53a0c6'],
     }),
     ('requests-oauthlib', '1.3.0', {
+        'checksums': ['b4261601a71fd721a8bd6d7aa1cc1d6a8a93b4a9f5e96626f8e4d91e8beeaa6a'],
     }),
     ('aiohttp', '3.6.3', {
+        'checksums': ['698cd7bc3c7d1b82bb728bae835724a486a8c376647aec336aa21a60113c3645'],
     }),
     ('aiohttp-session', '2.7.0', {
+        'checksums': ['18ae740845214086f783574edfee1bac36862332bd11d561e048b079d8f6ad34'],
     }),
     ('asyncinit', '0.2.4', {
+        'checksums': ['4acaf614f4d6f78babd278bbacf21bd9f7756efc17cd5d7e1bae31ff770b3cfa'],
     }),
     ('wrapt', '1.12.1', {
+        'checksums': ['b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7'],
     }),
     ('Deprecated', '1.2.11', {
+        'checksums': ['471ec32b2755172046e28102cd46c481f21c6036a0ec027521eba8521aa4ef35'],
     }),
     ('dill', '0.3.3', {
         'source_tmpl': '%(name)s-%(version)s.zip',
+        'checksums': ['efb7f6cb65dba7087c1e111bb5390291ba3616741f96840bfc75792a1a9b5ded'],
     }),
     ('google-auth', '1.24.0', {
+        'checksums': ['0b0e026b412a0ad096e753907559e4bdb180d9ba9f68dd9036164db4fdc4ad2e'],
     }),
     ('google-cloud-core', '1.2.0', {
+        'checksums': ['4ae0f37ece5f3b5baf9fa5b79b23482cb43a0207e380b5476cd4bd18e3ddd06d'],
     }),
     ('google-resumable-media', '0.5.1', {
+        'checksums': ['97155236971970382b738921f978a6f86a7b5a0b0311703d991e065d3cb55773'],
     }),
     ('google-auth-oauthlib', '0.4.2', {
+        'checksums': ['65b65bc39ad8cab15039b35e5898455d3d66296d0584d96fe0e79d67d04c51d9'],
     }),
     ('gcsfs', '0.2.2', {
+        'checksums': ['1fa9b8d3b59c7c7b058bd6296ee7d7c0a3a92dca4549158f1fb8362709c7fe16'],
     }),
     ('google-cloud-storage', '1.25.0', {
+        'checksums': ['8e9505ad7ba356c0953acefc0cdfd41de0dd5f1df520d1cd5bb31bd34ee45373'],
     }),
     ('humanize', '1.0.0', {
+        'checksums': ['38ace9b66bcaeb7f8186b9dbf0b3448e00148e5b4fbaf726f96c789e52c3e741'],
     }),
     ('hurry.filesize', '0.9', {
+        'checksums': ['f5368329adbef86accd3bc9490522340bb79260455ae89b1a42c10f63801b9a6'],
     }),
     ('nest_asyncio', '1.4.3', {
+        'checksums': ['eaa09ef1353ebefae19162ad423eef7a12166bcc63866f8bff8f3635353cd9fa'],
     }),
     ('parsimonious', '0.8.1', {
+        'checksums': ['3add338892d580e0cb3b1a39e4a1b427ff9f687858fdd61097053742391a9f6b'],
     }),
     ('PyJWT', '2.0.1', {
+        'checksums': ['a5c70a06e1f33d81ef25eecd50d50bd30e34de1ca8b2b9fa3fe0daaabcf69bf7'],
     }),
     ('python-json-logger', '0.1.11', {
+        'checksums': ['b7a31162f2a01965a5efb94453ce69230ed208468b0bbc7fdfc56e6d8df2e281'],
     }),
 ]
 
