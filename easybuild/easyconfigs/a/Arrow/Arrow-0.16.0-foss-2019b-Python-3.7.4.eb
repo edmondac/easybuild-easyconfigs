@@ -10,14 +10,9 @@ description = """Apache Arrow (incl. PyArrow Python bindings), a cross-language 
 
 toolchain = {'name': 'foss', 'version': '2019b'}
 
-source_urls = [
-    'https://apache.belnet.be/arrow/arrow-%(version)s/',
-    'https://www-eu.apache.org/dist/arrow/arrow-%(version)s/',
-]
+source_urls = ['https://archive.apache.org/dist/arrow/arrow-%(version)s/']
 sources = ['apache-arrow-%(version)s.tar.gz']
-checksums = [
-    '261992de4029a1593195ff4000501503bd403146471b3168bd2cc414ad0fb7f5',  # apache-arrow-0.16.0.tar.gz
-]
+checksums = ['261992de4029a1593195ff4000501503bd403146471b3168bd2cc414ad0fb7f5']
 
 builddependencies = [
     ('CMake', '3.15.3'),

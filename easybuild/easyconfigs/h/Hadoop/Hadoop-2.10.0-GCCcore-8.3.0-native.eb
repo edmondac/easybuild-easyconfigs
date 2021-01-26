@@ -7,10 +7,7 @@ description = """Hadoop MapReduce by Cloudera"""
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
-source_urls = [
-    'http://www.eu.apache.org/dist/%(namelower)s/common/%(namelower)s-%(version)s/',
-    'http://www.us.apache.org/dist/%(namelower)s/common/%(namelower)s-%(version)s/',
-]
+source_urls = ['https://archive.apache.org/dist/%(namelower)s/common/%(namelower)s-%(version)s/']
 sources = ['hadoop-%(version)s-src.tar.gz']
 patches = [
     'Hadoop-TeraSort-on-local-filesystem.patch',
