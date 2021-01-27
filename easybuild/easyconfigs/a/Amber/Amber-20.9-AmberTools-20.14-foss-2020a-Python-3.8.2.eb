@@ -19,28 +19,8 @@ sources = [
     'AmberTools%s.tar.bz2' % local_ambertools_ver,
 ]
 patches = [
-    # 'amber20-patches/%(name)s-20-AT-20_fix_hardcoding.patch',
     '%(name)s-%(version)s/cmake-locate-netcdf.patch',
-    # '%(name)s-18-AT-18_fix_intel_mpi_compiler_version_detection.patch',  # IGNORING RE INTEL
-    # '%(name)s-18-AT-18_fix_mkl_include_path.patch',  # IGNORING RE INTEL
-    # '%(name)s-%(version)s_use_fftw_from_mkl_or_external.patch',  # Fixed for 20
-    # '%(name)s-%(version)s_use_FFTW_FFT_instead_of_PUBFFT.patch',
-    # '%(name)s-18-AT-18_fix_sander_link_with_external_fftw.patch',
-    # '%(name)s-18-AT-18_fix-cpptraj-dont-use-static.patch',
-    # # Must come after fix-cpptraj-dont-use-static.patch
-    # '%(name)s-18-AT-18_cpptraj_use_mkl_fft.patch',
-    # '%(name)s-%(version)s_fix_missing_openmp_at_link.patch',
-    # '%(name)s-%(version)s_use_CUSTOMBUILDFLAGS_for_nab.patch',
-    # '%(name)s-%(version)s_fix_rism_fftw_lib.patch',
-    # '%(name)s-18-AT-18_ignore_X11_checks.patch',
-    # '%(name)s-%(version)s_use_easybuild_pythonpath.patch',
-    # '%(name)s-%(version)s_use_external_boost_in_packmol_memembed.patch',
-    # '%(name)s-18-AT-18_make_cpptraj_link_with_EBs_blas_lapack_fftw.patch',
-    # '%(name)s-%(version)s_tell_amber_about_ppc64le.patch',
-    # '%(name)s-%(version)s_hacky_fix_for_multiword_GOTO.patch',
-    # '%%(name)s-%s_fix_missing_build_target.patch' % local_amber_ver,
-    # '%%(name)s-%s_dont_use_ipo.patch' % local_amber_ver,
-    # '%(name)s-%(version)s_pass_openmp_into_nab.patch',
+    # '%(name)s-%(version)s/tell_amber_about_ppc64le.patch',  # need to check if this is necessary
 ]
 
 local_configopts_list = [
@@ -55,8 +35,7 @@ local_configopts_list = [
     "USE_FFT=TRUE",
     "FORCE_EXTERNAL_LIBS='netcdf;netcdf-fortran;fftw;zlib;boost'",
     "TRUST_SYSTEM_LIBS=TRUE",
-    "INSTALL_TESTS=TRUE",
-    # "MPI_C_LIBRARIES=",
+    "INSTALL_TESTS=TRUE",  # probably want to run these direct from source dir so not to bloat the install
 ]
 
 configopts = " -D" + " -D".join(local_configopts_list)
