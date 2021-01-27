@@ -13,8 +13,9 @@ toolchain = {'name': 'fosscuda', 'version': '2019b'}
 dependencies = [
     ('Python', '3.7.4'),
     ('SciPy-bundle', '2019.10', versionsuffix),
-    ('TensorFlow', '2.2.0', versionsuffix),
+    ('TensorFlow', '2.0.0', versionsuffix),
     ('scikit-learn', '0.21.3', versionsuffix),
+    ('tqdm', '4.41.1', versionsuffix),
 ]
 
 sanity_pip_check = True
@@ -27,9 +28,6 @@ exts_default_options = {
 exts_list = [
     ('colorama', '0.4.4', {
         'checksums': ['5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b'],
-    }),
-    ('tqdm', '4.33.0', {
-        'checksums': ['1dc82f87a8726602fa7177a091b5e8691d6523138a8f7acd08e58088f51e389f'],
     }),
     ('terminaltables', '3.1.0', {
         'checksums': ['f3eb0eb92e3833972ac36796293ca0906e998dc3be91fbe1f8615b331b853b81'],
