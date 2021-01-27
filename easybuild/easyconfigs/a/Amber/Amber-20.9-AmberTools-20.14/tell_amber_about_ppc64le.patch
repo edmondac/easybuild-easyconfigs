@@ -1,0 +1,56 @@
+Allow AmberTools to detect a ppc64le is and tell it what to do when it detects one
+diff -ru amber18.orig/AmberTools/src/configure amber18/AmberTools/src/configure
+--- amber18.orig/AmberTools/src/configure2	2019-05-03 10:38:44.675430000 +0100
++++ amber18/AmberTools/src/configure2	2019-05-03 10:49:37.135217910 +0100
+@@ -508,6 +508,8 @@
+ objsuffix='.o'
+ os=`uname -sr | awk -F . '{print $1}'`
+ processor=`uname -m`
++x86_64='no'
++ppx64le='no'
+ if [ -z "$RANLIB" ]; then ranlib='ranlib'; else ranlib="$RANLIB"; fi
+ 
+ #------------------------------------------------------------------------------
+@@ -515,8 +517,9 @@
+ #------------------------------------------------------------------------------
+ if [ "$processor" = "em64t" -o "$processor" = "x86_64" ] ; then
+     x86_64='yes'
+-else
+-    x86_64='no'
++fi
++if [ "$processor" = "ppc64le" ] ; then
++    ppc64le='yes'
+ fi
+ windows_hostflag=''
+ 
+@@ -1274,9 +1277,14 @@
+           #-mfpmath=sse is default for x86_64, no need to specific it
+           coptflags="$coptflags -mtune=native"
+           foptflags="$foptflags -mtune=native"
+-        else # i386 needs to be told to use sse prior to using -mfpmath=sse
+-          coptflags="$coptflags -mtune=native -msse -mfpmath=sse"
+-          foptflags="$foptflags -mtune=native -msse -mfpmath=sse"
++        else
++          if [ "$ppc64le" = 'yes' ]; then
++            coptflags="$coptflags -mtune=native"
++            foptflags="$foptflags -mtune=native"
++          else # i386 needs to be told to use sse prior to using -mfpmath=sse
++            coptflags="$coptflags -mtune=native -msse -mfpmath=sse"
++            foptflags="$foptflags -mtune=native -msse -mfpmath=sse"
++          fi
+         fi
+       fi
+       fcreal8="-fdefault-real-8"
+diff -ru amber18.orig/AmberTools/src/xblas/config/config.guess amber18/AmberTools/src/xblas/config/config.guess
+--- amber18.orig/AmberTools/src/xblas/config/config.guess	2019-08-18 15:01:07.968304000 +0100
++++ amber18/AmberTools/src/xblas/config/config.guess	2019-08-18 15:02:04.870167626 +0100
+@@ -970,6 +970,9 @@
+     ppc:Linux:*:*)
+ 	echo powerpc-unknown-linux-gnu
+ 	exit ;;
++    ppc64le:Linux:*:*)
++    echo powerpc64le-unknown-linux-gnu
++    exit ;;
+     s390:Linux:*:* | s390x:Linux:*:*)
+ 	echo ${UNAME_MACHINE}-ibm-linux
+ 	exit ;;
