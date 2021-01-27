@@ -8,7 +8,7 @@ versionsuffix = '-Python-%(pyver)s'
 homepage = "https://keras-team.github.io/keras-tuner/"
 description = """A hyperparameter tuner for Keras, specifically for tf.keras with TensorFlow 2.0."""
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+toolchain = {'name': 'fosscuda', 'version': '2019b'}
 
 dependencies = [
     ('Python', '3.7.4'),
