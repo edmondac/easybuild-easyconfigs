@@ -1,0 +1,48 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'talos'
+version = '0.6.7'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://autonom.io/"
+description = """Talos radically changes the ordinary Keras workflow by fullyautomating hyperparameter tuning and
+ model evaluation. Talos exposes Keras functionality entirely and there is no new syntax or templates to learn."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('Keras', '2.3.1', '-TensorFlow-1.15.0%s' % versionsuffix),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('statsmodels', '0.11.0', versionsuffix),
+    ('IPython', '7.9.0', versionsuffix),
+    ('tqdm', '4.41.1'),
+    ('matplotlib', '3.1.1', versionsuffix),
+    ('Seaborn', '0.10.0', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+exts_list = [
+    ('sklearn', '0.0', {
+    }),
+    ('wrangle', '0.6.7', {
+    }),
+    ('kerasplotlib', '0.1.6', {
+    }),
+    ('chances', '0.1.9', {
+    }),
+    ('geonamescache', '1.2.0', {
+    }),
+    ('astetik', '1.11.1', {
+    }),
+    (name, version, {
+    }),
+]
+
+moduleclass = 'tools'
