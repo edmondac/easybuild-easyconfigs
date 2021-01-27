@@ -2,7 +2,7 @@ name = 'Amber'
 local_amber_ver = 20
 local_ambertools_ver = 20
 # Patch levels from http://ambermd.org/AmberPatches.php and http://ambermd.org/ATPatches.php
-patchlevels = (9, 14)  # (AmberTools, Amber)
+patchlevels = (14, 9)  # (AmberTools, Amber)
 version = '%s.%s-AmberTools-%s.%s' % (local_amber_ver, patchlevels[1], local_ambertools_ver, patchlevels[0])
 versionsuffix = '-Python-%(pyver)s'
 
@@ -11,17 +11,19 @@ description = """Amber (originally Assisted Model Building with Energy Refinemen
  molecular dynamics and structure prediction."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
-toolchainopts = {'usempi': True, 'openmp': True}
+# Building with MPI causes the 'MPI=TRUE' Amber CMake option to fail
+toolchainopts = {'usempi': False, 'openmp': True}
 
 sources = [
     '%%(name)s%s.tar.bz2' % local_amber_ver,
     'AmberTools%s.tar.bz2' % local_ambertools_ver,
 ]
 patches = [
-    # '%(name)s-18-AT-18_fix_hardcoding.patch',
-    # '%(name)s-18-AT-18_fix_intel_mpi_compiler_version_detection.patch',
-    # '%(name)s-18-AT-18_fix_mkl_include_path.patch',
-    # '%(name)s-%(version)s_use_fftw_from_mkl_or_external.patch',
+    # 'amber20-patches/%(name)s-20-AT-20_fix_hardcoding.patch',
+    '%(name)s-%(version)s/cmake-locate-netcdf.patch',
+    # '%(name)s-18-AT-18_fix_intel_mpi_compiler_version_detection.patch',  # IGNORING RE INTEL
+    # '%(name)s-18-AT-18_fix_mkl_include_path.patch',  # IGNORING RE INTEL
+    # '%(name)s-%(version)s_use_fftw_from_mkl_or_external.patch',  # Fixed for 20
     # '%(name)s-%(version)s_use_FFTW_FFT_instead_of_PUBFFT.patch',
     # '%(name)s-18-AT-18_fix_sander_link_with_external_fftw.patch',
     # '%(name)s-18-AT-18_fix-cpptraj-dont-use-static.patch',
@@ -41,8 +43,27 @@ patches = [
     # '%(name)s-%(version)s_pass_openmp_into_nab.patch',
 ]
 
+local_configopts_list = [
+    "COMPILER=AUTO",
+    "DOWNLOAD_MINICONDA=FALSE",
+    "CUDA=FALSE",
+    "MPI=TRUE",
+    "OPENMP=TRUE",
+    "PYTHON_EXECUTABLE=$EBROOTPYTHON/bin/python",
+    "CHECK_UPDATES=FALSE",
+    "APPLY_UPDATES=FALSE",
+    "USE_FFT=TRUE",
+    "FORCE_EXTERNAL_LIBS='netcdf;netcdf-fortran;fftw;zlib;boost'",
+    "TRUST_SYSTEM_LIBS=TRUE",
+    "INSTALL_TESTS=TRUE",
+    # "MPI_C_LIBRARIES=",
+]
+
+configopts = " -D" + " -D".join(local_configopts_list)
+
 builddependencies = [
-    # ('flex', '2.6.4'),
+    ('Bison', '3.5.3'),
+    ('flex', '2.6.4'),
     ('CMake', '3.16.4'),
 ]
 
@@ -50,12 +71,17 @@ dependencies = [
     ('netCDF', '4.7.4'),
     ('netCDF-Fortran', '4.5.2'),
     ('Python', '3.8.2'),
-    # ('Boost.Python', '1.70.0'),  # needs building!
+    ('Boost.Python', '1.72.0'),
     ('matplotlib', '3.2.1', '-Python-%(pyver)s'),
+    ('Perl', '5.30.2'),
     ('zlib', '1.2.11'),
     ('bzip2', '1.0.8'),
     ('X11', '20200222'),
+    ('SciPy-bundle', '2020.03', '-Python-%(pyver)s'),  # mpi4py required for MMPBSA
+    # ('PLUMED', '2.6.0', '-Python-%(pyver)s'),
 ]
+
+parallel = 1
 
 static = False
 
