@@ -43,4 +43,11 @@ configopts += 'GUILE_CONFIG="$EBROOTGUILE/bin/guile -e main -s $EBROOTGUILE/bin/
 
 modextrapaths = {'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages'}
 
+sanity_check_paths = {
+    'files': ['bin/meep', 'lib/libmeep.so'],
+    'dirs': ['include', 'lib/python%(pyshortver)s/site-packages/%(namelower)s']
+}
+
+sanity_check_commands = ["python -c 'import %(namelower)s'"]
+
 moduleclass = 'phys'
