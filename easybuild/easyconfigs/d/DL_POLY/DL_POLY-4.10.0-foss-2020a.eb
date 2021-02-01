@@ -1,0 +1,32 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMake'
+
+name = 'DL_POLY'
+version = '4.10.0'
+
+homepage = "https://www.scd.stfc.ac.uk/Pages/DL_POLY.aspx"
+description = """DL_POLY is a general purpose classical molecular dynamics (MD) simulation software
+ developed at Daresbury Laboratory by I.T. Todorov and W. Smith."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+# register at https://www.scd.stfc.ac.uk/Pages/DL_POLY-Registration.aspx to obtain source code
+sources = ['%(namelower)s_%(version)s.tar.gz']
+checksums = ['79fbe403917037ca6789b46928c864c7fce5f59c3cacc5b05ace4614e72af2b1']
+
+builddependencies = [
+    ('CMake', '3.16.4'),
+]
+
+preconfigopts = 'FFLAGS="-O3 -mtune=native"'
+
+sanity_check_paths = {
+    'files': ['bin/DLPOLY.Z', 'lib64/libdlpoly.a'],
+    'dirs': [],
+}
+
+modloadmsg = """\nBY USING THIS SOFTWARE, YOU AGREE TO THE TERMS AND CONDITIONS
+OF THE DL_POLY_4 LICENCE AGREEMENT, WHICH CAN BE FOUND AT
+https://www.scd.stfc.ac.uk/Pages/DL_POLY-Registration.aspx.\n"""
+
+moduleclass = 'chem'
