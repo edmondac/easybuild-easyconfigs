@@ -1,0 +1,41 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'keras-tuner'
+version = '1.0.2'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://keras-team.github.io/keras-tuner/"
+description = """A hyperparameter tuner for Keras, specifically for tf.keras with TensorFlow 2.0."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', versionsuffix),
+    ('TensorFlow', '2.2.0', versionsuffix),
+    ('scikit-learn', '0.21.3', versionsuffix),
+    ('tqdm', '4.41.1'),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('colorama', '0.4.4', {
+        'checksums': ['5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b'],
+    }),
+    ('terminaltables', '3.1.0', {
+        'checksums': ['f3eb0eb92e3833972ac36796293ca0906e998dc3be91fbe1f8615b331b853b81'],
+    }),
+    (name, version, {
+        'modulename': 'kerastuner',
+        'checksums': ['a9626842bc032bb0c8f3152bbc90910f50db3221f8aa980ec82ac729692707ec'],
+    }),
+]
+
+moduleclass = 'math'
