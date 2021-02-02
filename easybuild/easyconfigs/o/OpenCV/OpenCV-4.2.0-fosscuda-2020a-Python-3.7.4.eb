@@ -18,10 +18,16 @@ source_urls = [
 sources = [
     '%(version)s.zip',
     {'filename': 'ippicv_2019_lnx_intel64_general_20180723.tgz', 'extract_cmd': "cp %s %(builddir)s"},
+    {
+        'source_urls': ['https://github.com/opencv/opencv_contrib/archive/'],
+        'download_filename': '%(version)s.tar.gz',
+        'filename': SOURCE_TAR_GZ,
+    },
 ]
 checksums = [
     '55bd939079d141a50fca74bde5b61b339dd0f0ece6320ec76859aaff03c90d9f',  # 4.2.0.zip
     'fc167cb60deb8924339a7050f3da168bb02e221b2d6b8c00139d1fa7eace0c7d',  # ippicv_2019_lnx_intel64_general_20180723.tgz
+    '8a6b5661611d89baa59a26eb7ccf4abb3e55d73f99bb52d8f7c32265c8a43020',  # OpenCV-4.2.0.tar.gz
 ]
 
 builddependencies = [
@@ -49,5 +55,11 @@ preconfigopts = "mkdir %(builddir)s/opencv_modules && "
 preconfigopts += "cp -a %(builddir)s/opencv_contrib-4.2.0/modules/cudev/ %(builddir)s/opencv_modules/ && "
 
 configopts = "-DOPENCV_EXTRA_MODULES_PATH=%(builddir)s/opencv_modules/ -DBUILD_opencv_cudev=ON"
+
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    # for ppc64le we need c++11 (to avoid __ieee128 errors
+    configopts += ' -DCUDA_NVCC_FLAGS="-Xcompiler;-mno-float128"'
 
 moduleclass = 'vis'
