@@ -1,0 +1,63 @@
+easyblock = 'Bundle'
+
+name = 'Seurat'
+version = '4.0.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = 'https://satijalab.org/seurat'
+description = "Seurat is an R package designed for QC, analysis, and exploration of single cell RNA-seq data."
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', versionsuffix),
+]
+
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz'
+}
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+
+exts_list = [
+    ('Rcpp', '1.0.6', {
+        'checksums': ['c9f24756bc000f7a989bd4f9aa93d57f7739dcde77946703f8bb32332a35f012'],
+    }),
+    ('rlang', '0.4.10', {
+        'checksums': ['07530270c4c199f2b7efc5d57a476d99babd9d0c3388a02bb7d57fe312da3576'],
+    }),
+    ('SeuratObject', version, {
+        'checksums': ['313eb25f2083ff708d14abbf340d4860f68102ee9709255d3d9e9bf3ce3f620e'],
+    }),
+    ('scattermore', '0.7', {
+        'checksums': ['f36280197b8476314d6ce81a51c4ae737180b180204043d2937bc25bf3a5dfa2'],
+    }),
+    ('RcppAnnoy', '0.0.18', {
+        'checksums': ['e4e7ddf071109b47b4fdf285db6d2155618ed73da829c30d8e64fc778e63c858'],
+    }),
+    ('sctransform', '0.3.2', {
+        'checksums': ['5dbb0a045e514c19f51bbe11c2dba0b72dca1942d6eb044c36b0538b443475dc'],
+    }),
+    ('uwot', '0.1.10', {
+        'checksums': ['6ee1b6027bce679cd5a35f647f516a5b327632234bcf323c7f3d5b5e10807d23'],
+    }),
+    (name, version, {
+        'checksums': ['b67530681ba14d0531b148dd96a8dddfddf99d2e3ea3164821f2d70580bfe3d6'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': [name],
+}
+
+moduleclass = 'bio'
