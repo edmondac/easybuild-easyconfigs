@@ -32,7 +32,8 @@ exts_default_options = {
 
 # Order is important!
 exts_list = [
-    (name, _githash, {
+    (name, '003cdf0221e4ecd7a87e09e92e8f364ca782c2b6', {
+        'checksums': ['4bfdc90a46c3a0bf2a5fe945b085b9b59baf1f3b8d4a303e0ab47222d726cbed'],
     }),
 ]
 
