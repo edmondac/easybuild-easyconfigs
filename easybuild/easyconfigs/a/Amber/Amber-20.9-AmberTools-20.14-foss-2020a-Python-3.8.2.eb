@@ -42,22 +42,22 @@ configopts = " -D" + " -D".join(local_configopts_list)
 
 builddependencies = [
     ('Bison', '3.5.3'),
-    ('flex', '2.6.4'),
     ('CMake', '3.16.4'),
+    ('flex', '2.6.4'),
 ]
 
 dependencies = [
-    ('netCDF', '4.7.4'),
-    ('netCDF-Fortran', '4.5.2'),
-    ('Python', '3.8.2'),
     ('Boost.Python', '1.72.0'),
-    ('matplotlib', '3.2.1', '-Python-%(pyver)s'),
-    ('Perl', '5.30.2'),
-    ('zlib', '1.2.11'),
     ('bzip2', '1.0.8'),
-    ('X11', '20200222'),
+    ('matplotlib', '3.2.1', '-Python-%(pyver)s'),
+    ('netCDF-Fortran', '4.5.2'),
+    ('netCDF', '4.7.4'),
+    ('Perl', '5.30.2'),
+    ('Python', '3.8.2'),
     ('SciPy-bundle', '2020.03', '-Python-%(pyver)s'),  # mpi4py required for MMPBSA
-    # ('PLUMED', '2.6.0', '-Python-%(pyver)s'),
+    ('Tkinter', '3.8.2'),
+    ('X11', '20200222'),
+    ('zlib', '1.2.11'),
 ]
 
 parallel = 1
