@@ -1,0 +1,49 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'pept'
+version = '0.2.4'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://pept.readthedocs.io/en/latest/"
+description = """A Python library that integrates all the tools necessary to perform research using Positron Emission
+ Particle Tracking (PEPT). The library includes algorithms for the location, identification and tracking of particles,
+ in addition to tools for visualisation and analysis, and utilities allowing the realistic simulation of PEPT data."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('SciPy-bundle', '2020.03', versionsuffix),
+    ('matplotlib', '3.2.1', versionsuffix),
+    ('scikit-learn', '0.23.2', versionsuffix),
+    ('tqdm', '4.47.0'),
+    ('plotly.py', '4.8.1'),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('hdbscan', '0.8.26', {
+        'checksums': ['81a61cd011e010b20e7cbd8d235053a98892504d32881d379d1902278817927e'],
+    }),
+    ('Cython', '0.29.21', {
+        'checksums': ['e57acb89bd55943c8d8bf813763d20b9099cc7165c0f16b707631a7654be9cad'],
+    }),
+    ('pandas', '1.2.1', {
+        'checksums': ['5527c5475d955c0bc9689c56865aaa2a7b13c504d6c44f0aadbf57b565af5ebd'],
+    }),
+    ('cma', '3.0.3', {
+        'checksums': ['8f54d753fa2322d4fef1c40d899d65f0990a3b1b9b56ada0766c3cb9cb82bca8'],
+    }),
+    (name, version, {
+        'checksums': ['3ec006d7aa2cf8beedd8f371c3938c2c242519be25e8d7344f0aef06c91daa3c'],
+    }),
+]
+
+moduleclass = 'bio'

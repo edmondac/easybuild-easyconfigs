@@ -15,6 +15,7 @@ dependencies = [
     ('SciPy-bundle', '2020.03', versionsuffix),
     ('matplotlib', '3.2.1', versionsuffix),
     ('Meep', '1.17.1', versionsuffix),
+    ('pept', '0.2.4', versionsuffix),
 ]
 
 moduleclass = 'tools'
