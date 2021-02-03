@@ -1,5 +1,5 @@
 name = 'OpenCV'
-version = '4.2.0'
+version = '4.4.0'
 versionsuffix = '-Python-%(pyver)s'
 
 homepage = 'https://opencv.org/'
@@ -25,9 +25,12 @@ sources = [
     },
 ]
 checksums = [
-    '55bd939079d141a50fca74bde5b61b339dd0f0ece6320ec76859aaff03c90d9f',  # 4.2.0.zip
+    '7faa0991c74cda52313ee37ef73f3e451332a47e7aa36c2bb2240b69f5002d27',  # 4.4.0.zip
     'fc167cb60deb8924339a7050f3da168bb02e221b2d6b8c00139d1fa7eace0c7d',  # ippicv_2019_lnx_intel64_general_20180723.tgz
-    '8a6b5661611d89baa59a26eb7ccf4abb3e55d73f99bb52d8f7c32265c8a43020',  # OpenCV-4.2.0.tar.gz
+    'a69772f553b32427e09ffbfd0c8d5e5e47f7dab8b3ffc02851ffd7f912b76840',  # OpenCV-4.4.0.tar.gz
+]
+
+checksums = [
 ]
 
 builddependencies = [
@@ -47,12 +50,13 @@ dependencies = [
     ('ant', '1.10.8', '-Java-%(javaver)s', True),
     ('GLib', '2.64.1'),
     ('GTK+', '3.24.17'),
+    ('cuDNN', '8.0.4.30', '-CUDA-11.0.2', True),
 ]
 
 # cudev module is required to build OpenCV with CUDA support,
 # so copy it to a separate directory (to avoid building *all* modules in opencv_contrib...)
 preconfigopts = "mkdir %(builddir)s/opencv_modules && "
-preconfigopts += "cp -a %(builddir)s/opencv_contrib-4.2.0/modules/cudev/ %(builddir)s/opencv_modules/ && "
+preconfigopts += "cp -a %(builddir)s/opencv_contrib-4.4.0/modules/cudev/ %(builddir)s/opencv_modules/ && "
 
 configopts = "-DOPENCV_EXTRA_MODULES_PATH=%(builddir)s/opencv_modules/ -DBUILD_opencv_cudev=ON"
 
