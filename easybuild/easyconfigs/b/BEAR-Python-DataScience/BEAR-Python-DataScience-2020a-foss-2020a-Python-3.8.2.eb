@@ -16,6 +16,7 @@ dependencies = [
     ('matplotlib', '3.2.1', versionsuffix),
     ('Meep', '1.17.1', versionsuffix),
     ('pept', '0.2.4', versionsuffix),
+    ('OpenCV', '4.4.0', versionsuffix),
 ]
 
 moduleclass = 'tools'
