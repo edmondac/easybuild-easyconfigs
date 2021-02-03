@@ -9,9 +9,9 @@ description = "Yet Another eXchange Tool"
 toolchain = {'name': 'iompi', 'version': '2020a'}
 toolchainopts = {'usempi': True}
 
-source_urls = ['https://www.dkrz.de/redmine/attachments/download/492/']
+source_urls = ['https://www.dkrz.de/redmine/attachments/download/498/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['7fc9b3e5dd2e0d3d5846f389a01c935aa40528eb09d82162b76c061b496a3c5b']
+checksums = ['d3673e88c1cba3b77e0821393b94b5952d8ed7dc494305c8cf93e7ebec19483c']
 
 configopts = 'FC="$F90" FCFLAGS="$F90FLAGS -cpp"'
 
