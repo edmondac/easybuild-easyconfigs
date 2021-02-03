@@ -1,0 +1,48 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'SeuratDisk'
+version = '0.0.0.9018'
+versionsuffix = '-R-%(rver)s'
+_githash = '003cdf0221e4ecd7a87e09e92e8f364ca782c2b6'
+
+homepage = "https://github.com/mojaveazure/seurat-disk"
+description = """The h5Seurat file format is specifically designed for the storage and analysis of multi-modal
+single-cell and spatially-resolved expression experiments, for example, from CITE-seq or 10X Visium technologies. It
+holds all molecular information and associated metadata, including (for example) nearest-neighbor graphs, dimensional
+reduction information, spatial coordinates and image data, and cluster labels. We also support rapid and on-disk
+conversion between h5Seurat and AnnData objects, with the goal of enhancing interoperability between Seurat and
+Scanpy."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('Seurat', '4.0.0', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://github.com/mojaveazure/seurat-disk/archive/',  # seurat-disk not available on CRAN
+    ],
+    'source_tmpl': '%(version)s.zip',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, '003cdf0221e4ecd7a87e09e92e8f364ca782c2b6', {
+        'checksums': ['4bfdc90a46c3a0bf2a5fe945b085b9b59baf1f3b8d4a303e0ab47222d726cbed'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['SeuratDisk/R/SeuratDisk'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
