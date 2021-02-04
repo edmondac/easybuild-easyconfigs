@@ -217,7 +217,7 @@ class EasyConfigTest(TestCase):
 
         # for some dependencies, we allow exceptions for software that depends on a particular version,
         # as long as that's indicated by the versionsuffix
-        if dep in ['ASE', 'Boost', 'Java', 'Lua', 'NLopt', 'PLUMED', 'PyTorch', 'R', 'TensorFlow'] and len(dep_vars) > 1:
+        if dep in ['ASE', 'Boost', 'Java', 'Lua', 'PLUMED', 'PyTorch', 'R', 'TensorFlow'] and len(dep_vars) > 1:
             for key in list(dep_vars):
                 dep_ver = re.search('^version: (?P<ver>[^;]+);', key).group('ver')
                 # use version of Java wrapper rather than full Java version
@@ -300,6 +300,12 @@ class EasyConfigTest(TestCase):
             py3_dep_vars = [x for x in dep_vars.keys() if '; versionsuffix: -Python-3.' in x]
             if len(py2_dep_vars) == 1 and len(py3_dep_vars) == 1:
                 res = True
+
+        # allow a Python and non-Python NLopt
+        if dep == 'NLopt' and len(dep_vars) > 1:
+            py_vsuff_vars = [v for v in dep_vars.keys() if v.endswith('versionsuffix: -Python-3.8.2')]
+            if len(py_vsuff_vars) == 1:
+                dep_vars = dict((k, v) for (k, v) in dep_vars.items() if k != py_vsuff_vars[0])
 
         return res
 
