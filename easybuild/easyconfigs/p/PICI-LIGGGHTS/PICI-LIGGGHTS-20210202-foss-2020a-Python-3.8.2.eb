@@ -10,7 +10,7 @@ description = """UoB Postron Imaging Centre's Improved LIGGGHTS distribution wit
 interface"""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
-toolchainopts = {'pic': True}
+toolchainopts = {'pic': True, 'usempi': True}
 
 source_urls = ['https://github.com/uob-positron-imaging-centre/PICI-LIGGGHTS/archive/']
 sources = ['%s.tar.gz' % _hash]
