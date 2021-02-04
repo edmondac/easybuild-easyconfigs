@@ -17,6 +17,7 @@ dependencies = [
     ('Meep', '1.17.1', versionsuffix),
     ('pept', '0.2.4', versionsuffix),
     ('OpenCV', '4.4.0', versionsuffix),
+    ('NLopt', '2.6.1', versionsuffix),
 ]
 
 moduleclass = 'tools'

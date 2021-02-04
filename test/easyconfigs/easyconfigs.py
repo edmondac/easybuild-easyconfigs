@@ -239,6 +239,12 @@ class EasyConfigTest(TestCase):
                     if len(dep_vars) == 1:
                         break
 
+        # NLopt allowed with Python 3 (in addition to non-Python version)
+        if dep == 'NLopt' and len(dep_vars) > 1:
+            for key in list(dep_vars):
+                if '; versionsuffix: -Python-3' in key:
+                    dep_vars.pop(key)
+
         # filter out variants that are specific to a particular version of CUDA
         cuda_dep_vars = [v for v in dep_vars.keys() if '-CUDA' in v]
         if len(dep_vars) > len(cuda_dep_vars):
