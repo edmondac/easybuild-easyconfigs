@@ -1,0 +1,15 @@
+--- src/cdo.cc.orig	2021-02-05 14:00:43.894719902 +0000
++++ src/cdo.cc	2021-02-05 14:04:51.001083436 +0000
+@@ -1335,6 +1335,12 @@
+       return 1;
+     }
+ 
++  if (!Threading::cdoLockIO)
++    {
++      fprintf(stderr, " > BEAR: Enabling '-L Lock IO (sequential access)' as NetCDF4/HDF5 is not thread safe\n");
++      Threading::cdoLockIO = true;
++    }
++
+   return 0;
+ }
+ 
