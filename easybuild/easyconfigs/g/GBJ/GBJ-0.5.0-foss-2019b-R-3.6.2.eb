@@ -1,0 +1,45 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'GBJ'
+version = '0.5.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=GBJ"
+description = """GBJ offers the Generalized Berk-Jones (GBJ) test for set-based inference in genetic association
+ studies. The GBJ is designed as an alternative to tests such as Berk-Jones (BJ), Higher Criticism (HC), Generalized
+ Higher Criticism (GHC), Minimum p-value (minP), and Sequence Kernel Association Test (SKAT)."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+dependencies = [
+    ('R', '3.6.2'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['a3e8f4d835aa57b592d3bbbc3c6c551834a0b55a38b3074d617cd32d5af3991f'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['GBJ/R/GBJ'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'

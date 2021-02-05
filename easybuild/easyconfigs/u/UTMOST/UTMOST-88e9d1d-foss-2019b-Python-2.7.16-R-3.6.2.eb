@@ -1,0 +1,45 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Binary'
+
+name = 'UTMOST'
+version = '88e9d1d'
+local_pysuffix = '-Python-%(pyver)s'
+local_rsuffix = '-R-%(rver)s'
+versionsuffix = '%s%s' % (local_pysuffix, local_rsuffix)
+
+homepage = "https://github.com/Joker-Jerome/UTMOST"
+description = """UTMOST (Unified Test for MOlecular SignaTures) is a principled method to perform cross-tissue
+ expression imputation and gene-level association analysis."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+
+source_urls = ['https://github.com/Joker-Jerome/UTMOST/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['52c76608f8c45b8199ebea9845335379a61e6064a962eba96205daff8f11dfbf']
+
+dependencies = [
+    ('Python', '2.7.16'),
+    ('SciPy-bundle', '2019.10', local_pysuffix),
+    ('R', '3.6.2'),
+    ('rpy2', '2.8.6', local_pysuffix),
+    ('GBJ', '0.5.0', local_rsuffix),
+]
+
+extract_sources = True
+install_cmd = 'chmod 755 *.py && '
+install_cmd += 'chmod 755 test/joint_gbj_break3.py && '
+install_cmd += 'chmod 755 metax/Filtering.py && chmod 755 metax/M0* && '
+install_cmd += 'cp -r * %(installdir)s'
+fix_python_shebang_for = ['*.py', 'metax/Filtering.py', 'test/joint_gbj_break3.py']
+
+modextrapaths = {
+    'PATH': ['', 'test', 'metax'],
+}
+
+sanity_check_paths = {
+    'files': ['joint_GBJ_test.py', 'joint_covariance.py', 'single_tissue_association_test.py',
+              'single_tissue_covariance.py'],
+    'dirs': ['intermediate', 'metax', 'test'],
+}
+
+moduleclass = 'bio'
