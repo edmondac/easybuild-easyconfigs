@@ -1,0 +1,51 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'elastool'
+version = '7199f7a'
+local_vaspver = '5.4.4'
+local_pysuffix = '-Python-%(pyver)s'
+versionsuffix = '%s-VASP-%s' % (local_pysuffix, local_vaspver)
+
+homepage = "https://github.com/zhongliliu/elastool"
+description = """ElasTool is an automated Python-based toolkit for calculating the second-order elastic constants
+ (SOECs) of any crystal systems belonging to two and three dimensions. Presently, ElasTool interfaces to the VASP
+ package for calculating the accurate stresses of strained crystal. But the interfaces to other DFT packages can
+ also be easily implemented."""
+
+toolchain = {'name': 'iomkl', 'version': '2019b'}
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('SciPy-bundle', '2019.10', local_pysuffix),
+    ('spglib-python', '1.16.1', local_pysuffix),
+    ('ASE', '3.19.1', local_pysuffix),
+    ('VASP', '%s' % local_vaspver),
+]
+
+source_urls = ['https://github.com/zhongliliu/elastool/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['83f56b70354c202c53b1322137cdb8c73a3b929582baeaef064f94695dd12635']
+
+skipsteps = ['configure', 'build']
+
+preinstallopts = 'mkdir -p lib/python%(pyshortver)s/site-packages && '
+preinstallopts += 'export PYTHONPATH=lib/python%(pyshortver)s/site-packages:$PYTHONPATH &&'
+install_cmd = 'python setup.py install --prefix=.'
+postinstallcmds = ['chmod -R 755 * && cp -r * %(installdir)s']
+
+modextrapaths = {
+    'PATH': '%(name)s',
+    'PYTHONPATH': '.:lib/python%(pyshortver)s/site-packages',
+}
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s'],
+    'dirs': ['doc', '%(name)s', 'examples', 'lib/python%(pyshortver)s/site-packages'],
+}
+
+sanity_check_commands = ["python -c 'import %(name)s'"]
+
+moduleclass = 'chem'
+
+local_bham_group = 'p-vasp'
