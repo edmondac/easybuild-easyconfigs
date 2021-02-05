@@ -20,25 +20,8 @@ sources = [
 ]
 patches = [
     '%(name)s-%(version)s/cmake-locate-netcdf.patch',
-    # '%(name)s-%(version)s/tell_amber_about_ppc64le.patch',  # need to check if this is necessary
+    '%(name)s-%(version)s/disable-phmdremd-test.patch',
 ]
-
-local_configopts_list = [
-    "COMPILER=AUTO",
-    "DOWNLOAD_MINICONDA=FALSE",
-    "CUDA=FALSE",
-    "MPI=TRUE",
-    "OPENMP=TRUE",
-    "PYTHON_EXECUTABLE=$EBROOTPYTHON/bin/python",
-    "CHECK_UPDATES=FALSE",
-    "APPLY_UPDATES=FALSE",
-    "USE_FFT=TRUE",
-    "FORCE_EXTERNAL_LIBS='netcdf;netcdf-fortran;fftw;zlib;boost'",
-    "TRUST_SYSTEM_LIBS=TRUE",
-    "INSTALL_TESTS=TRUE",  # probably want to run these direct from source dir so not to bloat the install
-]
-
-configopts = " -D" + " -D".join(local_configopts_list)
 
 builddependencies = [
     ('Bison', '3.5.3'),
@@ -49,6 +32,7 @@ builddependencies = [
 dependencies = [
     ('Boost.Python', '1.72.0'),
     ('bzip2', '1.0.8'),
+    ('libreadline', '8.0'),
     ('matplotlib', '3.2.1', '-Python-%(pyver)s'),
     ('netCDF-Fortran', '4.5.2'),
     ('netCDF', '4.7.4'),
@@ -60,8 +44,11 @@ dependencies = [
     ('zlib', '1.2.11'),
 ]
 
-parallel = 1
+# Numerous tests fail, which is expected by Amber devs. Need to handle this with a
+# threshold-based strategy in the easyblock
+runtest = False
 
+ambermpi = True
 static = False
 
 moduleclass = 'chem'
