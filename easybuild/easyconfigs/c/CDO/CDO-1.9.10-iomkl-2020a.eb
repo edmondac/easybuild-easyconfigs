@@ -12,7 +12,11 @@ toolchainopts = {'pic': True, 'usempi': True, 'lowopt': True}
 
 source_urls = ['https://code.mpimet.mpg.de/attachments/download/24638/']
 sources = [SOURCELOWER_TAR_GZ]
-checksums = ['cc39c89bbb481d7b3945a06c56a8492047235f46ac363c4f0d980fccdde6677e']
+patches = ['%(name)s-%(version)s_force_lock_io.patch']
+checksums = [
+    'cc39c89bbb481d7b3945a06c56a8492047235f46ac363c4f0d980fccdde6677e',  # cdo-1.9.10.tar.gz
+    'fbad6a7ac984dbf274c0487d7df3dc74216e560a3e328135094842a9886775ba',  # CDO-1.9.10_force_lock_io.patch
+]
 
 dependencies = [
     ('HDF5', '1.10.6'),
