@@ -1,0 +1,79 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'bigsnpr'
+version = '1.6.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=bigsnpr"
+description = """Easy-to-use, efficient, flexible and scalable tools for analyzing massive SNP arrays"""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('rmio', '0.2.0', {
+        'checksums': ['f3d990734411f5aae0337486d1cb2c978d04736fbe34bd14598157b455593a3c'],
+    }),
+    ('bigassertr', '0.1.3', {
+        'checksums': ['a909e4d8b7e6579faba6163d9a3561ea02998c5f7682ea2cca79b61ef55e0ab8'],
+    }),
+    ('bigreadr', '0.2.0', {
+        'checksums': ['f9296aa2246887202d5217d523f73a10f23b8c8de7bf8ce51054b769827eae34'],
+    }),
+    ('bigsparser', '0.4.1', {
+        'checksums': ['e53a19767778e54359f726f905c9ed8ef6259d688c11e342ebd2eb166dcdd733'],
+    }),
+    ('flock', '0.7', {
+        'checksums': ['47ebdeaeeb63ec93c800782bafa7f2846f73bb905adb6a3b5c44b248ce1de9fd'],
+    }),
+    ('parallelly', '1.23.0', {
+        'checksums': ['376ce2381587380a4da60f9563710d63084a605f93aa364e9349f2523e83bc08'],
+    }),
+    ('RhpcBLASctl', '0.20-137', {
+        'checksums': ['db02cbdad32fc54bc60bb27baf0799e919c09c09710c33bf72c741f93421616f'],
+    }),
+    ('bigparallelr', '0.3.1', {
+        'checksums': ['c3c4642ad4b60995ed0a3a7061af79691f41bfed5fc1f670d19385dab7c23691'],
+    }),
+    ('RSpectra', '0.16-0', {
+        'checksums': ['aaf1cfc9ffe3a4c6684247899924e1c18306971dfef4bae1dc596a2fb42a64a9'],
+    }),
+    ('bigstatsr', '1.3.1', {
+        'checksums': ['76e476b68b4ca60d2ef2b9cb4782979b1f0654b2a0d415c9490b99483d971e55'],
+    }),
+    ('nabor', '0.5.0', {
+        'checksums': ['47938dcc987279281c13abfd667660bf1b3b76af116136a27eb066ee1a4b43da'],
+    }),
+    ('bigutilsr', '0.3.3', {
+        'checksums': ['4aa82feb41f320ff1f64ecacc873430996823a2fcd55014a81bbd3673ba87e73'],
+    }),
+    (name, version, {
+        'checksums': ['3c031cdcc935b1405debd92def1ffb24060ef5c7962c830d4ad084663b1072cb'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['bigsnpr/R/bigsnpr'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
