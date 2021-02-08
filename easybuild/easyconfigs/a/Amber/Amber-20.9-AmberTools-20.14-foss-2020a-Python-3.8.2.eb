@@ -33,6 +33,7 @@ builddependencies = [
     ('Bison', '3.5.3'),
     ('CMake', '3.16.4'),
     ('flex', '2.6.4'),
+    ('make', '4.3'),
 ]
 
 dependencies = [
