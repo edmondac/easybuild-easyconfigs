@@ -1,0 +1,21 @@
+diff -ru bcl2fastq.orig/src/cmake/macros.cmake bcl2fastq/src/cmake/macros.cmake
+--- bcl2fastq.orig/src/cmake/macros.cmake	2021-02-08 15:56:41.065250000 +0000
++++ bcl2fastq/src/cmake/macros.cmake	2021-02-08 16:07:48.101820000 +0000
+@@ -55,7 +55,7 @@
+ macro(bcl2fastq_find_library name header library)
+ if    (NOT ${name}_INCLUDE_DIR)
+     find_path(${name}_INCLUDE_DIR ${header} 
+-              HINTS ENV C_INCLUDE_PATH ENV CPATH ENV CPLUS_INCLUDE_PATH)
++              HINTS ENV C_INCLUDE_PATH ENV CPATH ENV CPLUS_INCLUDE_PATH /usr/include/x86_64-linux-gnu)
+ endif (NOT ${name}_INCLUDE_DIR)
+ if    (${name}_INCLUDE_DIR AND NOT ${name}_LIBRARY)
+     find_library(${name}_LIBRARY 
+@@ -73,7 +73,7 @@
+ # Macro to find libraries, with support for static-only search
+ #
+ macro(bcl2fastq_find_header_or_die variable file)
+-find_file(${variable} ${file} HINTS ENV C_INCLUDE_PATH ENV CPATH ENV CPLUS_INCLUDE_PATH)
++find_file(${variable} ${file} HINTS ENV C_INCLUDE_PATH ENV CPATH ENV CPLUS_INCLUDE_PATH /usr/include/x86_64-linux-gnu)
+ if    (${variable})
+     message(STATUS "${file} found as ${${variable}}")
+ else  (${variable})
