@@ -52,8 +52,7 @@ dependencies = [
     ('zlib', '1.2.11'),
 ]
 
-# Numerous tests fail, which is expected by Amber devs. Need to handle this with a
-# threshold-based strategy in the easyblock
+# Different tests pass and fail when using different numbers of processes. The manual makes it clear that this is expected.
 runtest = False
 
 ambermpi = True
