@@ -44,6 +44,7 @@ dependencies = [
     ('netCDF-Fortran', '4.5.2'),
     ('netCDF', '4.7.4'),
     ('Perl', '5.30.2'),
+    ('PnetCDF', '1.12.1'),
     ('Python', '3.8.2'),
     ('SciPy-bundle', '2020.03', '-Python-%(pyver)s'),  # mpi4py required for MMPBSA
     ('Tkinter', '3.8.2'),
