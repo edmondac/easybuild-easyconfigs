@@ -1,0 +1,62 @@
+name = 'Amber'
+local_amber_ver = 20
+local_ambertools_ver = 20
+# Patch levels from http://ambermd.org/AmberPatches.php and http://ambermd.org/ATPatches.php
+patchlevels = (14, 9)  # (AmberTools, Amber)
+version = '%s.%s-AmberTools-%s.%s' % (local_amber_ver, patchlevels[1], local_ambertools_ver, patchlevels[0])
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://ambermd.org/amber.html'
+description = """Amber (originally Assisted Model Building with Energy Refinement) is software for performing
+ molecular dynamics and structure prediction."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+# Building with MPI causes the 'MPI=TRUE' Amber CMake option to fail
+toolchainopts = {'usempi': False, 'openmp': True}
+
+sources = [
+    '%%(name)s%s.tar.bz2' % local_amber_ver,
+    'AmberTools%s.tar.bz2' % local_ambertools_ver,
+]
+patches = [
+    '%(name)s-%(version)s/cmake-locate-netcdf.patch',
+    '%(name)s-%(version)s/disable-phmdremd-test.patch',
+]
+checksums = [
+    'a4c53639441c8cc85adee397933d07856cc4a723c82c6bea585cd76c197ead75',  # Amber20.tar.bz2
+    'b1e1f8f277c54e88abc9f590e788bbb2f7a49bcff5e8d8a6eacfaf332a4890f9',  # AmberTools20.tar.bz2
+    '473e07c53b6f641d96d333974a6af2e03413fecef79f879d3fdecf7fecaab4d0',  # cmake-locate-netcdf.patch
+    'ac36c842f28091dfba79bc8f9b194367edf4be3f71c54d6eea8079ec898c43a9',  # disable-phmdremd-test.patch
+]
+
+builddependencies = [
+    ('Bison', '3.5.3'),
+    ('CMake', '3.16.4'),
+    ('flex', '2.6.4'),
+    ('make', '4.3'),
+]
+
+dependencies = [
+    ('Boost.Python', '1.72.0'),
+    ('bzip2', '1.0.8'),
+    ('libreadline', '8.0'),
+    ('matplotlib', '3.2.1', '-Python-%(pyver)s'),
+    ('netCDF-Fortran', '4.5.2'),
+    ('netCDF', '4.7.4'),
+    ('Perl', '5.30.2'),
+    ('PnetCDF', '1.12.1'),
+    ('Python', '3.8.2'),
+    ('SciPy-bundle', '2020.03', '-Python-%(pyver)s'),  # mpi4py required for MMPBSA
+    ('Tkinter', '3.8.2'),
+    ('X11', '20200222'),
+    ('zlib', '1.2.11'),
+]
+
+# Different tests pass and fail when using different numbers of processes.
+# The manual makes it clear that this is expected.
+runtest = False
+
+ambermpi = True
+static = False
+
+moduleclass = 'chem'
