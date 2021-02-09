@@ -26,7 +26,10 @@ dependencies = [
 source_urls = ['https://github.com/zhongliliu/elastool/archive']
 sources = ['%(version)s.tar.gz']
 patches = ['elastool_examples.patch']
-checksums = ['83f56b70354c202c53b1322137cdb8c73a3b929582baeaef064f94695dd12635']
+checksums = [
+    '83f56b70354c202c53b1322137cdb8c73a3b929582baeaef064f94695dd12635',  # 7199f7a.tar.gz
+    '49367a928f2fd6c0b3381fd01ae309dceea6c75b47560276543f64d91454e6d0',  # elastool_examples.patch
+]
 
 skipsteps = ['configure', 'build']
 
