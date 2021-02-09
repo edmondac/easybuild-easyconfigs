@@ -1,0 +1,117 @@
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/2D-highT/Graphene/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/2D-highT/Graphene/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/2D-highT/Graphene/elastool.in	2021-02-09 11:15:26.515894000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/2D-highT/Graphene/elastool.in	2021-02-09 11:32:06.726927611 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 500
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/Al2O3-Trigonal/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/Al2O3-Trigonal/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/Al2O3-Trigonal/elastool.in	2021-02-09 11:15:27.514822000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/Al2O3-Trigonal/elastool.in	2021-02-09 11:31:07.805303702 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/AuSe-2D/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/AuSe-2D/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/AuSe-2D/elastool.in	2021-02-09 11:15:27.498597000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/AuSe-2D/elastool.in	2021-02-09 11:31:07.808766036 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1000
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/CaMoO4-Tetragonal/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/CaMoO4-Tetragonal/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/CaMoO4-Tetragonal/elastool.in	2021-02-09 11:15:27.524359000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/CaMoO4-Tetragonal/elastool.in	2021-02-09 11:31:07.811619144 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/Cu-highT/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/Cu-highT/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/Cu-highT/elastool.in	2021-02-09 11:15:27.468881000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/Cu-highT/elastool.in	2021-02-09 11:31:07.814726532 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 500
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/diamond-Cubic/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/diamond-Cubic/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/diamond-Cubic/elastool.in	2021-02-09 11:15:26.316246000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/diamond-Cubic/elastool.in	2021-02-09 11:31:07.817758967 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/Graphene/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/Graphene/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/Graphene/elastool.in	2021-02-09 11:15:26.505530000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/Graphene/elastool.in	2021-02-09 11:31:07.821842997 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1000
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/MoS2-2D/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/MoS2-2D/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/MoS2-2D/elastool.in	2021-02-09 11:15:27.475192000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/MoS2-2D/elastool.in	2021-02-09 11:31:07.826485782 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1000
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/Phosphorene/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/Phosphorene/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/Phosphorene/elastool.in	2021-02-09 11:15:27.536433000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/Phosphorene/elastool.in	2021-02-09 11:31:07.830420771 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1000
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/SnO-2D/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/SnO-2D/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/SnO-2D/elastool.in	2021-02-09 11:15:26.326171000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/SnO-2D/elastool.in	2021-02-09 11:31:07.833823984 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1000
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/TiB2-Hexagonal/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/TiB2-Hexagonal/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/TiB2-Hexagonal/elastool.in	2021-02-09 11:15:27.456548000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/TiB2-Hexagonal/elastool.in	2021-02-09 11:31:07.835976415 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/TiSi2-orthorhombic/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/TiSi2-orthorhombic/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/TiSi2-orthorhombic/elastool.in	2021-02-09 11:15:26.307264000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/TiSi2-orthorhombic/elastool.in	2021-02-09 11:31:07.838762177 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 500
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
+diff -ru elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/ZrO2-monoclinic/elastool.in elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/ZrO2-monoclinic/elastool.in
+--- elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b.orig/examples/ZrO2-monoclinic/elastool.in	2021-02-09 11:15:27.485111000 +0000
++++ elastool-7199f7acfb22d068cc55fcfc9c660617bf6f8c5b/examples/ZrO2-monoclinic/elastool.in	2021-02-09 11:31:07.840862776 +0000
+@@ -34,4 +34,4 @@
+ num_last_samples = 1
+ 
+ # The parallel submiting commmd
+-parallel_submit_command = mpirun -np 28 vasp544 > log.vasp
++parallel_submit_command = mpirun -np ${SLURM_NTASKS} vasp_std > log.vasp
