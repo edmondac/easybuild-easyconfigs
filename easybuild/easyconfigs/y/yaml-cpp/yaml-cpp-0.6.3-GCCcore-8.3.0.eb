@@ -13,7 +13,10 @@ source_urls = ['https://github.com/jbeder/%(name)s/archive/']
 sources = ['%(name)s-%(version)s.tar.gz']
 checksums = ['77ea1b90b3718aa0c324207cb29418f5bced2354c2e483a9523d98c3460af1ed']
 
-builddependencies = [('CMake', '3.15.3')]
+builddependencies = [
+    ('binutils', '2.32'),
+    ('CMake', '3.15.3')
+]
 
 sanity_check_paths = {
     'files': ['lib/libyaml-cpp.a', 'include/yaml-cpp/yaml.h'],
