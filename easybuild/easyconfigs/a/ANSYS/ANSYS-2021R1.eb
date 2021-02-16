@@ -1,0 +1,20 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+name = 'ANSYS'
+version = '2021R1'
+
+homepage = 'https://www.ansys.com'
+description = """ANSYS simulation software enables organizations to confidently predict
+ how their products will operate in the real world. We believe that every product is
+ a promise of something greater."""
+
+toolchain = SYSTEM
+
+# create a single zip file from contents of the 3 install ISO images.
+# Note that some of the content is duplicated across the ISOs but this can be overwritten
+# as required. N.B. ensure the copy operation also copies permissions.
+sources = [SOURCE_ZIP]
+checksums = ['54481a038b929806cb5ee60a1071252a8636fdcf71b9810e9642bac281575b02']
+
+modextravars = {'KMP_AFFINITY': 'disabled'}
+
+moduleclass = 'tools'
