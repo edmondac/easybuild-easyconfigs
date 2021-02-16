@@ -1,0 +1,47 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMakeCp'
+
+name = 'Peridigm'
+version = 'cb9979d'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://github.com/peridigm/peridigm"
+description = """Peridigm is an open-source computational peridynamics code developed, originally at Sandia National
+ Laboratories and open-sourced in 2011, for massively-parallel multi-physics simulations. It has been applied primarily
+ to problems in solid mechanics involving pervasive material failure. Peridigm is a C++ code utilizing foundational
+ software components from Sandia's Trilinos project and is fully compatible with the Cubit mesh generator and Paraview
+ visualization code."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+source_urls = ['https://github.com/peridigm/peridigm/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['5e89e8518d3b91a65da31f04a42b22629092d3dcf0fa6d3a17c7675ac35f134a']
+
+builddependencies = [('CMake', '3.15.3')]
+
+dependencies = [
+    ('Python', '3.7.4'),
+    ('Boost', '1.71.0'),
+    ('HDF5', '1.10.5'),
+    ('netCDF', '4.7.1'),
+    ('Trilinos', '12.12.1', versionsuffix),
+    ('Pillow', '6.2.1'),
+]
+
+configopts = '-DTrilinos_DIR=$EBROOTTRILINOS/lib/cmake/Trilinos '
+configopts += '-DCMAKE_CXX_FLAGS="-O2 -std=c++11 -fopenmp -Wall -pedantic -Wno-long-long -ftrapv -Wno-deprecated"'
+
+files_to_copy = ['src', 'scripts', 'examples', 'test']
+
+sanity_check_paths = {
+    'files': ['src/Peridigm', 'src/MeshConverter'],
+    'dirs': ['scripts', 'examples', 'test'],
+}
+
+modextrapaths = {
+    'PATH': ['scripts', 'src'],
+}
+
+moduleclass = 'phys'
