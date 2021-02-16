@@ -19,6 +19,8 @@ source_urls = ['https://github.com/peridigm/peridigm/archive']
 sources = ['%(version)s.tar.gz']
 checksums = ['5e89e8518d3b91a65da31f04a42b22629092d3dcf0fa6d3a17c7675ac35f134a']
 
+builddependencies = [('CMake', '3.15.3')]
+
 dependencies = [
     ('Python', '3.7.4'),
     ('Boost', '1.71.0'),
