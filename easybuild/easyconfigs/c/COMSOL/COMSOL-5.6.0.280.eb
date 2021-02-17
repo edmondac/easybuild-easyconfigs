@@ -1,0 +1,23 @@
+name = 'COMSOL'
+version = '5.6.0.280'
+
+homepage = 'https://www.comsol.com'
+description = """
+COMSOL Multiphysics is a general-purpose software platform, based on
+advanced numerical methods, for modeling and simulating physics-based
+problems.
+"""
+
+toolchain = SYSTEM
+
+# source tarball has to be created manually from dvd
+# mount -o ro path-to-iso /mnt
+# cd /mnt
+# tar zcf <path-to-sources>/COMSOL-5.6.0.280.tar.gz .
+# umount /mnt
+sources = [SOURCE_TAR_GZ]
+checksums = ['a5fbe1ef4b9b213885c5c423447b302a66d8bad673a707ec3fb9b33ae46a71f3']
+
+# license is required, can be specified via $LMCOMSOL_LICENSE_FILE
+
+moduleclass = 'phys'
