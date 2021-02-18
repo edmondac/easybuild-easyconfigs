@@ -26,6 +26,11 @@ preconfigopts = "aclocal && automake --gnu --add-missing && autoconf && "
 
 modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
 
+sanity_check_paths = {
+    'files': ['bin/lofreq'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/lofreq_star'],
+}
+
 sanity_check_commands = [
     ('python', "-c 'import lofreq_star'"),
     "lofreq version",
