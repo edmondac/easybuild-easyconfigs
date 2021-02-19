@@ -8,7 +8,9 @@ description = """A Tcl/Tk widget for OpenGL rendering."""
 
 toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
 
-source_urls = ['https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/33/Everything/source/tree/Packages/t/']
+source_urls = [
+    'https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/33/Everything/source/tree/Packages/t/',
+]
 sources = [{'filename': 'tcl-togl-%(version)s-0.9.cvs20170502.fc33.src.rpm',
             'extract_cmd': 'rpm2cpio %s | cpio -idm && tar xjf %(name)s-%(version)s-cvs20170502.tar.bz2'}]
 patches = [
