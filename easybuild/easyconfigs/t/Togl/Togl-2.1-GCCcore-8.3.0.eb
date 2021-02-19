@@ -1,0 +1,43 @@
+easyblock = 'ConfigureMake'
+
+name = 'Togl'
+version = '2.1'
+
+homepage = 'https://sourceforge.net/projects/togl/'
+description = """A Tcl/Tk widget for OpenGL rendering."""
+
+toolchain = {'name': 'GCCcore', 'version': '8.3.0'}
+
+source_urls = [
+    'https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/33/Everything/source/tree/Packages/t/',
+]
+sources = [{'filename': 'tcl-togl-%(version)s-0.9.cvs20170502.fc33.src.rpm',
+            'extract_cmd': 'rpm2cpio %s | cpio -idm && tar xjf %(name)s-%(version)s-cvs20170502.tar.bz2'}]
+patches = [
+    'Togl-2.1_configure.patch',
+]
+checksums = [
+    'ce9c8802e6a5c9b390457bc69868bb2d28fbaa4115e808a1f2893225282246de',  # tcl-togl-2.1-0.9.cvs20170502.fc33.src.rpm
+    'f33ab577b0b4626e0abb8f9e11ad7a4bd6da7e2219abbcd5818ebf30e080b564',  # Togl-2.1_configure.patch
+]
+
+start_dir = name
+builddependencies = [('binutils', '2.32')]
+
+dependencies = [
+    ('Mesa', '19.1.7'),
+    ('Tk', '8.6.9'),
+    ('Tcl', '8.6.9'),
+]
+
+preconfigopts = 'export CFLAGS="$CFLAGS -DTOGL_USE_FONTS=0" && '
+
+configopts = "--prefix=%(installdir)s --exec-prefix=%(installdir)s "
+configopts += "--with-tcl=${EBROOTTCL}/lib --with-tk=${EBROOTTK}/lib"
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['include', 'lib'],
+}
+
+moduleclass = 'vis'
