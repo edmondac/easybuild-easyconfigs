@@ -82,7 +82,7 @@ exts_list = [
     (name, version, {
         'source_tmpl': '%s.tar.gz' % local_commit,
         'source_urls': ['https://bitbucket.org/biociphers/majiq_academic/get'],
-        'preinstallopts': 'export HTSLIB_LIBRARY_DIR=${EBROOTHTSLIB}/lib && ' 
+        'preinstallopts': 'export HTSLIB_LIBRARY_DIR=${EBROOTHTSLIB}/lib && '\
                           'export HTSLIB_INCLUDE_DIR=${EBROOTHTSLIB}/include &&',
         'use_pip': False,
         'install_cmd': 'python setup.py install --prefix=%(installdir)s',
