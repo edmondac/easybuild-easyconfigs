@@ -20,6 +20,7 @@ dependencies = [
     ('furrr', '0.2.1', versionsuffix),
     ('tidymodels', '0.1.0', versionsuffix),
     ('structToolbox', '1.0.1', versionsuffix),
+    ('fmi2', '0.2.0', versionsuffix),
 ]
 
 moduleclass = 'bio'
