@@ -1,0 +1,102 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'MAJIQ'
+version = '2.2'
+local_commit = '54fd98d'
+local_pysuffix = '-Python-%(pyver)s'
+versionsuffix = '-%s%s' % (local_commit, local_pysuffix)
+
+homepage = "https://majiq.biociphers.org"
+description = """MAJIQ and Voila are two software packages that together detect, quantify, and
+ visualize local splicing variations (LSV) from RNA-Seq data."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+toolchainopts = {'openmp': True}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('HTSlib', '1.10.2'),
+    ('SciPy-bundle', '2020.03', local_pysuffix),
+    ('h5py', '2.10.0', local_pysuffix),
+]
+
+exts_default_options = {'source_urls': [PYPI_SOURCE]}
+
+sanity_pip_check = True
+use_pip = True
+
+exts_list = [
+    ('numpy', '1.18.1', {
+        'source_tmpl': '%(name)s-%(version)s.zip',
+        'checksums': ['b6ff59cee96b454516e47e7721098e6ceebef435e3e21ac2d6c3b8b02628eb77'],
+    }),
+    ('psutil', '5.6.7', {
+        'checksums': ['ffad8eb2ac614518bbe3c0b8eb9dffdb3a8d2e3a7d5da51c5b974fb723a5c5aa'],
+    }),
+    ('Click', '7.0', {
+        'checksums': ['5b94b49521f6456670fdb30cd82a4eca9412788a93fa6dd6df72c94d5a8ff2d7'],
+    }),
+    ('Cython', '0.29.14', {
+        'checksums': ['e4d6bb8703d0319eb04b7319b12ea41580df44fd84d83ccda13ea463c6801414'],
+    }),
+    ('Flask', '1.0.2', {
+        'checksums': ['2271c0070dbcb5275fad4a82e29f23ab92682dc45f9dfbc22c02ba9b9322ce48'],
+    }),
+    ('Flask-Session', '0.3.1', {
+        'checksums': ['a31c27e0c3287f00c825b3d9625aba585f4df4cccedb1e7dd5a69a215881a731'],
+    }),
+    ('Flask-WTF', '0.14.2', {
+        'checksums': ['5d14d55cfd35f613d99ee7cba0fc3fbbe63ba02f544d349158c14ca15561cc36'],
+    }),
+    ('gitdb2', '2.0.6', {
+        'modulename': 'gitdb',
+        'checksums': ['1b6df1433567a51a4a9c1a5a0de977aa351a405cc56d7d35f3388bad1f630350'],
+    }),
+    ('GitPython', '3.0.5', {
+        'modulename': 'git',
+        'checksums': ['9c2398ffc3dcb3c40b27324b316f08a4f93ad646d5a6328cafbb871aa79f5e42'],
+    }),
+    ('gunicorn', '19.9.0', {
+        'checksums': ['fa2662097c66f920f53f70621c6c58ca4a3c4d3434205e608e121b5b3b71f4f3'],
+    }),
+    ('itsdangerous', '1.1.0', {
+        'checksums': ['321b033d07f2a4136d3ec762eac9f16a10ccd60f53c0c91af90217ace7ba1f19'],
+    }),
+    ('Jinja2', '2.11.1', {
+        'checksums': ['93187ffbc7808079673ef52771baa950426fd664d3aad1d0fa3e95644360e250'],
+    }),
+    ('smmap2', '2.0.5', {
+        'modulename': 'smmap',
+        'checksums': ['29a9ffa0497e7f2be94ca0ed1ca1aa3cd4cf25a1f6b4f5f87f74b46ed91d609a'],
+    }),
+    ('waitress', '1.1.0', {
+        'checksums': ['d33cd3d62426c0f1b3cd84ee3d65779c7003aae3fc060dee60524d10a57f05a9'],
+    }),
+    ('Werkzeug', '0.16.0', {
+        'checksums': ['7280924747b5733b246fe23972186c6b348f9ae29724135a6dfc1e53cea433e7'],
+    }),
+    ('WTForms', '2.2.1', {
+        'checksums': ['0cdbac3e7f6878086c334aa25dc5a33869a3954e9d1e015130d65a69309b3b61'],
+    }),
+    (name, version, {
+        'source_tmpl': '%s.tar.gz' % local_commit,
+        'source_urls': ['https://bitbucket.org/biociphers/majiq_academic/get'],
+        'preinstallopts': 'export HTSLIB_LIBRARY_DIR=${EBROOTHTSLIB}/lib && ' 
+                          'export HTSLIB_INCLUDE_DIR=${EBROOTHTSLIB}/include &&',
+        'use_pip': False,
+        'install_cmd': 'python setup.py install --prefix=%(installdir)s',
+        'checksums': ['9d36aeac583ccbc29fd33b26377f4c83d1705a05a8b2523f9019ffdddf5d0023'],
+    }),
+]
+
+modloadmsg = """\nBY USING THIS SOFTWARE, YOU AGREE TO THE TERMS AND CONDITIONS
+OF THE MAJIQ ACADEMIC LICENCE AGREEMENT, WHICH CAN BE FOUND AT
+https://majiq.biociphers.org/Academic_License.txt.\n"""
+
+sanity_check_paths = {
+    'files': ['bin/majiq', 'bin/voila'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages'],
+}
+
+moduleclass = 'bio'
