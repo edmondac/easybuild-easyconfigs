@@ -1,0 +1,800 @@
+From 13052d1e316492b9f779a86e412b6555ea68f757 Mon Sep 17 00:00:00 2001
+From: Victor Brunini <vebruni@sandia.gov>
+Date: Mon, 3 Aug 2020 10:30:42 -0600
+Subject: [PATCH 1/3] tpetra: Workaround intel-19 compile error in c++14 mode.
+
+That showed up when enabling -std=c++14 for Sierra builds of Trilinos.
+---
+ .../core/src/Tpetra_withLocalAccess.hpp       | 62 +++++++++++++++----
+ 1 file changed, 51 insertions(+), 11 deletions(-)
+
+diff --git a/packages/tpetra/core/src/Tpetra_withLocalAccess.hpp b/packages/tpetra/core/src/Tpetra_withLocalAccess.hpp
+index 1a358718478..691e88d71d4 100644
+--- a/packages/tpetra/core/src/Tpetra_withLocalAccess.hpp
++++ b/packages/tpetra/core/src/Tpetra_withLocalAccess.hpp
+@@ -820,6 +820,57 @@ namespace Tpetra {
+       }
+     };
+ 
++    /// \brief Specialization of WithLocalAccess that implements the
++    ///   "base class" of the user providing one GlobalObject
++    ///   arguments, and a function that takes one arguments.
++    ///   Required to workaround a compile error with intel-19 in c++14 mode.
++    template<class FirstLocalAccessType>
++    struct WithLocalAccess<FirstLocalAccessType> {
++      using current_user_function_type =
++        typename ArgsToFunction<FirstLocalAccessType>::type;
++
++      static void
++      withLocalAccess (current_user_function_type userFunction,
++                       FirstLocalAccessType first)
++      {
++        // The "master" local object is the scope guard for local
++        // data.  Its constructor may allocate temporary storage, copy
++        // data to the desired memory space, etc.  Its destructor will
++        // put everything back.  "Put everything back" could be a
++        // no-op, or it could copy data back so where they need to go
++        // and/or free temporary storage.
++        //
++        // Users define this function and the type it returns by
++        // specializing GetMasterLocalObject for LocalAccess
++        // specializations.
++        auto first_lcl_master = getMasterLocalObject (first);
++
++        // The "nonowning" local object is a nonowning view of the
++        // "master" local object.  This is the only local object that
++        // users see, and they see it as input to their function.
++        // Subsequent slices / subviews view this nonowning local
++        // object.  All such nonowning views must have lifetime
++        // contained within the lifetime of the master local object.
++        //
++        // Users define this function and the type it returns by
++        // specializing GetNonowningLocalObject (see above).
++        //
++        // Constraining the nonowning views' lifetime to this scope
++        // means that master local object types may use low-cost
++        // ownership models, like that of std::unique_ptr.  There
++        // should be no need for reference counting (in the manner of
++        // std::shared_ptr) or Herb Sutter's deferred_heap.
++        auto first_lcl_view = getNonowningLocalObject (first, first_lcl_master);
++
++        // Curry the user's function by fixing the first argument.
++
++        WithLocalAccess<>::withLocalAccess
++          ([=] () {
++             userFunction (first_lcl_view);
++           });
++      }
++    };
++
+     /// \brief Specialization of WithLocalAccess that implements the
+     ///   "recursion case."
+     ///
+@@ -867,17 +918,6 @@ namespace Tpetra {
+ 
+         // Curry the user's function by fixing the first argument.
+ 
+-        // The commented-out implementation requires C++14, because it
+-        // uses a generic lambda (the special case where parameters
+-        // are "auto").  We do have the types of the arguments,
+-        // though, from ArgsToFunction, so we don't need this feature.
+-
+-        // WithLocalAccess<Rest...>::withLocalAccess
+-        //   (rest...,
+-        //    [=] (auto ... args) {
+-        //      userFunction (first_lcl_view, args...);
+-        //    });
+-
+         WithLocalAccess<Rest...>::withLocalAccess
+           ([=] (with_local_access_function_argument_type<Rest>... args) {
+              userFunction (first_lcl_view, args...);
+
+From 827f7153b111762d56fd1738422db7735d4a8210 Mon Sep 17 00:00:00 2001
+From: Victor Brunini <vebruni@sandia.gov>
+Date: Mon, 3 Aug 2020 12:11:58 -0600
+Subject: [PATCH 2/3] tpetra/tacho: Workaround cuda internal compiler errors in
+ c++14 mode.
+
+When using gcc-7 as the host compiler and getting errors like:
+
+  internal compiler error: in maybe_undo_parenthesized_ref
+
+which seem to be related to reference capture of some variables in nested lambdas. Similar
+errors previously popped up in kokkos-kernels issue #349.
+---
+ packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp     | 2 +-
+ packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp     | 2 +-
+ packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp     | 2 +-
+ .../tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp           | 2 +-
+ .../shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp | 3 ++-
+ .../tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp      | 4 ++--
+ .../src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp    | 2 +-
+ .../impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp   | 6 +++---
+ .../tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp | 4 ++--
+ .../tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp     | 4 ++--
+ .../tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp     | 4 ++--
+ .../tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp      | 6 +++---
+ .../tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp     | 6 +++---
+ .../tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp     | 6 +++---
+ packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp     | 2 +-
+ packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp           | 2 +-
+ 16 files changed, 29 insertions(+), 28 deletions(-)
+
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp
+index e3f89bc5412..61c2db50957 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp
+@@ -50,7 +50,7 @@ namespace Tacho {
+         const int ierr = Chol<ArgUplo,ArgAlgo>
+           ::invoke(member, _A);
+ 
+-        Kokkos::single(Kokkos::PerTeam(member), [&]() {
++        Kokkos::single(Kokkos::PerTeam(member), [&, ierr]() {
+             _A.set_future();
+             r_val = ierr;
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp
+index a23ff1ade04..4cbc1dfb298 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp
+@@ -61,7 +61,7 @@ namespace Tacho {
+         const int ierr = Gemm<ArgTransA,ArgTransB,ArgAlgo>
+           ::invoke(member, _alpha, _A, _B, _beta, _C);
+ 
+-        Kokkos::single(Kokkos::PerTeam(member), [&]() {
++        Kokkos::single(Kokkos::PerTeam(member), [&, ierr]() {
+             _C.set_future();
+             r_val = ierr;
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp
+index 9fe902e9510..1c50b8a0143 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp
+@@ -59,7 +59,7 @@ namespace Tacho {
+         const int ierr = Herk<ArgUplo,ArgTrans,ArgAlgo>
+           ::invoke(member, _alpha, _A, _beta, _C);
+ 
+-        Kokkos::single(Kokkos::PerThread(member), [&] () {
++        Kokkos::single(Kokkos::PerThread(member), [&, ierr] () {
+             _C.set_future();
+             r_val = ierr;
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp
+index 40269ee78a0..dd8317f68d3 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp
+@@ -39,7 +39,7 @@ namespace Tacho {
+             const ordinal_type j = member.league_rank();
+             Kokkos::parallel_for
+               (Kokkos::TeamVectorRange(member, m),
+-               [&](const ordinal_type &i) {
++               [&, one, zero, A, j](const ordinal_type &i) {
+                 A(i,j) = i==j ? one : zero;
+               });
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp
+index 952947006fa..3e0efa75fd0 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp
+@@ -364,7 +364,8 @@ namespace Tacho {
+                   ii = i + s.row_begin,  // row in U
+                   row = perm(ii), kbeg = ap(row), kend = ap(row+1);   // row in A
+                 const ordinal_type kcnt = kend - kbeg;
+-                Kokkos::parallel_for(Kokkos::ThreadVectorRange(member, kcnt), [&](const ordinal_type &kk) {
++                Kokkos::parallel_for(Kokkos::ThreadVectorRange(member, kcnt),
++                  [&, kbeg, ii](const ordinal_type &kk) {
+                     const ordinal_type k  = kk + kbeg;
+                     const ordinal_type jj = peri(aj(k) /* col in A */); // col in U
+                     if (ii <= jj) {
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp
+index f034e9689cb..25e8918cb47 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp
+@@ -63,7 +63,7 @@ namespace Tacho {
+         const size_t bufsize = (n*n + _info.max_schur_size*team_size)*sizeof(mat_value_type);
+         
+         mat_value_type * buf = NULL;
+-        Kokkos::single(Kokkos::PerTeam(member), [&](mat_value_type *&val) {
++        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {
+             val = bufsize > 0 ? (mat_value_type *)_bufpool.allocate(bufsize) : NULL;
+           }, buf);
+ 
+@@ -73,7 +73,7 @@ namespace Tacho {
+         CholSupernodes<Algo::Workflow::Serial>
+           ::factorize_recursive_serial(member, _info, _sid, final, buf, bufsize);
+         
+-        Kokkos::single(Kokkos::PerTeam(member), [&]() {
++        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize]() {
+             if (bufsize > 0)
+               _bufpool.deallocate(buf, bufsize);
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp
+index 43c46a74eec..18ba123bade 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp
+@@ -138,7 +138,7 @@ namespace Tacho {
+             bufsize = matrix_of_blocks_bufsize + abr_bufsize;
+           
+           char *buf = NULL;
+-          Kokkos::single(Kokkos::PerTeam(member), [&](char *&val) {
++          Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](char *&val) {
+               val = (char*)_bufpool.allocate(bufsize);
+               if (bufsize) {
+                 if (val == NULL) {
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp
+index 7376273277a..dd343eb39ed 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp
+@@ -97,7 +97,7 @@ namespace Tacho {
+             bufsize = n*team_size*sizeof(mat_value_type) + nn*nb*sizeof(mat_value_type);  
+ 
+           mat_value_type *buf = NULL; 
+-          Kokkos::single(Kokkos::PerTeam(member), [&](mat_value_type *&val) {
++          Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {
+               val = bufsize > 0 ? (mat_value_type*)_bufpool.allocate(bufsize) : NULL;  
+               if (val == NULL && bufsize) 
+                 Kokkos::respawn(this, sched, Kokkos::TaskPriority::Low);
+@@ -129,7 +129,7 @@ namespace Tacho {
+           TACHO_TEST_FOR_ABORT(dep == NULL, "sched memory pool allocation fails"); 
+           clear(member, (char*)dep, depsize);  
+           
+-          Kokkos::single(Kokkos::PerTeam(member), [&]() {
++          Kokkos::single(Kokkos::PerTeam(member), [&, bn, nb]() {
+               const ordinal_type state = 3;
+               for (ordinal_type i=0;i<bn;++i) {
+                 auto f = Kokkos::task_spawn(Kokkos::TaskTeam(sched, Kokkos::TaskPriority::Regular),
+@@ -170,7 +170,7 @@ namespace Tacho {
+           // allocation for matrix of blocks
+           const size_t bufsize = (bm*bm + bm*bn)*sizeof(dense_block_type);
+           char *buf = NULL;
+-          Kokkos::single(Kokkos::PerTeam(member), [&](char *&val) {          
++          Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](char *&val) {          
+               val = (char*)_bufpool.allocate(bufsize);
+               if (val == NULL && bufsize) 
+                 Kokkos::respawn(this, sched, Kokkos::TaskPriority::Low);                  
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp
+index 2356d834eca..9d040597637 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp
+@@ -66,7 +66,7 @@ namespace Tacho {
+         const size_t bufsize = (_nb*n + _info.max_schur_size*team_size)*sizeof(mat_value_type);
+         
+         mat_value_type *buf = NULL;
+-        Kokkos::single(Kokkos::PerTeam(member), [&](mat_value_type *&val) {        
++        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {        
+             val = bufsize > 0 ? (mat_value_type*)_bufpool.allocate(bufsize) : NULL;
+           }, buf);
+ 
+@@ -76,7 +76,7 @@ namespace Tacho {
+         CholSupernodes<Algo::Workflow::SerialPanel>
+           ::factorize_recursive_serial(member, _info, _sid, final, buf, bufsize, _nb);
+         
+-        Kokkos::single(Kokkos::PerTeam(member), [&]() {
++        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize]() {
+             if (bufsize > 0) 
+               _bufpool.deallocate(buf, bufsize);
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp
+index bb39c5aeb48..57ba60b19f6 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp
+@@ -63,7 +63,7 @@ namespace Tacho {
+         const size_t bufsize = n*nrhs*sizeof(mat_value_type);
+         
+         mat_value_type* buf = NULL;
+-        Kokkos::single(Kokkos::PerTeam(member), [&](mat_value_type *&val) {
++        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {
+             val = bufsize > 0 ? (mat_value_type*)_bufpool.allocate(bufsize) : NULL;
+           }, buf);
+ 
+@@ -73,7 +73,7 @@ namespace Tacho {
+         CholSupernodes<Algo::Workflow::Serial>
+           ::solve_lower_recursive_serial(member, _info, _sid, final, buf, bufsize);
+         
+-        Kokkos::single(Kokkos::PerTeam(member), [&]() {
++        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize]() {
+             if (bufsize > 0)
+               _bufpool.deallocate(buf, bufsize);
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp
+index 80bb9c2d6e6..4e5c76bc1c1 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp
+@@ -61,7 +61,7 @@ namespace Tacho {
+         const size_t bufsize = n*nrhs*sizeof(mat_value_type);
+ 
+         mat_value_type* buf = NULL;
+-        Kokkos::single(Kokkos::PerTeam(member), [&](mat_value_type *&val) {        
++        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {        
+             val = bufsize > 0 ? (mat_value_type*)_bufpool.allocate(bufsize) : NULL;
+           }, buf);
+ 
+@@ -71,7 +71,7 @@ namespace Tacho {
+         CholSupernodes<Algo::Workflow::Serial>
+           ::solve_upper_recursive_serial(member, _info, _sid, final, buf, bufsize);
+ 
+-        Kokkos::single(Kokkos::PerTeam(member), [&]() {
++        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize]() {
+             if (bufsize)
+               _bufpool.deallocate(buf, bufsize);
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp
+index e697eacf479..ac37cabb866 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp
+@@ -212,7 +212,7 @@ namespace Tacho {
+           const value_type *src = (value_type*)ABR.data();
+           
+           Kokkos::parallel_for
+-            (Kokkos::TeamThreadRange(member, srcsize), [&](const ordinal_type &j) {
++            (Kokkos::TeamThreadRange(member, srcsize), [&, srcsize, src, tgt](const ordinal_type &j) {
+               const value_type *__restrict__ ss = src + j*srcsize;
+               /* */ value_type *__restrict__ tt = tgt + j*srcsize;
+               Kokkos::parallel_for
+@@ -228,7 +228,7 @@ namespace Tacho {
+       
+       // loop over target
+       //const size_type s2tsize = srcsize*sizeof(ordinal_type)*member.team_size();
+-      Kokkos::parallel_for(Kokkos::TeamThreadRange(member, sbeg, send), [&](const ordinal_type &i) {
++      Kokkos::parallel_for(Kokkos::TeamThreadRange(member, sbeg, send), [&, buf, srcsize](const ordinal_type &i) {
+           ordinal_type *s2t = ((ordinal_type*)(buf)) + member.team_rank()*srcsize;
+           const auto &s = info.supernodes(info.sid_block_colidx(i).first);
+           {
+@@ -238,7 +238,7 @@ namespace Tacho {
+               tgtsize = tgtend - tgtbeg;
+             
+             const ordinal_type *t_colidx = &info.gid_colidx(s.gid_col_begin + tgtbeg);
+-            Kokkos::parallel_for(Kokkos::ThreadVectorRange(member, srcsize), [&](const ordinal_type &k) {
++            Kokkos::parallel_for(Kokkos::ThreadVectorRange(member, srcsize), [&, t_colidx, s_colidx, tgtsize](const ordinal_type &k) {
+                 s2t[k] = -1;
+                 auto found = lower_bound(&t_colidx[0], &t_colidx[tgtsize-1], s_colidx[k], 
+                                          [](ordinal_type left, ordinal_type right) { 
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp
+index 665485f68f9..faa153de8be 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp
+@@ -131,7 +131,7 @@ namespace Tacho {
+ 
+             Kokkos::parallel_for
+               (Kokkos::TeamVectorRange(member, tcnt),
+-               [&](const ordinal_type &ii) {
++               [&, tbeg, ip](const ordinal_type &ii) {
+                 const ordinal_type it = tbeg+ii;
+                 const ordinal_type is = ip+ii;
+                 //for (ordinal_type it=tbeg;it<tend;++it,++is) {
+@@ -193,7 +193,7 @@ namespace Tacho {
+           // copy to t
+           Kokkos::parallel_for
+             (Kokkos::TeamVectorRange(member, m*_nrhs),
+-             [&](const ordinal_type &k) {
++             [&, m](const ordinal_type &k) {
+               const ordinal_type i = k%m, j = k/m;
+               tT(i,j) = bT(i,j);
+             });
+@@ -212,7 +212,7 @@ namespace Tacho {
+ 
+               Kokkos::parallel_for
+                 (Kokkos::TeamVectorRange(member, tcnt),
+-                 [&](const ordinal_type &ii) {
++                 [&, tbeg](const ordinal_type &ii) {
+                   const ordinal_type it = tbeg+ii;
+                   const ordinal_type is = ip+ii;
+                   //for (ordinal_type it=tbeg;it<tend;++it,++is) {
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp
+index ebff03cbf39..36c73b8c09c 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp
+@@ -121,7 +121,7 @@ namespace Tacho {
+           const ordinal_type goffset = s.gid_col_begin + s.m;
+           Kokkos::parallel_for
+             (Kokkos::TeamVectorRange(member, n_m),
+-             [&](const ordinal_type &i) {
++             [&, goffset](const ordinal_type &i) {
+               //for (ordinal_type i=0;i<n;++i) {
+               const ordinal_type row = _gid_colidx(i+goffset);
+               for (ordinal_type j=0;j<_nrhs;++j)
+@@ -164,7 +164,7 @@ namespace Tacho {
+           // copy to t
+           Kokkos::parallel_for
+             (Kokkos::TeamVectorRange(member, m*_nrhs),
+-             [&](const ordinal_type &k) {
++             [&, m](const ordinal_type &k) {
+               const ordinal_type i = k%m, j = k/m;
+               tT(i,j) = bT(i,j);
+             });
+@@ -184,7 +184,7 @@ namespace Tacho {
+           const ordinal_type goffset = s.gid_col_begin + s.m;
+           Kokkos::parallel_for
+             (Kokkos::TeamVectorRange(member, n_m),
+-             [&](const ordinal_type &i) {
++             [&, goffset](const ordinal_type &i) {
+               //for (ordinal_type i=0;i<n;++i) {
+               const ordinal_type row = _gid_colidx(i+goffset);
+               for (ordinal_type j=0;j<_nrhs;++j)
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp
+index 85bf7c54a14..cdc5340defc 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp
+@@ -61,7 +61,7 @@ namespace Tacho {
+         const int ierr = Trsm<ArgSide,ArgUplo,ArgTrans,ArgAlgo>
+           ::invoke(member, ArgDiag(), _alpha, _A, _B);
+  
+-        Kokkos::single(Kokkos::PerTeam(member), [&] () {
++        Kokkos::single(Kokkos::PerTeam(member), [&, ierr] () {
+             _B.set_future();
+             r_val = ierr;
+           });
+diff --git a/packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp b/packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp
+index e97b1d59f16..d7c29610c10 100644
+--- a/packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp
++++ b/packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp
+@@ -4062,7 +4062,7 @@ namespace Tpetra {
+     Kokkos::parallel_for
+       ("Tpetra::CrsMatrix::getLocalDiagCopy",
+        range_type (0, myNumRows),
+-       [&] (const LO lclRow) {
++       [&, INV, h_offsets] (const LO lclRow) {
+         lclVecHost1d(lclRow) = STS::zero (); // default value if no diag entry
+         if (h_offsets[lclRow] != INV) {
+           auto curRow = lclMat.rowConst (lclRow);
+
+From 3e4396eaca7973412ff651f254e4923bbf1a7fcb Mon Sep 17 00:00:00 2001
+From: Victor Brunini <vebruni@sandia.gov>
+Date: Mon, 3 Aug 2020 13:21:16 -0600
+Subject: [PATCH 3/3] Add comments about value captures being workaround for
+ compiler bug.
+
+---
+ packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp  | 3 ++-
+ packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp  | 3 ++-
+ packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp  | 3 ++-
+ .../tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp        | 2 +-
+ .../shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp    | 2 +-
+ .../tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp   | 6 ++++--
+ .../src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp | 3 ++-
+ .../Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp     | 9 ++++++---
+ .../src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp    | 6 ++++--
+ .../tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp  | 6 ++++--
+ .../tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp  | 6 ++++--
+ .../tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp   | 9 ++++++---
+ .../tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp  | 6 +++---
+ .../tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp  | 6 +++---
+ packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp  | 3 ++-
+ packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp        | 2 +-
+ 16 files changed, 47 insertions(+), 28 deletions(-)
+
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp
+index 61c2db50957..23867357867 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Chol.hpp
+@@ -50,7 +50,8 @@ namespace Tacho {
+         const int ierr = Chol<ArgUplo,ArgAlgo>
+           ::invoke(member, _A);
+ 
+-        Kokkos::single(Kokkos::PerTeam(member), [&, ierr]() {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, ierr]() { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             _A.set_future();
+             r_val = ierr;
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp
+index 4cbc1dfb298..2828b68c0dc 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Gemm.hpp
+@@ -61,7 +61,8 @@ namespace Tacho {
+         const int ierr = Gemm<ArgTransA,ArgTransB,ArgAlgo>
+           ::invoke(member, _alpha, _A, _B, _beta, _C);
+ 
+-        Kokkos::single(Kokkos::PerTeam(member), [&, ierr]() {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, ierr]() { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             _C.set_future();
+             r_val = ierr;
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp
+index 1c50b8a0143..d9b77d34f04 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Herk.hpp
+@@ -59,7 +59,8 @@ namespace Tacho {
+         const int ierr = Herk<ArgUplo,ArgTrans,ArgAlgo>
+           ::invoke(member, _alpha, _A, _beta, _C);
+ 
+-        Kokkos::single(Kokkos::PerThread(member), [&, ierr] () {
++        Kokkos::single(Kokkos::PerThread(member), 
++          [&, ierr] () { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             _C.set_future();
+             r_val = ierr;
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp
+index dd8317f68d3..8ca7525057f 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_SetIdentity_OnDevice.hpp
+@@ -39,7 +39,7 @@ namespace Tacho {
+             const ordinal_type j = member.league_rank();
+             Kokkos::parallel_for
+               (Kokkos::TeamVectorRange(member, m),
+-               [&, one, zero, A, j](const ordinal_type &i) {
++              [&, one, zero, A, j](const ordinal_type &i) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+                 A(i,j) = i==j ? one : zero;
+               });
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp
+index 3e0efa75fd0..8bfa7d950af 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_SupernodeInfo.hpp
+@@ -365,7 +365,7 @@ namespace Tacho {
+                   row = perm(ii), kbeg = ap(row), kend = ap(row+1);   // row in A
+                 const ordinal_type kcnt = kend - kbeg;
+                 Kokkos::parallel_for(Kokkos::ThreadVectorRange(member, kcnt),
+-                  [&, kbeg, ii](const ordinal_type &kk) {
++                  [&, kbeg, ii](const ordinal_type &kk) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+                     const ordinal_type k  = kk + kbeg;
+                     const ordinal_type jj = peri(aj(k) /* col in A */); // col in U
+                     if (ii <= jj) {
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp
+index 25e8918cb47..d15bc1e2915 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeChol.hpp
+@@ -63,7 +63,8 @@ namespace Tacho {
+         const size_t bufsize = (n*n + _info.max_schur_size*team_size)*sizeof(mat_value_type);
+         
+         mat_value_type * buf = NULL;
+-        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize](mat_value_type *&val) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             val = bufsize > 0 ? (mat_value_type *)_bufpool.allocate(bufsize) : NULL;
+           }, buf);
+ 
+@@ -73,7 +74,8 @@ namespace Tacho {
+         CholSupernodes<Algo::Workflow::Serial>
+           ::factorize_recursive_serial(member, _info, _sid, final, buf, bufsize);
+         
+-        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize]() {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize]() { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             if (bufsize > 0)
+               _bufpool.deallocate(buf, bufsize);
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp
+index 18ba123bade..835f47943c4 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocks.hpp
+@@ -138,7 +138,8 @@ namespace Tacho {
+             bufsize = matrix_of_blocks_bufsize + abr_bufsize;
+           
+           char *buf = NULL;
+-          Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](char *&val) {
++          Kokkos::single(Kokkos::PerTeam(member), 
++            [&, bufsize](char *&val) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+               val = (char*)_bufpool.allocate(bufsize);
+               if (bufsize) {
+                 if (val == NULL) {
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp
+index dd343eb39ed..e7a4235f6d0 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholByBlocksPanel.hpp
+@@ -97,7 +97,8 @@ namespace Tacho {
+             bufsize = n*team_size*sizeof(mat_value_type) + nn*nb*sizeof(mat_value_type);  
+ 
+           mat_value_type *buf = NULL; 
+-          Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {
++          Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize](mat_value_type *&val) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+               val = bufsize > 0 ? (mat_value_type*)_bufpool.allocate(bufsize) : NULL;  
+               if (val == NULL && bufsize) 
+                 Kokkos::respawn(this, sched, Kokkos::TaskPriority::Low);
+@@ -129,7 +130,8 @@ namespace Tacho {
+           TACHO_TEST_FOR_ABORT(dep == NULL, "sched memory pool allocation fails"); 
+           clear(member, (char*)dep, depsize);  
+           
+-          Kokkos::single(Kokkos::PerTeam(member), [&, bn, nb]() {
++          Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bn, nb]() { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+               const ordinal_type state = 3;
+               for (ordinal_type i=0;i<bn;++i) {
+                 auto f = Kokkos::task_spawn(Kokkos::TaskTeam(sched, Kokkos::TaskPriority::Regular),
+@@ -170,7 +172,8 @@ namespace Tacho {
+           // allocation for matrix of blocks
+           const size_t bufsize = (bm*bm + bm*bn)*sizeof(dense_block_type);
+           char *buf = NULL;
+-          Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](char *&val) {          
++          Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize](char *&val) {           // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/C++14
+               val = (char*)_bufpool.allocate(bufsize);
+               if (val == NULL && bufsize) 
+                 Kokkos::respawn(this, sched, Kokkos::TaskPriority::Low);                  
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp
+index 9d040597637..6482433a4c4 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_FactorizeCholPanel.hpp
+@@ -66,7 +66,8 @@ namespace Tacho {
+         const size_t bufsize = (_nb*n + _info.max_schur_size*team_size)*sizeof(mat_value_type);
+         
+         mat_value_type *buf = NULL;
+-        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {        
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize](mat_value_type *&val) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             val = bufsize > 0 ? (mat_value_type*)_bufpool.allocate(bufsize) : NULL;
+           }, buf);
+ 
+@@ -76,7 +77,8 @@ namespace Tacho {
+         CholSupernodes<Algo::Workflow::SerialPanel>
+           ::factorize_recursive_serial(member, _info, _sid, final, buf, bufsize, _nb);
+         
+-        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize]() {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize]() { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             if (bufsize > 0) 
+               _bufpool.deallocate(buf, bufsize);
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp
+index 57ba60b19f6..f0d66583bb0 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveLowerChol.hpp
+@@ -63,7 +63,8 @@ namespace Tacho {
+         const size_t bufsize = n*nrhs*sizeof(mat_value_type);
+         
+         mat_value_type* buf = NULL;
+-        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize](mat_value_type *&val) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             val = bufsize > 0 ? (mat_value_type*)_bufpool.allocate(bufsize) : NULL;
+           }, buf);
+ 
+@@ -73,7 +74,8 @@ namespace Tacho {
+         CholSupernodes<Algo::Workflow::Serial>
+           ::solve_lower_recursive_serial(member, _info, _sid, final, buf, bufsize);
+         
+-        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize]() {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize]() { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             if (bufsize > 0)
+               _bufpool.deallocate(buf, bufsize);
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp
+index 4e5c76bc1c1..7a2c1d8fec3 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TaskFunctor_SolveUpperChol.hpp
+@@ -61,7 +61,8 @@ namespace Tacho {
+         const size_t bufsize = n*nrhs*sizeof(mat_value_type);
+ 
+         mat_value_type* buf = NULL;
+-        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize](mat_value_type *&val) {        
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize](mat_value_type *&val) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             val = bufsize > 0 ? (mat_value_type*)_bufpool.allocate(bufsize) : NULL;
+           }, buf);
+ 
+@@ -71,7 +72,8 @@ namespace Tacho {
+         CholSupernodes<Algo::Workflow::Serial>
+           ::solve_upper_recursive_serial(member, _info, _sid, final, buf, bufsize);
+ 
+-        Kokkos::single(Kokkos::PerTeam(member), [&, bufsize]() {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, bufsize]() { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             if (bufsize)
+               _bufpool.deallocate(buf, bufsize);
+           });
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp
+index ac37cabb866..e62b403664a 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_FactorizeChol.hpp
+@@ -212,7 +212,8 @@ namespace Tacho {
+           const value_type *src = (value_type*)ABR.data();
+           
+           Kokkos::parallel_for
+-            (Kokkos::TeamThreadRange(member, srcsize), [&, srcsize, src, tgt](const ordinal_type &j) {
++            (Kokkos::TeamThreadRange(member, srcsize), 
++            [&, srcsize, src, tgt](const ordinal_type &j) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+               const value_type *__restrict__ ss = src + j*srcsize;
+               /* */ value_type *__restrict__ tt = tgt + j*srcsize;
+               Kokkos::parallel_for
+@@ -228,7 +229,8 @@ namespace Tacho {
+       
+       // loop over target
+       //const size_type s2tsize = srcsize*sizeof(ordinal_type)*member.team_size();
+-      Kokkos::parallel_for(Kokkos::TeamThreadRange(member, sbeg, send), [&, buf, srcsize](const ordinal_type &i) {
++      Kokkos::parallel_for(Kokkos::TeamThreadRange(member, sbeg, send), 
++          [&, buf, srcsize](const ordinal_type &i) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+           ordinal_type *s2t = ((ordinal_type*)(buf)) + member.team_rank()*srcsize;
+           const auto &s = info.supernodes(info.sid_block_colidx(i).first);
+           {
+@@ -238,7 +240,8 @@ namespace Tacho {
+               tgtsize = tgtend - tgtbeg;
+             
+             const ordinal_type *t_colidx = &info.gid_colidx(s.gid_col_begin + tgtbeg);
+-            Kokkos::parallel_for(Kokkos::ThreadVectorRange(member, srcsize), [&, t_colidx, s_colidx, tgtsize](const ordinal_type &k) {
++            Kokkos::parallel_for(Kokkos::ThreadVectorRange(member, srcsize), 
++              [&, t_colidx, s_colidx, tgtsize](const ordinal_type &k) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+                 s2t[k] = -1;
+                 auto found = lower_bound(&t_colidx[0], &t_colidx[tgtsize-1], s_colidx[k], 
+                                          [](ordinal_type left, ordinal_type right) { 
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp
+index faa153de8be..a27b2f8769c 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveLowerChol.hpp
+@@ -131,7 +131,7 @@ namespace Tacho {
+ 
+             Kokkos::parallel_for
+               (Kokkos::TeamVectorRange(member, tcnt),
+-               [&, tbeg, ip](const ordinal_type &ii) {
++               [&, tbeg, ip](const ordinal_type &ii) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+                 const ordinal_type it = tbeg+ii;
+                 const ordinal_type is = ip+ii;
+                 //for (ordinal_type it=tbeg;it<tend;++it,++is) {
+@@ -193,7 +193,7 @@ namespace Tacho {
+           // copy to t
+           Kokkos::parallel_for
+             (Kokkos::TeamVectorRange(member, m*_nrhs),
+-             [&, m](const ordinal_type &k) {
++             [&, m](const ordinal_type &k) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+               const ordinal_type i = k%m, j = k/m;
+               tT(i,j) = bT(i,j);
+             });
+@@ -212,7 +212,7 @@ namespace Tacho {
+ 
+               Kokkos::parallel_for
+                 (Kokkos::TeamVectorRange(member, tcnt),
+-                 [&, tbeg](const ordinal_type &ii) {
++                 [&, tbeg](const ordinal_type &ii) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+                   const ordinal_type it = tbeg+ii;
+                   const ordinal_type is = ip+ii;
+                   //for (ordinal_type it=tbeg;it<tend;++it,++is) {
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp
+index 36c73b8c09c..238de31e75e 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_TeamFunctor_SolveUpperChol.hpp
+@@ -121,7 +121,7 @@ namespace Tacho {
+           const ordinal_type goffset = s.gid_col_begin + s.m;
+           Kokkos::parallel_for
+             (Kokkos::TeamVectorRange(member, n_m),
+-             [&, goffset](const ordinal_type &i) {
++             [&, goffset](const ordinal_type &i) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+               //for (ordinal_type i=0;i<n;++i) {
+               const ordinal_type row = _gid_colidx(i+goffset);
+               for (ordinal_type j=0;j<_nrhs;++j)
+@@ -164,7 +164,7 @@ namespace Tacho {
+           // copy to t
+           Kokkos::parallel_for
+             (Kokkos::TeamVectorRange(member, m*_nrhs),
+-             [&, m](const ordinal_type &k) {
++             [&, m](const ordinal_type &k) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+               const ordinal_type i = k%m, j = k/m;
+               tT(i,j) = bT(i,j);
+             });
+@@ -184,7 +184,7 @@ namespace Tacho {
+           const ordinal_type goffset = s.gid_col_begin + s.m;
+           Kokkos::parallel_for
+             (Kokkos::TeamVectorRange(member, n_m),
+-             [&, goffset](const ordinal_type &i) {
++             [&, goffset](const ordinal_type &i) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+               //for (ordinal_type i=0;i<n;++i) {
+               const ordinal_type row = _gid_colidx(i+goffset);
+               for (ordinal_type j=0;j<_nrhs;++j)
+diff --git a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp
+index cdc5340defc..f2efa8acb1d 100644
+--- a/packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp
++++ b/packages/shylu/shylu_node/tacho/src/impl/Tacho_Trsm.hpp
+@@ -61,7 +61,8 @@ namespace Tacho {
+         const int ierr = Trsm<ArgSide,ArgUplo,ArgTrans,ArgAlgo>
+           ::invoke(member, ArgDiag(), _alpha, _A, _B);
+  
+-        Kokkos::single(Kokkos::PerTeam(member), [&, ierr] () {
++        Kokkos::single(Kokkos::PerTeam(member), 
++          [&, ierr] () { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+             _B.set_future();
+             r_val = ierr;
+           });
+diff --git a/packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp b/packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp
+index d7c29610c10..a7ed35c3b31 100644
+--- a/packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp
++++ b/packages/tpetra/core/src/Tpetra_CrsMatrix_def.hpp
+@@ -4062,7 +4062,7 @@ namespace Tpetra {
+     Kokkos::parallel_for
+       ("Tpetra::CrsMatrix::getLocalDiagCopy",
+        range_type (0, myNumRows),
+-       [&, INV, h_offsets] (const LO lclRow) {
++       [&, INV, h_offsets] (const LO lclRow) { // Value capture is a workaround for cuda + gcc-7.2 compiler bug w/c++14
+         lclVecHost1d(lclRow) = STS::zero (); // default value if no diag entry
+         if (h_offsets[lclRow] != INV) {
+           auto curRow = lclMat.rowConst (lclRow);

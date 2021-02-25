@@ -1,0 +1,421 @@
+From e2c3cf370cef9010768038926ea58c23f529a1a6 Mon Sep 17 00:00:00 2001
+From: Brian Kelley <bmkelle@sandia.gov>
+Date: Mon, 19 Oct 2020 18:42:16 -0600
+Subject: [PATCH] MueLu: finish fixing MueMex
+
+---
+ packages/muelu/matlab/bin/muemex.cpp          | 98 ++++++++++++++++---
+ packages/muelu/matlab/bin/muemex.h            |  2 +
+ .../matlab/src/MueLu_MatlabSmoother_def.hpp   |  5 +-
+ .../matlab/src/MueLu_MatlabUtils_decl.hpp     |  4 +-
+ .../matlab/src/MueLu_MatlabUtils_def.hpp      | 29 ++++--
+ .../tests/Brick/BrickAggregationUnitTest.m    |  1 +
+ .../Brick/BrickAggregationUnitTestEasy.m      |  1 +
+ .../muelu/matlab/tests/CustomP/CustomPTest.m  |  1 +
+ .../JacobiSmooth/JacobiSmoother_UnitTest.m    |  9 +-
+ .../muelu/matlab/tests/JacobiSmooth/getDiag.m |  2 +-
+ .../muelu/matlab/tests/JacobiSmooth/jacobi.m  |  2 +-
+ .../matlab/tests/PCoarsen/PCoarsenTest.m      |  1 +
+ .../tests/ReentrantDemo/Reentrant_Test.m      |  1 +
+ .../tests/UnsmoothedP/PtentEasy_UnitTest.m    |  1 +
+ .../matlab/tests/UnsmoothedP/Ptent_UnitTest.m |  1 +
+ 15 files changed, 126 insertions(+), 32 deletions(-)
+
+diff --git a/packages/muelu/matlab/bin/muemex.cpp b/packages/muelu/matlab/bin/muemex.cpp
+index 6b383350200..7a8e94bcea3 100644
+--- a/packages/muelu/matlab/bin/muemex.cpp
++++ b/packages/muelu/matlab/bin/muemex.cpp
+@@ -59,6 +59,8 @@
+ #include "MueLu_MatlabUtils.hpp"
+ #include "MueLu_TwoLevelMatlabFactory.hpp"
+ #include "MueLu_SingleLevelMatlabFactory.hpp"
++#include "BelosPseudoBlockCGSolMgr.hpp"
++#include "BelosPseudoBlockGmresSolMgr.hpp"
+ 
+ using namespace std;
+ using namespace Teuchos;
+@@ -262,30 +264,46 @@ mxArray* TpetraSystem<Scalar>::solve(RCP<ParameterList> params, RCP<Tpetra::CrsM
+     RCP<Tpetra_MultiVector> rhs = loadDataFromMatlab<RCP<Tpetra::MultiVector<Scalar, mm_LocalOrd, mm_GlobalOrd, mm_node_t>>>(b);
+     RCP<Tpetra_MultiVector> lhs = rcp(new Tpetra_MultiVector(map, rhs->getNumVectors()));
+     //rhs is initialized, lhs is not
+-    iters = 0;
+     // Default params
+     params->get("Output Frequency", 1);
+     params->get("Output Style", Belos::Brief);
+ 
++    bool verbose;
+ #ifdef VERBOSE_OUTPUT
+     params->get("Verbosity", Belos::Errors | Belos::Warnings | Belos::Debug | Belos::FinalSummary | Belos::IterationDetails | Belos::OrthoDetails | Belos::TimingDetails | Belos::StatusTestDetails);
++    verbose = true;
+ #else
+-    params->get("Verbosity", Belos::Errors + Belos::Warnings + Belos::IterationDetails + Belos::Warnings + Belos::StatusTestDetails);
++    params->get("Verbosity", Belos::Errors | Belos::Warnings | Belos::IterationDetails | Belos::Warnings | Belos::StatusTestDetails);
++    verbose = false;
+ #endif
+-
+-    RCP<Belos::LinearProblem<Scalar, Tpetra_MultiVector, Tpetra_Operator>> problem = rcp(new Belos::LinearProblem<Scalar, Tpetra_MultiVector, Tpetra_Operator>(matrix, lhs, rhs));
++    //register all possible solvers
++    auto problem = rcp(new Belos::LinearProblem<Scalar, Tpetra_MultiVector, Tpetra_Operator>(matrix, lhs, rhs));
+     problem->setRightPrec(prec);
+-    bool set = problem->setProblem();
+-    TEUCHOS_TEST_FOR_EXCEPTION(!set, runtime_error, "Linear Problem failed to set up correctly!");
+-    Belos::SolverFactory<Scalar, Tpetra_MultiVector, Tpetra_Operator> factory;
+-    string solverName = params->get("solver", "GMRES");
+-    RCP<Belos::SolverManager<Scalar, Tpetra_MultiVector, Tpetra_Operator>> solver = factory.create(solverName, params);
+-    solver->setProblem(problem);
+-    Belos::ReturnType ret = solver->solve();
++    if(!problem->setProblem())
++    {
++      throw std::runtime_error("ERROR: failed to set up Belos problem.");
++    }
++    std::string solverName = "CG";
++    if(params->isParameter("solver"))
++    {
++      solverName = params->template get<std::string>("solver");
++    }
++    Belos::ReturnType ret;
++    if(solverName == "GMRES")
++    {
++      Belos::PseudoBlockGmresSolMgr<Scalar,Tpetra_MultiVector,Tpetra_Operator> solver(problem, params);
++      ret = solver.solve();
++      iters = solver.getNumIters();
++    }
++    else if(solverName == "CG")
++    {
++      Belos::PseudoBlockCGSolMgr<Scalar,Tpetra_MultiVector,Tpetra_Operator> solver(problem, params);
++      ret = solver.solve();
++      iters = solver.getNumIters();
++    }
+     if(ret == Belos::Converged)
+     {
+       mexPrintf("Success, Belos converged!\n");
+-      iters = solver->getNumIters();
+       output = saveDataToMatlab(lhs);
+     }
+     else
+@@ -571,7 +589,11 @@ int EpetraSystem::setup(const mxArray* matlabA, bool haveCoords, const mxArray*
+       /* Matrix Fill */
+       A = loadDataFromMatlab<RCP<Epetra_CrsMatrix>>(matlabA);
+       if(haveCoords)
+-        List->set("Coordinates", loadDataFromMatlab<RCP<Epetra_MultiVector>>(matlabCoords));
++      {
++        //Create 'user data' sublist if it doesn't already exist
++        auto userData = Teuchos::sublist(List, "user data");
++        userData->set("Coordinates", loadDataFromMatlab<RCP<Epetra_MultiVector>>(matlabCoords));
++      }
+       prec = MueLu::CreateEpetraPreconditioner(A, *List);
+       //underlying the Epetra_Operator prec is a MueLu::EpetraOperator
+       RCP<MueLu::EpetraOperator> meo = rcp_static_cast<MueLu::EpetraOperator, Epetra_Operator>(prec);
+@@ -703,7 +725,51 @@ void TpetraSystem<Scalar>::normalSetup(const mxArray* matlabA, bool haveCoords,
+   RCP<Tpetra::Operator<Scalar, mm_LocalOrd, mm_GlobalOrd, mm_node_t> > opA(A);
+   RCP<MueLu::TpetraOperator<Scalar, mm_LocalOrd, mm_GlobalOrd, mm_node_t>> mop;
+   if(haveCoords)
+-    List->set("Coordinates", loadDataFromMatlab<RCP<Tpetra_MultiVector_double>>(matlabCoords));
++  {
++    auto userData = Teuchos::sublist(List, "user data");
++    userData->set("Coordinates", loadDataFromMatlab<RCP<Tpetra_MultiVector_double>>(matlabCoords));
++  }
++  //Create the nullspace if not already set by user through XML
++  if(!(List->isSublist("level 0") && List->sublist("level 0", true).isParameter("Nullspace"))
++    && !(List->isSublist("user data") && List->sublist("user data", true).isParameter("Nullspace")))
++  {
++    int nPDE = MasterList::getDefault<int>("number of equations");
++    if (List->isSublist("Matrix"))
++    {
++      // Factory style parameter list
++      const Teuchos::ParameterList& operatorList = List->sublist("Matrix");
++      if (operatorList.isParameter("PDE equations"))
++        nPDE = operatorList.get<int>("PDE equations");
++    }
++    else if (List->isParameter("number of equations"))
++    {
++      // Easy style parameter list
++      nPDE = List->get<int>("number of equations");
++    }
++    mexPrintf("** Constructing nullspace for %d PDEs\n", nPDE);
++    auto domainMap = A->getDomainMap();
++    auto nullspace = rcp(new Tpetra::MultiVector<Scalar, mm_LocalOrd, mm_GlobalOrd, mm_node_t>(domainMap, nPDE));
++    if (nPDE == 1)
++    {
++      nullspace->putScalar(Teuchos::ScalarTraits<Scalar>::one());
++    }
++    else
++    {
++      typedef typename Teuchos::ArrayRCP<Scalar>::size_type arrayRCPSizeType;
++      for (int i = 0; i < nPDE; i++)
++      {
++        Teuchos::ArrayRCP<Scalar> nsData = nullspace->getDataNonConst(i);
++        for (arrayRCPSizeType j = 0; j < nsData.size(); j++)
++        {
++          mm_GlobalOrd GID = domainMap->getGlobalElement(j) - domainMap->getIndexBase();
++          if ((GID - i) % nPDE == 0)
++            nsData[j] = Teuchos::ScalarTraits<Scalar>::one();
++        }
++      }
++    }
++    auto userData = Teuchos::sublist(List, "user data");
++    userData->set("Nullspace", nullspace);
++  }
+   mop = MueLu::CreateTpetraPreconditioner<Scalar, mm_LocalOrd, mm_GlobalOrd, mm_node_t>(opA, *List);
+   prec = rcp_implicit_cast<Tpetra::Operator<Scalar, mm_LocalOrd, mm_GlobalOrd, mm_node_t>>(mop);
+ 
+@@ -986,7 +1052,7 @@ MODE_TYPE sanity_check(int nrhs, const mxArray *prhs[])
+   MODE_TYPE rv = MODE_ERROR;
+   /* Check for mode */
+   if(nrhs == 0)
+-    mexErrMsgTxt("Error: Invalid Inputs\n");
++    mexErrMsgTxt("Error: muelu() expects at least one argument\n");
+   /* Pull mode data from 1st Input */
+   MODE_TYPE mode = (MODE_TYPE) loadDataFromMatlab<int>(prhs[0]);
+   switch (mode)
+@@ -1530,7 +1596,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+         else if(MuemexSystemList::size() > 0 && nrhs == 2)
+         {
+           /* Cleanup one problem */
+-          int probID = (int) *((double*) mxGetData(prhs[1]));
++          int probID = loadDataFromMatlab<int>(prhs[1]);
+           mexPrintf("Cleaning up problem #%d\n", probID);
+           rv = MuemexSystemList::remove(probID);
+           if(rv)
+diff --git a/packages/muelu/matlab/bin/muemex.h b/packages/muelu/matlab/bin/muemex.h
+index e994ceb565a..99acc073c11 100644
+--- a/packages/muelu/matlab/bin/muemex.h
++++ b/packages/muelu/matlab/bin/muemex.h
+@@ -74,6 +74,8 @@
+ #include "BelosSolverFactory.hpp"
+ #include "BelosEpetraAdapter.hpp"
+ #include "BelosTpetraAdapter.hpp"
++#include "BelosPseudoBlockGmresSolMgr.hpp"
++#include "BelosBlockGmresSolMgr.hpp"
+ #include "BelosMueLuAdapter.hpp"
+ #include "MueLu_MatlabUtils.hpp"
+ 
+diff --git a/packages/muelu/matlab/src/MueLu_MatlabSmoother_def.hpp b/packages/muelu/matlab/src/MueLu_MatlabSmoother_def.hpp
+index 7df97324fdc..1a08595b84b 100644
+--- a/packages/muelu/matlab/src/MueLu_MatlabSmoother_def.hpp
++++ b/packages/muelu/matlab/src/MueLu_MatlabSmoother_def.hpp
+@@ -108,9 +108,12 @@ namespace MueLu {
+   template <class Scalar, class LocalOrdinal, class GlobalOrdinal, class Node>
+   void MatlabSmoother<Scalar, LocalOrdinal, GlobalOrdinal, Node>::Apply(MultiVector& X, const MultiVector& B, bool InitialGuessIsZero) const
+   {
+-    TEUCHOS_TEST_FOR_EXCEPTION(SmootherPrototype::IsSetup() == false, Exceptions::RuntimeError, "MueLu::MatlabSmoother::Apply(): Setup() has not been called");
++    TEUCHOS_TEST_FOR_EXCEPTION(SmootherPrototype::IsSetup() == false, Exceptions::RuntimeError,
++        "MueLu::MatlabSmoother::Apply(): Setup() has not been called");
+     using namespace Teuchos;
+     using namespace std;
++    if(InitialGuessIsZero)
++      X.putScalar(0.0);
+     // Push on A as first input
+     vector<RCP<MuemexArg>> InputArgs;
+     InputArgs.push_back(rcp(new MuemexData<RCP<Matrix>>(A_)));
+diff --git a/packages/muelu/matlab/src/MueLu_MatlabUtils_decl.hpp b/packages/muelu/matlab/src/MueLu_MatlabUtils_decl.hpp
+index abd2d764150..b65b8ffeaf3 100644
+--- a/packages/muelu/matlab/src/MueLu_MatlabUtils_decl.hpp
++++ b/packages/muelu/matlab/src/MueLu_MatlabUtils_decl.hpp
+@@ -109,8 +109,8 @@ enum MuemexType
+ };
+ 
+ typedef Kokkos::Compat::KokkosDeviceWrapperNode<Kokkos::Serial, Kokkos::HostSpace> mm_node_t;
+-typedef int mm_LocalOrd;  //these are used for LocalOrdinal and GlobalOrdinal of all xpetra/tpetra templated types
+-typedef int mm_GlobalOrd;
++typedef typename Tpetra::Map<>::local_ordinal_type mm_LocalOrd;  //these are used for LocalOrdinal and GlobalOrdinal of all xpetra/tpetra templated types
++typedef typename Tpetra::Map<>::global_ordinal_type mm_GlobalOrd;
+ typedef std::complex<double> complex_t;
+ typedef Tpetra::Map<> muemex_map_type;
+ typedef Tpetra::CrsMatrix<double, mm_LocalOrd, mm_GlobalOrd, mm_node_t> Tpetra_CrsMatrix_double;
+diff --git a/packages/muelu/matlab/src/MueLu_MatlabUtils_def.hpp b/packages/muelu/matlab/src/MueLu_MatlabUtils_def.hpp
+index 7d0ec31c1b7..a63e94235da 100644
+--- a/packages/muelu/matlab/src/MueLu_MatlabUtils_def.hpp
++++ b/packages/muelu/matlab/src/MueLu_MatlabUtils_def.hpp
+@@ -330,11 +330,9 @@ RCP<Tpetra_CrsMatrix_double> loadDataFromMatlab<RCP<Tpetra_CrsMatrix_double>>(co
+   {
+     RCP<const Teuchos::Comm<int>> comm = rcp(new Teuchos::SerialComm<int>());
+     //numGlobalIndices is just the number of rows in the matrix
+-    const Tpetra::global_size_t numGlobalIndices = mxGetM(mxa);
+-    const mm_GlobalOrd indexBase = 0;
+-    RCP<const muemex_map_type> rowMap = rcp(new muemex_map_type(numGlobalIndices, indexBase, comm));
+-    RCP<const muemex_map_type> domainMap = rcp(new muemex_map_type(mxGetN(mxa), indexBase, comm));
+-    A = Tpetra::createCrsMatrix<double, mm_LocalOrd, mm_GlobalOrd, mm_node_t>(rowMap);
++    const size_t numGlobalIndices = mxGetM(mxa);
++    RCP<const muemex_map_type> rowMap = rcp(new muemex_map_type(numGlobalIndices, 0, comm));
++    RCP<const muemex_map_type> domainMap = rcp(new muemex_map_type(mxGetN(mxa), 0, comm));
+     double* valueArray = mxGetPr(mxa);
+     int nc = mxGetN(mxa);
+     if(rewrap_ints)
+@@ -348,6 +346,16 @@ RCP<Tpetra_CrsMatrix_double> loadDataFromMatlab<RCP<Tpetra_CrsMatrix_double>>(co
+       rowind = (int*) mxGetIr(mxa);
+       colptr = (int*) mxGetJc(mxa);
+     }
++    //Need this to convert CSC colptrs to CRS row counts
++    Teuchos::Array<size_t> rowCounts(numGlobalIndices);
++    for(int i = 0; i < nc; i++)
++    {
++      for(int j = colptr[i]; j < colptr[i + 1]; j++)
++      {
++        rowCounts[rowind[j]]++;
++      }
++    }
++    A = rcp(new Tpetra::CrsMatrix<double, mm_LocalOrd, mm_GlobalOrd, mm_node_t>(rowMap, rowCounts()));
+     for(int i = 0; i < nc; i++)
+     {
+       for(int j = colptr[i]; j < colptr[i + 1]; j++)
+@@ -396,7 +404,6 @@ RCP<Tpetra_CrsMatrix_complex> loadDataFromMatlab<RCP<Tpetra_CrsMatrix_complex>>(
+     const mm_GlobalOrd indexBase = 0;
+     RCP<const muemex_map_type> rowMap = rcp(new muemex_map_type(numGlobalIndices, indexBase, comm));
+     RCP<const muemex_map_type> domainMap = rcp(new muemex_map_type(mxGetN(mxa), indexBase, comm));
+-    A = Tpetra::createCrsMatrix<complex_t, mm_LocalOrd, mm_GlobalOrd, mm_node_t>(rowMap);
+     double* realArray = mxGetPr(mxa);
+     double* imagArray = mxGetPi(mxa);
+     int* colptr;
+@@ -413,6 +420,16 @@ RCP<Tpetra_CrsMatrix_complex> loadDataFromMatlab<RCP<Tpetra_CrsMatrix_complex>>(
+       rowind = (int*) mxGetIr(mxa);
+       colptr = (int*) mxGetJc(mxa);
+     }
++    //Need this to convert CSC colptrs to CRS row counts
++    Teuchos::Array<size_t> rowCounts(numGlobalIndices);
++    for(int i = 0; i < nc; i++)
++    {
++      for(int j = colptr[i]; j < colptr[i + 1]; j++)
++      {
++        rowCounts[rowind[j]]++;
++      }
++    }
++    A = rcp(new Tpetra::CrsMatrix<complex_t, mm_LocalOrd, mm_GlobalOrd, mm_node_t>(rowMap, rowCounts()));
+     for(int i = 0; i < nc; i++)
+     {
+       for(int j = colptr[i]; j < colptr[i + 1]; j++)
+diff --git a/packages/muelu/matlab/tests/Brick/BrickAggregationUnitTest.m b/packages/muelu/matlab/tests/Brick/BrickAggregationUnitTest.m
+index 2d2e597475f..b72f030839a 100644
+--- a/packages/muelu/matlab/tests/Brick/BrickAggregationUnitTest.m
++++ b/packages/muelu/matlab/tests/Brick/BrickAggregationUnitTest.m
+@@ -8,6 +8,7 @@
+   mueluProblem = muelu('setup', A, coords, 'xml parameter file', 'mueluParams.xml');
+   matlabP = muelu('get', matlabProblem, 1, 'P');
+   mueluP = muelu('get', mueluProblem, 1, 'P');
++  muelu('cleanup');
+   diff = nonzeros(matlabP - mueluP);
+   passed = true(1);
+   for i = 1:numel(diff)
+diff --git a/packages/muelu/matlab/tests/Brick/BrickAggregationUnitTestEasy.m b/packages/muelu/matlab/tests/Brick/BrickAggregationUnitTestEasy.m
+index c584d0802c3..60eff82f801 100644
+--- a/packages/muelu/matlab/tests/Brick/BrickAggregationUnitTestEasy.m
++++ b/packages/muelu/matlab/tests/Brick/BrickAggregationUnitTestEasy.m
+@@ -8,6 +8,7 @@
+   mueluProblem = muelu('setup', A, coords, 'xml parameter file', 'mueluParams.xml');
+   matlabP = muelu('get', matlabProblem, 1, 'P');
+   mueluP = muelu('get', mueluProblem, 1, 'P');
++  muelu('cleanup');
+   diff = nonzeros(matlabP - mueluP);
+   passed = true(1);
+   for i = 1:numel(diff)
+diff --git a/packages/muelu/matlab/tests/CustomP/CustomPTest.m b/packages/muelu/matlab/tests/CustomP/CustomPTest.m
+index 5f0db357cf5..38323e6e6ea 100644
+--- a/packages/muelu/matlab/tests/CustomP/CustomPTest.m
++++ b/packages/muelu/matlab/tests/CustomP/CustomPTest.m
+@@ -5,6 +5,7 @@
+   KeepNodes = int32([5, 9, 23, 63, 120, 121, 150, 200, 300, 634, 895]); %These nodes will become singleton aggregates (in P)
+   %Set up the problem using a Matlab TwoLevelFactory for P
+   matlabProblem = muelu('setup', A, 'coarse: max size', 25, 'xml parameter file', 'matlabParams.xml', 'level 0', {'OrdinalVector KeepNodes', KeepNodes});
++  muelu('cleanup');
+   disp('Custom aggregation test passed by running to completion.');
+   exit(0);
+ catch me
+diff --git a/packages/muelu/matlab/tests/JacobiSmooth/JacobiSmoother_UnitTest.m b/packages/muelu/matlab/tests/JacobiSmooth/JacobiSmoother_UnitTest.m
+index 5d5c13c7770..116458c07fc 100644
+--- a/packages/muelu/matlab/tests/JacobiSmooth/JacobiSmoother_UnitTest.m
++++ b/packages/muelu/matlab/tests/JacobiSmooth/JacobiSmoother_UnitTest.m
+@@ -10,13 +10,11 @@
+   matlabSoln = 0 * b; %Set 'initial guesses' to all 0
+   mueluSoln = matlabSoln;
+   %Note: In both of these problems, set reuse type to full so that P is not discarded
+-  %Set up the problem normally in MueLu through MueMex
+   mueluProblem = muelu('setup', A, 'xml parameter file', 'mueluParams.xml');
+-  %Set up the problem using a Matlab TwoLevelFactory for Ptent
+   matlabProblem = muelu('setup', A, 'xml parameter file', 'matlabParams.xml');
+-  mueluSoln = muelu(mueluProblem, b);     %Grab the (smoothed) prolongator from both problems
+-  matlabSoln = muelu(matlabProblem, b);   %to compare
+-                                          %Compare the matrices to near machine precision for equality
++  mueluSoln = muelu(mueluProblem, b);
++  matlabSoln = muelu(matlabProblem, b);
++  %Compare the solutions to near machine precision for equality
+   areEqual = true(1);
+   for index = 1:numel(matlabSoln)
+     %Use machine precision minus a few digits
+@@ -26,6 +24,7 @@
+       break
+     end
+   end
++  muelu('cleanup');
+   if areEqual
+     disp('Test passed, MueLu produced same solution as gold standard in MATLAB.');
+     exit(0);
+diff --git a/packages/muelu/matlab/tests/JacobiSmooth/getDiag.m b/packages/muelu/matlab/tests/JacobiSmooth/getDiag.m
+index 0a15186f04e..9f6ad3edd01 100644
+--- a/packages/muelu/matlab/tests/JacobiSmooth/getDiag.m
++++ b/packages/muelu/matlab/tests/JacobiSmooth/getDiag.m
+@@ -1,4 +1,4 @@
+ %Use getDiag() as "setup" function for MatlabSmoother
+ function D = getDiag(A)
+-	D = sparse(diag(diag(A))); %first call generates vector of diagonal, second call puts that in a matrix
++	D = diag(A);
+ end
+diff --git a/packages/muelu/matlab/tests/JacobiSmooth/jacobi.m b/packages/muelu/matlab/tests/JacobiSmooth/jacobi.m
+index 3292f43393e..b4f78d2a0b2 100644
+--- a/packages/muelu/matlab/tests/JacobiSmooth/jacobi.m
++++ b/packages/muelu/matlab/tests/JacobiSmooth/jacobi.m
+@@ -33,6 +33,6 @@
+ for I = 1:nits,
+   %disp(['MATLAB: Running Jacobi iteration #', I]);
+   % Next iterate
+-  sol = sol + omega * (D \ (b - A * sol));  
++  sol = sol + omega * ((b - A * sol) ./ D);
+ end
+ end
+diff --git a/packages/muelu/matlab/tests/PCoarsen/PCoarsenTest.m b/packages/muelu/matlab/tests/PCoarsen/PCoarsenTest.m
+index fb470561250..fb8a2cf197e 100644
+--- a/packages/muelu/matlab/tests/PCoarsen/PCoarsenTest.m
++++ b/packages/muelu/matlab/tests/PCoarsen/PCoarsenTest.m
+@@ -12,6 +12,7 @@
+                         'pcoarsen: schedule','{1,1}',...
+                         'pcoarsen: element','hgrad_line_c',...
+                         'level 0',{'pcoarsen: element to node map',e2n});
++  muelu('cleanup');
+   disp('P-coarsening test passed by running to completion.');
+   exit(0);
+ catch me
+diff --git a/packages/muelu/matlab/tests/ReentrantDemo/Reentrant_Test.m b/packages/muelu/matlab/tests/ReentrantDemo/Reentrant_Test.m
+index f925d68afe0..291cae27252 100644
+--- a/packages/muelu/matlab/tests/ReentrantDemo/Reentrant_Test.m
++++ b/packages/muelu/matlab/tests/ReentrantDemo/Reentrant_Test.m
+@@ -7,6 +7,7 @@
+ try
+   A = laplacianfun([120, 120]);
+   matlabProblem = muelu('setup', A, 'xml parameter file', 'matlabParams.xml');
++  muelu('cleanup');
+   disp('Test passed by running to completion with reentrant call.');
+   exit(0);
+ catch me
+diff --git a/packages/muelu/matlab/tests/UnsmoothedP/PtentEasy_UnitTest.m b/packages/muelu/matlab/tests/UnsmoothedP/PtentEasy_UnitTest.m
+index f0557b7b806..ee03abe943d 100644
+--- a/packages/muelu/matlab/tests/UnsmoothedP/PtentEasy_UnitTest.m
++++ b/packages/muelu/matlab/tests/UnsmoothedP/PtentEasy_UnitTest.m
+@@ -14,6 +14,7 @@
+   %Get the final, smoothed prolongators (just Ptent with a smoother applied)
+   mueluP = muelu('get', mueluProblem, 1, 'P');
+   matlabP = muelu('get', matlabProblem, 1, 'P');
++  muelu('cleanup');
+   %Modify mueluP so that all nonzero values are set to 1.
+   %It's contrived but it will make the test pass without a more complicated
+   %Ptent function in matlab.
+diff --git a/packages/muelu/matlab/tests/UnsmoothedP/Ptent_UnitTest.m b/packages/muelu/matlab/tests/UnsmoothedP/Ptent_UnitTest.m
+index 0ac167304de..45787a8b0e8 100644
+--- a/packages/muelu/matlab/tests/UnsmoothedP/Ptent_UnitTest.m
++++ b/packages/muelu/matlab/tests/UnsmoothedP/Ptent_UnitTest.m
+@@ -14,6 +14,7 @@
+   %Get the final, smoothed prolongators (just Ptent with a smoother applied)
+   mueluP = muelu('get', mueluProblem, 1, 'P');
+   matlabP = muelu('get', matlabProblem, 1, 'P');
++  muelu('cleanup');
+   %Modify mueluP so that all nonzero values are set to 1.
+   %It's contrived but it will make the test pass without a more complicated
+   %Ptent function in matlab.
