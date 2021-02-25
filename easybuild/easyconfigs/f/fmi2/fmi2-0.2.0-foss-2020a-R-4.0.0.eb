@@ -1,0 +1,51 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'fmi2'
+version = '0.2.0'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://ropengov.github.io/fmi2/"
+description = """R client package for the Finnish Meteorological Institute (FMI) open data API. fmi2 provides access
+ to a subset of the FMI download service. FMI maintains and is reponsible for the data available through their API,
+ but has no official connections to fmi2."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('sf', '0.9-5', '%s-Python-3.8.2' % versionsuffix)
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('httpcache', '1.2.0', {
+        'checksums': ['798c004f59826d1c2da16c58a212dc1facf225c29cc2d4a21e54053052a0da08'],
+    }),
+    (name, version, {
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/rOpenGov/fmi2/archive'],
+        'checksums': ['62773ae907c5793044d278819e6627d6c628d6e16b436118a669120a81a0c1cb'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['fmi2/R/fmi2'],
+    'dirs': [],
+}
+
+moduleclass = 'data'
