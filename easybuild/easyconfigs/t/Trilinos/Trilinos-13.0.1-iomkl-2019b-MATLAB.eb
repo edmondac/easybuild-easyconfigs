@@ -25,10 +25,13 @@ builddependencies = [
     ('Perl', '5.30.0'),
 ]
 dependencies = [
-    #('MATLAB', '2020a', '', True),
+    ('MATLAB', '2020a', '', True),
 ]
 
 build_shared_libs = True
+
+# MATLAB Interface means Kokkos::Serial (https://github.com/trilinos/Trilinos/issues/8813#issuecomment-790063116)
+openmp = False
 
 # disable TrilinosCouplings package, doesn't build correctly (examples fail to compile)
 skip_exts = ['TrilinosCouplings']
@@ -39,6 +42,6 @@ all_exts = False
 # too parallel is too slow because of memory requirements (results in
 # swapping), and may cause build/tests to fail building with 20 cores
 # seems to require about 100GB of memory (peak usage)
-maxparallel = 10
+# maxparallel = 10
 
 moduleclass = 'numlib'
