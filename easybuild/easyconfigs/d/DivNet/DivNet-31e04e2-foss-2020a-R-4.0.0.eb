@@ -39,8 +39,8 @@ exts_list = [
         'source_urls': ['https://github.com/%(github_account)s/%(name)s/archive/'],
         'checksums': ['6c47c3492ab4282eb1dd3115dd79a190e13686585db3572309e66d0743a0f5b3'],
     }),
-    (name, version, {
-        'source_tmpl': '31e04e29e4f3c02ea07c7f35873ee6743b79170a.tar.gz',
+    (name, _full_hash, {
+        'source_tmpl': '%(version)s.tar.gz',
         'source_urls': ['https://github.com/%(github_account)s/%(name)s/archive/'],
         'checksums': ['438a9c520526ffa47259640ccb008be13a76f9515cab3eb28369e3ecc51444ce'],
     }),
