@@ -294,7 +294,7 @@ class EasyConfigTest(TestCase):
             # Signac 0.2.5 requires Seurat 3.1.5
             'Seurat': ('3.1.5', ['Signac-0.2.5-']),
             # Dynare, GATK, Hadoop, Hail, InterProScan, and Spark require Java 1.8 (directly or through a dep)
-            'Java': ('1.8', ['Dynare-4.6.3-', 'Spark-2.4.1-', 'Hail-0.2.61-', 'InterProScan-5.31-70.0-', 'Hadoop-2.10.0-', 'GATK-4.1.3.0-']),
+            'Java': ('1.8', ['Dynare-4.6.3-', 'Spark-2.4.1-', 'Hail-0.2.61-', 'InterProScan-5.31-70.0-', 'Hadoop-2.10.0-', 'GATK-4.1.3.0-', 'Trilinos-13.0.1-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):

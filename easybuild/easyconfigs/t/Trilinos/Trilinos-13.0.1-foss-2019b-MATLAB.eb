@@ -1,0 +1,55 @@
+name = 'Trilinos'
+version = '13.0.1'
+_version_dash = version.replace('.', '-')
+versionsuffix = '-MATLAB'
+
+homepage = 'https://trilinos.org'
+description = """The Trilinos Project is an effort to develop algorithms and enabling technologies
+ within an object-oriented software framework for the solution of large-scale, complex multi-physics
+ engineering and scientific problems. A unique design feature of Trilinos is its focus on packages."""
+
+toolchain = {'name': 'foss', 'version': '2019b'}
+toolchainopts = {'strict': True}
+
+source_urls = ['https://github.com/trilinos/Trilinos/archive']
+sources = ['%%(namelower)s-release-%s.tar.gz' % _version_dash]
+patches = [
+    '%(name)s-%(version)s_matlab-fix-7870.patch',
+    '%(name)s-%(version)s_matlab-fix-8227.patch',
+]
+checksums = [
+    '0bce7066c27e83085bc189bf524e535e5225636c9ee4b16291a38849d6c2216d',  # trilinos-release-13-0-1.tar.gz
+    'a27ed349a55ba7911e9cc6f0e9d1e373ccd7e75e910d4130a99b1e24e1acd329',  # Trilinos-13.0.1_matlab-fix-7870.patch
+    '3e4f0e760ab3f2f8c632f6fe6310b853e78cd0b4fe06ef16f64a5ab0ca5e000c',  # Trilinos-13.0.1_matlab-fix-8227.patch
+]
+
+builddependencies = [
+    ('CMake', '3.15.3'),
+    ('SWIG', '3.0.12'),
+    ('Doxygen', '1.8.16'),
+    ('Perl', '5.30.0'),
+]
+dependencies = [
+    ('MATLAB', '2020a', '', True),
+]
+
+build_shared_libs = True
+
+# 'pic': True in toolchainopts causes relocation issues as it enables -fPIE - so we'll set -fPIC here instead
+configopts = '-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS -fPIC" -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS -fPIC" '
+
+# MATLAB Interface means Kokkos::Serial (https://github.com/trilinos/Trilinos/issues/8813#issuecomment-790063116)
+openmp = False
+
+# disable TrilinosCouplings package, doesn't build correctly (examples fail to compile)
+skip_exts = ['TrilinosCouplings']
+
+# Don't try to build all exts
+all_exts = False
+
+# too parallel is too slow because of memory requirements (results in
+# swapping), and may cause build/tests to fail building with 20 cores
+# seems to require about 100GB of memory (peak usage)
+maxparallel = 10
+
+moduleclass = 'numlib'
