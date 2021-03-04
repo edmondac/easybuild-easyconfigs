@@ -5,7 +5,7 @@ name = 'refnx'
 version = '0.1.19'
 versionsuffix = '-Python-%(pyver)s'
 
-homepage = "https://refnx.readthedocs.io"
+homepage = "https://refnx.readthedocs.io/"
 description = """refnx is a flexible, powerful, Python package for generalised curvefitting analysis, specifically
  neutron and X-ray reflectometry data."""
 
@@ -13,7 +13,14 @@ toolchain = {'name': 'foss', 'version': '2020a'}
 
 dependencies = [
     ('Python', '3.8.2'),
+    ('h5py', '2.10.0', versionsuffix),
+    ('IPython', '7.13.0', versionsuffix),
+    ('matplotlib', '3.2.1', versionsuffix),
+    ('PyMC3', '3.8', versionsuffix),
+    ('PyQt5', '5.15.1', versionsuffix),
     ('SciPy-bundle', '2020.03', versionsuffix),
+    ('Theano', '1.0.4', versionsuffix),
+    ('tqdm', '4.47.0'),
 ]
 
 sanity_pip_check = True
@@ -24,6 +31,9 @@ exts_default_options = {
 }
 
 exts_list = [
+    ('periodictable', '1.5.3', {
+        'checksums': ['1d09c359468e2de74b43fc3a7dcb0d3d71e0ff53adb85995215d8d7796451af6'],
+    }),
     (name, version, {
         'checksums': ['70a503265fd0ef879218209e9c2b0ef1f6dbbcde91795d1e3e4dbe287ace8dba'],
     }),
