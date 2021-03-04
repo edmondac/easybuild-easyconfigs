@@ -1,0 +1,56 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'DivNet'
+version = '31e04e2'
+_full_hash = '31e04e29e4f3c02ea07c7f35873ee6743b79170a'
+github_account = 'adw96'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://github.com/adw96/DivNet"
+description = """DivNet: an R package to estimate diversity when taxa in the community cooccur via a ecological network.
+
+Willis, A.D. and Martin, B.D. (2020) DivNet: Estimating diversity in networked communities. Biostatistics.
+doi.org/10.1093/biostatistics/kxaa015"""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('breakaway', 'ce5b144e3b2a0c00ba33ae369db002eb53477571', {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/%(github_account)s/%(name)s/archive/'],
+        'checksums': ['6c47c3492ab4282eb1dd3115dd79a190e13686585db3572309e66d0743a0f5b3'],
+    }),
+    (name, _full_hash, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/%(github_account)s/%(name)s/archive/'],
+        'checksums': ['438a9c520526ffa47259640ccb008be13a76f9515cab3eb28369e3ecc51444ce'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['DivNet/R/DivNet', 'breakaway/R/breakaway'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
