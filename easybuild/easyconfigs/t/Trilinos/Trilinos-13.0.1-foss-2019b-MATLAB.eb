@@ -52,4 +52,11 @@ all_exts = False
 # seems to require about 100GB of memory (peak usage)
 maxparallel = 10
 
+postinstallcmds = [
+    'mkdir -p %(installdir)s/packages/muelu/',
+    'cp -r %(builddir)s/obj/packages/muelu/matlab/ %(installdir)s/packages/muelu/.',
+]
+
+modextrapaths = {'MATLABPATH': 'packages/muelu/matlab/bin'}
+
 moduleclass = 'numlib'
