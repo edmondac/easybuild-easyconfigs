@@ -1,0 +1,50 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'spatialRF'
+version = '54214cc'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=spatialRF"
+description = """The package spatialRF facilitates fitting spatial regression models on regular or irregular data with
+ Random Forest by generating spatial predictors that allow the model to take into account the spatial structure of the
+ training data. The end goal is minimizing the spatial autocorrelation of the model residuals as much as possible."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    ('huxtable', '5.2.0', {
+        'checksums': ['9c86a12497a1f980154f427ca6b95a3b22655b149de7fdbda71386981e502658'],
+    }),
+    (name, version, {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/BlasBenito/spatialRF/archive'],
+        'checksums': ['3385a89f4db95c72f5cd6bade4bfa2f2db4e6fa096bf15164450b0341be34634'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['spatialRF/R/spatialRF'],
+    'dirs': [],
+}
+
+moduleclass = 'data'
