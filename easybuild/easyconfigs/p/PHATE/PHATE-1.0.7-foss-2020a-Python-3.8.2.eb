@@ -1,0 +1,58 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'PHATE'
+version = '1.0.7'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = "https://pypi.org/project/phate/"
+description = """PHATE (Potential of Heat-diffusion for Affinity-based Trajectory Embedding) is a tool for visualizing
+ high dimensional single-cell data with natural progressions or trajectories. PHATE uses a novel conceptual framework
+ for learning and visualizing the manifold inherent to biological systems in which smooth transitions mark the
+ progressions of cells from one state to another."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('SciPy-bundle', '2020.03', versionsuffix),
+    ('matplotlib', '3.2.1', versionsuffix),
+    ('scikit-learn', '0.23.2', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('wrapt', '1.12.1', {
+        'checksums': ['b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7'],
+    }),
+    ('Deprecated', '1.2.11', {
+        'checksums': ['471ec32b2755172046e28102cd46c481f21c6036a0ec027521eba8521aa4ef35'],
+    }),
+    ('tasklogger', '1.0.0', {
+        'checksums': ['60001bc45200e036ef4a253043a713ae2dce7d070f4586d4e1144f7b7549d6f4'],
+    }),
+    ('PyGSP', '0.5.1', {
+        'checksums': ['4874ad88793d622d4f578b40c6617a99b1f02bc6c6c4077f0e48cd71c7275800'],
+    }),
+    ('graphtools', '1.5.2', {
+        'checksums': ['3bcdbb3930138192a4cbbcb521a230a5bb0b9cf1d22bf8734548b7ad9e441777'],
+    }),
+    ('scprep', '1.0.13', {
+        'checksums': ['62b3652f8f421e834cbc8c1592ad9e17ca4031729b1976c634baf5359af45837'],
+    }),
+    ('s-gd2', '1.8', {
+        'source_tmpl': 's_gd2-%(version)s.tar.gz',
+        'checksums': ['c3ac02a87e3e65a34480235138f2bb3c8ebcbc76d504176b21212d308cbd53fa'],
+    }),
+    ('phate', version, {
+        'checksums': ['858dee0917e3809cfc81b793fe27a1226ccb36b66056e0d29153dcd660482c3c'],
+    }),
+]
+
+moduleclass = 'bio'
