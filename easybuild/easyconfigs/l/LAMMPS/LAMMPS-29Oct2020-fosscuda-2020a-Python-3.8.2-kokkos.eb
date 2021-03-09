@@ -58,14 +58,13 @@ dependencies = [
     ('yaff', {'arch=x86_64': '1.6.0', 'arch=POWER': False}, local_python_versionsuffix),
     ('PLUMED', '2.6.0', local_python_versionsuffix),
     ('ScaFaCoS', {'arch=x86_64': '1.0.1', 'arch=POWER': False}),
-    ('VTK', {'arch=x86_64': '8.2.0', 'arch=POWER': False}, local_python_versionsuffix),
+    ('VTK', '8.2.0', local_python_versionsuffix),
 ]
 
 # To use additional custom configuration options, use the 'configopts' easyconfig parameter
 # See docs and lammps easyblock for more information.
 # https://github.com/lammps/lammps/blob/master/cmake/README.md#lammps-configuration-options
 # The docs build with a python virtualenv that doesn't seem to work in Python 3.8 - so disable them.
-
 configopts = "-DBUILD_DOC=no "
 
 # auto-enabled by easyblock
@@ -86,7 +85,6 @@ general_packages = [
 # ADIOS - https://lammps.sandia.gov/doc/Build_extras.html#user-adios-package
 # AWPMD - https://lammps.sandia.gov/doc/Build_extras.html#user-awpmd-package
 # QUIP  - https://lammps.sandia.gov/doc/Build_extras.html#user-quip-package
-# VTK (listed below) will only be enabled if VTK is a dependency (I.e. on x86_64 only)
 # SCAFACOS (listed below) will only be enabled if ScaFaCoS is a dependency (I.e. on x86_64 only)
 # YAFF(listed below) will only be enabled if yaff is a dependency (I.e. on x86_64 only)
 user_packages = [
