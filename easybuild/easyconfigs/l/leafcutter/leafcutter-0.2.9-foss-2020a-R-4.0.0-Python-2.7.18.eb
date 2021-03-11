@@ -1,0 +1,80 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'leafcutter'
+version = '0.2.9'
+local_commit = '3f875f1'
+local_rsuffix = '-R-%(rver)s'
+local_pysuffix = '-Python-%(pyver)s'
+versionsuffix = '%s%s' % (local_rsuffix, local_pysuffix)
+
+homepage = "https://github.com/davidaknowles/leafcutter"
+description = """Leafcutter quantifies RNA splicing variation using short-read RNA-seq data. The core idea is to
+ leverage spliced reads (reads that span an intron) to quantify (differential) intron usage across samples."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+source_urls = ['https://github.com/davidaknowles/leafcutter/archive']
+sources = [{
+    'filename': '%s.tar.gz' % local_commit,
+    'extract_cmd': 'tar xvf %s --strip-components 1'
+}]
+checksums = ['9c9ce52e06a83a65861a9aa8f9bda557c0e7c4462e31cd08f79bf6aa5d70c7a4']
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('Python', '2.7.18'),
+    ('Perl', '5.30.2'),
+    ('regtools', '0.5.2'),
+    ('SAMtools', '1.10'),
+    ('DirichletMultinomial', '1.32.0', local_rsuffix),
+]
+
+skipsteps = ['configure', 'build', 'install']
+
+postinstallcmds = [
+    'R CMD INSTALL %(builddir)s/%(name)s --library=%(installdir)s --no-clean-on-error',
+    'cp -r %(builddir)s/leafviz %(builddir)s/scripts %(builddir)s/clustering %(installdir)s'
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+# Order is important!
+exts_list = [
+    ('oompaBase', '3.2.9', {
+        'checksums': ['14ca2b8e713a6a7ce13758f7f5c183dbc4fdfedc4f1244ca31bbdadf8a16bcb2'],
+    }),
+    ('oompaData', '3.1.1', {
+        'checksums': ['609d1792507c1bee88799391bea95ac5365822a5f05a2cc2adcd994ebbc3c92f'],
+    }),
+    ('TailRank', '3.2.1', {
+        'checksums': ['b98714afc67c12b4e4e85de56baed90d442c83f29d5e02797ac5239930035590'],
+    }),
+    ('shinycssloaders', '1.0.0', {
+        'checksums': ['744641836a4cede2bb47caff1b600bff2c3e450dfccd2af4fab0413a8ea87d64'],
+    }),
+    ('intervals', '0.15.2', {
+        'checksums': ['0bd23b0ce817ddd851238233d8a5420bf3a6d29e75fd361418cbc50118777c57'],
+    }),
+]
+
+modextrapaths = {
+    'R_LIBS': '',
+    'PATH': ['scripts', 'leafviz', 'clustering']
+}
+
+sanity_check_paths = {
+    'files': ['leafcutter/R/leafcutter'],
+    'dirs': ['scripts', 'leafviz', 'clustering'],
+}
+
+moduleclass = 'bio'
