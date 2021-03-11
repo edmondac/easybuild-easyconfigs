@@ -8,7 +8,7 @@ description = """The Trilinos Project is an effort to develop algorithms and ena
  within an object-oriented software framework for the solution of large-scale, complex multi-physics
  engineering and scientific problems. A unique design feature of Trilinos is its focus on packages."""
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+toolchain = {'name': 'golf', 'version': '2019b'}
 toolchainopts = {'strict': True}
 
 source_urls = ['https://github.com/trilinos/Trilinos/archive']
@@ -31,12 +31,14 @@ builddependencies = [
 ]
 dependencies = [
     ('MATLAB', '2020a', '', True),
+    ('Boost', '1.71.0'),
 ]
 
 build_shared_libs = True
 
 # 'pic': True in toolchainopts causes relocation issues as it enables -fPIE - so we'll set -fPIC here instead
-configopts = '-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS -fPIC" -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS -fPIC" '
+#configopts = '-DCMAKE_C_FLAGS="$CMAKE_C_FLAGS -fPIC" -DCMAKE_CXX_FLAGS="$CMAKE_CXX_FLAGS -fPIC" '
+configopts = '-DCMAKE_C_FLAGS="-fPIC" -DCMAKE_CXX_FLAGS="-fPIC" '
 
 # MATLAB Interface means Kokkos::Serial (https://github.com/trilinos/Trilinos/issues/8813#issuecomment-790063116)
 openmp = False
@@ -50,7 +52,7 @@ all_exts = False
 # too parallel is too slow because of memory requirements (results in
 # swapping), and may cause build/tests to fail building with 20 cores
 # seems to require about 100GB of memory (peak usage)
-maxparallel = 10
+# maxparallel = 10
 
 postinstallcmds = [
     'mkdir -p %(installdir)s/packages/muelu/',
