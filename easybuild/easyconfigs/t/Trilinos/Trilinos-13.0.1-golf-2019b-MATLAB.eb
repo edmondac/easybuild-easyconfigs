@@ -8,7 +8,7 @@ description = """The Trilinos Project is an effort to develop algorithms and ena
  within an object-oriented software framework for the solution of large-scale, complex multi-physics
  engineering and scientific problems. A unique design feature of Trilinos is its focus on packages."""
 
-toolchain = {'name': 'foss', 'version': '2019b'}
+toolchain = {'name': 'golf', 'version': '2019b'}
 toolchainopts = {'strict': True}
 
 source_urls = ['https://github.com/trilinos/Trilinos/archive']
@@ -31,6 +31,7 @@ builddependencies = [
 ]
 dependencies = [
     ('MATLAB', '2020a', '', True),
+    ('Boost', '1.71.0'),
 ]
 
 build_shared_libs = True
