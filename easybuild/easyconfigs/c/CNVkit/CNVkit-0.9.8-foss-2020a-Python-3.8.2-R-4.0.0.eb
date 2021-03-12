@@ -40,7 +40,6 @@ exts_list = [
         'checksums': ['16ffa0b835007e33432ae08ce79a4da26c5ed32afbb38f5356b27c0e143a9aa5'],
     }),
     (name, version, {
-        'installopts': "&& cd test && make && make test",
         'modulename': 'cnvlib',
         'source_tmpl': 'v%(version)s.tar.gz',
         'source_urls': ['https://github.com/etal/cnvkit/archive/'],
