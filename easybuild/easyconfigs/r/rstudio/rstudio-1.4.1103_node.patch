@@ -1,0 +1,20 @@
+--- src/gwt/build.xml.orig	2021-01-25 21:14:57.387858000 +0000
++++ src/gwt/build.xml	2021-01-25 21:15:48.760680646 +0000
+@@ -84,7 +84,7 @@
+    <!-- panmirror typescript library -->
+    <property name="node.version" value="10.19.0"/>
+    <property name="node.dir" value="../../dependencies/common/node/${node.version}"/>
+-   <condition property="node.bin" value="../../../${node.dir}/bin/node">
++   <condition property="node.bin" value="node">
+      <not>
+         <os family="windows" />
+      </not>
+@@ -94,7 +94,7 @@
+    </condition>
+ 
+    <!-- use node from /opt/rstudio-tools if installed (typical for Docker) -->
+-   <available property="node.bin" value="/opt/rstudio-tools/dependencies/common/node/${node.version}/bin/node" file="/opt/rstudio-tools/dependencies/common/node/${node.version}/bin/node"/>
++   <available property="node.bin" value="node" file="node"/>
+ 
+    <property name="panmirror.dir" value="./panmirror/src/editor"/>
+    <property name="panmirror.build.dir" value="./www/js/panmirror"/>
