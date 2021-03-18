@@ -10,5 +10,4 @@ Default:
 
 Add these if requested:
 * [ ] EL8-power9
-* [ ] Ubuntu16 VM
 * [ ] Ubuntu20 VM
