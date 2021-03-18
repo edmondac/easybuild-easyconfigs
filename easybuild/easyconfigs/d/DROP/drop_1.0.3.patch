@@ -1,0 +1,14 @@
+diff -ru drop-1.0.3.orig/setup.py drop-1.0.3/setup.py
+--- drop-1.0.3.orig/setup.py	2021-03-14 00:28:50.780581000 +0000
++++ drop-1.0.3/setup.py	2021-03-15 19:19:54.776890000 +0000
+@@ -7,8 +7,8 @@
+ requirements = [
+     'wbuild>=1.8.0',
+     'python-dateutil',
+-    'pandoc',
+-    'graphviz',
++    # 'pandoc',
++    # 'graphviz',
+     'pandas>=0.13',
+ ]
+ 

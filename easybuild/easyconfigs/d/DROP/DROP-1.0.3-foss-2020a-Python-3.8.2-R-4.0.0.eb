@@ -1,0 +1,121 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PackedBinary'
+
+name = 'DROP'
+version = '1.0.3'
+local_pysuffix = '-Python-%(pyver)s'
+local_rsuffix = '-R-%(rver)s'
+versionsuffix = '%s%s' % (local_pysuffix, local_rsuffix)
+
+homepage = "https://gagneurlab-drop.readthedocs.io/"
+description = """DROP (Detection of RNA Outliers Pipeline) is intended to help researchers use RNA-Seq data in order to
+ detect genes with aberrant expression, aberrant splicing and mono-allelic expression. It consists of three independent
+ modules for each of those strategies."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('SciPy-bundle', '2020.03', local_pysuffix),
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', local_rsuffix),
+    ('wget', '1.20.3'),
+    ('BCFtools', '1.10.2'),
+    ('SAMtools', '1.10'),
+    ('HTSlib', '1.10.2'),
+    ('Graphviz', '2.44.1'),
+    ('Pandoc', '2.10', '', True),
+    ('PyYAML', '5.3'),
+    ('GATK', '4.1.5.0', '-Java-11'),
+    ('PRROC', '1.3.1', local_rsuffix),
+    ('snakemake', '5.31.1', local_pysuffix),
+]
+
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz'
+}
+
+exts_defaultclass = 'RPackage'
+exts_classmap = {
+    'click-log': 'PythonPackage',
+    'wbuild': 'PythonPackage',
+    'drop': 'PythonPackage'
+}
+
+exts_list = [
+    ('TSP', '1.1-10', {
+        'checksums': ['44979f16803806419a94a6b0daeac812f4e7bd52d2fff11561fd4bbc41353b7c'],
+    }),
+    ('qap', '0.1-1', {
+        'checksums': ['60bd564bb0e6325de44351af33870177d84b1c00ded142a2efb12a16a20d4d34'],
+    }),
+    ('seriation', '1.2-9', {
+        'checksums': ['8b9279caf60755377ee9023971bff33634f7bb9c055d4ebb493b648512b09dbe'],
+    }),
+    ('egg', '0.4.5', {
+        'checksums': ['15c8ba7cf2676eb0460de7e5dfbc89fc3175ac22a8869cfd44d66d156fd6c7bb'],
+    }),
+    ('heatmaply', '1.2.1', {
+        'checksums': ['2dddf6741eaaa49c1354b7092ded5ac6d06df9d6accd879c16c6731bed745743'],
+    }),
+    ('extraDistr', '1.9.1', {
+        'checksums': ['9990348c4dbc611684fcb58ab8db7e856dfde1c9c86ffb7705f4b3dff6b2d7bf'],
+    }),
+    ('OUTRIDER', '1.7.1', {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/gagneurlab/OUTRIDER/archive'],
+        'checksums': ['29685384de9a6840b46c2c4b968c737491872032f2163d553a20c811106545e4'],
+    }),
+    ('FRASER', '1.2.1', {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/c-mertes/FRASER/archive'],
+        'checksums': ['4ce3bc88bda981aa8ae03ccbd7fe59024fd1989f3de567ddbf0d3c4837dfd064'],
+    }),
+    ('tMAE', '1.0.0', {
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/mumichae/tMAE/archive'],
+        'checksums': ['c418876819abcbde3d439d9c6504b32411b412d0242a245437c41465adcc952c'],
+    }),
+    ('click-log', '0.3.2', {
+        'sanity_pip_check': True,
+        'source_tmpl': '%(name)s-%(version)s.tar.gz',
+        'source_urls': ['https://pypi.python.org/packages/source/%(nameletter)s/%(name)s'],
+        'use_pip': True,
+        'checksums': ['16fd1ca3fc6b16c98cea63acf1ab474ea8e676849dc669d86afafb0ed7003124'],
+    }),
+    ('wbuild', '1.8.0', {
+        'sanity_pip_check': True,
+        'source_tmpl': '%(name)s-%(version)s.tar.gz',
+        'source_urls': ['https://pypi.python.org/packages/source/%(nameletter)s/%(name)s'],
+        'use_pip': True,
+        'checksums': ['3088d3fcbc71106464f20e3546a73df400dc03d17f11e70bdb15d35d7e6c5a7e'],
+    }),
+    ('drop', version, {
+        'patches': ['drop_1.0.3.patch'],
+        'sanity_pip_check': True,
+        'source_tmpl': '%(version)s.tar.gz',
+        'source_urls': ['https://github.com/gagneurlab/drop/archive'],
+        'use_pip': True,
+        'checksums': [
+            'b4f4481bedfec212085646c6f1bebf3d113bc8490e127337d693a01bc95c7e51',  # 1.0.3.tar.gz
+            '655f149e78d856f8329e3f6ff2fd20a15b9bab0effdaf406fd5b7468154046fe',  # drop_1.0.3.patch
+        ],
+    }),
+]
+
+modextrapaths = {
+    'R_LIBS': '',
+    'PYTHONPATH': 'lib/python%(pyshortver)s/site-packages'
+}
+
+sanity_check_paths = {
+    'files': ['bin/drop'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages']
+}
+
+moduleclass = 'bio'
