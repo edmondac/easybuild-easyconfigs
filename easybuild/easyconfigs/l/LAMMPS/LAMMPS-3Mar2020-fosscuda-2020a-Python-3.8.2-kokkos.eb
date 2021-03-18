@@ -103,6 +103,13 @@ user_packages = [
 #   --cuda-compute-capabilities=7.0
 # The easyblock takes the highest number if you specify a list in the easyconfig, even if the GPU doesn't support it.
 
+import subprocess as _subprocess  # NOQA
+_arch = _subprocess.check_output(['uname', '-m'], universal_newlines=True).strip()
+if _arch == 'ppc64le':
+    cuda_compute_capabilities = ["7.0"]
+else:
+    cuda_compute_capabilities = ["6.0"]
+
 enhance_sanity_check = True
 
 # run short test case to make sure installation doesn't produce blatently incorrect results;
