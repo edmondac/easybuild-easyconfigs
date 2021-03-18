@@ -1,0 +1,21 @@
+diff -ru Mash-2.3.orig/configure.ac Mash-2.3/configure.ac
+--- Mash-2.3.orig/configure.ac	2021-02-26 23:13:33.000000000 +0000
++++ Mash-2.3/configure.ac	2021-03-17 16:49:14.633808000 +0000
+@@ -33,7 +33,7 @@
+ 	AC_MSG_ERROR([Cap'n Proto compiler (capnp) not found.])
+ fi
+ 
+-CPPFLAGS="-I$with_capnp/include -std=c++14"
++CPPFLAGS="-I$with_capnp/include $CXXFLAGS"
+ 
+ AC_CHECK_HEADER(capnp/common.h, [result=1], [result=0])
+ 
+diff -ru Mash-2.3.orig/Makefile.in Mash-2.3/Makefile.in
+--- Mash-2.3.orig/Makefile.in	2021-02-26 23:13:33.000000000 +0000
++++ Mash-2.3/Makefile.in	2021-03-17 16:53:08.813302000 +0000
+@@ -1,4 +1,4 @@
+-CXXFLAGS += -O3 -std=c++14 -Isrc -I@capnp@/include -I@mathinc@
++CXXFLAGS += -Isrc -I@capnp@/include -I@mathinc@
+ CPPFLAGS += @amcppflags@
+ 
+ UNAME_S=$(shell uname -s)

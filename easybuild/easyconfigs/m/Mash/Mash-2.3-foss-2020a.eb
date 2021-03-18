@@ -1,0 +1,39 @@
+easyblock = 'ConfigureMake'
+
+name = 'Mash'
+version = '2.3'
+
+homepage = 'http://mash.readthedocs.org'
+description = "Fast genome and metagenome distance estimation using MinHash"
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+toolchainopts = {'cstd': 'c++17'}
+
+source_urls = ['https://github.com/marbl/Mash/archive/']
+sources = ['v%(version)s.tar.gz']
+patches = [
+    'Mash-%(version)s_fix-hardcoding.patch',
+    'Mash-%(version)s_disable-memcpy-wrap.patch',
+]
+checksums = [
+    'f96cf7305e010012c3debed966ac83ceecac0351dbbfeaa6cd7ad7f068d87fe1',  # v2.3.tar.gz
+    'eb90f89ecdfbd157d4224b7ba663d76b3eb0c5276c7121e07fa7cb37cf34357d',  # Mash-2.3_fix-hardcoding.patch
+    '3114fd9a2acb2b4bd7fd9d910e9117fb902dac6ad9a9fdd2145fa67f00b6f5dd',  # Mash-2.3_disable-memcpy-wrap.patch
+]
+
+builddependencies = [('Autotools', '20180311')]
+dependencies = [
+    ('CapnProto', '0.8.0'),
+    ('GSL', '2.6'),
+    ('zlib', '1.2.11'),
+]
+
+preconfigopts = "./bootstrap.sh && "
+configopts = "--with-capnp=$EBROOTCAPNPROTO --with-gsl=$EBROOTGSL"
+
+sanity_check_paths = {
+    'files': ['bin/mash', 'lib/libmash.a'],
+    'dirs': ['include/mash'],
+}
+
+moduleclass = 'bio'
