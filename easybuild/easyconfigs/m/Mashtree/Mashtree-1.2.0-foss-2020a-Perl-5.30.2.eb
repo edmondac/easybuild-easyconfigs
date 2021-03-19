@@ -1,0 +1,30 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PerlModule'
+
+name = 'Mashtree'
+version = '1.2.0'
+versionsuffix = '-Perl-%(perlver)s'
+
+homepage = 'https://metacpan.org/release/Mashtree'
+description = """Create a tree using Mash distances."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+source_urls = ['https://cpan.metacpan.org/authors/id/L/LS/LSKATZ']
+sources = [SOURCE_TAR_GZ]
+checksums = ['4f1f642ca5273347386c0fd465bd937751013ea4bcef2cd191f4909185403a2e']
+
+dependencies = [
+    ('Perl', '5.30.2'),
+    ('BioPerl', '1.7.7'),
+    ('Mash', '2.3'),
+    ('SQLite', '3.31.1'),
+    ('quicktree', '2.5'),
+]
+
+sanity_check_paths = {
+    'files': ['bin/%(namelower)s'],
+    'dirs': ['lib/perl5/site_perl/%(perlver)s/%(arch)s-linux-thread-multi'],
+}
+
+moduleclass = 'bio'
