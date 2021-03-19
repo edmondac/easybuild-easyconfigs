@@ -1,0 +1,31 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'RESCRIPt'
+version = '2021.2.0'
+versionsuffix = '-QIIME2-2021.2'
+
+homepage = "https://github.com/bokulich-lab/RESCRIPt"
+description = """RESCRIPt is a Python 3 package to support a variety of operations for managing and curating
+ reference sequence databases, DNA/RNA sequence data, and taxonomic data."""
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/bokulich-lab/RESCRIPt/archive/']
+sources = ['%(version)s.tar.gz']
+checksums = ['3c210e6d2c00e00e4d5b78e49dade76fa20289d78d86302c1b3a3b0761b10487']
+
+dependencies = [
+    ('QIIME2', '2021.2'),
+]
+
+download_dep_fail = True
+sanity_pip_check = False  # Disabling to avoid testing underlying QIIME2 dep issues
+use_pip = True
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ["lib", "lib64"],
+}
+
+moduleclass = 'bio'
