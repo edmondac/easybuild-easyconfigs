@@ -13,7 +13,6 @@ toolchain = SYSTEM
 
 source_urls = ['https://github.com/bokulich-lab/RESCRIPt/archive/']
 sources = ['%(version)s.tar.gz']
-checksums = ['3c210e6d2c00e00e4d5b78e49dade76fa20289d78d86302c1b3a3b0761b10487']
 
 dependencies = [
     ('QIIME2', '2021.2'),
