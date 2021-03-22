@@ -29,7 +29,7 @@ exts_default_options = {
 # Order is important!
 exts_list = [
     (name, version, {
-        #'checksums': [''],
+        'checksums': ['525a555f79cf22b2d370e9ddbea570e1992e81f87f67903dcdbadac07cedbbf6'],
     }),
 ]
 

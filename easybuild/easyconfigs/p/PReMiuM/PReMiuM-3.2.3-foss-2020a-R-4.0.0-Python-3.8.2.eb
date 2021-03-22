@@ -13,13 +13,7 @@ toolchain = {'name': 'foss', 'version': '2020a'}
 
 dependencies = [
     ('R', '4.0.0'),
-    #('Rcpp', '1.0.4.6'),
-    #('ggplot2', '2.2.1'),
-    #('cluster', '2.1.0'),
-    #('plotrix', '3.7.8'),
-    #('gamlss.dist', '5.1.6'),
     ('ald', '1.2', versionsuffix),
-    #('data.table', '1.12.8'),
     ('spdep', '1.1-5', versionsuffix + '-Python-%s' % local_pyver),
     ('rgdal', '1.5-16', versionsuffix),
 ]
@@ -39,7 +33,7 @@ exts_default_options = {
 # Order is important!
 exts_list = [
     (name, version, {
-        #'checksums': [''],
+        'checksums': ['89691ca56d4021ae3630e42f4a1d8bb86666bc297bb7538ce6c18ef3b90ed9fe'],
     }),
 ]
 
