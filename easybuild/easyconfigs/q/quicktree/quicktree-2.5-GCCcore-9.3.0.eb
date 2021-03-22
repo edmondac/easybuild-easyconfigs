@@ -1,0 +1,29 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'quicktree'
+version = '2.5'
+
+homepage = "https://github.com/khowe/quicktree"
+description = """Fast implementation of the neighbour-joining phylogenetic inference method."""
+
+toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+
+source_urls = ['https://github.com/khowe/quicktree/archive']
+sources = ['v%(version)s.tar.gz']
+checksums = ['731aa845ce3f1f0645bd0df2b54df75f78fce065d6a3ddc47fedf4bdcb11c248']
+
+builddependencies = [('binutils', '2.34')]
+
+skipsteps = ['configure']
+
+files_to_copy = ['*']
+
+modextrapaths = {'PATH': ''}
+
+sanity_check_paths = {
+    'files': ['quicktree'],
+    'dirs': ['include', 'src'],
+}
+
+moduleclass = 'bio'
