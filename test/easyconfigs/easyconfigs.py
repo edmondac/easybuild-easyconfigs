@@ -564,7 +564,7 @@ class EasyConfigTest(TestCase):
         # These packages do not support installation with 'pip'
         whitelist_pip = [r'MATLAB-Engine-.*', r'PyTorch-.*', r'Meld-.*']
 
-        whitelist_pip_check = [r'Mako-1.0.4.*Python-2.7.12.*']
+        whitelist_pip_check = [r'Mako-1.0.4.*Python-2.7.12.*', r'.*-QIIME2-20.*']
 
         failing_checks = []
 
