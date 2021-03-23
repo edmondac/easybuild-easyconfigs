@@ -12,6 +12,7 @@ description = """A collection of functions to create spatial weights matrix obje
 toolchain = {'name': 'foss', 'version': '2020a'}
 
 dependencies = [
+    ('Python', '3.8.2'),
     ('R', '4.0.0'),
     ('sf', '0.9-5', versionsuffix), 
 ]
