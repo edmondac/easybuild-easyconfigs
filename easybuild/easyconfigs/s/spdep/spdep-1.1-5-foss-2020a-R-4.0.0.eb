@@ -3,8 +3,8 @@ easyblock = 'Bundle'
 
 name = 'spdep'
 version = '1.1-5'
+versionsuffix = '-R-%%(rver)s'
 local_pyver = '3.8.2'
-versionsuffix = '-R-%%(rver)s-Python-%s' % local_pyver
 
 homepage = "https://cran.r-project.org/package=spdep"
 description = """A collection of functions to create spatial weights matrix objects from polygon 'contiguities', from
@@ -29,9 +29,8 @@ package will be masked. Some feed through adequately, others do not."""
 toolchain = {'name': 'foss', 'version': '2020a'}
 
 dependencies = [
-    ('Python', '3.8.2'),
     ('R', '4.0.0'),
-    ('sf', '0.9-5', versionsuffix),
+    ('sf', '0.9-5', "-Python-%s" % local_pyver),
 ]
 
 exts_defaultclass = 'RPackage'
