@@ -26,7 +26,6 @@ toolchain = {'name': 'foss', 'version': '2020a'}
 
 dependencies = [
     ('R', '4.0.0'),
-    ('Python', local_pyver)
     ('ald', '1.2', versionsuffix),
     ('spdep', '1.1-5', versionsuffix + '-Python-%s' % local_pyver),
     ('rgdal', '1.5-16', versionsuffix),
