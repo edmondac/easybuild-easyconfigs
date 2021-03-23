@@ -3,8 +3,7 @@ easyblock = 'Bundle'
 
 name = 'PReMiuM'
 version = '3.2.3'
-versionsuffix = '-R-%(rver)s-Python-%(pyver)s'
-local_pyver = '3.8.2'
+versionsuffix = '-R-%(rver)s'
 
 homepage = "https://cran.r-project.org/package=PReMiuM"
 description = """Bayesian clustering using a Dirichlet process mixture model. This model
@@ -15,10 +14,9 @@ toolchain = {'name': 'foss', 'version': '2020a'}
 
 dependencies = [
     ('R', '4.0.0'),
-    ('Python', '3.8.2'),
-    ('ald', '1.2', '-R-%(rver)s'),
-    ('spdep', '1.1-5', versionsuffix),
-    ('rgdal', '1.5-16', '-R-%(rver)s'),
+    ('ald', '1.2', versionsuffix),
+    ('spdep', '1.1-5', versionsuffix + '-Python-3.8.2'),
+    ('rgdal', '1.5-16', versionsuffix),
 ]
 
 exts_defaultclass = 'RPackage'
