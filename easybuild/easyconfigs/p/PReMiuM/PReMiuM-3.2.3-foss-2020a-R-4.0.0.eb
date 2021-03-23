@@ -26,9 +26,9 @@ toolchain = {'name': 'foss', 'version': '2020a'}
 
 dependencies = [
     ('R', '4.0.0'),
-    ('ald', '1.2'),
-    ('spdep', '1.1-5'),
-    ('rgdal', '1.5-16'),
+    ('ald', '1.2', versionsuffix),
+    ('spdep', '1.1-5', versionsuffix),
+    ('rgdal', '1.5-16', versionsuffix),
 ]
 
 exts_defaultclass = 'RPackage'
