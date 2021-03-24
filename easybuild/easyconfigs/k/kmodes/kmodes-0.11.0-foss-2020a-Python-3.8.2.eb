@@ -5,7 +5,7 @@ name = 'kmodes'
 version = '0.11.0'
 versionsuffix = '-Python-%(pyver)s'
 
-homepage = ""
+homepage = "https://github.com/nicodv/kmodes"
 description = """k-modes is used for clustering categorical variables. It defines clusters based on the number of
  matching categories between data points. (This is in contrast to the more well-known k-means algorithm, which
  clusters numerical data based on Euclidean distance.) The k-prototypes algorithm combines k-modes and k-means and is
