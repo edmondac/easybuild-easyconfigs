@@ -1,0 +1,28 @@
+--- third_party/gloo/cmake/Cuda.cmake.orig	2021-03-24 13:13:25.470920000 +0000
++++ third_party/gloo/cmake/Cuda.cmake	2021-03-24 13:14:40.644546000 +0000
+@@ -171,6 +171,9 @@
+   gloo_list_append_if_unique(CUDA_NVCC_FLAGS "-std=c++11")
+ endif()
+ gloo_list_append_if_unique(CUDA_NVCC_FLAGS "-Xcompiler" "-fPIC")
++if(CMAKE_SYSTEM_PROCESSOR MATCHES "(powerpc|ppc)64le")
++  list(APPEND CUDA_NVCC_FLAGS "-Xcompiler" "-mno-float128")
++endif()
+ 
+ mark_as_advanced(CUDA_BUILD_CUBIN CUDA_BUILD_EMULATION CUDA_VERBOSE_BUILD)
+ mark_as_advanced(CUDA_SDK_ROOT_DIR CUDA_SEPARABLE_COMPILATION)
+--- horovod/common/ops/cuda/CMakeLists.txt.orig	2021-03-24 13:21:59.649733000 +0000
++++ horovod/common/ops/cuda/CMakeLists.txt	2021-03-24 13:22:24.618423000 +0000
+@@ -7,8 +7,11 @@
+ MESSAGE(STATUS "HVD_NVCC_COMPILE_FLAGS = ${HVD_NVCC_COMPILE_FLAGS}")
+ 
+ list(APPEND CUDA_NVCC_FLAGS "${HVD_NVCC_COMPILE_FLAGS}")
++if(CMAKE_SYSTEM_PROCESSOR MATCHES "(powerpc|ppc)64le")
++  list(APPEND CUDA_NVCC_FLAGS "-Xcompiler" "-mno-float128")
++endif()
+ 
+ cuda_add_library(horovod_cuda_kernels cuda_kernels.cu OPTIONS -D_GLIBCXX_USE_CXX11_ABI=1)
+ 
+ # if we need compatible c++ abi, build a compatible version
+-cuda_add_library(compatible_horovod_cuda_kernels cuda_kernels.cu OPTIONS -D_GLIBCXX_USE_CXX11_ABI=0)
+\ No newline at end of file
++cuda_add_library(compatible_horovod_cuda_kernels cuda_kernels.cu OPTIONS -D_GLIBCXX_USE_CXX11_ABI=0)
