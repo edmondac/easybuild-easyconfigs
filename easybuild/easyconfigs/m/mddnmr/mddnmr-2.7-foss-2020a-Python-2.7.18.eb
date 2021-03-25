@@ -1,0 +1,47 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PackedBinary'
+
+name = 'mddnmr'
+version = '2.7'
+versionsuffix = '-Python-2.7.18'
+
+homepage = "http://mddnmr.spektrino.com/"
+description = """MddNMR is a program for processing of non-uniformly sampled (NUS) multidimensional NMR spectra."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+# Register at http://mddnmr.spektrino.com/download/2.7 to obtain the source
+sources = ['%(name)s%(version)s.tgz']
+checksums = ['7b4d81586c28f99a49e666e2d7f4706ad923eadff86da4bde555b96dfd412e64']
+
+dependencies = [
+    ('Python', '2.7.18'),
+    ('SciPy-bundle', '2020.03', versionsuffix),
+    ('NMRPipe', '20022021'),
+]
+
+import os as _os
+_osbase = _os.environ.get('BB_OSBASE')
+if _osbase == 'EL8':
+    _binary = 'binCentOS64Static'
+elif _osbase == 'Ubuntu20.04':
+    _binary = 'binUbuntu64Static'
+else:
+    raise ValueError("Unknown osbase: %s" % osbase)
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': [_binary],
+}
+
+modextravars = {
+    'MDD_NMR': '$root',
+    'MDD_NMRbin': '$root/%s' % _binary,
+}
+
+modextrapaths = {
+    'PATH': (_binary, 'com'),
+}
+
+moduleclass = 'phys'
+
