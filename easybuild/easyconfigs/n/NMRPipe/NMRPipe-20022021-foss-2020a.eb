@@ -4,7 +4,8 @@ name = 'NMRPipe'
 version = '20022021'
 
 homepage = "https://www.ibbr.umd.edu/nmrpipe/index.html"
-description = """NMRPipe is a UNIX-based collection of programs and scripts for manipulating multidimensional Nuclear Magnetic Resonance (NMR) data."""
+description = """NMRPipe is a UNIX-based collection of programs and scripts for manipulating multidimensional Nuclear
+ Magnetic Resonance (NMR) data."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
@@ -52,4 +53,3 @@ sanity_check_paths = {
 }
 
 moduleclass = 'phys'
-

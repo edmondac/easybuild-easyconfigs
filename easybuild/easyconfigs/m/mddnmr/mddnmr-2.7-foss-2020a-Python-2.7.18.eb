@@ -1,4 +1,6 @@
 # This easyconfig was created by the BEAR Software team at the University of Birmingham.
+import os as _os
+
 easyblock = 'PackedBinary'
 
 name = 'mddnmr'
@@ -20,14 +22,13 @@ dependencies = [
     ('NMRPipe', '20022021'),
 ]
 
-import os as _os
 _osbase = _os.environ.get('BB_OSBASE')
 if _osbase == 'EL8':
     _binary = 'binCentOS64Static'
 elif _osbase == 'Ubuntu20.04':
     _binary = 'binUbuntu64Static'
 else:
-    raise ValueError("Unknown osbase: %s" % osbase)
+    raise ValueError("Unknown osbase: %s" % _osbase)
 
 sanity_check_paths = {
     'files': [],
@@ -44,4 +45,3 @@ modextrapaths = {
 }
 
 moduleclass = 'phys'
-
