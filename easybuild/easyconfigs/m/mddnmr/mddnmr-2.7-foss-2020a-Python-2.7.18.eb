@@ -30,12 +30,12 @@ else:
 
 sanity_check_paths = {
     'files': [],
-    'dirs': [_binary],
+    'dirs': ['com', _binary],
 }
 
 modextravars = {
-    'MDD_NMR': '$root',
-    'MDD_NMRbin': '$root/%s' % _binary,
+    'MDD_NMR': '%(installdir)s',
+    'MDD_NMRbin': '%%(installdir)s/%s' % _binary,
 }
 
 modextrapaths = {
