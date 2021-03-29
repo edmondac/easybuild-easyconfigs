@@ -9,7 +9,7 @@ description = """NMRPipe is a UNIX-based collection of programs and scripts for 
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
-source_urls = ['http://www.ibbr.umd.edu/nmrpipe/']
+source_urls = ['https://www.ibbr.umd.edu/nmrpipe/']
 sources = [
     'NMRPipeX.tZ',
     's.tZ',
