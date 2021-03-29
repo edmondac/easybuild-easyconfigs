@@ -46,7 +46,6 @@ modextrapaths = {
     'NMRTXT': ['nmrtxt']
 }
 
-
 sanity_check_paths = {
     'files': [],
     'dirs': ['format', 'nmrtcl', 'talos'],
