@@ -1,0 +1,54 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+
+name = 'NMRPipe'
+version = '20022021'
+
+homepage = "https://www.ibbr.umd.edu/nmrpipe/index.html"
+description = """NMRPipe is a UNIX-based collection of programs and scripts for manipulating multidimensional Nuclear
+ Magnetic Resonance (NMR) data."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+source_urls = ['https://www.ibbr.umd.edu/nmrpipe/']
+sources = [
+    'NMRPipeX.tZ',
+    's.tZ',
+    'install.com',
+    'binval.com',
+    'dyn.tZ',
+    'NMRPipeL.tZ',
+    'talos_nmrPipe.tZ',
+    'plugin.smile.tZ',
+]
+checksums = [
+    '8365788d85cbe0ed29805acb35871340e9ac6fa749535007b1c264db65fddf06',  # NMRPipeX.tZ
+    '8381c67c8145a06cf3025d6a0f21af8ce7ee494f4fdd84d614112e5187c76358',  # s.tZ
+    '23a7731464b08375e56700aad49555c3d13e64c0e8a2cf46189dfcb45ed13d32',  # install.com
+    '328d55140d5e23ff650b1df139ae52fd885f303cc317cf69873193e45b8d03b4',  # binval.com
+    'd68cbbacaa629c738de9d976b7dd6bb9cab07cdf2686f2a899841c46c169e29e',  # dyn.tZ
+    '2465f4fe0170a07f38e7802fa1c17659aca6da4f2e3d28ca01d6bc11702f43cf',  # NMRPipeL.tZ
+    'a9c85639abd8a126efa753776bfa1530dc1b1b4f02d5a0bc1b473824bb85e4bf',  # talos_nmrPipe.tZ
+    '4b13c3e9ed818d8d2df2250ff234c3c4c1b653dd9073eb93a14e01367b1bc572',  # plugin.smile.tZ
+]
+
+dependencies = [
+    ('X11', '20200222'),
+    ('xterm', '366'),
+]
+
+buildininstalldir = True
+
+installopts = '+nopost'
+
+modextrapaths = {
+    'PATH': ['nmrbin.linux212_64', 'com'],
+    'LD_LIBRARY_PATH': ['nmrbin.linux212_64/lib'],
+    'NMRTXT': ['nmrtxt']
+}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['format', 'nmrtcl', 'talos'],
+}
+
+moduleclass = 'phys'

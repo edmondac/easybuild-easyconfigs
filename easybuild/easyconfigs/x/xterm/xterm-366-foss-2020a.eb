@@ -1,0 +1,25 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'xterm'
+version = '366'
+
+homepage = "https://invisible-island.net/xterm/"
+description = """The xterm program is a terminal emulator for the X Window System."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+source_urls = ['https://invisible-island.net/datafiles/release/']
+sources = ['%(name)s.tar.gz']
+checksums = ['7aeef9f29f6b95e09f481173c8c3053357bf5ffe162585647f690fd1707556df']
+
+configopts = '--oldincludedir=/nonexistent '
+
+dependencies = [('ncurses', '6.2')]
+
+sanity_check_paths = {
+    'files': ['bin/xterm'],
+    'dirs': [],
+}
+
+moduleclass = 'vis'
