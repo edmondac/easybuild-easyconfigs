@@ -1,0 +1,41 @@
+# This file is an EasyBuild reciPY as per https://github.com/easybuilders/easybuild
+# Author: Pablo Escobar Lopez
+# sciCORE - University of Basel
+# SIB Swiss Institute of Bioinformatics 
+
+easyblock = 'Tarball'
+
+name = 'wkhtmltopdf'
+version = '0.12.6-1'
+versionsuffix = '.centos8.x86_64'
+
+homepage = 'https://wkhtmltopdf.org/'
+description = """wkhtmltopdf and wkhtmltoimage are open source (LGPLv3) command line tools to render 
+ HTML into PDF and various image formats using the Qt WebKit rendering engine. These run entirely headless 
+ and do not require a display or display service."""
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/wkhtmltopdf/packaging/releases/download/%(version)s/']
+sources = [{'filename': 'wkhtmltox-%(version)s%(versionsuffix)s.rpm', 'extract_cmd': 'rpm2cpio %s | cpio -idmv'}]
+checksums = ['5cc267d54fe3f144729f31432a165e028b689583c53cfee0a01d52644ab280d9']
+
+osdependencies = [
+    ('zlib', 'zlib1g'),
+    'fontconfig',
+    ('freetype', 'libfreetype6'),
+    ('libX11', 'libx11-6'),
+    ('libXext', 'libxext6'),
+    ('libXrender', 'libxrender1')
+]
+
+start_dir = 'local'
+
+sanity_check_paths = {
+    'files': ['bin/wkhtmltoimage', 'bin/wkhtmltopdf'],
+    'dirs': [],
+}
+
+sanity_check_commands = ['wkhtmltopdf --help', 'wkhtmltoimage --help']
+
+moduleclass = 'tools'
