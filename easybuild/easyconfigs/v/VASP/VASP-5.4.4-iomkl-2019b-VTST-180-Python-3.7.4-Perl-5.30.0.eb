@@ -38,6 +38,8 @@ dependencies = [
 # Note that the file diff.patch in the downloaded archive tar.gz has already been applied.
 prebuildopts = "unset LIBS && cp arch/makefile.include.linux_intel makefile.include && "
 prebuildopts += "sed -i s/mpiifort/mpifort/ makefile.include && "
+prebuildopts += "sed -i s/-lmkl_blacs_intelmpi_lp64/-lmkl_blacs_openmpi_lp64/ makefile.include && "
+prebuildopts += "sed -i s:\$\(I_MPI_ROOT\)/include64/:\$\(MPI_HOME\)/include/: makefile.include && "
 prebuildopts += "cp -r %%(builddir)s/%s/* src && " % local_vtst
 # build type
 buildopts = 'all'
