@@ -22,8 +22,10 @@ patches = []
 
 checksums = ['98f75fd75399a23d76d060a6155f4416b340a1704f256a00146f89024035bc8e']
 
-prebuildopts = "unset LIBS && cp arch/makefile.include.linux_intel makefile.include &&"
+prebuildopts = "unset LIBS && cp arch/makefile.include.linux_intel makefile.include && "
 prebuildopts += "sed -i s/mpiifort/mpifort/ makefile.include && "
+prebuildopts += "sed -i s/-lmkl_blacs_intelmpi_lp64/-lmkl_blacs_openmpi_lp64/ makefile.include && "
+prebuildopts += "sed -i s:\$\(I_MPI_ROOT\)/include64/:\$\(MPI_HOME\)/include/: makefile.include && "
 # build type
 buildopts = 'all'
 
