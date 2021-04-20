@@ -1,6 +1,6 @@
 For INC?????? - `EBFILENAME`
 
-* [ ] Assigned to reviewer
+* [ ] Assigned to reviewers (usually everyone in apps team)
 
 Default:
 * [ ] EL8-cascadelake
