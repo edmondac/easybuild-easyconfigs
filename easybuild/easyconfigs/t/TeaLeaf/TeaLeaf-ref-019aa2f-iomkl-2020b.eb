@@ -20,6 +20,7 @@ patches = [
 checksums = [
     '2801304ea99223378c47e39e8ef3f5c80dc77f6ff0a76de76a80484e39f05166',  # 019aa2f.tar.gz
     '9e25a73654b2d278f23535e7a247fa9f26e5757862b75bcb1cc03ebd824576d3',  # TeaLeaf_intel.patch
+    '8fcbdeb96988d6bec7dfd7c7cf1a1e630a6c143ec9a7a73074dc7e0009258d99',  # TeaLeaf_jacobi_kernel.patch
 ]
 
 skipsteps = ['configure']
