@@ -1,0 +1,48 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'scCATCH'
+version = '2.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://github.com/ZJUFanLab/scCATCH"
+description = """single cell Cluster-based Annotation Toolkit for Cellular Heterogeneity (scCATCH) from cluster
+ marker genes identification to cluster annotation based on evidence-based score by matching the identified potential
+ marker genes with known cell markers in tissue-specific cell taxonomy reference database (CellMatch)."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('Seurat', '4.0.0', versionsuffix),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'source_tmpl': 'v%(version)s.tar.gz',
+        'source_urls': ['https://github.com/ZJUFanLab/%(name)s/archive/'],
+        'checksums': ['988b3548cf15e09df7e42af59f42e5a63d2ce60047a7aaa1332640fdc4f6f614'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['scCATCH/R/scCATCH'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
