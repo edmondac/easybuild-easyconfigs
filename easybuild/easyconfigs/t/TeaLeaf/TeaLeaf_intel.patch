@@ -1,0 +1,12 @@
+diff -Nru TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7.orig/Makefile TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7/Makefile
+--- TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7.orig/Makefile	2021-04-19 16:14:17.812981000 +0100
++++ TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7/Makefile	2021-04-21 15:16:59.015683726 +0100
+@@ -65,7 +65,7 @@
+   MESSAGE=select a compiler to compile in OpenMP, e.g. make COMPILER=INTEL
+ endif
+ 
+-OOMP_INTEL     = -qopenmp -ip -g
++OMP_INTEL     = -qopenmp -ip -g
+ OMP_SUN       = -xopenmp=parallel -vpara
+ OMP_GNU       = -fopenmp
+ OMP_CRAY      = -e Z
