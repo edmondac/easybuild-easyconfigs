@@ -41,9 +41,13 @@ sanity_check_paths = {
 sanity_check_commands = [
     'cp Benchmarks/tea_bm_1.in tea.in',
     'sed -i s/tl_use_cg/tl_use_jacobi/ tea.in',  # use Jacobi solver for test
-    'export OMP_NUM_THREADS=${SLURM_NTASKS} && tea_leaf',
+    'export OMP_NUM_THREADS=${SLURM_NTASKS} && srun -n 1 tea_leaf',
+    'cat tea.out',
     'if [[ $(grep -L "considered PASSED" tea.out) ]]; then echo "TEST FAILED" && exit 1; fi',
-    'cat tea.out && rm tea.*',
+    'export OMP_NUM_THREADS=1 && srun -n ${SLURM_NTASKS} tea_leaf',
+    'cat tea.out',
+    'if [[ $(grep -L "considered PASSED" tea.out) ]]; then echo "TEST FAILED" && exit 1; fi',
+    'rm tea.*',
 ]
 
 moduleclass = 'phys'
