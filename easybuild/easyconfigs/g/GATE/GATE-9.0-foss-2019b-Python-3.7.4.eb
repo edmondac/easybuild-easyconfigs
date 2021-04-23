@@ -24,7 +24,7 @@ dependencies = [
     ('ROOT', '6.20.00', versionsuffix),
 ]
 
-separate_build_dir = True
+separate_build_dir = False
 
 # enable extra capabilities (Davis requires Geant4 10.04 or newer)
 configopts = "-DGATE_USE_OPTICAL=1 -DGATE_USE_DAVIS=1"
