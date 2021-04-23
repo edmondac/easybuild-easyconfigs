@@ -9,8 +9,6 @@ description = """Geant4 is a toolkit for the simulation of the passage of partic
 toolchain = {'name': 'foss', 'version': '2019b'}
 
 
-print("%(version_minor)s")
-
 source_urls = ['https://geant4-data.web.cern.ch/releases/']
 sources = ['%(namelower)s.%(version)s.tar.gz']
 checksums = ['0b5f13672e7250047b66ffb056c6cfda328a956278cfe61a3fd5dde0672ffbf3']
