@@ -20,6 +20,8 @@ dependencies = [
     ('CLHEP', '2.4.1.3'),
 ]
 
+separate_build_dir = True
+
 configopts = "-DEXPAT_LIBRARY=$EBROOTEXPAT/lib/libexpat.so -DEXPAT_INCLUDE_DIR=$EBROOTEXPAT/include"
 configopts += " -DGEANT4_INSTALL_DATA=OFF"
 
