@@ -35,10 +35,10 @@ sanity_check_commands = [
     'cp InputDecks/clover_bm_short.in clover.in',
     'export OMP_NUM_THREADS=${SLURM_NTASKS} && srun -n 1 clover_leaf',
     'cat clover.out',
-    'if [[ $(grep -L "considered PASSED" clover.out) ]]; then echo "TEST FAILED WITH OPENMP." && exit 1; fi',
+    'if [[ $(grep -L "considered PASSED" clover.out) ]]; then echo "TEST FAILED" && exit 1; fi',
     'export OMP_NUM_THREADS=1 && srun -n ${SLURM_NTASKS} clover_leaf',
     'cat clover.out',
-    'if [[ $(grep -L "considered PASSED" clover.out) ]]; then echo "TEST FAILED WITH MPI." && exit 1; fi',
+    'if [[ $(grep -L "considered PASSED" clover.out) ]]; then echo "TEST FAILED" && exit 1; fi',
     'rm clover.*',
 ]
 
