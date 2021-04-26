@@ -15,6 +15,12 @@ toolchain = SYSTEM
 sources = [SOURCE_ZIP]
 checksums = ['54481a038b929806cb5ee60a1071252a8636fdcf71b9810e9642bac281575b02']
 
+
+# ansyscl loads libldap-2.4.so.2 - which brings in the krb5 libraries and libk5crypto.so.3 doesn't like the openssl
+# shipped with ANSYS. So, we'll symlink libssl.so to libldap-2.4.so.2 - thus hiding all the ldap functionality and not
+# including any of those other libraries... It's a hack. But it seems to work...
+postinstallcmds = ['cd %(installdir)s/v211/Framework/bin/Linux64 && ln -s libssl.so libldap-2.4.so.2']
+
 modextravars = {'KMP_AFFINITY': 'disabled'}
 
 moduleclass = 'tools'
