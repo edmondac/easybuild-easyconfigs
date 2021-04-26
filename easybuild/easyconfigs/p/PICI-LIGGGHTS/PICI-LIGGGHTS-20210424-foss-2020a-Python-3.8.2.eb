@@ -41,7 +41,7 @@ sanity_check_paths = {
 }
 
 sanity_check_commands = [
-    'srun liggghts -help || true',  # non zero exit code
+    'srun -n 1 liggghts -help || true',  # non zero exit code
     'python -c "import liggghts"',
 ]
 
