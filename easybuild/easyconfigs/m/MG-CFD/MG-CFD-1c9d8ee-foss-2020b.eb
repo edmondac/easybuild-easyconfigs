@@ -1,0 +1,46 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'MG-CFD'
+version = '1c9d8ee'
+
+homepage = "https://github.com/warwick-hpsc/MG-CFD-app-plain"
+description = """MG-CFD: An unstructured MG FVM CFD mini-app. A 3D unstructured multigrid, finite-volume
+ computational fluid dynamics (CFD) mini-app for inviscid-flow. It has the goal of serving as a platform
+ for evaluating emerging architectures, programming paradigms and algorithmic optimisations for this
+ class of code."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+source_urls = ['https://github.com/warwick-hpsc/MG-CFD-app-plain/archive']
+sources = ['%s.tar.gz' % version]
+patches = ['MG-CFD_scripts.patch']
+checksums = [
+    '193e54a9c71056b6cb14ae5b83d9435f871f3628580f0476b420be7b439f413e',  # 1c9d8ee.tar.gz
+    'db2db5a465bd0ba0bb693408b7bdc0bf747aec11f481f970c5388c3ad8c83dd3',  # MG-CFD_scripts.patch
+]
+
+dependencies = [
+    ('Python', '3.8.6'),
+    ('SciPy-bundle', '2020.11'),
+]
+
+skipsteps = ['configure']
+
+build_cmd = 'make COMPILER=gnu'
+install_cmd = 'chmod a+x run-scripts/*.py && cp -r * %(installdir)s'
+
+fix_python_shebang_for = ['run-scripts/*.py']
+
+modextrapaths = {
+    'PATH': 'run-scripts',
+}
+
+sanity_check_paths = {
+    'files': ['bin/euler3d_cpu_double_gnu-DINSN_SET=Host.b'],
+    'dirs': ['run-inputs', 'run-scripts', 'run-templates'],
+}
+
+sanity_check_commands = ['euler3d_cpu_double_gnu-DINSN_SET=Host.b --help || true']
+
+moduleclass = 'phys'
