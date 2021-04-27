@@ -1,6 +1,6 @@
-diff -Nur v211/Framework/bin/Linux64/ssh 2021R1/v211/Framework/bin/Linux64/ssh
---- v211.orig/Framework/bin/Linux64/ssh	1970-01-01 01:00:00.000000000 +0100
-+++ v211/Framework/bin/Linux64/ssh	2021-04-27 16:18:05.550124000 +0100
+diff -Nur 2021R1.orig/bear/Framework/bin/Linux64/ssh 2021R1/bear/Framework/bin/Linux64/ssh
+--- 2021R1.orig/bear/Framework/bin/Linux64/ssh	1970-01-01 01:00:00.000000000 +0100
++++ 2021R1/bear/Framework/bin/Linux64/ssh	2021-04-27 16:18:05.550124000 +0100
 @@ -0,0 +1,9 @@
 +#!/bin/bash
 +
@@ -11,9 +11,9 @@ diff -Nur v211/Framework/bin/Linux64/ssh 2021R1/v211/Framework/bin/Linux64/ssh
 +unset LD_LIBRARY_PATH
 +
 +exec /usr/bin/ssh $@
-diff -Nur v211/licensingclient/linx64/ansyscl.bear 2021R1/v211/licensingclient/linx64/ansyscl.bear
---- v211.orig/licensingclient/linx64/ansyscl.bear	1970-01-01 01:00:00.000000000 +0100
-+++ v211/licensingclient/linx64/ansyscl.bear	2021-04-27 16:19:56.972275000 +0100
+diff -Nur 2021R1.orig/bear/licensingclient/linx64/ansyscl.bear 2021R1/bear/licensingclient/linx64/ansyscl.bear
+--- 2021R1.orig/bear/licensingclient/linx64/ansyscl.bear	1970-01-01 01:00:00.000000000 +0100
++++ 2021R1/bear/licensingclient/linx64/ansyscl.bear	2021-04-27 16:19:56.972275000 +0100
 @@ -0,0 +1,13 @@
 +#!/bin/bash
 +

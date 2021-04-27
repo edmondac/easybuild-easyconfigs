@@ -15,15 +15,18 @@ toolchain = SYSTEM
 sources = [SOURCE_ZIP]
 
 # We include a patch to make ANSYS work on EL8 (tested on EL8.3)
-patches = ['%(name)s-%(version)s_bear-el8.patch']
+patches = [('%(name)s-%(version)s_bear-el8.patch', 1)]
 checksums = ['54481a038b929806cb5ee60a1071252a8636fdcf71b9810e9642bac281575b02']
 
 # ansyscl loads libldap-2.4.so.2 - which brings in the krb5 libraries and libk5crypto.so.3 doesn't like the openssl
 # shipped with ANSYS. So, we'll symlink libz.so (random innoffensive library) to libldap-2.4.so.2 - thus hiding all
 # the ldap functionality and not including any of those other libraries...
-postinstallcmds = ['cd %(installdir)s/v211/licensingclient/linx64 && ln -s libz.so libldap-2.4.so.2',
-                   'cd %(installdir)s/v211/licensingclient/linx64 && mv ansyscl ansyscl.bin',
-                   'cd %(installdir)s/v211/licensingclient/linx64 && ln -s ansyscl.bear ansyscl']
+postinstallcmds = [
+    'cp -r %(builddir)s/bear/* %(installdir)s/.',
+    ('cd %(installdir)s/v211/licensingclient/linx64 && '
+     'ln -s %(installdir)/v211/Framework/bin/Linux64/libz.so libldap-2.4.so.2 && '
+     'mv ansyscl ansyscl.bin && '
+     'ln -s ansyscl.bear ansyscl')]
 
 modextravars = {'KMP_AFFINITY': 'disabled'}
 
