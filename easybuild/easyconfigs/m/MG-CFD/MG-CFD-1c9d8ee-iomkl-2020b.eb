@@ -1,0 +1,69 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'MG-CFD'
+version = '1c9d8ee'
+
+homepage = "https://github.com/warwick-hpsc/MG-CFD-app-plain"
+description = """MG-CFD: An unstructured MG FVM CFD mini-app. A 3D unstructured multigrid, finite-volume
+ computational fluid dynamics (CFD) mini-app for inviscid-flow. It has the goal of serving as a platform
+ for evaluating emerging architectures, programming paradigms and algorithmic optimisations for this
+ class of code."""
+
+toolchain = {'name': 'iomkl', 'version': '2020b'}
+
+source_urls = ['https://github.com/warwick-hpsc/MG-CFD-app-plain/archive']
+sources = [
+    # MG-CFD
+    {
+        'filename': '%(version)s.tar.gz',
+        'extract_cmd': 'tar --strip-components=1 -xf %s'
+    },
+    # Input files
+    {
+        'source_urls': ['https://github.com/warwick-hpsc/MG-CFD-app-plain/releases/download/v1.0.0-rc1'],
+        'filename': 'm6wing.tar.gz',
+        'extract_cmd': 'mkdir inputs && tar -C inputs -xf %s'
+    },
+    {
+        'source_urls': ['https://github.com/warwick-hpsc/MG-CFD-app-plain/releases/download/v1.0.0-rc1'],
+        'filename': 'fvcorr.domn.097K.tar.gz',
+        'extract_cmd': 'tar -C inputs -xf %s'
+    },
+]
+patches = ['MG-CFD_scripts.patch']
+checksums = [
+    '193e54a9c71056b6cb14ae5b83d9435f871f3628580f0476b420be7b439f413e',  # 1c9d8ee.tar.gz
+    '2867f1b2fdb7971939b32c24b6d8cab3a4af45498c31b9a7db1d4801d55620b4',  # m6wing.tar.gz
+    '0c2a8f90c1aa1f5a25216b5577795935f178b33c02bc778fa1e3fbf39fdb9eae',  # fvcorr.domn.097K.tar.gz
+    'db2db5a465bd0ba0bb693408b7bdc0bf747aec11f481f970c5388c3ad8c83dd3',  # MG-CFD_scripts.patch
+]
+
+dependencies = [
+    ('Python', '3.8.6'),
+    ('SciPy-bundle', '2020.11'),
+    ('PAPI', '6.0.0'),
+]
+
+skipsteps = ['configure']
+
+buildininstalldir = True
+
+local_compiler = 'intel'
+build_cmd = 'make COMPILER=%s' % local_compiler
+install_cmd = 'chmod a+x run-scripts/*.py'
+
+fix_python_shebang_for = ['run-scripts/*.py']
+
+modextrapaths = {
+    'PATH': 'run-scripts',
+}
+
+sanity_check_paths = {
+    'files': ['bin/euler3d_cpu_double_%s-DINSN_SET=Host.b' % local_compiler],
+    'dirs': ['run-inputs', 'run-scripts', 'run-templates', 'inputs/m6wing', 'inputs/fvcorr.domn.097K'],
+}
+
+sanity_check_commands = ['euler3d_cpu_double_%s-DINSN_SET=Host.b --help || true' % local_compiler]
+
+moduleclass = 'phys'

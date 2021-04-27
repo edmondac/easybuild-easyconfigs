@@ -1,0 +1,156 @@
+diff -Nru MG-CFD-app-plain-1c9d8ee0c20f78fe4410abbe707eb8609b30e0bb.orig/run-scripts/aggregate-output-data.py MG-CFD-app-plain-1c9d8ee0c20f78fe4410abbe707eb8609b30e0bb/run-scripts/aggregate-output-data.py
+--- MG-CFD-app-plain-1c9d8ee0c20f78fe4410abbe707eb8609b30e0bb.orig/run-scripts/aggregate-output-data.py	2021-04-27 12:10:29.200832000 +0100
++++ MG-CFD-app-plain-1c9d8ee0c20f78fe4410abbe707eb8609b30e0bb/run-scripts/aggregate-output-data.py	2021-04-27 12:13:25.323833853 +0100
+@@ -1,7 +1,6 @@
+ import os
+ import pandas as pd
+ import numpy as np
+-from sets import Set
+ import fnmatch
+ import argparse
+ import re
+@@ -57,11 +56,11 @@
+ def safe_pd_append(top, bottom):
+     top_names = top.columns.values
+     bot_names = bottom.columns.values
+-    if Set(top_names) != Set(bot_names):
+-        missing_from_top = Set(bot_names).difference(top_names)
++    if set(top_names) != set(bot_names):
++        missing_from_top = set(bot_names).difference(top_names)
+         if len(missing_from_top) > 0:
+             raise Exception("Top DF missing these columns: " + missing_from_top.__str__())
+-        missing_from_bot = Set(top_names).difference(bot_names)
++        missing_from_bot = set(top_names).difference(bot_names)
+         if len(missing_from_bot) > 0:
+             raise Exception("Bottom DF missing these columns: " + missing_from_bot.__str__())
+     return top.append(bottom, sort=True)
+@@ -130,7 +129,7 @@
+     return data_colnames
+ 
+ def get_job_id_colnames(df):
+-    job_id_colnames = list(Set(df.columns.values).difference(Set(get_data_colnames(df))))
++    job_id_colnames = list(set(df.columns.values).difference(set(get_data_colnames(df))))
+ 
+     if len(job_id_colnames) == 0:
+         print("ERROR: get_job_id_colnames() failed to find any.")
+@@ -177,7 +176,7 @@
+             papi = papi.drop("PAPI counter", axis=1)
+ 
+             job_id_colnames = get_job_id_colnames(papi)
+-            data_colnames = list(Set(papi.columns.values).difference(job_id_colnames))
++            data_colnames = list(set(papi.columns.values).difference(job_id_colnames))
+ 
+             renames = {}
+             for x in data_colnames:
+@@ -277,9 +276,9 @@
+                         tmp_dict[k] = [v]
+                     loops_tally_df = pd.DataFrame.from_dict(tmp_dict)
+                 else:
+-                    for f in Set(loops_tally_df.keys()).difference(Set(loop_tally.keys())):
++                    for f in set(loops_tally_df.keys()).difference(set(loop_tally.keys())):
+                         loop_tally[f] = 0
+-                    for f in Set(loop_tally.keys()).difference(Set(loops_tally_df.keys())):
++                    for f in set(loop_tally.keys()).difference(set(loops_tally_df.keys())):
+                         loops_tally_df[f] = 0
+ 
+                     tmp_dict = {}
+@@ -320,14 +319,14 @@
+                     if df_agg is None:
+                         df_agg = df
+                     else:
+-                        df_missing_cols = Set(df_agg.columns.values).difference(Set(df.columns.values))
++                        df_missing_cols = set(df_agg.columns.values).difference(set(df.columns.values))
+                         if len(df_missing_cols) > 0:
+                             df_agg_data_col_names = get_data_colnames(df_agg)
+                             for d in df_missing_cols:
+                                 if d in df_agg_data_col_names:
+                                     df[d] = 0
+ 
+-                        df_agg_missing_cols = Set(df.columns.values).difference(Set(df_agg.columns.values))
++                        df_agg_missing_cols = set(df.columns.values).difference(set(df_agg.columns.values))
+                         if len(df_agg_missing_cols) > 0:
+                             df_data_col_names = get_data_colnames(df)
+                             for d in df_agg_missing_cols:
+@@ -359,8 +358,8 @@
+         n_uniq = df_agg.apply(pd.Series.nunique)
+         uniq_colnames = n_uniq[n_uniq==1].index
+         job_id_columns = get_job_id_colnames(df_agg)
+-        uniq_colnames = list(Set(uniq_colnames).intersection(job_id_columns))
+-        uniq_colnames = list(Set(uniq_colnames).difference(essential_colnames))
++        uniq_colnames = list(set(uniq_colnames).intersection(job_id_columns))
++        uniq_colnames = list(set(uniq_colnames).difference(essential_colnames))
+         df_agg_clean = df_agg.drop(uniq_colnames, axis=1)
+         if df_agg_clean.shape[1] > 0:
+             df_agg = df_agg_clean
+@@ -380,7 +379,7 @@
+         if "ThreadNum" in df.columns.values:
+             df = df.drop("ThreadNum", axis=1)
+         job_id_colnames = get_job_id_colnames(df)
+-        data_colnames = list(Set(df.columns.values).difference(job_id_colnames))
++        data_colnames = list(set(df.columns.values).difference(job_id_colnames))
+ 
+         df[data_colnames] = df[data_colnames].replace(0, np.NaN)
+ 
+@@ -414,7 +413,7 @@
+             if "ThreadNum" in df.columns.values:
+                 df = df.drop("ThreadNum", axis=1)
+             job_id_colnames = get_job_id_colnames(df)
+-            data_colnames = list(Set(df.columns.values).difference(job_id_colnames))
++            data_colnames = list(set(df.columns.values).difference(job_id_colnames))
+             df_agg = df.groupby(get_job_id_colnames(df))
+ 
+             df_mean = df_agg.mean().reset_index()
+@@ -428,7 +427,7 @@
+         df = clean_pd_read_csv(df_filepath)
+         df["counter"] = "#iterations"
+         job_id_colnames = get_job_id_colnames(df)
+-        data_colnames = list(Set(df.columns.values).difference(job_id_colnames))
++        data_colnames = list(set(df.columns.values).difference(job_id_colnames))
+ 
+         df[data_colnames] = df[data_colnames].replace(0, np.NaN)
+ 
+@@ -456,7 +455,7 @@
+         print("Aggregating " + cat)
+         df = clean_pd_read_csv(papi_df_filepath)
+         job_id_colnames = get_job_id_colnames(df)
+-        data_colnames = list(Set(df.columns.values).difference(job_id_colnames))
++        data_colnames = list(set(df.columns.values).difference(job_id_colnames))
+ 
+         ## Exclude zero values from statistics:
+         df[data_colnames] = df[data_colnames].replace(0.0, np.NaN)
+@@ -482,11 +481,11 @@
+         df_std = df_grps.std().reset_index().replace(np.NaN, 0.0)
+         df_std_pct = safe_frame_divide(df_std, df_run_means)
+ 
+-        for pe in Set(df_run_sums["PAPI counter"]):
++        for pe in set(df_run_sums["PAPI counter"]):
+             df_run_sums.loc[df_run_sums["PAPI counter"]==pe, "PAPI counter"] = pe+"_SUM"
+-        for pe in Set(df_run_maxs["PAPI counter"]):
++        for pe in set(df_run_maxs["PAPI counter"]):
+             df_run_maxs.loc[df_run_maxs["PAPI counter"]==pe, "PAPI counter"] = pe+"_MAX"
+-        for pe in Set(df_run_means["PAPI counter"]):
++        for pe in set(df_run_means["PAPI counter"]):
+             df_run_means.loc[df_run_means["PAPI counter"]==pe, "PAPI counter"] = pe+"_MEAN"
+         df_agg = df_run_sums.append(df_run_maxs, sort=True).append(df_run_means, sort=True)
+         
+@@ -562,7 +561,7 @@
+     if data_all is None:
+         return
+ 
+-    counters = list(Set(data_all["counter"]))
++    counters = list(set(data_all["counter"]))
+     data_colnames = get_data_colnames(data_all)
+     flux_data_colnames = [c for c in data_colnames if c.startswith("flux")]
+     other_data_colnames = [c for c in data_colnames if not c.startswith("flux")]
+diff -Nru MG-CFD-app-plain-1c9d8ee0c20f78fe4410abbe707eb8609b30e0bb.orig/run-scripts/gen_job.py MG-CFD-app-plain-1c9d8ee0c20f78fe4410abbe707eb8609b30e0bb/run-scripts/gen_job.py
+--- MG-CFD-app-plain-1c9d8ee0c20f78fe4410abbe707eb8609b30e0bb.orig/run-scripts/gen_job.py	2021-04-27 12:10:29.214962000 +0100
++++ MG-CFD-app-plain-1c9d8ee0c20f78fe4410abbe707eb8609b30e0bb/run-scripts/gen_job.py	2021-04-27 12:16:27.666766477 +0100
+@@ -404,7 +404,7 @@
+                 py_sed(batch_filepath, "<MINUTES>", str(est_runtime_minutes).zfill(2))
+ 
+             ## Make batch script executable:
+-            os.chmod(batch_filepath, 0755)
++            os.chmod(batch_filepath, 0o755)
+ 
+             ## Add an entry to submit_all.sh:
+             # Copy template 'submit.sh' to a temp file:
