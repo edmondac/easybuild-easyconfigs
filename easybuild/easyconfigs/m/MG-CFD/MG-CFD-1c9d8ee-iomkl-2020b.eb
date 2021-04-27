@@ -10,7 +10,7 @@ description = """MG-CFD: An unstructured MG FVM CFD mini-app. A 3D unstructured 
  for evaluating emerging architectures, programming paradigms and algorithmic optimisations for this
  class of code."""
 
-toolchain = {'name': 'foss', 'version': '2020b'}
+toolchain = {'name': 'iomkl', 'version': '2020b'}
 
 source_urls = ['https://github.com/warwick-hpsc/MG-CFD-app-plain/archive']
 sources = [
@@ -49,7 +49,7 @@ skipsteps = ['configure']
 
 buildininstalldir = True
 
-local_compiler = 'gnu'
+local_compiler = 'intel'
 build_cmd = 'make COMPILER=%s' % local_compiler
 install_cmd = 'chmod a+x run-scripts/*.py'
 
