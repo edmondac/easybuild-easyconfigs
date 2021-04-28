@@ -14,7 +14,8 @@ sources = ['%(version)s.tar.gz']
 checksums = ['3bfae1f23eacba53ee130dbd1a6acf617af4627a9b4e4581d64b20a99b4e2b60']
 
 builddependencies = [
-    ('Autotools', '20200321')
+    ('Autotools', '20200321'),
+    ('binutils', '2.35')
 ]
 
 buildininstalldir = True
