@@ -22,9 +22,11 @@ checksums = ['54481a038b929806cb5ee60a1071252a8636fdcf71b9810e9642bac281575b02']
 # shipped with ANSYS. So, we'll symlink libz.so (random innoffensive library) to libldap-2.4.so.2 - thus hiding all
 # the ldap functionality and not including any of those other libraries...
 postinstallcmds = [
-    'cp -r %(builddir)s/bear/* %(installdir)s/.',
+    'cp -r %(builddir)s/bear/* %(installdir)s/v211/.',
+    'chmod a+x %(installdir)s/v211/Framework/bin/Linux64/ssh',
+    'chmod a+x %(installdir)s/v211/licensingclient/linx64/ansyscl.bear',
     ('cd %(installdir)s/v211/licensingclient/linx64 && '
-     'ln -s %(installdir)/v211/Framework/bin/Linux64/libz.so libldap-2.4.so.2 && '
+     'ln -s %(installdir)s/v211/Framework/bin/Linux64/libz.so libldap-2.4.so.2 && '
      'mv ansyscl ansyscl.bin && '
      'ln -s ansyscl.bear ansyscl')]
 
