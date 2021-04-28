@@ -1,0 +1,34 @@
+easyblock = 'CMakeMake'
+
+name = 'abseil-cpp'
+version = '20210324.1'
+
+homepage = 'https://github.com/abseil/abseil-cpp'
+description = '''
+Abseil is an open-source collection of C++ code (compliant to C++11) designed to augment the C++ standard library
+'''
+
+toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+
+builddependencies = [
+    ('CMake', '3.16.4'),
+]
+
+            
+
+
+
+source_urls = [
+    'https://github.com/abseil/abseil-cpp/archive/refs/tags/',
+]
+sources = ['%s.tar.gz' % version]
+checksums = ['441db7c09a0565376ecacf0085b2d4c2bbedde6115d7773551bc116212c2a8d6']
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['include/absl', 'lib'],
+}
+
+
+moduleclass = 'devel'
+
