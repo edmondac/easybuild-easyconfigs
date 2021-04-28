@@ -13,11 +13,13 @@ toolchain = SYSTEM
 # Note that some of the content is duplicated across the ISOs but this can be overwritten
 # as required. N.B. ensure the copy operation also copies permissions.
 sources = [SOURCE_ZIP]
+patches = [('%(name)s-%(version)s_bear-el8.patch', 1)]
+checksums = [
+    '54481a038b929806cb5ee60a1071252a8636fdcf71b9810e9642bac281575b02',  # ANSYS-2021R1.zip
+    '276e29b6346f8e53d6504d556778ec0d6fef0cba01284236c2482a3cd055127a',  # ANSYS-2021R1_bear-el8.patch
+]
 
 # We include a patch to make ANSYS work on EL8 (tested on EL8.3)
-patches = [('%(name)s-%(version)s_bear-el8.patch', 1)]
-checksums = ['54481a038b929806cb5ee60a1071252a8636fdcf71b9810e9642bac281575b02']
-
 # ansyscl loads libldap-2.4.so.2 - which brings in the krb5 libraries and libk5crypto.so.3 doesn't like the openssl
 # shipped with ANSYS. So, we'll symlink libz.so (random innoffensive library) to libldap-2.4.so.2 - thus hiding all
 # the ldap functionality and not including any of those other libraries...
