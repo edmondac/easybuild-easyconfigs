@@ -1,0 +1,31 @@
+easyblock = 'CMakeMake'
+
+name = 'json-modern-cpp'
+version = '3.9.1'
+
+homepage = 'https://github.com/nlohmann/json'
+
+description = '''
+JSON for Modern C++
+'''
+
+toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+
+builddependencies = [
+    ('CMake', '3.16.4'),
+]
+
+source_urls = [
+    'https://github.com/nlohmann/json/archive/refs/tags/',
+]
+sources = ['v%s.tar.gz' % version]
+checksums = ['4cf0df69731494668bdd6460ed8cb269b68de9c19ad8c27abc24cd72605b2d5b']
+
+sanity_check_paths = {
+    'files': ['include/nlohmann/json.hpp'],
+    'dirs': ['include', 'lib64/cmake', 'lib64/pkgconfig'],
+}
+
+
+moduleclass = 'devel'
+

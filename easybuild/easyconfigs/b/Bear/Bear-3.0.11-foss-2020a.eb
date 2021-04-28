@@ -1,0 +1,39 @@
+easyblock = 'CMakeMake'
+
+name = 'Bear'
+version = '3.0.11'
+
+homepage = 'https://github.com/rizsotto/Bear'
+description = '''
+Bear is a tool that generates a compilation database for clang tooling.
+'''
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+builddependencies = [
+    ('CMake', '3.16.4'),
+    ('googletest', '1.10.0'),
+]
+
+dependencies = [
+    ('fmt', '7.0.3'),
+]
+                
+
+
+
+source_urls = [
+    'https://github.com/rizsotto/Bear/archive/refs/tags/',
+]
+
+sources = ['3.0.11.tar.gz']
+checksums = ['3f426b5b22cab1ed6146aaba1dd612cd387b7298915ca58a72386bc8c1c9d9da']
+
+sanity_check_paths = {
+    'files': ['bin/bear'],
+    'dirs': ['bin', 'libexec'],
+}
+
+
+moduleclass = 'devel'
+
