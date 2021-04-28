@@ -10,17 +10,19 @@ Bear is a tool that generates a compilation database for clang tooling.
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
+
+# Note: Bear downloads gRPC which has it's own
+# horrible chain of dependencies (incl. Google's own fork
+# of OpenSSL which isn't versioned, zlib, etc. etc.)
+# I spent quite a lot of time trying to add this all,
+# and eventually gave up, but it does mean that there 
+# is a hidden dependency.
 builddependencies = [
     ('CMake', '3.16.4'),
     ('googletest', '1.10.0'),
-]
-
-dependencies = [
     ('fmt', '7.0.3'),
+    ('json-modern-cpp', '3.9.1'), 
 ]
-                
-
-
 
 source_urls = [
     'https://github.com/rizsotto/Bear/archive/refs/tags/',
