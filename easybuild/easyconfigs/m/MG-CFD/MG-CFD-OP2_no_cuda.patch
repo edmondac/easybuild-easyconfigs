@@ -1,0 +1,12 @@
+diff -Nru MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile
+--- MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile	2021-04-28 13:20:08.254419000 +0100
++++ MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile	2021-04-28 14:03:49.378010813 +0100
+@@ -587,7 +587,7 @@
+ $(BIN_DIR)/mgcfd_openmp4: $(OP2_OMP4_OBJECTS)
+ 	mkdir -p $(BIN_DIR)
+ 	$(MPICPP) $(CPPFLAGS) $(OMPOFFLOAD) $(OPTIMISE) $^ $(MGCFD_LIBS) \
+-	    $(OP2_LIB) -lop2_openmp4 $(CUDA_LIB) -lcudart \
++	    $(OP2_LIB) -lop2_openmp4 \
+ 		$(PARMETIS_LIB) $(PTSCOTCH_LIB) $(HDF5_LIB) -lop2_hdf5 \
+ 	    -o $@
+ 

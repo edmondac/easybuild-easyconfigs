@@ -1,0 +1,11 @@
+diff -Nru MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile
+--- MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile	2021-04-28 13:20:08.254419000 +0100
++++ MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile	2021-04-28 14:29:03.056400356 +0100
+@@ -141,6 +141,7 @@
+   ## Disable C math function error checking, as prevents SIMD:
+   CFLAGS += -fno-math-errno
+   CPPFLAGS 	= $(CFLAGS)
++  CPPFLAGS += -Drestrict=__restrict__
+   OMPFLAGS 	= -fopenmp
+   MPIFLAGS 	= $(CPPFLAGS)
+ else

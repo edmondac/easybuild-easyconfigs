@@ -1,0 +1,46 @@
+diff -ru MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/run-scripts/aggregate-output-data.py MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/run-scripts/aggregate-output-data.py
+--- MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/run-scripts/aggregate-output-data.py	2021-04-28 13:20:08.416861000 +0100
++++ MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/run-scripts/aggregate-output-data.py	2021-04-28 15:02:06.837979787 +0100
+@@ -1,7 +1,6 @@
+ import os
+ import pandas as pd
+ import numpy as np
+-from sets import Set
+ import fnmatch
+ import argparse
+ 
+diff -ru MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/run-scripts/data-utils.py MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/run-scripts/data-utils.py
+--- MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/run-scripts/data-utils.py	2021-04-28 13:20:08.418850000 +0100
++++ MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/run-scripts/data-utils.py	2021-04-28 15:03:39.378703205 +0100
+@@ -1,5 +1,4 @@
+ import pandas as pd
+-from sets import Set
+ 
+ def grep(text, filepath):
+     found = False
+@@ -17,11 +16,11 @@
+ def get_data_colnames(df):
+     mg_cfd_data_colnames = ["iters", "computeTime", "syncTime", "fileIoTime", "wallTime", "count"]
+     op2_data_colnames = ["count", "total time", "plan time", "mpi time", "GB used", "GB total"]
+-    data_colnames = list(Set(mg_cfd_data_colnames+op2_data_colnames).intersection(Set(df.columns.values)))
++    data_colnames = list(set(mg_cfd_data_colnames+op2_data_colnames).intersection(set(df.columns.values)))
+     return data_colnames
+ 
+ def get_job_id_colnames(df):
+-    job_id_colnames = list(Set(df.columns.values).difference(Set(get_data_colnames(df))))
++    job_id_colnames = list(set(df.columns.values).difference(set(get_data_colnames(df))))
+ 
+     if len(job_id_colnames) == 0:
+         print("ERROR: get_job_id_colnames() failed to find any.")
+diff -ru MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/run-scripts/gen_job.py MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/run-scripts/gen_job.py
+--- MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/run-scripts/gen_job.py	2021-04-28 13:20:08.420437000 +0100
++++ MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/run-scripts/gen_job.py	2021-04-28 15:04:26.724747998 +0100
+@@ -459,7 +459,7 @@
+             batch_tmp.close()
+ 
+             ## Make batch script executable:
+-            os.chmod(batch_filepath, 0755)
++            os.chmod(batch_filepath, 0o755)
+ 
+             # Copy template 'submit.sh' to a temp file:
+             submit_tmp = NamedTemporaryFile(prefix='myprefix')

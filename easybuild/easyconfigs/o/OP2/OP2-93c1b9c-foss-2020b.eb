@@ -1,0 +1,56 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'OP2'
+version = '93c1b9c'
+
+homepage = "https://op-dsl.github.io/"
+description = """OP2 is an API with associated libraries and preprocessors to generate
+ parallel executables for applications on unstructured grids."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+source_urls = ['https://github.com/OP-DSL/OP2-Common/archive']
+sources = [
+    {
+        'filename': '%(version)s.tar.gz',
+        'extract_cmd': 'tar --strip-components=1 -xf %s'
+    }
+]
+checksums = ['f500e8279e2061ce04189381189a9239cfa687c04208d08ee0d905c528cdef12']
+
+dependencies = [
+    ('HDF5', '1.10.7'),
+    ('ParMETIS', '4.0.3'),
+    ('SCOTCH', '6.1.0', '-MG-CFD'),  # version with -DSCOTCH_PTHREAD removed from CFLAGS
+]
+
+skipsteps = ['configure']
+
+parallel = 1
+
+prebuildopts = 'export HDF5_INSTALL_PATH=$EBROOTHDF5 && '
+prebuildopts += 'export PARMETIS_INSTALL_PATH=$EBROOTPARMETIS && '
+prebuildopts += 'export PTSCOTCH_INSTALL_PATH=$EBROOTSCOTCH && '
+# fails without this, due to '-I$(MPI_INC)' in various places in fortran Makefile
+prebuildopts += 'export MPI_INSTALL_PATH=$EBROOTOPENMPI && '
+prebuildopts += 'export OP2_INSTALL_PATH=%(builddir)s/op2 && '
+prebuildopts += 'export OP2_COMPILER=gnu &&'
+
+build_cmd = 'cd op2/c && '
+build_cmd += 'make core hdf5 seq openmp openmp4 mpi_seq && '
+build_cmd += 'cd ../fortran && '
+build_cmd += 'make core hdf5 f_openmp f_openmp4 f_mpi_seq'
+
+files_to_copy = ['*']
+
+modextrapaths = {
+    'LD_LIBRARY_PATH': ['op2/c/lib', 'op2/fortran/lib']
+}
+
+sanity_check_paths = {
+    'files': ['op2/c/lib/libop2_mpi.a', 'op2/fortran/lib/libop2_for_mpi.a'],
+    'dirs': ['apps', 'op2/c/include', 'op2/fortran/include'],
+}
+
+moduleclass = 'phys'
