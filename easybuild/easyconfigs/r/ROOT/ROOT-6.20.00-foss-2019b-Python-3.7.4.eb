@@ -37,6 +37,7 @@ dependencies = [
     ('libjpeg-turbo', '2.0.3'),
     ('zstd', '1.4.4'),
     ('tbb', '2019_U9'),
+    ('glew', '2.1.0'),
 ]
 
 # disable some components
