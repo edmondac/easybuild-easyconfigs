@@ -45,4 +45,9 @@ sanity_check_commands = ['%(namelower)s --help', "python -c 'import openmc'"]
 
 modextrapaths = {'PYTHONPATH': ['lib/python%(pyshortver)s/site-packages']}
 
+# solution to warnings:
+# "UCX WARN IB: ibv_fork_init() was disabled or failed, yet a fork() has been issued."
+# "UCX WARN IB: data corruption might occur when using registered memory."
+modextravars = {'IBV_FORK_SAFE': '1'}
+
 moduleclass = 'phys'
