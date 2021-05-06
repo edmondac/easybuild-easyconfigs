@@ -23,7 +23,7 @@ dependencies = [
     ('json-cwx', '0.12'),
     ('HDF5', '1.10.7'),
     ('Silo', '4.10.2-bsd'),
-    ('TyphonIO', '1.6'),
+    ('TyphonIO', '1.6', '-Python-2.7.18'),
     ('exodus', '2021-04-05'),
 ]
 
