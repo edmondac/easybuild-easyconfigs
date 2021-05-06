@@ -1,0 +1,30 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'ConfigureMake'
+
+name = 'json-cwx'
+version = '0.12'
+
+homepage = "https://github.com/LLNL/json-cwx"
+description = """JSON-C with Extensions."""
+
+toolchain = {'name': 'GCCcore', 'version': '10.2.0'}
+
+source_urls = ['https://github.com/LLNL/json-cwx/archive']
+sources = ['%(version)s.tar.gz']
+checksums = ['3bfae1f23eacba53ee130dbd1a6acf617af4627a9b4e4581d64b20a99b4e2b60']
+
+builddependencies = [
+    ('Autotools', '20200321'),
+    ('binutils', '2.35')
+]
+
+buildininstalldir = True
+start_dir = 'json-cwx'
+preconfigopts = './autogen.sh &&'
+
+sanity_check_paths = {
+    'files': ['lib/libjson-cwx.a', 'lib/libjson-cwx.%s' % SHLIB_EXT, 'lib/pkgconfig/json-cwx.pc'],
+    'dirs': ['include/json-cwx'],
+}
+
+moduleclass = 'lib'

@@ -1,0 +1,55 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMake'
+
+name = 'exodus'
+version = '2021-04-05'
+
+homepage = "https://gsjaardema.github.io/seacas-docs/sphinx/html/index.html#exodus-library"
+description = """Exodus is a model developed to store and retrieve data for finite element analyses. It is used for
+ preprocessing (problem definition), postprocessing (results visualization), as well as code to code data transfer. An
+ Exodus data file is a random access, machine independent, binary file that is written and read via C, C++, or Fortran
+ library routines which comprise the Application Programming Interface. Exodus uses NetCDF Library as the on-disk
+ storage format."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+source_urls = ['https://github.com/gsjaardema/seacas/archive']
+sources = [
+    {
+        'filename': 'v%(version)s.tar.gz',
+        'extract_cmd': 'tar --strip-components=1 -xf %s',
+    }
+]
+patches = ['exodus-cmake.patch']
+checksums = [
+    '76f66eec1fec7aba30092c94c7609495e6b90d9dcb6f35b3ee188304d02c6e04',  # v2021-04-05.tar.gz
+    '3edb05e68d6821adda3582eb79bce0bd273d9e6db8ca3d6238199f241b30e3be',  # exodus-cmake.patch
+]
+
+builddependencies = [
+    ('CMake', '3.18.4')
+]
+
+dependencies = [
+    ('HDF5', '1.10.7'),
+    ('netCDF', '4.7.4'),
+    ('PnetCDF', '1.12.2'),
+    ('Python', '3.8.6'),
+    ('SciPy-bundle', '2020.11'),
+]
+
+buildininstalldir = True
+configure_cmd = '%(builddir)s/cmake-exodus'
+
+sanity_check_paths = {
+    'files': ['lib/%s' % x for x in ['exodus.py', 'exomerge.py', 'libexodus.a', 'libexodus_for.a',
+                                     'libexodus.%s' % SHLIB_EXT, 'libexodus_for.%s' % SHLIB_EXT,
+                                     'libexoIIv2c.a', 'libexoIIv2for.a', 'libexoIIv2for32.%s' % SHLIB_EXT]],
+    'dirs': ['include', 'SEACAS-Test'],
+}
+
+modextrapaths = {
+    'PYTHONPATH': 'lib',
+}
+
+moduleclass = 'lib'

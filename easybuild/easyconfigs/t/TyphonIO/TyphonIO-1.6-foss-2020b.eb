@@ -1,0 +1,49 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'CMakeMake'
+
+name = 'TyphonIO'
+version = '1.6'
+
+homepage = "https://github.com/UK-MAC/typhonio"
+description = """TyphonIO is a library of routines that perform input/output (I/O) of scientific data within application
+ codes. The library is available on HPC platforms and provides C/C++ and Fortran90 APIs to write and read
+ TyphonIO-format files. The TyphonIO files can be dumps for restart or visualization purposes and are completely
+ portable across HPC platforms, that is, a file written on one platform can be read on any other."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+source_urls = ['https://github.com/UK-MAC/typhonio/archive']
+sources = ['v%(version)s_CMake.tar.gz']
+patches = [
+    'TyphonIO-1.6_gfortran10.patch',
+    'TyphonIO-1.6_python3.patch',
+]
+checksums = [
+    'c9b7b2a7f4fa0b786f6b69c6426b67f42efc4ea6871323139d52cd44f4d0ff7c',  # v1.6_CMake.tar.gz
+    'e5b89346cb420e05e7ac9d2f88acfc424b9c9066c95c81812c753800c4fe98cb',  # TyphonIO-1.6_gfortran10.patch
+    '021737f9e005990b2ff88320c192d3fce09419cf19aab38309f669a74848c5c5',  # TyphonIO-1.6_python3.patch
+]
+
+builddependencies = [
+    ('CMake', '3.18.4')
+]
+
+dependencies = [
+    ('HDF5', '1.10.7'),
+    ('Python', '3.8.6'),
+]
+
+skipsteps = ['build']
+
+buildininstalldir = True
+
+configopts = '-DBUILD_FORTRAN_LIBRARY=ON'
+
+postinstallcmds = ['cp -r %(installdir)s/%(namelower)s-%(version)s_CMake/bin %(installdir)s']
+
+sanity_check_paths = {
+    'files': ['lib/libtyphonio.a', 'lib/libtyphonio_f.a'],
+    'dirs': ['bin', 'lib', 'share'],
+}
+
+moduleclass = 'lib'

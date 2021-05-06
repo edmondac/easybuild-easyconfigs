@@ -1,0 +1,21 @@
+diff -Nru typhonio-1.6_CMake.orig/bin/tpp.py typhonio-1.6_CMake/bin/tpp.py
+--- typhonio-1.6_CMake.orig/bin/tpp.py	2021-05-05 16:43:53.285313000 +0100
++++ typhonio-1.6_CMake/bin/tpp.py	2021-05-06 16:08:38.424917000 +0100
+@@ -43,7 +43,7 @@
+ 
+   a = len(sys.argv)
+   if a < 2 or a > 3:
+-    print "\nUsage:\n\t%s <input file> [output file]\n" % sys.argv[0]
++    print ("\nUsage:\n\t%s <input file> [output file]\n" % sys.argv[0])
+     sys.exit(1)
+ 
+   out_file = ""
+@@ -133,7 +133,7 @@
+ 
+       else:
+         if writeout == 1 or case == 0:
+-          print "%s" % (line)
++          print ("%s" % (line))
+ 
+   except tppEsacParseError:
+     print >> sys.stderr, "<tpp parse error line %s - !TPP ESAC detected without preceeding CASE statement>" % (line_no)
