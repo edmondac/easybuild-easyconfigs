@@ -3,7 +3,6 @@ easyblock = 'CMakeMake'
 
 name = 'TyphonIO'
 version = '1.6'
-versionsuffix = '-Python-%(pyver)s'
 
 homepage = "https://github.com/UK-MAC/typhonio"
 description = """TyphonIO is a library of routines that perform input/output (I/O) of scientific data within application
@@ -15,10 +14,14 @@ toolchain = {'name': 'foss', 'version': '2020b'}
 
 source_urls = ['https://github.com/UK-MAC/typhonio/archive']
 sources = ['v%(version)s_CMake.tar.gz']
-patches = ['TyphonIO-1.6_gfortran10.patch']
+patches = [
+    'TyphonIO-1.6_gfortran10.patch',
+    'TyphonIO-1.6_python3.patch',
+]
 checksums = [
     'c9b7b2a7f4fa0b786f6b69c6426b67f42efc4ea6871323139d52cd44f4d0ff7c',  # v1.6_CMake.tar.gz
     'e5b89346cb420e05e7ac9d2f88acfc424b9c9066c95c81812c753800c4fe98cb',  # TyphonIO-1.6_gfortran10.patch
+    '021737f9e005990b2ff88320c192d3fce09419cf19aab38309f669a74848c5c5',  # TyphonIO-1.6_python3.patch
 ]
 
 builddependencies = [
@@ -27,7 +30,7 @@ builddependencies = [
 
 dependencies = [
     ('HDF5', '1.10.7'),
-    ('Python', '2.7.18'),
+    ('Python', '3.8.6'),
 ]
 
 skipsteps = ['build']
