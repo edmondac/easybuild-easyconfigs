@@ -1,0 +1,25 @@
+diff -Nru seacas-2021-04-05.orig/cmake-exodus seacas-2021-04-05/cmake-exodus
+--- seacas-2021-04-05.orig/cmake-exodus	2021-05-05 19:47:17.016430000 +0100
++++ seacas-2021-04-05/cmake-exodus	2021-05-05 20:15:21.920459000 +0100
+@@ -23,7 +23,7 @@
+ INSTALL_PATH=${INSTALL_PATH:-${ACCESS}}
+ 
+ ### Set to ON for parallel compile; otherwise OFF for serial (default)
+-netcdf_parallel=`$INSTALL_PATH/bin/nc-config --has-parallel`
++netcdf_parallel=`${EBROOTNETCDF}/bin/nc-config --has-parallel`
+ if [ "${netcdf_parallel}" == "yes" ]
+ then
+     MPI=ON
+@@ -124,9 +124,9 @@
+ ### Make sure these point to the locations to find the libraries and includes in lib and include
+ ### subdirectories of the specified paths.
+ ### For example, netcdf.h should be in ${NETCDF_PATH}/include
+-NETCDF_PATH=${INSTALL_PATH}
+-PNETCDF_PATH=${INSTALL_PATH}
+-HDF5_PATH=${INSTALL_PATH}
++NETCDF_PATH=${EBROOTNETCDF}
++PNETCDF_PATH=${EBROOTPNETCDF}
++HDF5_PATH=${EBROOTHDF5}
+ 
+ function check_enable()
+ {

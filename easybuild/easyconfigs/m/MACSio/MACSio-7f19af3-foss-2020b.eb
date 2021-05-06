@@ -5,9 +5,11 @@ name = 'MACSio'
 version = '7f19af3'
 
 homepage = "https://macsio.readthedocs.io"
-description = """A Multi-purpose, Application-Centric, Scalable I/O Proxy Application. MACSio is being developed to fill
- a long existing void in co-design proxy applications that allow for I/O performance testing and evaluation of tradeoffs
- in data models, I/O library interfaces and parallel I/O paradigms for multi-physics, HPC applications.
+description = """A Multi-purpose, Application-Centric, Scalable I/O Proxy Application.
+
+MACSio is being developed to fill a long existing void in co-design proxy applications that allow for I/O performance
+testing and evaluation of tradeoff in data models, I/O library interfaces and parallel I/O paradigms for multi-physics,
+HPC applications.
 """
 
 toolchain = {'name': 'foss', 'version': '2020b'}
@@ -21,13 +23,17 @@ dependencies = [
     ('json-cwx', '0.12'),
     ('HDF5', '1.10.7'),
     ('Silo', '4.10.2-bsd'),
+    ('TyphonIO', '1.6'),
+    ('exodus', '2021-04-05'),
 ]
 
 buildininstalldir = True
 
 configopts = '-DWITH_JSON-CWX_PREFIX=$EBROOTJSONMINCWX '
 configopts += '-DWITH_SILO_PREFIX=$EBROOTSILO '
-configopts += '-DENABLE_HDF5_PLUGIN=ON -DWITH_HDF5_PREFIX=$EBROOTHDF5'
+configopts += '-DENABLE_HDF5_PLUGIN=ON -DWITH_HDF5_PREFIX=$EBROOTHDF5 '
+configopts += '-DENABLE_TYPHONIO_PLUGIN=ON -DWITH_TYPHONIO_PREFIX=$EBROOTTYPHONIO '
+configopts += '-DENABLE_EXODUS_PLUGIN=ON -DWITH_EXODUS_PREFIX=$EBROOTEXODUS'
 
 modextrapaths = {
     'PATH': '',
