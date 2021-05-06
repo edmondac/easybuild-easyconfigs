@@ -1,0 +1,12 @@
+diff -Nru typhonio-1.6_CMake.orig/cmake/SetFortranFlags.cmake typhonio-1.6_CMake/cmake/SetFortranFlags.cmake
+--- typhonio-1.6_CMake.orig/cmake/SetFortranFlags.cmake	2021-05-05 16:43:53.117461000 +0100
++++ typhonio-1.6_CMake/cmake/SetFortranFlags.cmake	2021-05-05 16:45:51.723445000 +0100
+@@ -154,3 +154,8 @@
+                          "/Qvec-report0" # Intel Windows
+                          "-Mvect"        # Portland Group
+                 )
++
++# Allow argument mismatches with gfortran 10
++SET_COMPILE_FLAG(CMAKE_Fortran_FLAGS_RELEASE "${CMAKE_Fortran_FLAGS_RELEASE}"
++                 Fortran "-fallow-argument-mismatch"  # Gnu
++                )

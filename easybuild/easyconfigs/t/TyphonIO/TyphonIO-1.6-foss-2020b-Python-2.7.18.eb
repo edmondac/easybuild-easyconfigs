@@ -3,6 +3,7 @@ easyblock = 'CMakeMake'
 
 name = 'TyphonIO'
 version = '1.6'
+versionsuffix = '-Python-%(pyver)s'
 
 homepage = "https://github.com/UK-MAC/typhonio"
 description = """TyphonIO is a library of routines that perform input/output (I/O) of scientific data within application
