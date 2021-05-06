@@ -6,7 +6,6 @@ version = '0.5.0'
 homepage = "https://github.com/GenABEL-Project/ProbABEL"
 description = """Tool for genome-wide association analysis of imputed genetic data."""
 
-#toolchain = SYSTEM
 toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 toolchainopts = {'cstd': 'c++03'}
 
