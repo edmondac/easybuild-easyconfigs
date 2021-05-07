@@ -18,6 +18,7 @@ dependencies = [
     ('pept', '0.3.2', versionsuffix),
     ('OpenCV', '4.4.0', versionsuffix),
     ('NLopt', '2.6.1', versionsuffix),
+    ('gensim', '4.0.1', versionsuffix),
 ]
 
 moduleclass = 'tools'
