@@ -1,0 +1,12 @@
+diff -Nru TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7.orig/Makefile TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7/Makefile
+--- TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7.orig/Makefile	2021-04-19 16:14:17.812981000 +0100
++++ TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7/Makefile	2021-04-21 15:22:30.279368079 +0100
+@@ -76,7 +76,7 @@
+ 
+ FLAGS_INTEL     = -O3 -no-prec-div -fpp -align array64byte
+ FLAGS_SUN       = -fast -xipo=2 -Xlistv4
+-FLAGS_GNU       = -O3 -march=native -funroll-loops -cpp -ffree-line-length-none
++FLAGS_GNU       = -O3 -march=native -funroll-loops -cpp -ffree-line-length-none -fallow-argument-mismatch
+ FLAGS_CRAY      = -em -ra -h acc_model=fast_addr:no_deep_copy:auto_async_all
+ FLAGS_PGI       = -fastsse -gopt -Mipa=fast -Mlist
+ FLAGS_PATHSCALE = -O3

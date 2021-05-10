@@ -1,0 +1,53 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'TeaLeaf'
+local_version = '019aa2f'
+version = 'ref-%s' % local_version
+
+homepage = "https://uk-mac.github.io/TeaLeaf/"
+description = """TeaLeaf is a mini-app that solves the linear heat conduction equation on a spatially
+ decomposed regularly grid using a 5 point stencil with implicit solvers."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+source_urls = ['https://github.com/UK-MAC/TeaLeaf_ref/archive']
+sources = ['%s.tar.gz' % local_version]
+patches = [
+    'TeaLeaf_gfortran_10.patch',
+    'TeaLeaf_jacobi_kernel.patch'
+]
+checksums = [
+    '2801304ea99223378c47e39e8ef3f5c80dc77f6ff0a76de76a80484e39f05166',  # 019aa2f.tar.gz
+    'ea54c46bcd55a46d977fec754593030e5d7a8fabe1ae319d5c8754179544cc78',  # TeaLeaf_gfortran_10.patch
+    '8fcbdeb96988d6bec7dfd7c7cf1a1e630a6c143ec9a7a73074dc7e0009258d99',  # TeaLeaf_jacobi_kernel.patch
+]
+
+skipsteps = ['configure']
+
+build_cmd = 'make COMPILER=GNU MPI_COMPILER=mpif90 C_MPI_COMPILER=mpicc IEEE=1'
+
+files_to_copy = [
+    (['tea_leaf'], 'bin'),
+    (['*.f90', '*.c', 'kernels', 'Makefile', 'tea.in'], 'src'),
+    'Benchmarks', 'README.md',
+]
+
+sanity_check_paths = {
+    'files': ['bin/tea_leaf'],
+    'dirs': ['Benchmarks'],
+}
+
+sanity_check_commands = [
+    'cp Benchmarks/tea_bm_1.in tea.in',
+    'sed -i s/tl_use_cg/tl_use_jacobi/ tea.in',  # use Jacobi solver for test
+    'export OMP_NUM_THREADS=${SLURM_NTASKS} && srun -n 1 tea_leaf',
+    'cat tea.out',
+    'if [[ $(grep -L "considered PASSED" tea.out) ]]; then echo "TEST FAILED" && exit 1; fi',
+    'export OMP_NUM_THREADS=1 && srun -n ${SLURM_NTASKS} tea_leaf',
+    'cat tea.out',
+    'if [[ $(grep -L "considered PASSED" tea.out) ]]; then echo "TEST FAILED" && exit 1; fi',
+    'rm tea.*',
+]
+
+moduleclass = 'phys'

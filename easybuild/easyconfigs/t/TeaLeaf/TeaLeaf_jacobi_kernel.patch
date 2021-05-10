@@ -1,0 +1,14 @@
+diff -Nru TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7.orig/kernels/tea_leaf_jacobi_kernel.f90 TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7/kernels/tea_leaf_jacobi_kernel.f90
+--- TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7.orig/kernels/tea_leaf_jacobi_kernel.f90	2021-04-19 16:14:17.851021000 +0100
++++ TeaLeaf_ref-019aa2f7da9df9559e6a0890d14f961738711ca7/kernels/tea_leaf_jacobi_kernel.f90	2021-04-21 15:50:19.147700000 +0100
+@@ -52,8 +52,8 @@
+ 
+ !$OMP PARALLEL
+ !$OMP DO
+-    DO k=y_min, y_max
+-      DO j=x_min, x_max
++    DO k=y_min-halo_exchange_depth, y_max+halo_exchange_depth
++      DO j=x_min-halo_exchange_depth, x_max+halo_exchange_depth
+         un(j,k) = u1(j,k)
+       ENDDO
+     ENDDO
