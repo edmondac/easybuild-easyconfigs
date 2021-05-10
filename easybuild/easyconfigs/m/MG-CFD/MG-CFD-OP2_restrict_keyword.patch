@@ -1,6 +1,6 @@
 diff -Nru MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile
 --- MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile	2021-04-28 13:20:08.254419000 +0100
-+++ MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile	2021-04-28 14:29:03.056400356 +0100
++++ MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile	2021-05-10 17:30:16.650796337 +0100
 @@ -141,6 +141,7 @@
    ## Disable C math function error checking, as prevents SIMD:
    CFLAGS += -fno-math-errno
@@ -9,3 +9,31 @@ diff -Nru MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile 
    OMPFLAGS 	= -fopenmp
    MPIFLAGS 	= $(CPPFLAGS)
  else
+@@ -319,6 +320,9 @@
+ endif
+ NVCCFLAGS += $(CODE_GEN_CUDA) -m64 -Xptxas -dlcm=ca -Xptxas=-v -use_fast_math -O3
+ 
++ifeq ($(COMPILER),gnu)
++	NVCCFLAGS += -Drestrict=__restrict__
++endif
+ 
+ MGCFD_INCS := -Isrc -Isrc/Kernels
+ 
+@@ -542,7 +546,7 @@
+ ## CUDA
+ $(OBJ_DIR)/mgcfd_cuda_main.o: $(OP2_MAIN_SRC)
+ 	mkdir -p $(OBJ_DIR)
+-	$(MPICPP) $(CFLAGS) $(OPTIMISE) $(MGCFD_INCS) $(OP2_INC) $(HDF5_INC) \
++	$(MPICPP) $(CPPFLAGS) $(OPTIMISE) $(MGCFD_INCS) $(OP2_INC) $(HDF5_INC) \
+ 	    -DCUDA_ON -c -o $@ $^
+ $(OBJ_DIR)/mgcfd_kernels_cu.o: $(SRC_DIR)/../cuda/_kernels.cu $(CUDA_KERNELS)
+ 	mkdir -p $(OBJ_DIR)
+@@ -562,7 +566,7 @@
+         -c -o $@ $(SRC_DIR)/../cuda/_kernels.cu
+ $(OBJ_DIR)/mgcfd_mpi_cuda_main.o: $(OP2_MAIN_SRC)
+ 	mkdir -p $(OBJ_DIR)
+-	$(MPICPP) $(CFLAGS) $(OPTIMISE) $(MGCFD_INCS) $(OP2_INC) $(HDF5_INC) \
++	$(MPICPP) $(CPPFLAGS) $(OPTIMISE) $(MGCFD_INCS) $(OP2_INC) $(HDF5_INC) \
+         -DCUDA_ON -c -o $@ $^
+ $(BIN_DIR)/mgcfd_mpi_cuda: $(OP2_MPI_CUDA_OBJECTS)
+ 	mkdir -p $(BIN_DIR)

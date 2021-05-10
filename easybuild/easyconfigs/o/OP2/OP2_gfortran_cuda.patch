@@ -1,0 +1,12 @@
+diff -Nru OP2-Common-93c1b9c7028d470c3f9e57ee576370fa6a80e046.orig/op2/fortran/Makefile OP2-Common-93c1b9c7028d470c3f9e57ee576370fa6a80e046/op2/fortran/Makefile
+--- OP2-Common-93c1b9c7028d470c3f9e57ee576370fa6a80e046.orig/op2/fortran/Makefile	2021-04-28 10:19:19.733787000 +0100
++++ OP2-Common-93c1b9c7028d470c3f9e57ee576370fa6a80e046/op2/fortran/Makefile	2021-05-06 19:47:47.360940047 +0100
+@@ -152,6 +152,8 @@
+   CFLAGS          = -g -O2 -std=c99 -fPIC -Wall -pedantic -pipe $(DEBUG_FLAGS)
+   CFLAGS_SLOW     = -g -O2 -std=c99 -fPIC -Wall -pedantic -pipe $(DEBUG_FLAGS)
+   FC              = gfortran  -DOP2_ARG_POINTERS -ffixed-line-length-none -ffree-line-length-none #ftn
++  PGFC 		      = $(FC)
++  NVCC            = nvcc
+   FFLAGS          = -g -O2 -J$(F_INC_MOD) -fPIC -Wall -pedantic -pipe $(DEBUG_FLAGS)
+   FMPI_FLAGS	  = -J$(F_MPI_INC_MOD) -fPIC -Wall -pedantic -pipe $(DEBUG_FLAGS)
+   MPICC           = mpicc #cc

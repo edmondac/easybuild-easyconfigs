@@ -1,0 +1,17 @@
+diff -Nru MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile
+--- MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0.orig/Makefile	2021-04-28 13:20:08.254419000 +0100
++++ MG-CFD-app-OP2-ab24d852e8b4c2c084080c56eac94be63c8111a0/Makefile	2021-05-10 17:34:06.579871554 +0100
+@@ -307,6 +307,13 @@
+ ifeq ($(OP2_COMPILER),hipsycl)
+   SYCL_FLAGS += --hipsycl-gpu-arch=sm_70
+ endif
++else
++ifeq ($(NV_ARCH),Ampere)
++  CODE_GEN_CUDA=-gencode arch=compute_80,code=sm_80
++ifeq ($(OP2_COMPILER),hipsycl)
++  SYCL_FLAGS += --hipsycl-gpu-arch=sm_80
++endif
++endif
+ endif
+ endif
+ endif
