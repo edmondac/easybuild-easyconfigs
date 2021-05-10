@@ -1,0 +1,97 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+import os as _os
+
+easyblock = 'ConfigureMake'
+
+name = 'MG-CFD'
+local_commit = 'ab24d85'
+version = 'OP2-%s' % local_commit
+
+homepage = "https://github.com/warwick-hpsc/MG-CFD-app-OP2"
+description = """OP2 port of MG-CFD."""
+
+toolchain = {'name': 'fosscuda', 'version': '2020b'}
+
+source_urls = ['https://github.com/warwick-hpsc/MG-CFD-app-OP2/archive']
+sources = [
+    # MG-CFD-OP2
+    {
+        'filename': '%s.tar.gz' % local_commit,
+        'extract_cmd': 'tar --strip-components=1 -xf %s'
+    },
+    # Input files
+    {
+        'source_urls': ['https://github.com/warwick-hpsc/MG-CFD-app-plain/releases/download/v1.0.0-rc1'],
+        'filename': 'm6wing.tar.gz',
+        'extract_cmd': 'mkdir inputs && tar -C inputs -xf %s'
+    },
+    {
+        'source_urls': ['https://github.com/warwick-hpsc/MG-CFD-app-plain/releases/download/v1.0.0-rc1'],
+        'filename': 'fvcorr.domn.097K.tar.gz',
+        'extract_cmd': 'tar -C inputs -xf %s'   
+    },
+]
+patches = [
+    'MG-CFD-OP2_restrict_keyword.patch',
+    'MG-CFD-OP2_nvarch.patch',
+    'MG-CFD-OP2_scripts.patch'
+]
+checksums = [
+    '156b2bb33fd98a4d12dffa0d59c5219f0dbedc4c357416f182ee850d3d5dc3ef',  # ab24d85.tar.gz
+    '2867f1b2fdb7971939b32c24b6d8cab3a4af45498c31b9a7db1d4801d55620b4',  # m6wing.tar.gz
+    '0c2a8f90c1aa1f5a25216b5577795935f178b33c02bc778fa1e3fbf39fdb9eae',  # fvcorr.domn.097K.tar.gz
+    '9e74ac469e253fd4c88990b263e0e8d1fe3a82c356ee27b43bcc8a11b5f6840d',  # MG-CFD-OP2_restrict_keyword.patch
+    '46db5db1478634ec630474c52a81432f6cda8fa5cc52908b7813bcf98b3d379c',  # MG-CFD-OP2_nvarch.patch
+    '95be6324f094652862d36ad4865cce8d32d445cee98eea295c0ec754ff80e7e8',  # MG-CFD-OP2_scripts.patch
+]
+
+dependencies = [
+    ('HDF5', '1.10.7'),
+    ('ParMETIS', '4.0.3'),
+    ('SCOTCH', '6.1.0', '-MG-CFD'),  # version with -DSCOTCH_PTHREAD removed from CFLAGS
+    ('OP2', '93c1b9c'),
+    ('PAPI', '6.0.0'),
+    ('Python', '3.8.6'),
+    ('SciPy-bundle', '2020.11'),
+    ('matplotlib', '3.3.3'),
+]
+
+skipsteps = ['configure']
+
+buildininstalldir = True
+
+_arch = _os.environ.get('BB_CPU')
+if _arch == 'haswell':
+    _nvarch = 'Pascal'
+elif _arch == 'power9':
+    _nvarch = 'Volta'
+else:
+    _nvarch = 'Ampere'
+
+prebuildopts = 'export HDF5_INSTALL_PATH=$EBROOTHDF5 && '
+prebuildopts += 'export PARMETIS_INSTALL_PATH=$EBROOTPARMETIS && '
+prebuildopts += 'export PTSCOTCH_INSTALL_PATH=$EBROOTSCOTCH && '
+prebuildopts += 'export OP2_INSTALL_PATH=$EBROOTOP2/op2 && '
+prebuildopts += 'export MPI_INSTALL_PATH=$EBROOTOPENMPI && '
+prebuildopts += 'export PAPI=ON && '
+prebuildopts += 'export NV_ARCH=%s && ' % _nvarch
+prebuildopts += 'export OP2_COMPILER=gnu &&'
+
+build_cmd = 'make seq openmp mpi mpi_vec mpi_openmp openmp4 cuda mpi_cuda'
+
+install_cmd = 'chmod a+x run-scripts/*.py'
+
+fix_python_shebang_for = ['run-scripts/*.py']
+
+modextrapaths = {
+    'PATH': 'run-scripts',
+}
+
+sanity_check_paths = {
+    'files': ['bin/mgcfd_%s' % x for x in ['mpi', 'seq', 'openmp', 'openmp4', 'mpi_openmp', 'cuda', 'mpi_cuda']],
+    'dirs': ['run-inputs', 'run-scripts', 'run-templates', 'inputs/m6wing', 'inputs/fvcorr.domn.097K'],
+}
+
+sanity_check_commands = ['mgcfd_seq --help || true']
+
+moduleclass = 'phys'
