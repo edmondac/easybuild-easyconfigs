@@ -1,0 +1,51 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+import os as _os
+
+easyblock = 'MakeCp'
+
+name = 'TeaLeaf'
+local_version = '0ecb1a4'
+version = 'CUDA-%s' % local_version
+
+homepage = "https://uk-mac.github.io/TeaLeaf/"
+description = """TeaLeaf is a mini-app that solves the linear heat conduction equation on a spatially
+ decomposed regularly grid using a 5 point stencil with implicit solvers."""
+
+toolchain = {'name': 'fosscuda', 'version': '2020b'}
+
+source_urls = ['https://github.com/UK-MAC/TeaLeaf_CUDA/archive']
+sources = ['%s.tar.gz' % local_version]
+patches = [
+    'TeaLeaf-CUDA_makefile.patch',
+]
+checksums = [
+    'bb5dc1ba04566a2df43c427dbc280bcd3e7ff601ee3876f17bbaf7048063f9e3',  # 0ecb1a4.tar.gz
+    '498ede82a461cf76408c9304f7b43d885305ab88b7e78f396869309ae641be2e',  # TeaLeaf-CUDA_makefile.patch
+]
+
+skipsteps = ['configure']
+
+parallel = 1
+
+_arch = _os.environ.get('BB_CPU')
+if _arch == 'haswell':
+    _nvarch = 'PASCAL'
+elif _arch == 'power9':
+    _nvarch = 'VOLTA'
+else:
+    _nvarch = 'AMPERE'
+
+build_cmd = 'make COMPILER=GNU MPI_COMPILER=mpif90 C_MPI_COMPILER=mpicc IEEE=1 NV_ARCH=%s' % _nvarch
+
+files_to_copy = [
+    (['tea_leaf'], 'bin'),
+    (['*.f90', '*.c', 'kernel_files', 'Makefile', 'tea.in'], 'src'),
+    'Benchmarks', 'README.md',
+]
+
+sanity_check_paths = {
+    'files': ['bin/tea_leaf'],
+    'dirs': ['Benchmarks'],
+}
+
+moduleclass = 'phys'

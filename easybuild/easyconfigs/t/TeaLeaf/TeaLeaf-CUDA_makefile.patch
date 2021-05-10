@@ -1,0 +1,36 @@
+diff -Nru TeaLeaf_CUDA-0ecb1a474304c4ea916503fe6ef594f5d3f6703d.orig/Makefile TeaLeaf_CUDA-0ecb1a474304c4ea916503fe6ef594f5d3f6703d/Makefile
+--- TeaLeaf_CUDA-0ecb1a474304c4ea916503fe6ef594f5d3f6703d.orig/Makefile	2021-05-06 15:40:44.962998000 +0100
++++ TeaLeaf_CUDA-0ecb1a474304c4ea916503fe6ef594f5d3f6703d/Makefile	2021-05-10 19:28:49.432608216 +0100
+@@ -61,7 +61,7 @@
+ 
+ # Add home directory
+ 
+-CUDA_HOME=/usr/local/cuda-9.2/
++CUDA_HOME=${EBROOTCUDA}
+ 
+ ifndef COMPILER
+   MESSAGE=select a compiler to compile in OpenMP, e.g. make COMPILER=INTEL
+@@ -78,7 +78,7 @@
+ 
+ FLAGS_INTEL     = -O3 -fpp -no-prec-div
+ FLAGS_SUN       = -fast -xipo=2 -Xlistv4
+-FLAGS_GNU       = -O3 -march=native -funroll-loops -cpp
++FLAGS_GNU       = -O3 -march=native -funroll-loops -cpp -fallow-argument-mismatch
+ FLAGS_CRAY      = -em -ra -h acc_model=fast_addr:no_deep_copy:auto_async_all
+ FLAGS_PGI       = -fastsse -gopt -Mipa=fast -Mlist
+ FLAGS_PATHSCALE = -O3
+@@ -124,13 +124,13 @@
+ 
+ # flags for nvcc
+ # set NV_ARCH to select the correct one
+-NV_ARCH=VOLTA
+ CODE_GEN_FERMI=-gencode arch=compute_20,code=sm_21
+ CODE_GEN_KEPLER=-gencode arch=compute_35,code=sm_35
+ CODE_GEN_KEPLER_CONSUMER=-gencode arch=compute_30,code=sm_30
+ CODE_GEN_MAXWELL=-gencode arch=compute_50,code=sm_50
+ CODE_GEN_PASCAL=-gencode arch=compute_60,code=sm_60
+ CODE_GEN_VOLTA=-gencode arch=compute_70,code=sm_70
++CODE_GEN_AMPERE=-gencode arch=compute_80,code=sm_80
+ LDLIBS+=-lstdc++ -lcudart
+ 
+ FLAGS=$(FLAGS_$(COMPILER)) $(OMP) $(I3E) $(OPTIONS) -g
