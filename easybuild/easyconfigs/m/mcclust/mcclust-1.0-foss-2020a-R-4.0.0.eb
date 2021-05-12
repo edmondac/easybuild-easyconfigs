@@ -6,7 +6,9 @@ version = '1.0'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://cran.r-project.org/package=mcclust"
-description = """"""
+description = """Implements methods for processing a sample of (hard) clusterings, e.g. the MCMC output of a Bayesian
+ clustering model. Among them are methods that find a single best clustering to represent the sample, which are based
+ on the posterior similarity matrix or a relabelling algorithm."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
