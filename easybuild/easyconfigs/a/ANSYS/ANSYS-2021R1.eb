@@ -19,6 +19,11 @@ checksums = [
     '276e29b6346f8e53d6504d556778ec0d6fef0cba01284236c2482a3cd055127a',  # ANSYS-2021R1_bear-el8.patch
 ]
 
+# To run the workbench "runwb2" certain deps are required, otherwise you get an error saying:
+# "System.DllNotFoundException: Ans.QT.dll":
+osdependencies = ['libxslt']
+dependencies = [('libpng', '1.2.59')]
+
 # We include a patch to make ANSYS work on EL8 (tested on EL8.3)
 # ansyscl loads libldap-2.4.so.2 - which brings in the krb5 libraries and libk5crypto.so.3 doesn't like the openssl
 # shipped with ANSYS. So, we'll symlink libz.so (random innoffensive library) to libldap-2.4.so.2 - thus hiding all
