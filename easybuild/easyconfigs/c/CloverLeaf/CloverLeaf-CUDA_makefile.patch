@@ -1,0 +1,27 @@
+diff -Nru CloverLeaf_CUDA-aec3bbfdca040be25c70fa9570ff2c5707b64ebc.orig/Makefile CloverLeaf_CUDA-aec3bbfdca040be25c70fa9570ff2c5707b64ebc/Makefile
+--- CloverLeaf_CUDA-aec3bbfdca040be25c70fa9570ff2c5707b64ebc.orig/Makefile	2021-04-19 14:21:24.929733000 +0100
++++ CloverLeaf_CUDA-aec3bbfdca040be25c70fa9570ff2c5707b64ebc/Makefile	2021-05-10 19:43:34.107375000 +0100
+@@ -39,7 +39,7 @@
+ 
+ FLAGS_INTEL     = -O3 -ipo
+ FLAGS_SUN       = -O2
+-FLAGS_GNU       = -O2
++FLAGS_GNU       = -O2 -fallow-argument-mismatch
+ FLAGS_CRAY      = -O2 -em -ra -f free -F
+ FLAGS_PGI       = -O2 -Mpreprocess
+ FLAGS_PATHSCALE = -O2
+@@ -81,12 +81,13 @@
+ 
+ # flags for nvcc
+ # set NV_ARCH to select the correct one
+-NV_ARCH=KEPLER
+ CODE_GEN_FERMI=-gencode arch=compute_20,code=sm_21
+ CODE_GEN_KEPLER=-gencode arch=compute_35,code=sm_35
+ CODE_GEN_KEPLER_CONSUMER=-gencode arch=compute_30,code=sm_30
+ CODE_GEN_MAXWELL=-gencode arch=compute_50,code=sm_50
+ CODE_GEN_PASCAL=-gencode arch=compute_60,code=sm_60
++CODE_GEN_VOLTA=-gencode arch=compute_70,code=sm_70
++CODE_GEN_AMPERE=-gencode arch=compute_80,code=sm_80
+ 
+ LDLIBS+=-lstdc++ -lcudart
+ 

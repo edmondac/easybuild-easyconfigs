@@ -1,0 +1,44 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'CloverLeaf'
+local_version = '2efdde2'
+version = 'ref-%s' % local_version
+
+homepage = "https://uk-mac.github.io/CloverLeaf/"
+description = """CloverLeaf is a mini-app that solves the compressible Euler equations on a Cartesian
+ grid, using an explicit, second-order accurate method."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+source_urls = ['https://github.com/UK-MAC/CloverLeaf_ref/archive']
+sources = ['%s.tar.gz' % local_version]
+checksums = ['97b5fe63ded1efd32294f214819824b03f1d291475fefdd81abbc0873fd890b9']
+
+skipsteps = ['configure']
+
+build_cmd = 'make COMPILER=GNU MPI_COMPILER=mpif90 C_MPI_COMPILER=mpicc IEEE=1'
+
+files_to_copy = [
+    (['clover_leaf'], 'bin'),
+    (['*.f90', '*.c', 'kernels', 'Makefile', 'clover.in'], 'src'),
+    'InputDecks', 'README.md',
+]
+
+sanity_check_paths = {
+    'files': ['bin/clover_leaf'],
+    'dirs': ['InputDecks'],
+}
+
+sanity_check_commands = [
+    'cp InputDecks/clover_bm_short.in clover.in',
+    'export OMP_NUM_THREADS=${SLURM_NTASKS} && srun -n 1 clover_leaf',
+    'cat clover.out',
+    'if [[ $(grep -L "considered PASSED" clover.out) ]]; then echo "TEST FAILED" && exit 1; fi',
+    'export OMP_NUM_THREADS=1 && srun -n ${SLURM_NTASKS} clover_leaf',
+    'cat clover.out',
+    'if [[ $(grep -L "considered PASSED" clover.out) ]]; then echo "TEST FAILED" && exit 1; fi',
+    'rm clover.*',
+]
+
+moduleclass = 'phys'
