@@ -35,7 +35,7 @@ use_pip = True
 # required because we're building a Python package using Intel compilers on top of Python built with GCC
 check_ldshared = True
 
-runtest = "export MATPLOTLIBRC=$PWD; echo 'backend: agg' > $MATPLOTLIBRC/matplotlibrc; "
+runtest = "export MATPLOTLIBRC=$PWD; echo 'backend: agg' > $MATPLOTLIBRC/matplotlibrc; export IBV_FORK_SAFE=1;"
 runtest += "python setup.py build_ext -i; nosetests -v"
 
 sanity_check_paths = {
