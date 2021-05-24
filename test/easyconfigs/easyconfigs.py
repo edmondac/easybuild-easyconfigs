@@ -273,6 +273,11 @@ class EasyConfigTest(TestCase):
             'TensorFlow': ('1.13.1;', ['medaka-0.11.4-', 'medaka-0.12.0-', 'artic-ncov2019-2020.04.13']),
             # rampart requires nodejs > 10, artic-ncov2019 requires rampart
             'nodejs': ('12.16.1', ['rampart-1.2.0rc3-', 'artic-ncov2019-2020.04.13']),
+            # ANSYSEM requires libpng 1.2.58
+            'libpng': ('1.2.58', ['ANSYSEM-2021R1-', 'X11-20200222-', 'libdrm-2.4.100-', 'fontconfig-2.13.92-',
+                                  'Mesa-20.0.2-', 'freetype-2.10.1-']),
+            # ANSYSEM requires dri version of Mesa
+            'Mesa': (r'20\.0\.2.+-dri', ['ANSYSEM-']),
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
