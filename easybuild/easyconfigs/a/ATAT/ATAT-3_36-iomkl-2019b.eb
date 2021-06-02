@@ -17,7 +17,7 @@ patches = [
 ]
 checksums = [
     'e829da5b714a012b5fc456d1060cfdb784642a8c0cbb702d409497b65466ee39',  # atat3_36.tar.gz
-    'ada624b80488cf2390b69f3fd23bbc1784834d318ac9d3c421dd4a2d9bb828df',  # atat3_36-makefile.patch
+    'd0eb67e3f156ddb78943a98f37dd9aa2a185ecb9fcc6e146a9b8fa589d9d93ef',  # atat3_36-makefile.patch
     'b26c9e45402aa9dd945daeb388d840bf7cf3e31c7946903b3d505d9311431fe0',  # atat3_36-ezvasp.patch
 ]
 
