@@ -27,6 +27,7 @@ dependencies = [
     ('wittgenstein', '0.2.3', versionsuffix),
     ('statsmodels', '0.11.1', versionsuffix),
     ('plotly.py', '4.8.1'),
+    ('sequenza-utils', '3.0.0', '%(versionsuffix)s-R-4.0.0'),
 ]
 
 moduleclass = 'tools'
