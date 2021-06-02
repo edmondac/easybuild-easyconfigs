@@ -35,4 +35,11 @@ use_pip = True
 
 options = {'modulename': 'sequenza'}
 
+sanity_check_paths = {
+    'files': ['bin/sequenza-utils'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages']
+}
+
+sanity_check_commands = ['sequenza-utils --help']
+
 moduleclass = 'bio'
