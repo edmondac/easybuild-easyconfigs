@@ -19,7 +19,6 @@ dependencies = [
     ('OpenCV', '4.4.0', versionsuffix),
     ('NLopt', '2.6.1', versionsuffix),
     ('gensim', '4.0.1', versionsuffix),
-    ('sequenza-utils', '3.0.0', '-Python-%(pyver)s-R-4.0.0'),
 ]
 
 moduleclass = 'tools'
