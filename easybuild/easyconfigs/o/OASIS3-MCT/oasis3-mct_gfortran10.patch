@@ -1,0 +1,58 @@
+diff -Nru oasis3-mct.orig/util/make_dir/make.gfortran_openmpi_openmp_linux oasis3-mct/util/make_dir/make.gfortran_openmpi_openmp_linux
+--- oasis3-mct.orig/util/make_dir/make.gfortran_openmpi_openmp_linux	2021-06-01 17:12:53.379591000 +0100
++++ oasis3-mct/util/make_dir/make.gfortran_openmpi_openmp_linux	2021-06-03 20:13:37.414376000 +0100
+@@ -12,22 +12,23 @@
+ # Paths for libraries, object files and binaries
+ #
+ # COUPLE	: path for oasis3 main directory
+-COUPLE          = /space/coquart/oasis3-mct_4.0
++COUPLE          ?= /space/coquart/oasis3-mct_4.0
+ #
+ # ARCHDIR       : directory created when compiling
+ ARCHDIR         = $(COUPLE)/compile_oa3-mct_gfopenmpi_gcc_openmp
+ #
+ # MPI library ((see the file /etc/modulefiles/mpi/openmpi-x86_64)
+-MPIDIR      = /usr/lib64/openmpi
++MPIDIR      = $(EBROOTOPENMPI)
+ MPIBIN      = $(MPIDIR)/bin
+-MPI_INCLUDE = /usr/include/openmpi-x86_64
++MPI_INCLUDE = $(MPIDIR)/include
+ MPILIB      = -L$(MPIDIR)/lib -lmpi
+ #
+ # NETCDF library of the system
+-NETCDF_INCLUDE1 = /usr/include
++NETCDF_INCLUDE1 = $(EBROOTNETCDF)/include
+ # netcdf.mod and hdf5.mod
+-NETCDF_INCLUDE2 = /usr/lib64/gfortran/modules
+-NETCDF_LIBRARY  =  -L/usr/lib64 -lnetcdff -lnetcdf
++NETCDF_INCLUDE2 = $(EBROOTNETCDFMINFORTRAN)/include
++HDF_INCLUDE = $(EBROOTHDF5)/include
++NETCDF_LIBRARY  = -lnetcdff -lnetcdf
+ #
+ # Compiling and other commands
+ MAKE        = gmake
+@@ -46,7 +47,7 @@
+ #
+ # 
+ #F90FLAGS_1  = -g -ffree-line-length-0 -fbounds-check -fopenmp
+-F90FLAGS_1  = -ffree-line-length-none -fopenmp
++F90FLAGS_1  = -ffree-line-length-none -fopenmp -fallow-argument-mismatch
+ f90FLAGS_1  = $(F90FLAGS_1)
+ FFLAGS_1    = $(F90FLAGS_1)
+ fFLAGS_1    = $(F90FLAGS_1)
+@@ -66,10 +67,10 @@
+ # INCPSMILE     : includes all *o and *mod for each library
+ INCPSMILE       = -I$(LIBBUILD)/psmile.$(CHAN) -I$(LIBBUILD)/scrip  -I$(LIBBUILD)/mct 
+ 
+-F90FLAGS  = $(F90FLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2)
+-f90FLAGS  = $(f90FLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2)
+-FFLAGS    = $(FFLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2)
+-fFLAGS    = $(fFLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2)
+-CCFLAGS   = $(CCFLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2)
++F90FLAGS  = $(F90FLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2) -I$(HDF_INCLUDE)
++f90FLAGS  = $(f90FLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2) -I$(HDF_INCLUDE)
++FFLAGS    = $(FFLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2) -I$(HDF_INCLUDE)
++fFLAGS    = $(fFLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2) -I$(HDF_INCLUDE)
++CCFLAGS   = $(CCFLAGS_1) $(CPPDEF) $(INCPSMILE) -I$(NETCDF_INCLUDE1) -I$(NETCDF_INCLUDE2) -I$(HDF_INCLUDE)
+ #
+ #############################################################################

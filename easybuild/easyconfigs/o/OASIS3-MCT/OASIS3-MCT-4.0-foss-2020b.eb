@@ -1,0 +1,55 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'OASIS3-MCT'
+version = '4.0'
+
+homepage = "https://portal.enes.org/oasis"
+description = """OASIS3-MCT, the version of the OASIS coupler interfaced with the Model Coupling Toolkit (MCT) from the
+ Argonne National Laboratory, offers today a fully parallel implementation of coupling field regridding and exchange.
+ Low-intrusiveness, portability and flexibility are OASIS3-MCT key design concepts as for all previous OASIS versions.
+ OASIS3-MCT is a coupling library that needs to be linked to the component models, with the main function of
+ interpolating and exchanging the coupling fields between these components."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+# Fill in registration form (https://portal.enes.org/oasis/download/download-oasis3-mct-sources) before downloading
+source_urls = ['http://www.cerfacs.fr/oa4web/oasis3-mct_4.0']
+sources = [
+    {
+        'filename': '%(name)s_%(version)s.tgz',
+        'extract_cmd': 'tar --strip-components=1 -xf %s'
+    }
+]
+patches = ['oasis3-mct_gfortran10.patch']
+checksums = [
+    '0646e4a2433f475ef174ddd08e702bc3ff65c1d06cc4735f508eb7fcc85fa7ac',  # OASIS3-MCT_4.0.tgz
+    '610abbfa697e0c5e51da2f4ec969a50e99754474dbd90a4f6c83f80fc425574d',  # oasis3-mct_gfortran10.patch
+]
+
+builddependencies = [('Autoconf', '2.69')]
+
+dependencies = [
+    ('netCDF', '4.7.4'),
+    ('netCDF-Fortran', '4.5.3'),
+]
+
+_makefile = 'make.gfortran_openmpi_openmp_linux'
+
+parallel = 1
+
+prebuildopts = 'export FCFLAGS="-ffree-line-length-none -fopenmp -fallow-argument-mismatch" && '
+prebuildopts += 'cd lib/mct && autoconf && '
+prebuildopts += 'cd ../../util/make_dir && ' 
+prebuildopts += 'sed -i s/include/#include/ make.inc && '
+prebuildopts += 'echo include $(pwd)/%s >> make.inc && ' % _makefile
+build_cmd = 'make -f TopMakefileOasis3 COUPLE=%(builddir)s'
+
+files_to_copy = [(['compile_oa3-mct_gfopenmpi_gcc_openmp/lib/*'], 'lib')]
+
+sanity_check_paths = {
+    'files': ['lib/lib%s.a' % x for x in ['mct', 'mpeu', 'psmile.MPI1', 'scrip']],
+    'dirs': [],
+}
+
+moduleclass = 'geo'
