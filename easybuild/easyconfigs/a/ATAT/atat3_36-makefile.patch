@@ -1,0 +1,21 @@
+diff -Nru atat.orig/makefile atat/makefile
+--- atat.orig/makefile	2021-06-02 16:42:24.132807000 +0100
++++ atat/makefile	2021-06-02 20:27:37.294453000 +0100
+@@ -1,6 +1,6 @@
+-BINDIR=$(HOME)/bin/
++BINDIR ?= $(HOME)/bin/
+ #for g++ compiler on all platforms
+-CXX=g++
++CXX ?= g++
+ 
+ #for MPI: limited implementation at this point
+ MPICXX=mpiCC -DATAT_MPI 
+@@ -22,7 +22,7 @@
+ 	${MAKE} -C src clean
+ 
+ install:
+-	echo set atatdir="$(PWD)" > $(HOME)/.atat.rc
++	# echo set atatdir="$(PWD)" > $(HOME)/.atat.rc
+ 	${MAKE} -C src          BINDIR=${BINDIR} install
+ 	${MAKE} -C glue/jobctrl BINDIR=${BINDIR} install
+ 	${MAKE} -C glue/vasp    BINDIR=${BINDIR} install
