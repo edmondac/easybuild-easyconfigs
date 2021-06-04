@@ -1,0 +1,35 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'gensim'
+version = '4.0.1'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://radimrehurek.com/gensim'
+description = """Gensim is a Python library for topic modelling, document indexing and similarity retrieval with
+ large corpora."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('SciPy-bundle', '2020.03', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('smart_open', '5.0.0', {
+        'checksums': ['02e5e02207d955a1f9fd924c37900ac272536bd24393ae731b6945d4f766015f'],
+    }),
+    (name, version, {
+        'checksums': ['b4d0b9562796968684028e06635e0f7aff39ffb33719057fd1667754ea09a6e4'],
+    }),
+]
+
+moduleclass = 'lib'

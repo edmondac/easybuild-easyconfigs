@@ -1,0 +1,29 @@
+easyblock = 'Tarball'
+
+name = 'Barracuda_Virtual_Reactor'
+version = '20.1.0'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'https://cpfd-software.com'
+description = """The world leader in fluidized bed reactor simulation software for CAE/CFD."""
+
+toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
+
+# Compiled software provided as tar.gz by software publisher as there were
+# issues using their installer on BlueBEAR
+sources = ['%(name)s_%(version)s_Linux_full_directory.tar.gz']
+checksums = ['c9473164d4e8c2a88ad5b01ab08ddf9d3ead2698b8bba7aea83011a594729876']
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('X11', '20200222'),
+]
+
+modextrapaths = {'PATH': 'scripts'}
+
+sanity_check_paths = {
+    'files': ['bin/barracuda'],
+    'dirs': ["bin", "scripts"]
+}
+
+moduleclass = 'cae'

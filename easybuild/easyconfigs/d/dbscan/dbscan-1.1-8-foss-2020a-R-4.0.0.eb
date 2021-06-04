@@ -1,0 +1,47 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'dbscan'
+version = '1.1-8'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/web/packages/dbscan/index.html"
+description = """A fast reimplementation of several density-based algorithms of the DBSCAN family for spatial data.
+ Includes the DBSCAN (density-based spatial clustering of applications with noise) and OPTICS (ordering points to
+ identify the clustering structure) clustering algorithms HDBSCAN (hierarchical DBSCAN) and the LOF (local outlier
+ factor) algorithm. The implementations use the kd-tree data structure (from library ANN) for faster k-nearest
+ neighbor search. An R interface to fast kNN and fixed-radius NN search is also provided."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['dff6ce95b5b38c89ee236c2e139a3e045e22908fc61d9ebabc51b5335057afa2'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['dbscan/R/dbscan'],
+    'dirs': [],
+}
+
+moduleclass = 'data'
