@@ -19,7 +19,7 @@ dependencies = [
     ('X11', '20200222'),
 ]
 
-modextrapaths = {'PATH': ['bin', 'scripts']}
+modextrapaths = {'PATH': 'scripts'}
 
 sanity_check_paths = {
     'files': ['./bin/barracuda'],
