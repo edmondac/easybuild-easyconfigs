@@ -22,8 +22,8 @@ dependencies = [
 modextrapaths = {'PATH': 'scripts'}
 
 sanity_check_paths = {
-    'files': ['./bin/barracuda'],
-    'dirs': ["./bin", "./scripts"]
+    'files': ['bin/barracuda'],
+    'dirs': ["bin", "scripts"]
 }
 
 moduleclass = 'cae'
