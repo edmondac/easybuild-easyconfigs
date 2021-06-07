@@ -18,6 +18,7 @@ dependencies = [
     ('pept', '0.3.2', versionsuffix),
     ('OpenCV', '4.4.0', versionsuffix),
     ('NLopt', '2.6.1', versionsuffix),
+    ('plotly.py', '4.8.1'),
     ('gensim', '4.0.1', versionsuffix),
 ]
 
