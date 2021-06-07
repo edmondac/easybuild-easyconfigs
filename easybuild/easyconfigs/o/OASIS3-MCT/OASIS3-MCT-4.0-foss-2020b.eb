@@ -47,7 +47,11 @@ prebuildopts += 'sed -i s/include/#include/ make.inc && '
 prebuildopts += 'echo include $(pwd)/%s >> make.inc && ' % _makefile
 build_cmd = 'make -f TopMakefileOasis3 COUPLE=%(builddir)s'
 
-files_to_copy = [(['compile_oa3-mct_gfopenmpi_gcc_openmp/lib/*'], 'lib'), 'examples', 'util']
+files_to_copy = [
+    (['compile_oa3-mct_gfopenmpi_gcc_openmp/lib/*'], 'lib'),
+    (['compile_oa3-mct_gfopenmpi_gcc_openmp/build/lib/*'], 'include'),
+    'examples', 'util'
+]
 
 modextrapaths = {
     'PATH': 'util/lucia',
@@ -55,7 +59,7 @@ modextrapaths = {
 
 sanity_check_paths = {
     'files': ['lib/lib%s.a' % x for x in ['mct', 'mpeu', 'psmile.MPI1', 'scrip']],
-    'dirs': ['examples', 'util/lucia'],
+    'dirs': ['examples', 'include', 'util/lucia'],
 }
 
 moduleclass = 'geo'
