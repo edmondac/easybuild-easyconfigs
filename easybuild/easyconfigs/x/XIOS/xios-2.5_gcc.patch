@@ -1,0 +1,43 @@
+diff -Nru xios-2.5.orig/arch/arch-GCC_LINUX.env xios-2.5/arch/arch-GCC_LINUX.env
+--- xios-2.5.orig/arch/arch-GCC_LINUX.env	2021-06-07 17:43:36.715801000 +0100
++++ xios-2.5/arch/arch-GCC_LINUX.env	2021-06-07 17:54:22.767006000 +0100
+@@ -1,10 +1,13 @@
+-export HDF5_INC_DIR=$HOME/hdf5/hdf5/include
+-export HDF5_LIB_DIR=$HOME/hdf5/hdf5/lib
++export HDF5_INC_DIR=$EBROOTHDF5/include
++export HDF5_LIB_DIR=$EBROOTHDF5/lib
+ 
+-export NETCDF_INC_DIR=$HOME/netcdf4/include
+-export NETCDF_LIB_DIR=$HOME/netcdf4/lib
++export NETCDF_INC_DIR=$EBROOTNETCDF/include
++export NETCDF_LIB_DIR=$EBROOTNETCDF/lib
+ 
+-export BOOST_INC_DIR=$HOME/boost
+-export BOOST_LIB_DIR=$HOME/boost
++export NETCDFF_INC_DIR=$EBROOTNETCDFMINFORTRAN/include
++export NETCDFF_LIB_DIR=$EBROOTNETCDFMINFORTRAN/lib
++
++export BOOST_INC_DIR=$EBROOTBOOST/include/boost
++export BOOST_LIB_DIR=$EBROOTBOOST/lib
+ 
+ 
+diff -Nru xios-2.5.orig/arch/arch-GCC_LINUX.path xios-2.5/arch/arch-GCC_LINUX.path
+--- xios-2.5.orig/arch/arch-GCC_LINUX.path	2021-06-07 17:43:36.721084000 +0100
++++ xios-2.5/arch/arch-GCC_LINUX.path	2021-06-07 18:19:18.922943000 +0100
+@@ -1,5 +1,5 @@
+-NETCDF_INCDIR="-I $NETCDF_INC_DIR"
+-NETCDF_LIBDIR="-L $NETCDF_LIB_DIR"
++NETCDF_INCDIR="-I $NETCDF_INC_DIR -I $NETCDFF_INC_DIR"
++NETCDF_LIBDIR="-L $NETCDF_LIB_DIR -I $NETCDFF_LIB_DIR"
+ NETCDF_LIB="-lnetcdff -lnetcdf"
+ 
+ MPI_INCDIR=""
+@@ -14,6 +14,6 @@
+ BOOST_LIBDIR="-L $BOOST_LIB_DIR"
+ BOOST_LIB=""
+ 
+-OASIS_INCDIR="-I$PWD/../../oasis3-mct/BLD/build/lib/psmile.MPI1"
+-OASIS_LIBDIR="-L$PWD/../../oasis3-mct/BLD/lib"
++OASIS_INCDIR="-I$EBROOTOASIS3MINMCT/include/psmile.MPI1"
++OASIS_LIBDIR="-L$EBROOTOASIS3MINMCT/lib"
+ OASIS_LIB="-lpsmile.MPI1 -lscrip -lmct -lmpeu"
