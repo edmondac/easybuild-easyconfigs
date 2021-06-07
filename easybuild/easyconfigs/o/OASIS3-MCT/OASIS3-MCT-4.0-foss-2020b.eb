@@ -32,6 +32,7 @@ builddependencies = [('Autoconf', '2.69')]
 dependencies = [
     ('netCDF', '4.7.4'),
     ('netCDF-Fortran', '4.5.3'),
+    # ('gnuplot', '5.4.1'),  # optional dependency for LUCIA tool
 ]
 
 _makefile = 'make.gfortran_openmpi_openmp_linux'
@@ -40,16 +41,21 @@ parallel = 1
 
 prebuildopts = 'export FCFLAGS="-ffree-line-length-none -fopenmp -fallow-argument-mismatch" && '
 prebuildopts += 'cd lib/mct && autoconf && '
-prebuildopts += 'cd ../../util/make_dir && ' 
+prebuildopts += 'cd ../../util/lucia && ./lucia -c && '  # install LUCIA tool
+prebuildopts += 'cd ../make_dir && '
 prebuildopts += 'sed -i s/include/#include/ make.inc && '
 prebuildopts += 'echo include $(pwd)/%s >> make.inc && ' % _makefile
 build_cmd = 'make -f TopMakefileOasis3 COUPLE=%(builddir)s'
 
-files_to_copy = [(['compile_oa3-mct_gfopenmpi_gcc_openmp/lib/*'], 'lib')]
+files_to_copy = [(['compile_oa3-mct_gfopenmpi_gcc_openmp/lib/*'], 'lib'), 'examples', 'util']
+
+modextrapaths = {
+    'PATH': 'util/lucia',
+}
 
 sanity_check_paths = {
     'files': ['lib/lib%s.a' % x for x in ['mct', 'mpeu', 'psmile.MPI1', 'scrip']],
-    'dirs': [],
+    'dirs': ['examples', 'util/lucia'],
 }
 
 moduleclass = 'geo'
