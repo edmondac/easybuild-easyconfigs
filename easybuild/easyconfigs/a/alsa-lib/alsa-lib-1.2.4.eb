@@ -13,8 +13,6 @@ source_urls = ['ftp://ftp.alsa-project.org/pub/lib/']
 sources = [SOURCE_TAR_BZ2]
 checksums = ['f7554be1a56cdff468b58fc1c29b95b64864c590038dd309c7a978c7116908f7']
 
-dependencies = [('binutils', '2.32')]
-
 sanity_check_paths = {
     'files': ['bin/aserver', 'include/asoundlib.h',
               'lib64/libatopology.%s' % SHLIB_EXT, 'lib64/libasound.%s' % SHLIB_EXT],
