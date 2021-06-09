@@ -13,10 +13,18 @@ toolchain = SYSTEM
 sources = [SOURCELOWER_TAR_GZ]
 checksums = ['29a336f47ae1a1ff723f7a841cae1b767f460115599f1c106f7940bc62df8d90']
 
-dependencies = [('Java', '1.8')]
+dependencies = [
+    ('Java', '1.8'),
+    ('alsa-lib', '1.2.4'),  # libasound.so.2 is needed for simulink
+]
 
 # MATLAB 2020a requires more Java memory at build time:
 java_options = '-Xmx2048m'
+
+# use system libcrypto.so.1.1 to avoid
+# /lib64/libk5crypto.so.3: undefined symbol: EVP_KDF_ctrl, version OPENSSL_1_1_1b
+# when running simulink
+postinstallcmds = ['cd %(installdir)s/bin/glnxa64 && for f in libcrypto.so.*; do mv $f $f.orig; done']
 
 # We encode a dummy licence server host/port here and then set the MLM_LICENSE_FILE environment
 # variable with the correct details in the BlueBEAR licences module
