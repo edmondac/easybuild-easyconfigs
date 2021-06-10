@@ -1,0 +1,42 @@
+easyblock = 'Bundle'
+
+name = 'RStata'
+version = '1.1.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = 'https://github.com/stan-dev/rstan'
+description = """RStan is the R interface to Stan. Stan is a state-of-the-art 
+ platform for statistical modeling and high-performance statistical computation."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('Stata', '16', '', True),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+exts_list = [
+    (name, version, {
+        'checksums': ['e77a54c8c6bd5cb31910267a446c57145a5d04af7cd5e5e975b31f53c867a6f3'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': [],
+    'dirs': ['RStata'],
+}
+
+moduleclass = 'data'
