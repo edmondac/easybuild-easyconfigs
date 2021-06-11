@@ -1,0 +1,18 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'BEAR-R-economics'
+version = '2020a'
+versionsuffix = '-R-%(rver)s'
+
+homepage = ""
+description = """This module provides access to several R bio libraries."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('RStata', '1.1.1', versionsuffix)
+]
+
+moduleclass = 'bio'
