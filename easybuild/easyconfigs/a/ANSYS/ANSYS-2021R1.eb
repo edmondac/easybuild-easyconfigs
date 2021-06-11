@@ -37,6 +37,12 @@ postinstallcmds = [
      'mv ansyscl ansyscl.bin && '
      'ln -s ansyscl.bear ansyscl')]
 
+# Commenting-out this LD_PRELOAD command prevents a libGL-related crash which occurs when
+# running Workbench on BlueBEAR Portal
+postinstallcmds.append(
+    "sed -i '/export LD_PRELOAD=$MESADIR/s/^/#/' %(installdir)s/v211/Framework/bin/Linux64/runwb2"
+)
+
 modextravars = {'KMP_AFFINITY': 'disabled'}
 
 moduleclass = 'tools'
