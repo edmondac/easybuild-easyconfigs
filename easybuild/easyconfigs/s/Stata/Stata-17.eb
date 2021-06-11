@@ -9,6 +9,7 @@ toolchain = SYSTEM
 
 # requires license to access source files
 sources = ['Stata%(version)sLinux64.tar.gz']
+checksums = ['ac5d49ff27544f801defa27e996d6c6770e94a01ec248bec3021b30ae2b91c45']
 
 postinstallcmds = ['ln -s ${STATA_LICENSE_FILE} %(installdir)s/stata.lic']
 
