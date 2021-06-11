@@ -643,7 +643,7 @@ class EasyConfigTest(TestCase):
         bundles_whitelist = ['Autotools', 'GCC', 'CUDA']
         # The BEAR-* modules are just meta modules to simplify module loading in the BlueBEAR Portal
         bundles_whitelist.extend(['BEAR-R-bio', 'BEAR-R-geo', 'BEAR-Python-DataScience', 'BEAR-Python-Sciences', 
-                                  'BEAR-Python-MSc-Bioinformatics'])
+                                  'BEAR-R-economics', 'BEAR-Python-MSc-Bioinformatics'])
 
         failing_checks = []
 
