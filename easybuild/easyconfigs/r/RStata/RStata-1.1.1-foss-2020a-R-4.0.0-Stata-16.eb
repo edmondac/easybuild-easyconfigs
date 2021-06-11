@@ -5,8 +5,7 @@ version = '1.1.1'
 versionsuffix = '-R-%(rver)s'
 
 homepage = 'https://github.com/stan-dev/rstan'
-description = """RStan is the R interface to Stan. Stan is a state-of-the-art 
- platform for statistical modeling and high-performance statistical computation."""
+description = """An R-Stata interface"""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
