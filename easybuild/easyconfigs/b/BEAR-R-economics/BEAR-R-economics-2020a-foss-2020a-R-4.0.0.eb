@@ -6,7 +6,7 @@ version = '2020a'
 versionsuffix = '-R-%(rver)s'
 
 homepage = ""
-description = """This module provides access to several R bio libraries."""
+description = """This module provides access to several R economics libraries."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
