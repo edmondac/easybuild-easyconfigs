@@ -4,7 +4,7 @@ name = 'RStata'
 version = '1.1.1'
 versionsuffix = '-R-%(rver)s'
 
-homepage = 'https://github.com/stan-dev/rstan'
+homepage = 'https://cran.r-project.org/web/packages/RStata'
 description = """An R-Stata interface"""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
