@@ -1,0 +1,50 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'MakeCp'
+
+name = 'DL_MESO'
+version = '2.7'
+
+homepage = "https://www.scd.stfc.ac.uk/Pages/DL_MESO.aspx"
+description = """DL_MESO is a general purpose mesoscale simulation package developed by Michael Seaton for CCP5 and
+ UKCOMES under a grant provided by EPSRC. It is written in Fortran 2003 and C++ and supports both Lattice Boltzmann
+ Equation (LBE) and Dissipative Particle Dynamics (DPD) methods."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+# register at https://www.scd.stfc.ac.uk/Pages/DL_MESO-register.aspx to obtain source code
+sources = ['%(namelower)s_%(version)s.tar.gz']
+checksums = [
+    'a845a1a824992ab9b81a59f7fc01353f0f66d215a1e5d814c1221dbd4c360aeb',  # dl_meso_2.7.tar.gz
+]
+
+# parallel build fails
+parallel = 1
+
+prebuildopts = 'cd WORK && '
+
+# DL_MESO_LBE
+build_cmd = 'mpicxx -O3 -fopenmp ../LBE/plbe.cpp -o lbe.exe && '
+
+# DL_MESO_DPD
+_dpd_makefiles = ['MPI', 'MPIOMP', 'OMP', 'serial']
+for _file in _dpd_makefiles:
+    build_cmd += 'cp ../DPD/makefiles/Makefile-%s Makefile && ' % _file
+    build_cmd += 'sed -i s/dpd\.exe/dpd_%s\.exe/ Makefile && ' % _file.lower()
+    build_cmd += 'make clean && '
+    build_cmd += 'make && '
+
+# utilites
+build_cmd += 'make -f Makefile-utils'
+
+files_to_copy = [(['WORK/*.exe'], 'bin'), 'DEMO', 'LICENCE', 'MAN', 'README']
+
+sanity_check_paths = {
+    'files': ['bin/%s.exe' % x for x in ['lbe', 'dpd_mpiomp', 'dpd_mpi', 'dipole', 'dump_to_vtk', 'vtk']],
+    'dirs': ['DEMO', 'MAN'],
+}
+
+modloadmsg = """\nBY USING THIS SOFTWARE, YOU AGREE TO THE TERMS AND CONDITIONS
+OF THE DL_MESO LICENCE AGREEMENT, WHICH CAN BE FOUND AT
+ftp://ftp.dl.ac.uk/ccp5/DL_MESO/PUBLIC/LICENCE.\n"""
+
+moduleclass = 'chem'
