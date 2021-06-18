@@ -1,0 +1,40 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'mass2adduct'
+_commit = 'b9fa5d1'
+version = '20210609'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://github.com/kbseah/mass2adduct"
+description = """Finding molecular adducts in mass spectrometry data."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': ['https://github.com/kbseah/mass2adduct/archive'],
+    'source_tmpl': '%s.tar.gz' % _commit,
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['005bd409346f79fa8d563b9baf323960a274dd26e103789d8fae9bfe1ea89200'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['mass2adduct/R/mass2adduct'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
