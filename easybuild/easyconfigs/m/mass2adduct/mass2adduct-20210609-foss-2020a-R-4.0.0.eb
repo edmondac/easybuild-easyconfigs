@@ -7,7 +7,9 @@ version = '20210609'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://github.com/kbseah/mass2adduct"
-description = """Finding molecular adducts in mass spectrometry data."""
+description = """Finding molecular adducts in mass spectrometry data. In mass spectrometry imaging, adducts can form
+ between target molecules (e.g. metabolites) and other substances such as matrix or salt ions. This package presents
+ tools for counting and identifying possible adducts in MS data, and accompanies Janda et al. (2021)."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
