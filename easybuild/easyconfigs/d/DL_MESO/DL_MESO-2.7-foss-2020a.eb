@@ -27,9 +27,9 @@ build_cmd = 'mpicxx -O3 -fopenmp ../LBE/plbe.cpp -o lbe.exe && '
 
 # DL_MESO_DPD
 _dpd_makefiles = ['MPI', 'MPIOMP', 'OMP', 'serial']
-for file in _dpd_makefiles:
-    build_cmd += 'cp ../DPD/makefiles/Makefile-%s Makefile && ' % file
-    build_cmd += 'sed -i s/dpd\.exe/dpd_%s\.exe/ Makefile && ' % file.lower()
+for _file in _dpd_makefiles:
+    build_cmd += 'cp ../DPD/makefiles/Makefile-%s Makefile && ' % _file
+    build_cmd += 'sed -i s/dpd\.exe/dpd_%s\.exe/ Makefile && ' % _file.lower()
     build_cmd += 'make clean && '
     build_cmd += 'make && '
 
