@@ -4,6 +4,7 @@ name = 'CST-Studio-Suite'
 _base_version = '2021'
 sp_level = 'SP4'
 version = f'{_base_version}.{sp_level}'
+versionsuffix = '-Java-1.8'
 
 homepage = 'https://www.3ds.com/products-services/simulia/products/cst-studio-suite/'
 description = """CST Studio Suite is a high-performance 3D EM analysis software package for designing, analyzing and
