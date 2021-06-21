@@ -12,8 +12,8 @@ description = """CST Studio Suite is a high-performance 3D EM analysis software 
 toolchain = {'name': 'GCCcore', 'version': '9.3.0'}
 
 sources = [
-    'CST_S2_%(_base_version)s/CST_S2_%(_base_version)s.CST_S2_%(_base_version)s.SIMULIA_CST_Studio_Suite.Linux64.tar',
-    'CST_S2_%s/CST_S2_%s_%s.SPK_SIMULIA_CST_Studio_Suite.Linux64.tar.gz' % (_base_version, _base_version, sp_level),
+    f'CST_S2_{_base_version}/CST_S2_{_base_version}.CST_S2_{_base_version}.SIMULIA_CST_Studio_Suite.Linux64.tar',
+    f'CST_S2_{_base_version}/CST_S2_{_base_version}_{sp_level}.SPK_SIMULIA_CST_Studio_Suite.Linux64.tar.gz',
 ]
 patches = []
 checksums = [
