@@ -1,0 +1,15 @@
+name = 'STAR-CCM+'
+version = '16.02.009'
+
+homepage = 'https://www.plm.automation.siemens.com/global/en/products/simcenter/STAR-CCM.html'
+description = """STAR-CCM+ is a complete multidisciplinary platform for the simulation of products and
+ designs operating under real-world conditions."""
+
+toolchain = SYSTEM
+
+sources = ['STAR-CCM+%(version)s_01_linux-x86_64-r8.tar.gz']
+checksums = ['08404af49182b44eafeb4529708aea66ea2a11bf58fc1c8fd4a9a2ee80f21ded']
+
+dependencies = [('Java', '1.8')]
+
+moduleclass = 'cae'
