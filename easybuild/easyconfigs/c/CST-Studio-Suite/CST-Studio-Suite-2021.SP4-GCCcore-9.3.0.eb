@@ -23,6 +23,8 @@ checksums = [
     '4cb76599481bd1fe6bf563ac07787719b3b108a5750b06bab4ef25e91cc1a9ce',
 ]
 
+builddependencies = [('binutils', '2.34')]
+
 dependencies = [
     ('Java', '1.8', '', True),
     ('motif', '2.3.8'),
