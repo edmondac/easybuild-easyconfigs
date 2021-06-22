@@ -1,0 +1,18 @@
+name = 'HPCG'
+version = '20200928'
+_commit = 'e649826'
+
+homepage = 'https://software.sandia.gov/hpcg'
+description = """The HPCG Benchmark project is an effort to create a more relevant metric for ranking HPC systems than
+ the High Performance LINPACK (HPL) benchmark, that is currently used by the TOP500 benchmark."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+toolchainopts = {'usempi': True, 'openmp': True}
+
+source_urls = ['https://github.com/hpcg-benchmark/hpcg/archive']
+sources = ['%s.tar.gz' % _commit]
+checksums = ['5923c92697cd573e20dc5db6ce6e2e40a919de0721e8bda3beb3fb72cf567889']
+
+runtest = True
+
+moduleclass = 'math'
