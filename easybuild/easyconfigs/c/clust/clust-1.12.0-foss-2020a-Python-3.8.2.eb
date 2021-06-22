@@ -7,7 +7,8 @@ versionsuffix = '-Python-%(pyver)s'
 
 
 homepage = "https://github.com/BaselAbujamous/clust"
-description = """A fully automated method for identification of clusters of genes that are consistently co-expressed."""
+description = """A fully automated method for identification of clusters of genes that are consistently co-expressed
+ (well-correlated) in one or more heterogeneous datasets from one or multiple species."""
 
 
 toolchain = {'name': 'foss', 'version': '2020a'}
