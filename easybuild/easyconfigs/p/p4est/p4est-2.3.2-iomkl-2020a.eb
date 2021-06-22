@@ -29,7 +29,6 @@ dependencies = [
 ]
 
 configopts = '--enable-openmp --enable-mpi --with-metis '
-# configopts += 'BLAS_LIBS=$EBROOTOPENBLAS/lib/libopenblas.so LAPACK_LIBS=$EBROOTSCALAPACK/lib/libscalapack.a '
 
 runtest = 'check VERBOSE=1'
 
