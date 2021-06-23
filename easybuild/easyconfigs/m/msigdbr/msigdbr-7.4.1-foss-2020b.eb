@@ -29,9 +29,10 @@ exts_default_options = {
 # Order is important!
 exts_list = [
     ('babelgene', '21.4', {
+        'checksums': ['c0f91ec94312baff35116f328fe47a43a01518f72128635a0c19eab146bd65be'],
     }),
     (name, version, {
-        #'checksums': [''],
+        'checksums': ['21cb634e578c8cbc3c8f2c0cf46890356836a481382087a093f322b395287580'],
     }),
 ]
 
