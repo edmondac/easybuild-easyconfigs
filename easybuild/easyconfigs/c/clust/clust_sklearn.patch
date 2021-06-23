@@ -1,0 +1,12 @@
+diff -Nru clust-1.12.0.orig/setup.py clust-1.12.0/setup.py
+--- clust-1.12.0.orig/setup.py	2021-06-21 17:12:04.364144000 +0100
++++ clust-1.12.0/setup.py	2021-06-21 17:13:18.451618000 +0100
+@@ -83,7 +83,7 @@
+         # your project is installed. For an analysis of "install_requires" vs pip's
+         # requirements files see:
+         # https://packaging.python.org/en/latest/requirements.html
+-        install_requires=['numpy', 'scipy', 'pandas', 'matplotlib', 'sklearn', 'joblib', 'portalocker'],
++        install_requires=['numpy', 'scipy', 'pandas', 'matplotlib', 'scikit-learn', 'joblib', 'portalocker'],
+ 
+         # If there are data files included in your packages that need to be
+         # installed, specify them here.  If using Python 2.6 or less, then these

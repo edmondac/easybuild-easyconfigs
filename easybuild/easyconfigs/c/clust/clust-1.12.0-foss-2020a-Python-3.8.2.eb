@@ -1,0 +1,43 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonBundle'
+
+name = 'clust'
+version = '1.12.0'
+versionsuffix = '-Python-%(pyver)s'
+
+
+homepage = "https://github.com/BaselAbujamous/clust"
+description = """A fully automated method for identification of clusters of genes that are consistently co-expressed
+ (well-correlated) in one or more heterogeneous datasets from one or multiple species."""
+
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('SciPy-bundle', '2020.03', versionsuffix),
+    ('matplotlib', '3.2.1', versionsuffix),
+    ('scikit-learn', '0.23.2', versionsuffix),
+]
+
+sanity_pip_check = True
+use_pip = True
+
+exts_default_options = {
+    'source_urls': [PYPI_SOURCE],
+}
+
+exts_list = [
+    ('portalocker', '2.3.0', {
+        'checksums': ['4e913d807aa6598c320e8a50c50e2ee0602bc45240b485e3f8bc06f13060084c'],
+    }),
+    (name, version, {
+        'patches': ['clust_sklearn.patch'],
+        'checksums': [
+            '2243c210e11753e0aa447cc29834f2379468bb50854989d0774dcd81a195fadf',  # clust-1.12.0.tar.gz
+            'd0d0fc4646e42032617cfe2e125e5db79b35cc6a3a4c36e6351e6dd50f9f1062',  # clust_sklearn.patch
+        ],
+    }),
+]
+
+moduleclass = 'data'
