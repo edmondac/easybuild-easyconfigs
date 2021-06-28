@@ -23,7 +23,7 @@ sources = [
 patches = ['NEMO-r4.0.6_gfortran.patch']
 checksums = [
     'e99f7653d355867295b761031f04ab7e9df500b298887c7da791371af4274d8f',  # NEMO-r4.0.6-rev14958.tar.gz
-    '7d18fd04359ff84f90012a0b8d696c2d307b0415e7f31cda219b8994ae6c78ec',  # NEMO-r4.0.6_gfortran.patch
+    '37606d8c7b56acccc4e858d6bf42a78955ba61f3065158aa4a0f313e7c365b19',  # NEMO-r4.0.6_gfortran.patch
 ]
 
 dependencies = [
@@ -42,18 +42,32 @@ skipsteps = ['configure', 'build']
 _configs = ['ORCA2_ICE_PISCES', 'ORCA2_OFF_PISCES', 'ORCA2_OFF_TRC', 'ORCA2_SAS_ICE', 'GYRE_PISCES',
             'AMM12', 'C1D_PAPA', 'SPITZ12']
 
+_configs = ['GYRE_PISCES']
+
+_tests = ['BENCH', 'CANAL', 'ICE_ADV2D', 'ISOMIP', 'LOCK_EXCHANGE', 'WAD']
+
+_files = _configs + _tests
+
 _ntasks = _os.environ.get('SLURM_NTASKS')
-install_cmd = './makenemo -m linux_gfortran -r %s -j %s' % (_configs[0], _ntasks)
-for c in _configs[1:]:
-    install_cmd += ' && ./makenemo -m linux_gfortran -r %s -j %s' % (c, _ntasks)
+
+# reference configurations
+install_cmd = './makenemo -m linux_gfortran -r %s add_key key_nosignedzero -j %s' % (_configs[0], _ntasks)
+for _f in _configs[1:]:
+    install_cmd += ' && ./makenemo -m linux_gfortran -r %s add_key key_nosignedzero -j %s' % (_f, _ntasks)
+
+# test configurations
+for _f in _tests:
+    install_cmd += ' && ./makenemo -m linux_gfortran -a %s add_key key_nosignedzero -j %s' % (_f, _ntasks)
 
 postinstallcmds = ['mkdir -p bin']
-for c in _configs:
-    postinstallcmds.append('mv cfgs/%s/EXP00/nemo bin/nemo_%s' % (c, c))
+for _f in _configs:
+    postinstallcmds.append('mv cfgs/%s/EXP00/nemo bin/nemo_%s' % (_f, _f))
+for _f in _tests:
+    postinstallcmds.append('mv tests/%s/EXP00/nemo bin/nemo_%s' % (_f, _f))
 
 sanity_check_paths = {
-    'files': ['bin/nemo_%s' % c for c in _configs],
-    'dirs': ['cfgs/%s/EXP00' % c for c in _configs],
+    'files': ['bin/nemo_%s' % f for f in _files],
+    'dirs': [['cfgs/%s/EXP00' % c for c in _configs], ['tests/%s/EXP00' % t for t in _tests]],
 }
 
 moduleclass = 'geo'

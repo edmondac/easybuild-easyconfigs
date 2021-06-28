@@ -30,7 +30,7 @@
 -%FC	             /usr/bin/mpif90 -c -cpp 
 -%FCFLAGS             -fdefault-real-8 -O3 -funroll-all-loops -fcray-pointer -ffree-line-length-none
 +%FC	                 mpif90 -c -cpp 
-+%FCFLAGS             -fdefault-real-8 -O3 -funroll-all-loops -fcray-pointer -ffree-line-length-none -fallow-argument-mismatch
++%FCFLAGS             -fdefault-real-8 -O3 -funroll-all-loops -fcray-pointer -ffree-line-length-none -fallow-argument-mismatch -march=native -fdefault-double-8 -g
  %FFLAGS              %FCFLAGS
  #%LD                  /usr/bin/mpif90 -Wl,-rpath=$HOME/INSTALL/lib:/usr/lib
 -%LD                  /usr/bin/mpif90
