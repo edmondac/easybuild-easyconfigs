@@ -1,0 +1,48 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+import os as _os
+
+easyblock = 'ConfigureMake'
+
+name = 'XIOS'
+version = '2.5-rev2147'
+
+homepage = "https://forge.ipsl.jussieu.fr/ioserver"
+description = """XIOS (XML-IO-Server) is a library dedicated to IO management of climate code."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+# svn co https://forge.ipsl.jussieu.fr/ioserver/svn/XIOS/branchs/xios-2.5
+# tar -cvzf xios-2.5-rev2147.tar.gz xios-2.5
+sources = [
+    {
+        'filename': '%(namelower)s-%(version)s.tar.gz',
+        'extract_cmd': 'tar --strip-components=1 -xf %s'
+    }
+]
+patches = ['xios-2.5_gcc.patch']
+checksums = [
+    'c46e2c0c261332d6f98824137b8326535df90089190932aa7705724ae96ca0f1',  # xios-2.5-rev2147.tar.gz
+    '19ffcd577374729f9b11c80e1bcb194806d25be79084c16bafe2a5711bdbd0d0',  # xios-2.5_gcc.patch
+]
+
+dependencies = [
+    ('Boost', '1.74.0'),
+    ('HDF5', '1.10.7'),
+    ('netCDF', '4.7.4'),
+    ('netCDF-Fortran', '4.5.3'),
+]
+
+buildininstalldir = True
+
+skipsteps = ['configure', 'build']
+
+_ntasks = _os.environ.get('SLURM_NTASKS')
+
+install_cmd = './make_xios --arch GCC_LINUX --job %s' % _ntasks
+
+sanity_check_paths = {
+    'files': ['bin/xios_server.exe', 'lib/libxios.a'],
+    'dirs': ['inc', 'src', 'tools'],
+}
+
+moduleclass = 'geo'

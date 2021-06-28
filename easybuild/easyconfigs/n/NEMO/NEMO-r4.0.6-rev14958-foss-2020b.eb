@@ -1,0 +1,71 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+import os as _os
+easyblock = 'ConfigureMake'
+
+name = 'NEMO'
+version = 'r4.0.6-rev14958'
+
+homepage = "https://www.nemo-ocean.eu"
+description = """NEMO standing for Nucleus for European Modelling of the Ocean is a state-of-the-art modelling framework
+ for research activities and forecasting services in ocean and climate sciences, developed in a sustainable way by
+ a European consortium since 2008."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+# svn co https://forge.ipsl.jussieu.fr/nemo/svn/NEMO/releases/r4.0/r4.0.6
+# tar -cvzf NEMO-r4.0.6-rev14958.tar.gz r4.0.6
+sources = [
+    {
+        'filename': '%(name)s-%(version)s.tar.gz',
+        'extract_cmd': 'tar --strip-components=1 -xf %s'
+    }
+]
+patches = ['NEMO-r4.0.6_gfortran.patch']
+checksums = [
+    'e99f7653d355867295b761031f04ab7e9df500b298887c7da791371af4274d8f',  # NEMO-r4.0.6-rev14958.tar.gz
+    '37606d8c7b56acccc4e858d6bf42a78955ba61f3065158aa4a0f313e7c365b19',  # NEMO-r4.0.6_gfortran.patch
+]
+
+dependencies = [
+    ('Perl', '5.32.0'),
+    ('HDF5', '1.10.7'),
+    ('netCDF', '4.7.4'),
+    ('netCDF-Fortran', '4.5.3'),
+    ('XIOS', '2.5-rev2147'),
+    ('OASIS3-MCT', '4.0'),
+]
+
+buildininstalldir = True
+
+skipsteps = ['configure', 'build']
+
+_configs = ['ORCA2_ICE_PISCES', 'ORCA2_OFF_PISCES', 'ORCA2_OFF_TRC', 'ORCA2_SAS_ICE', 'GYRE_PISCES',
+            'AMM12', 'C1D_PAPA', 'SPITZ12']
+
+_tests = ['BENCH', 'CANAL', 'ICE_ADV2D', 'ISOMIP', 'LOCK_EXCHANGE', 'WAD']
+
+_files = _configs + _tests
+
+_ntasks = _os.environ.get('SLURM_NTASKS')
+
+# reference configurations
+install_cmd = './makenemo -m linux_gfortran -r %s add_key key_nosignedzero -j %s' % (_configs[0], _ntasks)
+for _f in _configs[1:]:
+    install_cmd += ' && ./makenemo -m linux_gfortran -r %s add_key key_nosignedzero -j %s' % (_f, _ntasks)
+
+# test configurations
+for _f in _tests:
+    install_cmd += ' && ./makenemo -m linux_gfortran -a %s add_key key_nosignedzero -j %s' % (_f, _ntasks)
+
+postinstallcmds = ['mkdir -p bin']
+for _f in _configs:
+    postinstallcmds.append('mv cfgs/%s/EXP00/nemo bin/nemo_%s' % (_f, _f))
+for _f in _tests:
+    postinstallcmds.append('mv tests/%s/EXP00/nemo bin/nemo_%s' % (_f, _f))
+
+sanity_check_paths = {
+    'files': ['bin/nemo_%s' % f for f in _files],
+    'dirs': [['cfgs/%s/EXP00' % c for c in _configs], ['tests/%s/EXP00' % t for t in _tests]],
+}
+
+moduleclass = 'geo'
