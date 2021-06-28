@@ -42,8 +42,6 @@ skipsteps = ['configure', 'build']
 _configs = ['ORCA2_ICE_PISCES', 'ORCA2_OFF_PISCES', 'ORCA2_OFF_TRC', 'ORCA2_SAS_ICE', 'GYRE_PISCES',
             'AMM12', 'C1D_PAPA', 'SPITZ12']
 
-_configs = ['GYRE_PISCES']
-
 _tests = ['BENCH', 'CANAL', 'ICE_ADV2D', 'ISOMIP', 'LOCK_EXCHANGE', 'WAD']
 
 _files = _configs + _tests
