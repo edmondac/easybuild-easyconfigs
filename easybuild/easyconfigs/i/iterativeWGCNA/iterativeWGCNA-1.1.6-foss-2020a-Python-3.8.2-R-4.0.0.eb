@@ -23,6 +23,7 @@ dependencies = [
 
 source_urls = [PYPI_SOURCE]
 sources = [SOURCE_TAR_GZ]
+checksums = ['1ee490a1b7a0e1164fda08d38053a17f974f82f0237b8c2864bd12a28f3a8efb']
 
 download_dep_fail = True
 sanity_pip_check = True
