@@ -31,9 +31,6 @@ exts_list = [
     ('tzlocal', '2.1', {
         'checksums': ['643c97c5294aedc737780a49d9df30889321cbe1204eac2c2ec6134035a92e44'],
     }),
-    ('cffi', '1.14.5', {
-        'checksums': ['fd78e5fee591709f32ef6edb9a015b4aa1a5022598e36227500c8f4e02328d9c'],
-    }),
     (name, version, {
         'checksums': ['ce063f3286e717b3914728ad23ec7db0a0f117ba3ade5ada8a250700779f6e77'],
     }),
