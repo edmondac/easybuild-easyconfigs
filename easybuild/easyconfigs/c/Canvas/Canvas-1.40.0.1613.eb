@@ -34,6 +34,6 @@ modextrapaths = {
     'PATH': [''],
 }
 
-modloadmsg = """\nTo run Canvas, use the command: dotnet $EBROOTCANVAS/Canvas.dll"""
+modloadmsg = """To run Canvas, use the command: dotnet $EBROOTCANVAS/Canvas.dll"""
 
 moduleclass = 'bio'
