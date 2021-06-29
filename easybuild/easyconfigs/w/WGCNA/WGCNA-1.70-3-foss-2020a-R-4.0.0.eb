@@ -1,0 +1,48 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'WGCNA'
+version = '1.70-3'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://cran.r-project.org/package=WGCNA"
+description = """Functions necessary to perform Weighted Correlation Network Analysis on high-dimensional data as
+ originally described in Horvath and Zhang (2005) <doi:10.2202/1544-6115.1128> and Langfelder and Horvath (2008)
+ <doi:10.1186/1471-2105-9-559>. Includes functions for rudimentary data cleaning, construction of correlation networks,
+ module identification, summarization, and relating of variables and modules to sample traits. Also includes a number of
+ utility functions for data manipulation and visualization."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', versionsuffix)
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['b9843b839728183af6b746f239e9519d438b294613362b556002acdb8522cbd4'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['WGCNA/R/WGCNA'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
