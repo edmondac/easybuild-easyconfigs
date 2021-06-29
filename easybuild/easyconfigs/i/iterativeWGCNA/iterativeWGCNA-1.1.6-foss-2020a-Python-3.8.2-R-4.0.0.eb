@@ -1,0 +1,41 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'iterativeWGCNA'
+version = '1.1.6'
+_pysuffix = '-Python-%(pyver)s'
+_rsuffix = '-R-%(rver)s'
+versionsuffix = '%s%s' % (_pysuffix, _rsuffix)
+
+homepage = "https://github.com/cstoeckert/iterativeWGCNA"
+description = """Extension of the WGCNA program to improve the eigengene similarity of modules and increase the overall
+ number of genes in modules."""
+
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('Python', '3.8.2'),
+    ('R', '4.0.0'),
+    ('WGCNA', '1.70-3', _rsuffix),
+    ('rpy2', '3.3.6', _pysuffix),
+    ('matplotlib', '3.2.1', _pysuffix),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['1ee490a1b7a0e1164fda08d38053a17f974f82f0237b8c2864bd12a28f3a8efb']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+options = {'modulename': '%(name)s'}
+
+sanity_check_paths = {
+    'files': ['bin/%(name)s', 'bin/%(name)s_merge'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages/%(name)s']
+}
+
+sanity_check_commands = ['%(name)s --help']
+
+moduleclass = 'bio'
