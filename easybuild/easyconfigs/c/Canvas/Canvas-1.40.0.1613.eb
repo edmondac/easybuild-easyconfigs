@@ -17,15 +17,15 @@ checksums = ['90ed4baf70ffe7b87e1e37d7c4988379913dccb523c507ddafc1e778b5bd8ac4']
 
 dependencies = [('Net-core', '2.1.28')]
 
-sanity_check_paths = {
-    'files': ['Canvas.dll', 'libFileCompression.so'],
-    'dirs': ['CanvasClean', 'Tools'],
-}
-
 postinstallcmds = [
     "mv %(installdir)s/%(name)s-%(version)s+master_x64/* %(installdir)s/",
     "chmod +x %(installdir)s/tabix",
 ]
+
+sanity_check_paths = {
+    'files': ['Canvas.dll', 'libFileCompression.so'],
+    'dirs': ['CanvasClean', 'Tools'],
+}
 
 sanity_check_commands = ["dotnet ${EBROOTCANVAS}/Canvas.dll --help"]
 
@@ -34,6 +34,6 @@ modextrapaths = {
     'PATH': [''],
 }
 
-modloadmsg = """To execute, run: dotnet $EBROOTCANVAS/Canvas.dll"""
+modloadmsg = """\nTo run Canvas, use the command: dotnet $EBROOTCANVAS/Canvas.dll"""
 
 moduleclass = 'bio'
