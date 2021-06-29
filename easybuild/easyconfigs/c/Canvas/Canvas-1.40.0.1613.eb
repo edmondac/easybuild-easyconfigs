@@ -1,0 +1,39 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Tarball'
+
+name = 'Canvas'
+version = '1.40.0.1613'
+
+homepage = 'https://github.com/Illumina/Canvas'
+description = """Canvas is a tool for calling copy number variants (CNVs) from human DNA sequencing data. It can work
+ either with germline data, or paired tumor/normal samples. Its primary input is aligned reads (in .bam format), and
+ its primary output is a report (in a .vcf file) giving the copy number status of the genome."""
+
+toolchain = SYSTEM
+
+source_urls = ['https://github.com/Illumina/%(namelower)s/releases/download/%(version)s+master/']
+sources = ['%(name)s-%(version)s.master_x64.tar.gz']
+checksums = ['90ed4baf70ffe7b87e1e37d7c4988379913dccb523c507ddafc1e778b5bd8ac4']
+
+dependencies = [('Net-core', '2.1.28')]
+
+sanity_check_paths = {
+    'files': ['Canvas.dll', 'libFileCompression.so'],
+    'dirs': ['CanvasClean', 'Tools'],
+}
+
+postinstallcmds = [
+    "mv %(installdir)s/%(name)s-%(version)s+master_x64/* %(installdir)s/",
+    "chmod +x %(installdir)s/tabix",
+]
+
+sanity_check_commands = ["dotnet ${EBROOTCANVAS}/Canvas.dll --help"]
+
+modextrapaths = {
+    'LD_LIBRARY_PATH': [''],
+    'PATH': [''],
+}
+
+modloadmsg = """To execute, run: dotnet $EBROOTCANVAS/Canvas.dll"""
+
+moduleclass = 'bio'
