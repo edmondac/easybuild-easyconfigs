@@ -17,8 +17,9 @@ checksums = ['90ed4baf70ffe7b87e1e37d7c4988379913dccb523c507ddafc1e778b5bd8ac4']
 
 dependencies = [('Net-core', '2.1.28')]
 
+unpack_options = '--strip-components=1'
+
 postinstallcmds = [
-    "mv %(installdir)s/%(name)s-%(version)s+master_x64/* %(installdir)s/",
     "chmod +x %(installdir)s/tabix",
 ]
 
@@ -30,8 +31,8 @@ sanity_check_paths = {
 sanity_check_commands = ["dotnet ${EBROOTCANVAS}/Canvas.dll --help"]
 
 modextrapaths = {
-    'LD_LIBRARY_PATH': [''],
-    'PATH': [''],
+    'PATH': '',
+    'LD_LIBRARY_PATH': '',
 }
 
 modloadmsg = """To run Canvas, use the command: dotnet $EBROOTCANVAS/Canvas.dll"""
