@@ -1,0 +1,26 @@
+easyblock = 'Tarball'
+
+name = 'Net-core'
+version = '2.1.28'
+
+homepage = 'https://www.microsoft.com/net/'
+description = """.NET is a free, cross-platform, open source developer platform for building many different types
+ of applications."""
+
+toolchain = SYSTEM
+
+source_urls = [
+    'https://download.visualstudio.microsoft.com/download/pr/'
+    '95e68908-4a59-4adb-a44f-116914572423/7f8ee037851be82c8a583f47ee2969a7/'
+]
+sources = ['dotnet-runtime-%(version)s-linux-x64.tar.gz']
+checksums = ['b952518ec11e7992a4c22989154c16356def3ffdb3bf9b2ae8681c6968e41777']
+
+sanity_check_paths = {
+    'files': ['dotnet'],
+    'dirs': ['shared/Microsoft.NETCore.App/%(version)s'],
+}
+
+modextrapaths = {'PATH': ['']}
+
+moduleclass = 'lang'
