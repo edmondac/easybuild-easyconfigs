@@ -27,7 +27,7 @@ local_command_list = [
     "./Thermo-Calc*.run",
     "--mode unattended",
     "--enable-components thermo,databases,tcapi,tq",
-    "--license_server met-prism2-lm2.bham.ac.uk",
+    "--license_server met-tc.bham.ac.uk",
     "--installation_mode custom",
     "--prefix %(builddir)s",
 ]
@@ -46,7 +46,7 @@ postinstallcmds = [
 modextravars = {
     'TC20A_HOME': '%(installdir)s',
     'TCPATH': '%(installdir)s',
-    'LSHOST': 'met-prism2-lm2.bham.ac.uk'
+    'LSHOST': 'met-tc.bham.ac.uk'
 }
 
 modextrapaths = {
