@@ -2,7 +2,7 @@
 easyblock = 'Bundle'
 
 name = 'enrichplot'
-version = '1.7.3'
+version = '1.8.1'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://bioconductor.org/packages/release/bioc/html/RcisTarget.html"
@@ -32,10 +32,27 @@ exts_default_options = {
     'source_tmpl': '%(name)s_%(version)s.tar.gz',
 }
 
-# Order is important!
 exts_list = [
+    ('GOSemSim', '2.14.2', {
+        'checksums': ['ab24f4fa6047a1747c5cb47448af0dbbecf6db54fb4240113e6ba1677aa8270b'],
+    }),
+    ('GO.db', '3.11.4', {
+        'checksums': ['53c446a29a85d7d4c6d8af6ba84597d864c15a0c38dc8228d59c8d00dc93d9e9'],
+    }),
+    ('DOSE', '3.14.0', {
+        'checksums': ['6851bf672f328a67a8d4ee1566bb784a18391ec54c1cd1d253435bc1cf631cc8'],
+    }),
+    ('europepmc', '0.4', {
+        'checksums': ['d55f62963d0ee84830654bbc78f4ad8285e376b04be137cbeaf8ad2a98b7969c'],
+    }),
+    ('ggplotify', '0.0.7', {
+        'checksums': ['1052b6e4bcd2b933193d6ddf8281767aa10ccf3849ff4972cf5aef18d273a2ef'],
+    }),
+    ('scatterpie', '0.1.6', {
+        'checksums': ['28a6ba8a6559eba35ab9948ed48abd2621571c070524c7f99519e2be96ff34d2'],
+    }),
     (name, version, {
-        'checksums': ['91e430b881df2213288377797153e59e728c388dacdea047e17083ddc64171d3'],
+        'checksums': ['e72ff3cc63b55264043f93eea1cfffd269f3e4e6def9c1cb5faed113ce65a306'],
     }),
 ]
 
