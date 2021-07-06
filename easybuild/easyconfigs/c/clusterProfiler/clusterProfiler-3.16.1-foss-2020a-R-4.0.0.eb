@@ -5,9 +5,10 @@ name = 'clusterProfiler'
 version = '3.16.1'
 versionsuffix = '-R-%(rver)s'
 
-homepage = "https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html"
-description = """This package implements methods to analyze and visualize functional
-  profiles (GO and KEGG) of gene and gene clusters.
+homepage = "https://bioconductor.org/packages/release/bioc/html/RcisTarget.html"
+description = """The 'enrichplot' package implements several visualization methods for
+  interpreting functional enrichment results obtained from ORA or GSEA analysis.
+  All the visualization methods are developed based on 'ggplot2' graphics.
 """
 toolchain = {'name': 'foss', 'version': '2020a'}
 
@@ -31,8 +32,30 @@ exts_default_options = {
     'source_tmpl': '%(name)s_%(version)s.tar.gz',
 }
 
-# Order is important!
 exts_list = [
+    ('ggplotify', '0.0.7', {
+        'checksums': ['1052b6e4bcd2b933193d6ddf8281767aa10ccf3849ff4972cf5aef18d273a2ef'],
+    }),
+    ('rvcheck', '0.1.8', {
+    }),
+    ('GOSemSim', '2.14.2', {
+        'checksums': ['ab24f4fa6047a1747c5cb47448af0dbbecf6db54fb4240113e6ba1677aa8270b'],
+    }),
+    ('DO.db', '2.9', {
+        'checksums': ['762bcb9b5188274fd81d82f785cf2846a5acc61fad55e2ff8ec1502282c27881'],
+    }),
+    ('DOSE', '3.14.0', {
+        'checksums': ['6851bf672f328a67a8d4ee1566bb784a18391ec54c1cd1d253435bc1cf631cc8'],
+    }),
+    ('enrichplot', '1.8.1', {
+        'checksums': ['e72ff3cc63b55264043f93eea1cfffd269f3e4e6def9c1cb5faed113ce65a306'],
+    }),
+    ('europepmc', '0.4', {
+        'checksums': ['d55f62963d0ee84830654bbc78f4ad8285e376b04be137cbeaf8ad2a98b7969c'],
+    }),
+    ('scatterpie', '0.1.6', {
+        'checksums': ['28a6ba8a6559eba35ab9948ed48abd2621571c070524c7f99519e2be96ff34d2'],
+    }),
     (name, version, {
         'checksums': ['6b760b4802eca0ffdb8be8e71315e19e28aa14f99f450218c968b7c5d17afa87'],
     }),
@@ -41,7 +64,7 @@ exts_list = [
 modextrapaths = {'R_LIBS': ''}
 
 sanity_check_paths = {
-    'files': ['clusterProfiler/R/clusterProfiler'],
+    'files': ['enrichplot/R/enrichplot'],
     'dirs': [],
 }
 
