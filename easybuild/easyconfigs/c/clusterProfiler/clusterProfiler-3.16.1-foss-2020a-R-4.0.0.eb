@@ -1,0 +1,48 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'clusterProfiler'
+version = '3.16.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html"
+description = """This package implements methods to analyze and visualize functional
+  profiles (GO and KEGG) of gene and gene clusters.
+"""
+toolchain = {'name': 'foss', 'version': '2020a'}
+
+dependencies = [
+    ('R', '4.0.0'),
+    ('R-bundle-Bioconductor', '3.11', '-R-%(rver)s'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://bioconductor.org/packages/3.11/bioc/src/contrib/',
+        'https://bioconductor.org/packages/3.11/bioc/src/contrib/Archive/%(name)s',
+        'https://bioconductor.org/packages/3.11/data/annotation/src/contrib/',
+        'https://bioconductor.org/packages/3.11/data/experiment/src/contrib/',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+# Order is important!
+exts_list = [
+    (name, version, {
+        'checksums': ['6b760b4802eca0ffdb8be8e71315e19e28aa14f99f450218c968b7c5d17afa87'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['clusterProfiler/R/clusterProfiler'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
