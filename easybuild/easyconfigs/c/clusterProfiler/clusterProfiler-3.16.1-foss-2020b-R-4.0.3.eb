@@ -1,0 +1,73 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'Bundle'
+
+name = 'clusterProfiler'
+version = '3.16.1'
+versionsuffix = '-R-%(rver)s'
+
+homepage = "http://bioconductor.org/packages/release/bioc/html/clusterProfiler.html"
+description = """statistical analysis and visualization of functional profiles
+  for genes and gene clusters"""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+dependencies = [
+    ('R', '4.0.3'),
+    ('R-bundle-Bioconductor', '3.12', '-R-%(rver)s'),
+]
+
+exts_defaultclass = 'RPackage'
+exts_filter = ("R -q --no-save", "library(%(ext_name)s)")
+exts_default_options = {
+    'source_urls': [
+        'https://bioconductor.org/packages/3.12/bioc/src/contrib/',
+        'https://bioconductor.org/packages/3.12/bioc/src/contrib/Archive/%(name)s',
+        'https://bioconductor.org/packages/3.12/data/annotation/src/contrib/',
+        'https://bioconductor.org/packages/3.12/data/experiment/src/contrib/',
+        'https://cran.r-project.org/src/contrib/Archive/%(name)s',  # package archive
+        'https://cran.r-project.org/src/contrib/',  # current version of packages
+        'https://cran.freestatistics.org/src/contrib',  # mirror alternative for current packages
+    ],
+    'source_tmpl': '%(name)s_%(version)s.tar.gz',
+}
+
+exts_list = [
+    ('GOSemSim', '2.16.1', {
+        'checksums': ['fab10eb333b28baded54f8e128e9079faecf50f25d99fc84924c8b138c3061c2'],
+    }),
+    ('DO.db', '2.9', {
+        'checksums': ['762bcb9b5188274fd81d82f785cf2846a5acc61fad55e2ff8ec1502282c27881'],
+    }),
+    ('DOSE', '3.16.0', {
+        'checksums': ['c43f7aa603003961d1761d7a4d52c40b83a031145013f44a2e9a4a908cbb3091'],
+    }),
+    ('rvcheck', '0.1.8', {
+    }),
+    ('scatterpie', '0.1.6', {
+    }),
+    ('shadowtext', '0.0.8', {
+    }),
+    ('enrichplot', '1.10.2', {
+        'checksums': ['5b47ffda393265e0f2b83dcbad01c0c355af86308ad4f42debf298d2aef2a552'],
+    }),
+    ('europepmc', '0.4', {
+        'checksums': ['d55f62963d0ee84830654bbc78f4ad8285e376b04be137cbeaf8ad2a98b7969c'],
+    }),
+    ('gridGraphics', '0.5-1', {
+    }),
+    ('ggplotify', '0.0.7', {
+        'checksums': ['1052b6e4bcd2b933193d6ddf8281767aa10ccf3849ff4972cf5aef18d273a2ef'],
+    }),
+    (name, version, {
+        'checksums': ['6b760b4802eca0ffdb8be8e71315e19e28aa14f99f450218c968b7c5d17afa87'],
+    }),
+]
+
+modextrapaths = {'R_LIBS': ''}
+
+sanity_check_paths = {
+    'files': ['clusterProfiler/R/clusterProfiler'],
+    'dirs': [],
+}
+
+moduleclass = 'bio'
