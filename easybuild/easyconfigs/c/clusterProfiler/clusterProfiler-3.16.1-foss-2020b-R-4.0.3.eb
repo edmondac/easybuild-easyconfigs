@@ -5,7 +5,7 @@ name = 'clusterProfiler'
 version = '3.16.1'
 versionsuffix = '-R-%(rver)s'
 
-homepage = "http://bioconductor.org/packages/release/bioc/html/clusterProfiler.html"
+homepage = "https://bioconductor.org/packages/release/bioc/html/clusterProfiler.html"
 description = """statistical analysis and visualization of functional profiles
   for genes and gene clusters"""
 
