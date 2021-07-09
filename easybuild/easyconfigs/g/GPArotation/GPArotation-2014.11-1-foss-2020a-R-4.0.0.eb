@@ -1,4 +1,4 @@
-# This easyconfig was created by the BEAR Software team at the University of Birmingham. edit
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
 easyblock = 'Bundle'
 
 name = 'GPArotation'
@@ -6,7 +6,7 @@ version = '2014.11-1'
 versionsuffix = '-R-%(rver)s'
 
 homepage = "https://cran.r-project.org/package=GPArotation"
-description = """Gradient Projection Algorithm Rotation for Factor Analysis"""
+description = """Gradient Projection Algorithm Rotation for Factor Analysis."""
 
 toolchain = {'name': 'foss', 'version': '2020a'}
 
