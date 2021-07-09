@@ -3,6 +3,8 @@ easyblock = 'PythonPackage'
 name = 'dm-tree'
 version = '0.1.6'
 
+versionsuffix = "-Python-%(pyver)s"
+
 homepage = 'https://github.com/deepmind/tree'
 description = """dm-tree provides tree, a library for working with nested data structures. In a way,
 tree generalizes the builtin map function which only supports flat sequences, and
