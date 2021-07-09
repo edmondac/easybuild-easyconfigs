@@ -285,8 +285,8 @@ class EasyConfigTest(TestCase):
             # ANSYSEM requires dri version of Mesa
             'Mesa': (r'20\.0\.2.+-dri', ['ANSYSEM-']),
             # Newer Protobuf/Protobuf Python required for Ray
-            'Protobuf': ('3.17.3', ['protobuf-python-3.17.3-', 'Ray-project-1.4.0-']),
-            'Protobuf-Python': ('3.17.3', ['Ray-project-1.4.0-'])
+            'Protobuf': ('3.1.\..', ['protobuf-python-3.17.3-', 'Ray-project-1.4.0-']),
+            'Protobuf-Python': (r'3.1.\..', ['Ray-project-1.4.0-'])
         }
         if dep in old_dep_versions and len(dep_vars) > 1:
             for key in list(dep_vars):
