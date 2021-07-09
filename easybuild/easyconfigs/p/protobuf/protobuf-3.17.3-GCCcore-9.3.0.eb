@@ -1,4 +1,4 @@
-asyblock = 'CMakeMake'
+easyblock = 'CMakeMake'
 
 name = 'protobuf'
 version = '3.17.3'
