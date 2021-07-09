@@ -21,6 +21,10 @@ dependencies = [
     ('PyYAML', '5.3'),
     ('dm-tree', '0.1.6'),
     ('lz4', '1.9.2'),
+    # Optional - needed for RLlib usage which
+    # is normally installed via 'pip install Ray[rllib]'
+    ('OpenCV', '4.4.0', versionsuffix),
+    ('Pillow', '7.0.0', versionsuffix),
 ]
 
 use_pip = True
@@ -145,9 +149,21 @@ exts_list = [
     ('pydantic', '1.8.2', {
         'checksums': ['26464e57ccaafe72b7ad156fdaa4e9b9ef051f69e175dbbb463283000c05ab7b'],
     }),
+    ('cloudpickle', '1.6.0', {
+        'checksums': ['9bc994f9e9447593bd0a45371f0e7ac7333710fcf64a4eb9834bf149f4ef2f32'],
+    }),
+    ('pyglet', '1.5.15', {
+        'source_tmpl': 'pyglet-1.5.15-py3-none-any.whl',
+        'unpack_sources': False,
+        'checksums': ['4401cc176580e4e17e2df8bbf7536f27e691327dc3f38f209a12f1859c70aed2'],
+    }),
+    ('gym', '0.18.3', {
+        'checksums': ['81a3e3fbf7fcf57c8cf98f7e22d1bdd5815f3824d9c148a7eb42420d3d642967'],
+    }),
     ('ray', version, {
         'source_tmpl': '%(namelower)s-%(version)s-cp38-cp38-manylinux2014_x86_64.whl',
         'unpack_sources': False,
+        'use_pip_extras': 'starlette,anyio,uvicorn,h11',
         'checksums': ['63417a9417651018ce08ef3741a7d8a702fd04d8ac07cedfdab0a42de9b760d6'],
     }),
 ]
@@ -157,7 +173,8 @@ sanity_check_paths = {
     'dirs': ['lib/python%(pyshortver)s/site-packages'],
 }
 sanity_check_commands = [
-    'ray --help'
+    'ray --help',
+    'rllib --help',
 ]
 
 moduleclass = 'tools'
