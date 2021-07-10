@@ -12,7 +12,8 @@ description = """ResMap (Resolution Map) is a Python (NumPy/SciPy) application w
 toolchain = {'name': 'foss', 'version': '2020b'}
 
 source_urls = [SOURCEFORGE_SOURCE]
-sources = ['']
+sources = ['%(name)s-%(version)s-src.zip']
+checksums = ['255d2875a08891a7c0482a6b0ddf6dec084f79c3ef3d687a62903b5bbf4516fc']
 
 dependencies = [
     ('Python', '2.7.18'),
