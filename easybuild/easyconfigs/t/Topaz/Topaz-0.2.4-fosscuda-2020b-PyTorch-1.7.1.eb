@@ -10,7 +10,7 @@ homepage = "https://github.com/tbepler/topaz"
 description = """Pipeline for particle picking in cryo-electron microscopy images using convolutional neural networks
  trained from positive and unlabeled examples. Also featuring micrograph and tomogram denoising with DNNs."""
 
-toolchain = {'name': 'foss', 'version': '2020b'}
+toolchain = {'name': 'fosscuda', 'version': '2020b'}
 
 dependencies = [
     ('Python', '3.8.6'),
