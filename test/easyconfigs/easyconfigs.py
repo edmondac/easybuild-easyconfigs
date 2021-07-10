@@ -351,22 +351,10 @@ class EasyConfigTest(TestCase):
 
             # for recent generations, there's no versionsuffix anymore for Python 3,
             # but we still allow variants depending on Python 2.x + 3.x
-            is_recent_gen = False
-            full_toolchain_regex = re.compile(r'^20[1-9][0-9][ab]$')
-            gcc_toolchain_regex = re.compile(r'^GCC(core)?-[0-9]?[0-9]\.[0-9]$')
-            if full_toolchain_regex.match(gen):
-                is_recent_gen = LooseVersion(gen) >= LooseVersion('2020b')
-            elif gcc_toolchain_regex.match(gen):
-                genver = gen.split('-', 1)[1]
-                is_recent_gen = LooseVersion(genver) >= LooseVersion('10.2')
-            else:
-                raise EasyBuildError("Unkown type of toolchain generation: %s" % gen)
-
-            if is_recent_gen:
-                py2_dep_vars = [x for x in dep_vars.keys() if '; versionsuffix: -Python-2.' in x]
-                py3_dep_vars = [x for x in dep_vars.keys() if x.strip().endswith('; versionsuffix:')]
-                if len(py2_dep_vars) == 1 and len(py3_dep_vars) == 1:
-                    res = True
+            py2_dep_vars = [x for x in dep_vars.keys() if '; versionsuffix: -Python-2.' in x]
+            py3_dep_vars = [x for x in dep_vars.keys() if x.strip().endswith('; versionsuffix:')]
+            if len(py2_dep_vars) == 1 and len(py3_dep_vars) == 1:
+                res = True
 
         return res
 
