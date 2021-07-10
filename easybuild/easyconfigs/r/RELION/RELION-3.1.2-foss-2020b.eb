@@ -19,6 +19,14 @@ patches = [
     '%(name)s-%(version)s_add_bham_submit_file_args.patch',  # This is a site specific patch. Either adapt or drop.
     ('relion_sbatch.sh', '.'),  # This submit file template is used by the bham_submit_file patch.
 ]
+checksums = [
+    '82b5426f144ef1c7c86210f79e2c1b6fe5a001c0ad086715da699e63049adfc3',  # 3.1.2.tar.gz
+    # RELION-3.0.4_drop_usage_of_mpi_include_path.patch
+    '5cb3093210c23f22e0ed5ad4259af4294391f2e3404ed7b990890772aef67ee4',
+    'aedc0c7e1806094274d8442680aade810943648b08875148f5da226121753a0e',  # RELION-3.0_beta_cuda_capabilities.patch
+    '2ed508567eff3a3f45fc44ba5081b6912b18fcd08cfcdd456942c961bb882257',  # RELION-3.1.2_add_bham_submit_file_args.patch
+    'eb07c580142dc9ddf00fce3684085e2536de2e3631c6b3c34691cbf086dc66fd',  # relion_sbatch.sh
+]
 
 builddependencies = [('CMake', '3.18.4')]
 
