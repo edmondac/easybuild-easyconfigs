@@ -1,0 +1,33 @@
+easyblock = 'Tarball'
+
+name = 'ResMap'
+version = '1.1.4'
+versionsuffix = '-Python-%(pyver)s'
+
+homepage = 'http://resmap.sourceforge.net/'
+description = """ResMap (Resolution Map) is a Python (NumPy/SciPy) application with a Tkinter GUI. It is an easy to
+ use software package for computing the local resolution of 3D density maps studied in structural biology, primarily
+ electron cryo-microscopy (cryo-EM)."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+source_urls = [SOURCEFORGE_SOURCE]
+sources = ['']
+
+dependencies = [
+    ('Python', '2.7.18'),
+    ('SciPy-bundle', '2020.11', versionsuffix),
+    ('matplotlib', '2.2.5', versionsuffix),
+]
+
+sanity_check_paths = {
+    'files': ['bin/bam_stat.py', 'bin/overlay_bigwig.py', 'bin/split_paired_bam.py'],
+    'dirs': ['lib/python%(pyshortver)s/site-packages']
+}
+
+modextrapaths = {
+    'PATH': '',
+    'PYTHONPATH': '',
+}
+
+moduleclass = 'bio'
