@@ -40,6 +40,7 @@ dependencies = [
     ('ctffind', '4.1.14'),
     ('gnuplot', '5.4.1'),
     ('tcsh', '6.22.03'),
+    ('ResMap', '1.1.4', '', True),
 ]
 
 # Execute commands in the pipeline directly, not through `which`
@@ -66,6 +67,7 @@ modextravars = {
     'RELION_QSUB_COMMAND': 'sbatch',
     'RELION_ERROR_LOCAL_MPI': '1',
     'RELION_CTFFIND_EXECUTABLE': 'ctffind',
+    'RELION_RESMAP_EXECUTABLE': 'ResMap-1.1.4-linux64',
 }
 
 moduleclass = 'bio'

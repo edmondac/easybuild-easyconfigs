@@ -39,9 +39,9 @@ dependencies = [
     ('zlib', '1.2.11'),
     ('ctffind', '4.1.14'),
     ('MotionCor2', '1.4.2'),
-    ('Gctf', '1.06', '', True),
     ('gnuplot', '5.4.1'),
     ('tcsh', '6.22.03'),
+    ('ResMap', '1.1.4', '', True),
 ]
 
 # Execute commands in the pipeline directly, not through `which`
@@ -75,8 +75,8 @@ modextravars = {
     'RELION_QSUB_COMMAND': 'sbatch',
     'RELION_ERROR_LOCAL_MPI': '1',
     'RELION_CTFFIND_EXECUTABLE': 'ctffind',
-    'RELION_GCTF_EXECUTABLE': 'Gctf',
     'RELION_MOTIONCOR2_EXECUTABLE': 'motioncor2',
+    'RELION_RESMAP_EXECUTABLE': 'ResMap-1.1.4-linux64',
 }
 
 moduleclass = 'bio'
