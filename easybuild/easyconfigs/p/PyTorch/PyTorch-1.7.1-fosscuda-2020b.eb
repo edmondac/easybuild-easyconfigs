@@ -341,10 +341,12 @@ excluded_tests = {
         # Potentially problematic save/load issue with test_lstm on only some machines. Tell users to verify save&load!
         # https://github.com/pytorch/pytorch/issues/43209
         'test_quantization',
+        # GPU race condition
+        'test_jit_cuda_fuser_profiling',
     ]
 }
 
-runtest = 'cd test && PYTHONUNBUFFERED=1 %(python)s run_test.py --verbose %(excluded_tests)s'
+runtest = 'cd test && PYTHONUNBUFFERED=1 %(python)s run_test.py --continue-through-error --verbose %(excluded_tests)s'
 
 sanity_check_commands = ["python -c 'import caffe2.python'"]
 tests = ['PyTorch-check-cpp-extension.py']
