@@ -1,0 +1,105 @@
+Adjust the "Running" window layout for better Slurm submit file generation.
+This is a site specific patch for HPC2N but should be usable as a guide for
+other sites requirements.
+
+Åke Sandgren, 20190510
+Updated for 3.1.1 by Simon Branford
+--- relion-3.1.1.orig/src/gui_entries.h	2019-05-07 12:53:25.000000000 +0200
++++ relion-3.1.1/src/gui_entries.h	2019-05-10 11:17:30.479081149 +0200
+@@ -85,10 +85,10 @@
+ #define MENUHEIGHT 30
+ #define TABHEIGHT 25
+ #define GUIWIDTH 800
+-#define GUIHEIGHT_OLD 420+GUIEXTRA
+-#define GUIHEIGHT_EXT_START 370+GUIEXTRA
++#define GUIHEIGHT_OLD 440+GUIEXTRA
++#define GUIHEIGHT_EXT_START 390+GUIEXTRA
+ #define GUIHEIGHT_EXT_START2 (GUIHEIGHT_EXT_START+MENUHEIGHT+10)
+-#define GUIHEIGHT_EXT 800+GUIEXTRA
++#define GUIHEIGHT_EXT 820+GUIEXTRA
+ #define XCOL0 200
+ #define WCOL0 200
+ #define XCOL1 ( (XCOL0) + 10  )
+--- relion-3.1.1.orig/src/gui_jobwindow.cpp	2019-05-07 12:53:25.000000000 +0200
++++ relion-3.1.1/src/gui_jobwindow.cpp	2019-05-10 22:30:37.163918841 +0200
+@@ -153,9 +153,15 @@
+ 
+ 	queue_group->begin();
+ 
++        place("qsub");
+ 	place("queuename");
+ 
+-	place("qsub");
++	place("qos");
++	place("account");
++	place("timelimit");
++	place("gputype");
++	place("ngpu");
++	place("extrasbatch");
+ 
+ 	char * extra_count_text = getenv ("RELION_QSUB_EXTRA_COUNT");
+ 	const char extra_count_val = (extra_count_text ? atoi(extra_count_text) : 2);
+--- relion-3.1.1.orig/src/pipeline_jobs.cpp	2019-05-07 12:53:25.000000000 +0200
++++ relion-3.1.1/src/pipeline_jobs.cpp	2019-05-11 15:23:09.341930500 +0200
+@@ -558,7 +558,30 @@
+ 		replacing["XXXnameXXX"] = outputname;
+ 		replacing["XXXerrfileXXX"] = outputname + "run.err";
+ 		replacing["XXXoutfileXXX"] = outputname + "run.out";
+-		replacing["XXXqueueXXX"] = joboptions["queuename"].getString();
++                if (!joboptions["qos"].getString().empty()) {
++                    replacing["XXXqosXXX"] = "-q " + joboptions["qos"].getString();
++                } else {
++                    replacing["XXXqosXXX"] = "";
++                }
++                if (!joboptions["account"].getString().empty()) {
++                    replacing["XXXaccountXXX"] = "-A " + joboptions["account"].getString();
++                } else {
++                    replacing["XXXaccountXXX"] = "";
++                }
++                if (!joboptions["timelimit"].getString().empty()) {
++                    replacing["XXXtimelimitXXX"] = "-t " + joboptions["timelimit"].getString();
++                } else {
++                    replacing["XXXtimelimitXXX"] = "";
++                }
++                if (!joboptions["gputype"].getString().empty()) {
++                    replacing["XXXgpuspecXXX"] = "--gres=gpu:" + joboptions["gputype"].getString();
++                    if (!joboptions["ngpu"].getString().empty()) {
++                        replacing["XXXgpuspecXXX"] += ":" + joboptions["ngpu"].getString();
++                    }
++                } else {
++                    replacing["XXXgpuspecXXX"] = "";
++                }
++                replacing["XXXextrasbatchXXX"] = joboptions["extrasbatch"].getString();
+ 		char * extra_count_text = getenv ("RELION_QSUB_EXTRA_COUNT");
+ 		const char extra_count_val = (extra_count_text ? atoi(extra_count_text) : 2);
+ 		for (int i=1; i<=extra_count_val; i++)
+@@ -892,6 +892,29 @@
+ Note that the person who installed RELION should have made a custom script for your cluster/queue setup. Check this is the case \
+ (or create your own script following the RELION Wiki) if you have trouble submitting jobs. The default command can be set through the environment variable RELION_QSUB_COMMAND.");
+ 
++	joboptions["qos"] = JobOption("QOS:", std::string(""), "QOS.\n\n\
++Note that the person who installed RELION should have made a custom script for your cluster/queue setup. Check this is the case \
++(or create your own script following the RELION Wiki) if you have trouble submitting jobs. The default command can be set through the environment variable RELION_QSUB_COMMAND.");
++
++	joboptions["account"] = JobOption("Account:", std::string(""), "Account (project id).\n\n\
++Note that the person who installed RELION should have made a custom script for your cluster/queue setup. Check this is the case \
++(or create your own script following the RELION Wiki) if you have trouble submitting jobs. The default command can be set through the environment variable RELION_QSUB_COMMAND.");
++
++	joboptions["timelimit"] = JobOption("Timelimit - format days-hh:mm:ss:", std::string(""), "Timelimit requested for the job.\n\n\
++Note that the person who installed RELION should have made a custom script for your cluster/queue setup. Check this is the case \
++(or create your own script following the RELION Wiki) if you have trouble submitting jobs. The default command can be set through the environment variable RELION_QSUB_COMMAND.");
++
++	joboptions["gputype"] = JobOption("GPU type:", std::string(""), "Which type of GPU to use for GPU jobs.\n\n\
++Note that the person who installed RELION should have made a custom script for your cluster/queue setup. Check this is the case \
++(or create your own script following the RELION Wiki) if you have trouble submitting jobs. The default command can be set through the environment variable RELION_QSUB_COMMAND.");
++
++	joboptions["ngpu"] = JobOption("Number of GPU cards to use:", std::string(""), "How many GPU cards of the specified type to use.\n\n\
++Note that the person who installed RELION should have made a custom script for your cluster/queue setup. Check this is the case \
++(or create your own script following the RELION Wiki) if you have trouble submitting jobs. The default command can be set through the environment variable RELION_QSUB_COMMAND.");
++
++	joboptions["extrasbatch"] = JobOption("Other sbatch arguments:", std::string(""), "Other arguments to sbatch you want to specify.\n\n\
++Note that the person who installed RELION should have made a custom script for your cluster/queue setup. Check this is the case \
++(or create your own script following the RELION Wiki) if you have trouble submitting jobs. The default command can be set through the environment variable RELION_QSUB_COMMAND.");
+ 
+ 	// additional options that may be set through environment variables RELION_QSUB_EXTRAi and RELION_QSUB_EXTRAi (for more flexibility)
+ 	char * extra_count_text = getenv ("RELION_QSUB_EXTRA_COUNT");
