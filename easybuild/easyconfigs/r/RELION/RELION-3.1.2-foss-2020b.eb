@@ -1,0 +1,73 @@
+easyblock = 'CMakeMake'
+
+name = 'RELION'
+version = '3.1.2'
+
+homepage = 'http://www2.mrc-lmb.cam.ac.uk/relion/index.php/Main_Page'
+description = """RELION (for REgularised LIkelihood OptimisatioN, pronounce rely-on) is a stand-alone computer
+ program that employs an empirical Bayesian approach to refinement of (multiple) 3D reconstructions or 2D class
+ averages in electron cryo-microscopy (cryo-EM)."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+toolchainopts = {'openmp': True, 'usempi': True, 'opt': True}
+
+source_urls = ['https://github.com/3dem/relion/archive']
+sources = ['%(version)s.tar.gz']
+patches = [
+    '%(name)s-3.0.4_drop_usage_of_mpi_include_path.patch',
+    '%(name)s-3.0_beta_cuda_capabilities.patch',
+    '%(name)s-%(version)s_add_bham_submit_file_args.patch',  # This is a site specific patch. Either adapt or drop.
+    ('relion_sbatch.sh', '.'),  # This submit file template is used by the bham_submit_file patch.
+]
+checksums = [
+    '82b5426f144ef1c7c86210f79e2c1b6fe5a001c0ad086715da699e63049adfc3',  # 3.1.2.tar.gz
+    # RELION-3.0.4_drop_usage_of_mpi_include_path.patch
+    '5477564782a102e435527573ff0dbd4f8675c948492bb103cfbee92c5c997f83',
+    'aedc0c7e1806094274d8442680aade810943648b08875148f5da226121753a0e',  # RELION-3.0_beta_cuda_capabilities.patch
+    '143185b063e3596a2120c3d3c82b1aaffb45ab77a98ea2bd38a8a942bc72cbfe',  # RELION-3.1.2_add_bham_submit_file_args.patch
+    'eb07c580142dc9ddf00fce3684085e2536de2e3631c6b3c34691cbf086dc66fd',  # relion_sbatch.sh
+]
+
+builddependencies = [('CMake', '3.18.4')]
+
+dependencies = [
+    ('X11', '20201008'),
+    ('FLTK', '1.3.5'),
+    ('libpng', '1.6.37'),
+    ('LibTIFF', '4.1.0'),
+    ('tbb', '2020.3'),
+    ('zlib', '1.2.11'),
+    ('ctffind', '4.1.14'),
+    ('gnuplot', '5.4.1'),
+    ('tcsh', '6.22.03'),
+    ('ResMap', '1.1.4', '', True),
+]
+
+# Execute commands in the pipeline directly, not through `which`
+local_pipejob_src = '%(builddir)s/%(namelower)s-%(version)s/src/pipeline_jobs.cpp'
+preconfigopts = "sed -i 's/`which \([a-z_]*\)`/\\1/g;s/`//g' %s &&" % local_pipejob_src
+
+configopts = "-DCMAKE_SHARED_LINKER_FLAGS='-lpthread' -DALTCPU=ON "
+configopts += "-DCUDA=OFF -DCudaTexture=OFF "
+
+postinstallcmds = [
+    'cp ../%(namelower)s-%(version)s/relion_sbatch.sh %(installdir)s/bin',
+    'chmod +x %(installdir)s/bin/relion_sbatch.sh',
+]
+
+sanity_check_paths = {
+    'files': ['bin/relion', 'bin/relion_refine_mpi'],
+    'dirs': []
+}
+
+sanity_check_commands = ["relion --version"]
+
+modextravars = {
+    'RELION_QSUB_TEMPLATE': '%(installdir)s/bin/relion_sbatch.sh',
+    'RELION_QSUB_COMMAND': 'sbatch',
+    'RELION_ERROR_LOCAL_MPI': '1',
+    'RELION_CTFFIND_EXECUTABLE': 'ctffind',
+    'RELION_RESMAP_EXECUTABLE': 'ResMap-1.1.4-linux64',
+}
+
+moduleclass = 'bio'
