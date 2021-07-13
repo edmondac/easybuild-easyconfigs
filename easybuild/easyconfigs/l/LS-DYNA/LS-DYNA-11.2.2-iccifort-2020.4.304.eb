@@ -41,4 +41,6 @@ checksums = [
 
 dependencies = [('impi', '2019.12.320')]
 
+modextrapaths = {'PATH': ['']}
+
 moduleclass = 'cae'
