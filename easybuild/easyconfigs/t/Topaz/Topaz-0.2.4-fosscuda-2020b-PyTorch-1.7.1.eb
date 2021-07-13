@@ -1,0 +1,33 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'Topaz'
+version = '0.2.4'
+local_pytorch_version = '1.7.1'
+versionsuffix = '-PyTorch-%s' % local_pytorch_version
+
+homepage = "https://github.com/tbepler/topaz"
+description = """Pipeline for particle picking in cryo-electron microscopy images using convolutional neural networks
+ trained from positive and unlabeled examples. Also featuring micrograph and tomogram denoising with DNNs."""
+
+toolchain = {'name': 'fosscuda', 'version': '2020b'}
+
+dependencies = [
+    ('Python', '3.8.6'),
+    ('PyTorch', local_pytorch_version),
+    ('torchvision', '0.8.2', versionsuffix),
+    ('scikit-learn', '0.23.2'),
+]
+
+github_account = 'tbepler'
+source_urls = [GITHUB_LOWER_SOURCE]
+sources = ['v%(version)s.tar.gz']
+checksums = ['87e2937ca911085a26143940c03d119958e3817298148938e39c0e87dc322950']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+sanity_check_commands = ["topaz --help"]
+
+moduleclass = 'bio'
