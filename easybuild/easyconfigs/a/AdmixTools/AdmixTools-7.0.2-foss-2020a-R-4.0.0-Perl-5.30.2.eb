@@ -40,7 +40,7 @@ _perl_scripts = ['dof4', 'dof4a', 'getresult', 'jackdiff', 'mkpretty',
 
 fix_perl_shebang_for = ['bin/%s' % x for x in _perl_scripts]
 fix_perl_shebang_for += ['convertf/example.perl', 'convertf/ind2pheno.perl', 'examples/mklog',
-                        'examples.qpGraph/runqpgf', 'examples.qpGraph/runqpgf2']
+                         'examples.qpGraph/runqpgf', 'examples.qpGraph/runqpgf2']
 
 sanity_check_paths = {
     'files': [['bin/%s' % x for x in ['convertf', 'dowtjack', 'gcount', 'qpfstats', 'rolloff', 'simpjack2']],
