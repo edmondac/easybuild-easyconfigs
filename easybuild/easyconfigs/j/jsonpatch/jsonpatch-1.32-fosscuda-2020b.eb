@@ -1,0 +1,25 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'jsonpatch'
+version = '1.32'
+
+homepage = "https://github.com/stefankoegl/python-json-patch/blob/master/doc/index.rst"
+description = """Applying to a JavaScript Object Notation (JSON) patches in python"""
+
+toolchain = {'name': 'fosscuda', 'version': '2020b'}
+
+dependencies = [
+    ('Python', '3.8.6'),
+    ('jsonpointer', '2.1'),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['b6ddfe6c3db30d81a96aaeceb6baf916094ffa23d7dd5fa2c13e13f8b6e600c2']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'tools'
