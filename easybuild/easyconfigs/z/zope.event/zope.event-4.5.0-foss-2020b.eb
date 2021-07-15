@@ -1,0 +1,28 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'zope.event'
+version = '4.5.0'
+
+homepage = "https://github.com/zopefoundation/zope.event"
+description = """An event publishing API, intended for use by applications which are unaware of 
+any subscribers to their events.
+A very simple synchronous event-dispatching system, on which more sophisticated event dispatching systems can be built.
+For example, a type-based event dispatching system that builds on zope.event 
+can be found in zope.component."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+dependencies = [
+    ('Python', '3.8.6'),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['5e76517f5b9b119acf37ca8819781db6c16ea433f7e2062c4afc2b6fbedb1330']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'base'

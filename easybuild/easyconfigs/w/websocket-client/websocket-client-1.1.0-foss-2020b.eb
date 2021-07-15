@@ -1,0 +1,31 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'websocket-client'
+version = '1.1.0'
+
+homepage = "https://github.com/websocket-client/websocket-client"
+description = """websocket-client is a WebSocket client for Python.
+It provides access to low level APIs for WebSockets. websocket-client implements version hybi-13 of the 
+WebSocket procotol. This client does not currently support the permessage-deflate extension 
+from RFC 7692."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+dependencies = [
+    ('Python', '3.8.6'),
+    ('gevent', '21.1.2'),
+    ('greenlet', '1.1.0'),
+]
+
+options = {'modulename': 'websocket'}
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['b68e4959d704768fa20e35c9d508c8dc2bbc041fd8d267c0d7345cffe2824568']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'base'
