@@ -3,7 +3,6 @@ easyblock = 'PythonPackage'
 
 name = 'visdom'
 version = '0.1.8.9'
-versionsuffix = '-Python-%(pyver)s'
 
 homepage = "https://github.com/fossasia/visdom"
 description = """A flexible tool for creating, organizing, and sharing visualizations of live, rich data. 
@@ -14,12 +13,12 @@ toolchain = {'name': 'foss', 'version': '2020b'}
 dependencies = [
     ('Python', '3.8.6'),
     ('SciPy-bundle', '2020.11'),  # provides numexpr
-    ('jsonpatch', '1.32', versionsuffix),
-    ('Pillow', '8.3.1', versionsuffix),
-    ('PyZMQ', '22.1.0', versionsuffix),
-    ('torchfile', '0.1.0', versionsuffix),
-    ('tornado', '6.1', versionsuffix),
-    ('websocket-client', '1.1.0', versionsuffix),
+    ('jsonpatch', '1.32'),
+    ('Pillow', '8.3.1'),
+    ('PyZMQ', '22.1.0'),
+    ('torchfile', '0.1.0'),
+    ('tornado', '6.1'),
+    ('websocket-client', '1.1.0'),
 ]
 
 source_urls = [PYPI_SOURCE]
