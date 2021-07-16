@@ -1,0 +1,26 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'zope.interface'
+version = '5.4.0'
+
+homepage = "https://github.com/zopefoundation/zope.interface"
+description = """This package provides an implementation of “object interfaces” for Python. 
+Interfaces are a mechanism for labeling objects as conforming to a given API or contract. 
+So, this package can be considered as implementation of the Design By Contract methodology support in Python."""
+
+toolchain = {'name': 'foss', 'version': '2020b'}
+
+dependencies = [
+    ('Python', '3.8.6'),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['5dba5f530fec3f0988d83b78cc591b58c0b6eb8431a85edd1569a0539a8a5a0e']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'vis'

@@ -1,0 +1,26 @@
+# This easyconfig was created by the BEAR Software team at the University of Birmingham.
+easyblock = 'PythonPackage'
+
+name = 'greenlet'
+version = '1.1.0'
+
+homepage = "https://github.com/python-greenlet/greenlet"
+description = """The 'greenlet' packacge is a spin-off of Stackless, a version of 
+CPython that supports micro-threads called 'tasklets'. Tasklets run pseudo-concurrently 
+(typically in a single or a few OS-level threads) and are synchronized with data exchanges on 'channels'."""
+
+toolchain = {'name': 'fosscuda', 'version': '2020b'}
+
+dependencies = [
+    ('Python', '3.8.6'),
+]
+
+source_urls = [PYPI_SOURCE]
+sources = [SOURCE_TAR_GZ]
+checksums = ['c87df8ae3f01ffb4483c796fe1b15232ce2b219f0b18126948616224d3f658ee']
+
+download_dep_fail = True
+sanity_pip_check = True
+use_pip = True
+
+moduleclass = 'devel'
