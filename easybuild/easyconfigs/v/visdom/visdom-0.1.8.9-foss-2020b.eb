@@ -14,7 +14,7 @@ dependencies = [
     ('Python', '3.8.6'),
     ('SciPy-bundle', '2020.11'),  # provides numexpr
     ('jsonpatch', '1.32'),
-    ('Pillow', '8.3.1'),
+    ('Pillow', '8.0.1'),
     ('PyZMQ', '22.1.0'),
     ('torchfile', '0.1.0'),
     ('tornado', '6.1'),
